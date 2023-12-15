@@ -1,0 +1,17 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+
+.mat-tree-node .mdc-form-field label {
+  margin-bottom: 0 !important;
+}
+
+.mat-tree-node .mdc-checkbox__native-control~.mdc-checkbox__background {
+  width: 15px !important;
+  height: 15px !important;
+  border-color: orange !important;
+}
+
+.hidden {
+  visibility: hidden;
+}

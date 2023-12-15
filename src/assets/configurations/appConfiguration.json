@@ -1,0 +1,55 @@
+{
+	"version": "1.0.0",
+	"apiUrl": "https://localhost:7016",
+	"signOn": "http://10.20.30.149:8085",
+	"configModule": "http://localhost:5002",
+	"camsBackEnd": "172.16.5.24",
+	"nameOfOrganization": "Marina One",
+	"footerMessage": "Design & Develop by Azbil",
+	"moduleName": "User Management System",
+	"moduleNameColor": "red",
+	"datePickerDateFormat": {
+		"year": "numeric",
+		"month": "short",
+		"day": "numeric"
+	},
+	"pageSizeArray": [
+		"5",
+		"10",
+		"20",
+		"50",
+		"100"
+	],
+	"servicesList": {
+		"Date": "",
+		"Water": 0,
+		"Electricity": 0,
+		"AC": 0,
+		"Gas": 0
+	},
+	"consumptionReportName": [
+		{
+			"consumption_by_service": "Consumption By Service",
+			"consumption_by_meter": "Consumption By Meter",
+			"consumption_history": "Consumption History",
+			"meter_daily_summary": "Meter Daily Summary",
+			"meter_compensates": "Meter Compensates",
+			"meter_readings": "Meter Readings"
+		}
+	],
+	"consumptionSheetName": [
+		{
+			"consumption_by_service": "Consumption Service Data",
+			"consumption_by_meter": "Consumption Meter Data",
+			"consumption_history": "Consumption History Data",
+			"meter_daily_summary": "Daily Summary Data",
+			"meter_compensates": "Compensates Data",
+			"meter_readings": "Meter Readings"
+		}
+	],
+	"maximumYearRangeForInvoice": 10,
+	"maximumYearRangeForReport": 10,
+	"maximumYearRangeForMeterInfo": 10,
+	"billingDate": "5",
+	"reportFillColor": "79CBDF"
+}

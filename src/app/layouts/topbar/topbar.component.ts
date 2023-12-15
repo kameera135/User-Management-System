@@ -1,0 +1,164 @@
+import { Component, OnInit, EventEmitter, Output, Inject, ChangeDetectionStrategy } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { EventService } from '../../core/services/event.service';
+
+//Logout
+import { environment } from '../../../environments/environment';
+
+// Language
+import { CookieService } from 'ngx-cookie-service';
+import { LanguageService } from '../../core/services/language.service';
+
+import { AppService } from 'src/app/app.service';
+import { Title } from '@angular/platform-browser';
+
+@Component({
+  selector: 'app-topbar',
+  templateUrl: './topbar.component.html',
+  styleUrls: ['./topbar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class TopbarComponent implements OnInit {
+
+  element: any;
+  mode: string | undefined;
+  @Output() mobileMenuButtonClicked = new EventEmitter();
+
+  moduleColor: string = this.app.appConfig[0].moduleNameColor;
+
+  userData: any;
+  current_theme = this.getCookie('aes-app-theme');
+
+  module: string = "moduleName";
+  organization: string = "company_name";
+
+  constructor(@Inject(DOCUMENT) private document: any, private eventService: EventService, public languageService: LanguageService,
+    public _cookiesService: CookieService, private app: AppService,
+    private titleService: Title
+  ) { }
+
+  ngOnInit(): void {
+    this.changeMode(this.current_theme);
+    this.element = document.documentElement;
+    this.module = this.app.appConfig[0].moduleName;
+    this.organization = this.app.appConfig[0].nameOfOrganization;
+    this.titleService.setTitle(this.organization + ' | ' + this.module);
+  }
+
+  /**
+   * Toggle the menu bar when having mobile screen
+   */
+  toggleMobileMenu(event: any) {
+    document.querySelector('.hamburger-icon')?.classList.toggle('open')
+    event.preventDefault();
+    this.mobileMenuButtonClicked.emit();
+  }
+
+  /**
+   * This function sets a cookie with a given name, value, and expiration date.
+   * @param {string} cookieName - A string representing the name of the cookie to be set.
+   * @param {string} cookieValue - The value to be stored in the cookie.
+   * @param {number} expiryDays - The number of days until the cookie expires and is no longer valid.
+   */
+  setCookie(cookieName: string, cookieValue: string, expiryDays: number) {
+    var expiryDate = new Date();
+    expiryDate.setDate(expiryDate.getDate() + expiryDays);
+
+    var cookieValueEncoded = encodeURIComponent(cookieValue);
+    var cookieString = cookieName + "=" + cookieValueEncoded + "; expires=" + expiryDate.toUTCString() + "; path=/";
+
+    document.cookie = cookieString;
+  }
+
+  /**
+   * This function retrieves the value of a cookie by its name.
+   * @param {string} cookieName - a string representing the name of the cookie to retrieve.
+   * @returns the value of the cookie with the specified name. If the cookie is not found, an empty
+   * string is returned.
+   */
+  getCookie(cookieName: string) {
+    var cookieValue = "light";
+    var cookieArray = document.cookie.split(";");
+
+    for (var i = 0; i < cookieArray.length; i++) {
+      var cookiePair = cookieArray[i].split("=");
+      var name = cookiePair[0].trim();
+
+      if (name === cookieName) {
+        cookieValue = decodeURIComponent(cookiePair[1]);
+        break;
+      }
+    }
+
+    return cookieValue;
+  }
+
+
+  /**
+  * Topbar Light-Dark Mode Change
+  */
+  changeMode(mode: string) {
+    this.mode = mode;
+    this.eventService.broadcast('changeMode', mode);
+    switch (mode) {
+      case 'light':
+        document.body.setAttribute('data-layout-mode', "light");
+        document.body.setAttribute('data-sidebar', "light");
+        this.setCookie("aes-app-theme", "light", 90);
+        break;
+      case 'dark':
+        document.body.setAttribute('data-layout-mode', "dark");
+        document.body.setAttribute('data-sidebar', "dark");
+        this.setCookie("aes-app-theme", "dark", 90);
+        break;
+      default:
+        document.body.setAttribute('data-layout-mode', "light");
+        this.setCookie("aes-app-theme", "light", 90);
+        break;
+    }
+  }
+
+  /**
+   * Logout the user
+   */
+  logout() {
+    this.app.logout();
+  }
+
+  get manageProfileUrl() {
+    return environment.signOn + "/account/profile";
+  }
+
+  get role() {
+    return this.app.user?.role.replace("_", " ");
+  }
+
+  get user() {
+    return this.app.user?.fName;
+  }
+
+  get profileImage() {
+    // let image = this.app.user?.profileImage;
+    // image = image.replace("localhost", this.app.appConfig[0].camsBackEnd);
+    // console.log(image);
+    // debugger;
+    // if (image == 'http://54.199.228.15:85/' || image == null || image == undefined || image == "") {
+    //   return "assets/images/user.png";
+    // }
+    // return image;
+
+    return "assets/images/user.png";
+  }
+
+  windowScroll() {
+    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+      (document.getElementById("back-to-top") as HTMLElement).style.display = "block";
+      document.getElementById('page-topbar')?.classList.add('topbar-shadow');
+    } else {
+      (document.getElementById("back-to-top") as HTMLElement).style.display = "none";
+      document.getElementById('page-topbar')?.classList.remove('topbar-shadow');
+    }
+  }
+
+
+}

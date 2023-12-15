@@ -1,0 +1,84 @@
+<div class="modal-header">
+  <h5 class="modal-title fs-4" id="addReadingsModal">{{modalTitle}}</h5>
+  <button id="btnCommonModalClose" type="button" class="bg-transparent border-0" aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">
+      <i class="bi bi-x-lg text-dark"></i>
+    </span>
+  </button>
+</div>
+
+<div class="row modal-body">
+  <form #form="ngForm" (ngSubmit)="onFormSubmit()">
+
+    <div class="col-6">
+      <div>
+        <label class="col-form-label">Meter Code: {{this.meterCode}}</label>
+        <!-- <input class="form-control" [(ngModel)]="this.meterCode"  name="meterCode" readonly> -->
+      </div>
+    </div>
+
+    <div class="row my-1">
+      <div class="col-4">
+        <div class="mb-3">
+          <label class="col-form-label">Date: {{date}}</label>
+          <!-- <input type="date" class="form-control readonly" [(ngModel)]="date"  name="date" readonly> -->
+        </div>
+      </div>
+
+      <div class="col-8">
+        <div class="mb-3">
+          <label class="col-form-label">Time Before Reset: {{timeBeforeReset}}</label>
+          <!-- <input type="time" class="form-control readonly" [(ngModel)]="timeBeforeReset"  name="timeBeforeReset" readonly> -->
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="row my-1"> *ngIf="this.resetMode=='Auto'"
+      <div class="col-12">
+        <div class="mb-3">
+          <label class="col-form-label">Reset Mode</label>
+          <select class="form-select" [(ngModel)]="this.resetMode" name="resetMode">
+            <option *ngFor="let item of resetModeList" [value]="item">{{item}}</option>
+          </select>
+        </div>
+      </div>
+    </div> -->
+
+
+    <div class="row my-1">
+      <div class="col-6">
+        <div class="mb-3">
+          <label class="col-form-label">Reset Value</label>
+          <input type="number" class="form-control" [(ngModel)]="this.endValue" name="endValue">
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="mb-3">
+          <label class="col-form-label">Start Value</label>
+          <input type="number" class="form-control" [(ngModel)]="this.startValue" name="startValue">
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="col-6">
+        <div class="mb-3">
+          <label class="col-form-label">Reset Mode</label>
+          <input class="form-control" [(ngModel)]="this.resetMode"  name="resetMode">
+        </div>
+      </div> -->
+
+    <div class="col-12 mx-auto">
+      <div class="d-flex justify-content-center mt-1">
+        <button type="submit" class="btn btn-primary btn-label ">
+          <i class="bi bi-clipboard-plus-fill label-icon align-middle fs-16 me-2"></i>Save & Acknowledge</button>
+      </div>
+    </div>
+
+
+  </form>
+</div>
+
+<div class="modal-footer">
+</div>

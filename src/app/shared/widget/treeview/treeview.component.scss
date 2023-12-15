@@ -1,0 +1,25 @@
+.assert-tree-invisible {
+  display: none;
+}
+
+.assert-tree ul,
+.assert-tree li {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+}
+
+.mat-tree-node .mdc-form-field label {
+  margin-bottom: 0 !important;
+}
+
+.mat-tree-node .mdc-radio__native-control {
+  width: 15px !important;
+  height: 15px !important;
+  border-color: orange !important;
+}
+
+//.mat-radio-button.mat-accent .mat-radio-outer-circle {
+// .mat-tree-node .mat-radio-button .mat-radio-outer-circle {
+//   border-color: orange !important;
+// }

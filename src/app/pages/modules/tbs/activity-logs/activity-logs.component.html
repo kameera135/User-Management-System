@@ -1,0 +1,61 @@
+<!-- <div class="row align-items-center" *ngIf="loadingInProgress">
+  <app-waiting-circle></app-waiting-circle>
+</div> -->
+
+<!-- <div class="row mb-0 mx-1 {{ loadingInProgress ? 'hidden' : '' }}"> -->
+<div class="row mb-0 mx-1">
+  <div class="card col-lg-12 mx-auto">
+    <div class="card-body pb-3">
+      <div class="row">
+        <div class="card-body">
+          <div class="row align-items-end">
+            <div class="col-6 col-lg-6">
+              <div class="mb-3">
+                <label class="col-form-label">Year</label>
+                <select
+                  class="form-select"
+                  aria-label="Year"
+                  [(ngModel)]="selectedYear"
+                  (change)="getMeterResetData()"
+                >
+                  <option selected value="">Select...</option>
+                  <option *ngFor="let item of yearList" [value]="item.value">
+                    {{ item.value }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-6 col-lg-6">
+              <div class="mb-3">
+                <label class="col-form-label">Month</label>
+                <select
+                  class="form-select"
+                  aria-label="Month"
+                  [(ngModel)]="selectedMonth"
+                  (change)="getMeterResetData()"
+                >
+                  <option selected value="">Select...</option>
+                  <option *ngFor="let item of monthList" [value]="item.id">
+                    {{ item.value }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <app-table
+              *ngIf="!loadingInProgress"
+              [headArray]="headArray"
+              [dataArray]="tableData"
+              (onEdit)="editMeterReset($event)"
+              (onAcknowledge)="setAsAcknowledged($event)"
+              [dataTableOptions]="extensionTableOptions"
+              [displayPagination]="false"
+            >
+            </app-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

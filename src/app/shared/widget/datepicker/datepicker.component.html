@@ -1,0 +1,6 @@
+<div class="input-group">
+  <span *ngIf="calendarIcon" class="input-group-text" id="date-input-box"><i class="bi bi-calendar3"></i></span>
+  <input class="form-control flatpickr-input" type="text" mwlFlatpickr [altInput]="true" [convertModelValue]="true"
+    placeholder="Select date" id="isDate" mode="single" [(ngModel)]="date" dateFormat="Y-m-d" altFormat="Y-m-d"
+    (ngModelChange)="onDateChange()" monthSelectorType="dropdown" aria-describedby="date-input-box">
+</div>

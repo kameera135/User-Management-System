@@ -1,0 +1,4 @@
+<ng-select [(ngModel)]="selectedItem" [multiple]="false" (change)="onItemChange()" placeholder="{{defaultText}}">
+    <!-- <ng-option [value]="-1">Select All</ng-option> -->
+    <ng-option *ngFor="let item of dataSource" [value]="item.id">{{item.value}}</ng-option>
+</ng-select>

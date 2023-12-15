@@ -1,0 +1,615 @@
+<div class="row" *ngIf="loadingInProgress">
+  <app-waiting-circle></app-waiting-circle>
+</div>
+<div class="row" *ngIf="!loadingInProgress">
+  <div id="apiKeyList">
+    <div style="padding: 10px">
+      <div class="row modalContentBorder">
+        <div class="table-responsive" style="padding: 0">
+          <table
+            class="table align-middle table-nowrap mb-0"
+            *ngIf="!noDataFound"
+          >
+            <thead class="table-light">
+              <tr>
+                <th *ngFor="let head of headArray">
+                  <div
+                    *ngIf="
+                      allowCheckBoxes &&
+                      head.FieldName == '' && head.ColumnType == 'CheckBox'
+                    "
+                  >
+                    <input
+                      type="checkbox"
+                      [(ngModel)]="isBulkSelected"
+                      (change)="bulckSelectChange()"
+                    />
+                  </div>
+                  <div class="d-flex flex-row align-items-center">
+                    <div
+                      *ngIf="
+                        head.FieldName != '' && head.ColumnType != 'CheckBox'
+                      "
+                    >
+                      {{ head.Head }}
+                    </div>
+                    <div
+                      *ngIf="head.AllowSort ?? false"
+                      class="d-flex flex-row"
+                    >
+                      <div class="ms-2 p-0">
+                        <i
+                          [ngClass]="{
+                            'bi bi-caret-up-fill':
+                              currentSortedColumn == head.Head &&
+                              currentSortedOrder == 'ascending',
+                            'bi bi-caret-up':
+                              currentSortedColumn != head.Head ||
+                              currentSortedOrder != 'ascending'
+                          }"
+                          (click)="sortData(head.FieldName, 'ascending')"
+                        ></i>
+                      </div>
+                      <div class="p-0">
+                        <i
+                          [ngClass]="{
+                            'bi bi-caret-down-fill':
+                              currentSortedColumn == head.Head &&
+                              currentSortedOrder == 'descending',
+                            'bi bi-caret-down':
+                              currentSortedColumn != head.Head ||
+                              currentSortedOrder != 'descending'
+                          }"
+                          (click)="sortData(head.FieldName, 'descending')"
+                        ></i>
+                      </div>
+                    </div>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="list form-check-all">
+              <tr
+                *ngFor="
+                  let item of dataArray
+                    | paginate
+                      : {
+                          itemsPerPage: selectedPageSize,
+                          currentPage: selectedPage,
+                          totalItems: totalRowsInSelection
+                        }
+                "
+              >
+                <td
+                  *ngFor="let head of headArray"
+                  (dblclick)="LoadDataOnRowDoubleClick(item)"
+                  class="px-2 py-1"
+                >
+                  <div
+                    *ngIf="
+                      allowCheckBoxes &&
+                      head.FieldName == '' && head.ColumnType == 'CheckBox' &&
+                      item['isRejecteableOrApprovableRecord']
+                    "
+                  >
+                    <input
+                      type="checkbox"
+                      [(ngModel)]="item['selectedRec']"
+                      (change)="changeStatus()"
+                    />
+                  </div>
+                  <div
+                    *ngIf="
+                      head.FieldName == '' && head.ColumnType == 'actionButton'
+                    "
+                  >
+                    <button
+                      class="btn btn-sm btn-info edit-list"
+                      data-bs-toggle="modal"
+                      data-bs-target="#createTask"
+                      data-edit-id="15"
+                      (click)="DownloadButtonClick(item)"
+                      Generate="Download"
+                    >
+                      <i class="bi bi-download fs-5"></i>
+                    </button>
+                  </div>
+                  <div
+                    *ngIf="head.FieldName != '' && head.ColumnType == 'Data'"
+                  >
+                    {{ item[head.FieldName] }}
+                  </div>
+                  <div
+                    *ngIf="head.FieldName != '' && head.ColumnType == 'Pill'"
+                    class="d-flex align-items-center"
+                  >
+                    <span
+                      class="badge badge-pill"
+                      [ngClass]="{
+                        'bg-success':
+                          item[head.FieldName] == 'New' ||
+                          item[head.FieldName] == 'Accepted',
+                        'bg-primary': item[head.FieldName] == 'Edit',
+                        'bg-danger': item[head.FieldName] == 'Terminate'
+                      }"
+                    >
+                      {{ item[head.FieldName] }}
+                    </span>
+
+                    <i
+                      *ngIf="item.lastModification != 'N'"
+                      class="bi bi-arrow-right-short mx-1"
+                    ></i>
+
+                    <span
+                      *ngIf="item.lastModification != 'N'"
+                      class="badge badge-pill"
+                      [ngClass]="{
+                        'bg-danger': item.lastModification == 'T',
+                        'bg-primary': item.lastModification == 'M'
+                      }"
+                      >{{ item.lastModification }}
+                    </span>
+                  </div>
+                  <div
+                    *ngIf="head.FieldName != '' && head.ColumnType == 'Status'"
+                  >
+                    <span
+                      class="fw-bold"
+                      [ngClass]="{
+                        'text-primary': item[head.FieldName] == 'Active',
+                        'text-success':
+                          item[head.FieldName] == 'Accepted' ||
+                          item[head.FieldName] == 'Completed',
+                        'text-danger':
+                          item[head.FieldName] == 'Expired' ||
+                          item[head.FieldName] == 'Rejected',
+                        'text-warning':
+                          item[head.FieldName] == 'Waiting for TM approval' ||
+                          item[head.FieldName] == 'Waiting for FM approval' ||
+                          item[head.FieldName] == 'Waiting for system approval'
+                      }"
+                    >
+                      {{ item[head.FieldName] }}
+                    </span>
+                  </div>
+                  <div
+                    *ngIf="head.FieldName == '' && head.ColumnType == 'Action'"
+                  >
+                    <div class="hstack gap-2 justify-content-end">
+                      <button
+                        *ngIf="allowtoView"
+                        class="btn btn-sm btn-soft-info edit-list"
+                        data-bs-toggle="modal"
+                        data-bs-target="#createTask"
+                        data-edit-id="15"
+                        (click)="LoadDataOnRowDoubleClick(item)"
+                        Generate="View"
+                      >
+                        <i class="bi bi-eye fs-5"></i>
+                      </button>
+
+                      <button
+                        *ngIf="allowtoApprove"
+                        class="btn btn-sm btn-soft-success remove-list"
+                        data-bs-toggle="modal"
+                        data-bs-target="#removeTaskItemModal"
+                        data-remove-id="15"
+                        (click)="confirm(appoveModal, item, '')"
+                        Generate="Approve"
+                        [disabled]="!item['isRejecteableOrApprovableRecord']"
+                      >
+                        <i class="bi bi-check-lg fs-5"></i>
+                      </button>
+
+                      <button
+                        *ngIf="allowtoReject"
+                        class="btn btn-sm btn-soft-danger remove-list"
+                        data-bs-toggle="modal"
+                        data-bs-target="#removeTaskItemModal"
+                        data-remove-id="15"
+                        (click)="confirm(rejectModal, item, '')"
+                        Generate="Reject"
+                        [disabled]="!item['isRejecteableOrApprovableRecord']"
+                      >
+                        <i class="bi bi-x-lg fs-5"></i>
+                      </button>
+
+                      <button
+                        *ngIf="allowtoUpdate"
+                        class="btn btn-sm btn-warning"
+                        data-bs-toggle="modal"
+                        data-bs-target="#createTask"
+                        data-edit-id="15"
+                        (click)="confirm(updateModel, item, '')"
+                        Generate="Edit"
+                        ngbTooltip="Edit"
+                      >
+                        <i class="bi bi-pencil-fill text-dark"></i>
+                      </button>
+
+                      <!-- Acknowledge -->
+                      <button
+                        *ngIf="allowtoAcknowledge && !item['changeButton']"
+                        style="
+                          padding-left: 16px !important;
+                          padding-right: 16px !important;
+                          margin-right: 10%;
+                        "
+                        class="btn btn-sm btn-success btn-block"
+                        data-bs-toggle="modal"
+                        data-bs-target="#removeTaskItemModal"
+                        data-remove-id="15"
+                        (click)="confirm(appoveModal, item, '')"
+                        Generate="Approve"
+                        [disabled]="item['isRejecteableOrApprovableRecord']"
+                      >
+                        Acknowledge
+                      </button>
+                      <button
+                        *ngIf="
+                          allowtoDisplayAcknowledged && item['changeButton']
+                        "
+                        style="
+                          padding-left: 12px !important;
+                          padding-right: 12px !important;
+                          margin-right: 10%;
+                        "
+                        class="btn btn-sm btn-soft-danger remove-list"
+                        data-bs-toggle="modal"
+                        data-bs-target="#removeTaskItemModal"
+                        data-remove-id="15"
+                        (click)="confirm(rejectModal, item, '')"
+                        Generate="Reject"
+                        [disabled]="!item['isRejecteableOrApprovableRecord']"
+                      >
+                        Acknowledged
+                      </button>
+
+                      <!-- Edit Button At Activity Logs -->
+                      <button
+                        *ngIf="allowtoUpdateMeterReset && !item['changeButton']"
+                        class="btn btn-sm btn-warning"
+                        data-bs-toggle="modal"
+                        data-bs-target="#createTask"
+                        data-edit-id="15"
+                        (click)="confirm(updateModel, item, '')"
+                        Generate="Edit"
+                        ngbTooltip="Edit"
+                        [disabled]="item['isRejecteableOrApprovableRecord']"
+                      >
+                        <i class="bi bi-pencil-fill text-muted"></i>
+                      </button>
+                      <button
+                        *ngIf="allowtoUpdateMeterReset && item['changeButton']"
+                        class="btn btn-sm btn-warning"
+                        data-bs-toggle="modal"
+                        data-bs-target="#createTask"
+                        data-edit-id="15"
+                        (click)="confirm(updateModel, item, '')"
+                        Generate="Edit"
+                        ngbTooltip="Edit"
+                        [disabled]="!item['isRejecteableOrApprovableRecord']"
+                      >
+                        <i class="bi bi-pencil-fill text-dark"></i>
+                      </button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="noresult" *ngIf="noDataFound">
+            <div class="text-center">
+              <h5 class="mt-2">Sorry! No Result Found</h5>
+              <p class="text-muted mb-0">We did not find any result for you.</p>
+            </div>
+          </div>
+        </div>
+        <!--Button pallete-->
+        <div class="row" *ngIf="!noDataFound">
+          <div class="col-sm-auto mt-3 p-0">
+            <div class="d-flex gap-1 flex-wrap">
+              <button
+                type="button"
+                *ngIf="allowtoGenerate"
+                (click)="GenerateReportButtonPress()"
+                class="btn btn-primary btn-label"
+                Generate="Generate Report"
+              >
+                <i
+                  class="bi bi-download label-icon align-middle fs-16 me-2"
+                ></i>
+                Download
+              </button>
+
+              <button
+                type="button"
+                *ngIf="allowtoExport"
+                (click)="GenerateReportButtonPress()"
+                class="btn btn-primary btn-label"
+                Generate="Generate Report"
+              >
+                <i
+                  class="bi bi-download label-icon align-middle fs-16 me-2"
+                ></i>
+                Export
+              </button>
+
+              <button
+                type="button"
+                *ngIf="allowtoAdd"
+                (click)="GenerateReportButtonPress()"
+                class="btn btn-secondary btn-label"
+                Generate="Add a Reading"
+              >
+                <i
+                  class="bi bi-plus-square-dotted label-icon align-middle fs-16 me-2"
+                ></i>
+                Add a Reading
+              </button>
+
+              <button
+                type="button"
+                [disabled]="!bulkRejectAllowed"
+                *ngIf="allowtoReject && userAllowBulkRejectButton"
+                (click)="confirm(rejectModal, -1, 'Reject')"
+                class="btn btn-danger btn-label"
+                Generate="Bulk Reject"
+              >
+                <i class="bi bi-x-lg label-icon align-middle fs-16 me-2"></i>
+                Reject
+              </button>
+
+              <button
+                type="button"
+                [disabled]="!bulkApprovalAllowed"
+                *ngIf="allowtoApprove && userAllowBulkApproveButton"
+                (click)="confirm(appoveModal, -1, 'Approve')"
+                class="btn btn-success btn-label"
+                Generate="Bulk Approval"
+              >
+                <i
+                  class="bi bi-check-lg label-icon align-middle fs-16 me-2"
+                ></i>
+                Approve
+              </button>
+
+              <button
+                type="button"
+                [disabled]="!bulkDeleteAllowed"
+                *ngIf="allowtoDelete && userAllowBulkDeleteButton"
+                (click)="confirm(deleteModal, -1, 'Delete')"
+                class="btn btn-danger btn-label"
+                Generate="Bulk Delete"
+              >
+                <i class="bi bi-trash label-icon align-middle fs-16 me-2"></i>
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Pagination -->
+        <div class="row p-0">
+          <div *ngIf="displayPagination">
+            <div
+              *ngIf="!noDataFound"
+              class="d-flex flex-column flex-lg-row justify-content-between align-items-start mt-3"
+            >
+              <div
+                class="d-flex justify-content-center justify-content-lg-start w-100 mb-2 mb-lg-0"
+              >
+                <select
+                  [(ngModel)]="selectedPageSize"
+                  class="form-select form-select-sm w-auto me-2"
+                  style="height: 1.5rem"
+                  aria-label="select example"
+                  (change)="pagesizeChanged($event)"
+                >
+                  <option
+                    *ngFor="let state of pageSizeArray"
+                    value="{{ state }}"
+                  >
+                    {{ state }}
+                  </option>
+                </select>
+                <p>Items per page</p>
+              </div>
+              <div
+                class="d-flex w-100 justify-content-center justify-content-lg-end"
+              >
+                <pagination-controls
+                  (pageChange)="pageChangeEvent($event)"
+                ></pagination-controls>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end card body -->
+  </div>
+  <!-- end card -->
+  <!-- end col -->
+</div>
+<!-- removeItemModal -->
+<ng-template #deleteModal let-modal>
+  <div class="modal-content">
+    <!-- <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"
+                (click)="modal.dismiss('Cross click')"></button>
+        </div> -->
+    <div class="modal-body pt-0">
+      <div class="mt-2 text-center">
+        <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+          <h4>Are you sure ?</h4>
+          <p class="mx-4 mb-0">{{ recordDeleteConfirmationMessage }}</p>
+        </div>
+      </div>
+      <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+        <button
+          type="button"
+          class="btn w-sm btn-danger"
+          id="delete-product"
+          (click)="deleteData(selectedDataRow)"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          class="btn w-sm btn-dark"
+          data-bs-dismiss="modal"
+          (click)="modal.close('Close click')"
+        >
+          No
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- /.modal-content -->
+</ng-template>
+<!-- updateItemModal -->
+<ng-template #updateModel let-modal>
+  <div class="modal-content pt-0">
+    <!-- <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"
+                (click)="modal.dismiss('Cross click')"></button>
+        </div> -->
+    <div class="modal-body">
+      <div class="mt-2 text-center">
+        <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+          <h4>Are you sure ?</h4>
+          <p class="mx-4 mb-0">{{ recordEditConfirmationMessage }}</p>
+        </div>
+      </div>
+      <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+        <button
+          type="button"
+          class="btn w-sm btn-success"
+          id="delete-product"
+          (click)="updateData(selectedDataRow)"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          class="btn w-sm btn-dark"
+          data-bs-dismiss="modal"
+          (click)="modal.close('Close click')"
+        >
+          No
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- /.modal-content -->
+</ng-template>
+<!-- approvalItemModal -->
+<ng-template #appoveModal let-modal>
+  <div class="modal-content pt-0">
+    <!-- <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"
+                (click)="modal.dismiss('Cross click')"></button>
+        </div> -->
+    <div class="modal-body">
+      <div class="mt-2 text-center">
+        <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+          <h4>Are you sure ?</h4>
+          <p class="mx-4 mb-0">{{ recordApproveConfirmationMessage }}</p>
+        </div>
+      </div>
+      <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+        <button
+          type="button"
+          class="btn w-sm btn-success"
+          id="delete-product"
+          (click)="acknowledgeConfirm(selectedDataRow)"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          class="btn w-sm btn-dark"
+          data-bs-dismiss="modal"
+          (click)="modal.close('Close click')"
+        >
+          No
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- /.modal-content -->
+</ng-template>
+<!-- rejectItemModal -->
+<ng-template #rejectModal let-modal>
+  <div class="modal-content pt-0">
+    <!-- <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"
+                (click)="modal.dismiss('Cross click')"></button>
+        </div> -->
+    <div class="modal-body">
+      <div class="mt-2 text-center">
+        <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+          <h4>Are you sure ?</h4>
+          <p class="mx-4 mb-0">{{ recordRejectConfirmationMessage }}</p>
+        </div>
+      </div>
+      <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+        <button
+          type="button"
+          class="btn w-sm btn-success"
+          id="delete-product"
+          (click)="removeConfirm(selectedDataRow)"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          class="btn w-sm btn-dark"
+          data-bs-dismiss="modal"
+          (click)="modal.close('Close click')"
+        >
+          No
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- /.modal-content -->
+
+  <!-- rowItemDisplayModal -->
+  <ng-template #rowItemDisplayModal let-modal>
+    <div class="modal-content pt-0">
+      <!-- <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"
+                    (click)="modal.dismiss('Cross click')"></button>
+            </div> -->
+      <div class="modal-body pt-0">
+        <div class="mt-2 text-center">
+          <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+            <h4>Row Item Display Modal</h4>
+            <p class="mx-4 mb-0">{{ recordRejectConfirmationMessage }}</p>
+          </div>
+        </div>
+        <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+          <button
+            type="button"
+            class="btn w-sm btn-success"
+            id="delete-product"
+            (click)="rejectRecord(selectedDataRow)"
+          >
+            Yes
+          </button>
+          <button
+            type="button"
+            class="btn w-sm btn-dark"
+            data-bs-dismiss="modal"
+            (click)="modal.close('Close click')"
+          >
+            No
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </ng-template></ng-template
+>

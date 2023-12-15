@@ -1,0 +1,19 @@
+{
+
+	"Pending": "pending",
+
+	"ApprovedByTM" : "approved by TM",
+
+	"ApprovedByFM" : "approved by FM",
+
+	"Approved" : "approved",
+
+	"Rejected" : "rejected",
+
+	"Active" : "active",
+
+	"Completed" : "completed",
+
+	"Expired" : "expired"
+
+}

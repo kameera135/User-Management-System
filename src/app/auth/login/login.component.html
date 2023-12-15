@@ -1,0 +1,25 @@
+<div class="body flex-column {{ isDarkMode ? 'body-dark' : 'body-light' }}">
+  <div class="scene">
+    <div class="cube-wrapper">
+      <div class="cube">
+        <div class="cube-faces">
+          <div class="cube-face {{ isDarkMode ? 'cube-face-dark' : 'cube-face-light' }} shadow"></div>
+          <div class="cube-face {{ isDarkMode ? 'cube-face-dark' : 'cube-face-light' }} bottom"></div>
+          <div class="cube-face {{ isDarkMode ? 'cube-face-dark' : 'cube-face-light' }} top"></div>
+          <div class="cube-face {{ isDarkMode ? 'cube-face-dark' : 'cube-face-light' }} left"></div>
+          <div class="cube-face {{ isDarkMode ? 'cube-face-dark' : 'cube-face-light' }} right"></div>
+          <div class="cube-face {{ isDarkMode ? 'cube-face-dark' : 'cube-face-light' }} back"></div>
+          <div class="cube-face {{ isDarkMode ? 'cube-face-dark' : 'cube-face-light' }} front"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-3">
+    <p class="text {{ isDarkMode ? 'text-color-dark' : 'text-color-light' }}">checking your credentials, please wait
+      <span class="dot-one"> .</span>
+      <span class="dot-two"> .</span>
+      <span class="dot-three"> .</span>
+    </p>
+  </div>
+</div>

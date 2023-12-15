@@ -1,0 +1,53 @@
+<div class="table-responsive table-card w-auto mt-2 px-2">
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="assert-tree bg-transparent">
+        <!-- This is the tree node template for leaf nodes -->
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+            <div class="mat-tree-node d-flex justify-content-between">
+                <!-- <mat-checkbox class="ms-1 d-flex align-items-center justify-content-center" *ngIf="displayCheckbox"
+                    (change)="todoItemSelectionToggle($event.checked,node,rootID)" [checked]="node.selected">
+                    <span class="text-dark">
+                        <i class="bi bi-box-fill me-2"></i> {{node.displayName}}
+                    </span>
+                </mat-checkbox> -->
+
+                <!-- these are for the units  -->
+
+                <mat-radio-button value="node.id" color="primary" (change)="singleItemSelectionToggle($event,node)"
+                    [checked]="node.id == this.selectedUnitId"><i class="bi text-dark bi-box-fill me-2"></i>
+                    <span class="text-dark">
+                        <i class="bi me-2"></i> {{node.name}}
+                    </span>
+                </mat-radio-button>
+
+            </div>
+        </mat-tree-node>
+        <!-- This is the tree node template for expandable nodes -->
+        <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+            <li>
+                <div class="mat-tree-node text-dark">
+                    <button class="d-flex align-items-center justify-content-center" mat-icon-button matTreeNodeToggle
+                        [attr.aria-label]="'toggle ' + node.name" style="width: 35px; height: 35px;">
+                        <i
+                            class="fs-6 text-success bi {{treeControl.isExpanded(node) ? 'bi-plus-square-fill' : 'bi-dash-square-fill'}}">
+                        </i>
+                    </button>
+                    <!-- <mat-checkbox *ngIf="displayCheckbox && !checkboxesOnLeafNodes" [checked]="node.selected"
+                        [indeterminate]="node.indeterminate && !node.selected"
+                        (change)="todoItemSelectionToggle($event.checked,node,rootID)">
+                        <span class="text-dark">
+                            <i class="bi bi-buildings-fill me-2"></i> {{node.displayName}}
+                        </span>
+                    </mat-checkbox> -->
+
+                    <!-- this is for the level  -->
+                    <span class="text-dark">
+                        <i class="bi {{ node.icon }} me-2"></i> {{node.name}}
+                    </span>
+                </div>
+                <ul [class.assert-tree-invisible]="treeControl.isExpanded(node)">
+                    <ng-container matTreeNodeOutlet></ng-container>
+                </ul>
+            </li>
+        </mat-nested-tree-node>
+    </mat-tree>
+</div>

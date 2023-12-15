@@ -1,0 +1,241 @@
+//dark mode animation
+$box-color-dark: #F1A66A;
+$text-color-dark: #F4D8CD;
+$background-color-dark: #170A1C;
+
+$box-color-light: #39393A;
+$text-color-light: #297373;
+$background-color-light: #E6E6E6;
+
+$size: 80px;
+$animation-duration: 2s;
+
+.body {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.body-dark {
+  background: $background-color-dark;
+}
+
+.body-light {
+  background: $background-color-light;
+}
+
+.text {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.3em;
+  text-align: center;
+  font-weight: normal;
+  margin: 0 0 1em;
+}
+
+.text-color-dark {
+  color: $text-color-dark;
+}
+
+.text-color-light {
+  color: $text-color-light;
+}
+
+.scene {
+  position: relative;
+  z-index: 2;
+  height: $size*2.75;
+  width: $size*2.75;
+  display: grid;
+  place-items: center;
+}
+
+.cube-wrapper {
+  transform-style: preserve-3d;
+  animation: bouncing $animation-duration infinite;
+}
+
+.cube {
+  transform-style: preserve-3d;
+  transform: rotateX(45deg) rotateZ(45deg);
+  animation: rotation $animation-duration infinite;
+}
+
+.cube-faces {
+  transform-style: preserve-3d;
+  height: $size;
+  width: $size;
+  position: relative;
+  transform-origin: 0 0;
+  transform: translateX(0) translateY(0) translateZ(-$size/2);
+}
+
+.cube-face {
+  position: absolute;
+  inset: 0;
+
+  &.shadow {
+    transform: translateZ(-$size);
+    animation: bouncing-shadow $animation-duration infinite;
+  }
+
+  &.top {
+    transform: translateZ($size);
+  }
+
+  &.front {
+    transform-origin: 0 50%;
+    transform: rotateY(-90deg);
+  }
+
+  &.back {
+    transform-origin: 0 50%;
+    transform: rotateY(-90deg) translateZ(-$size);
+  }
+
+  &.right {
+    transform-origin: 50% 0;
+    transform: rotateX(-90deg) translateY(-$size);
+  }
+
+  &.left {
+    transform-origin: 50% 0;
+    transform: rotateX(-90deg) translateY(-$size) translateZ($size);
+  }
+}
+
+.cube-face-dark {
+  background: $box-color-dark;
+  border: solid 1px $background-color-dark;
+}
+
+.cube-face-light {
+  background: $box-color-light;
+  border: solid 1px $background-color-light;
+}
+
+@keyframes rotation {
+  $start: 45deg;
+
+  0% {
+    transform: rotateX($start) rotateY(0) rotateZ($start);
+    animation-timing-function: cubic-bezier(0.17, 0.84, 0.44, 1);
+  }
+
+  50% {
+    transform: rotateX($start) rotateY(0) rotateZ($start+360/2);
+    animation-timing-function: cubic-bezier(0.76, 0.05, 0.86, 0.06);
+  }
+
+  100% {
+    transform: rotateX($start) rotateY(0) rotateZ($start+360);
+    animation-timing-function: cubic-bezier(0.17, 0.84, 0.44, 1);
+  }
+}
+
+@keyframes bouncing {
+  0% {
+    transform: translateY(-$size*.5);
+    animation-timing-function: cubic-bezier(0.76, 0.05, 0.86, 0.06);
+  }
+
+  45% {
+    transform: translateY($size*.5);
+    animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  100% {
+    transform: translateY(-$size*.5);
+    animation-timing-function: cubic-bezier(0.76, 0.05, 0.86, 0.06);
+  }
+}
+
+@keyframes bouncing-shadow {
+  0% {
+    transform: translateZ(-$size) scale(1.3);
+    animation-timing-function: cubic-bezier(0.76, 0.05, 0.86, 0.06);
+    opacity: .05;
+  }
+
+  45% {
+    transform: translateZ(0);
+    animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+    opacity: .3;
+  }
+
+  100% {
+    transform: translateZ(-$size) scale(1.3);
+    animation-timing-function: cubic-bezier(0.76, 0.05, 0.86, 0.06);
+    opacity: .05;
+  }
+}
+
+span[class^="dot-"] {
+  opacity: 0;
+}
+
+.dot-one {
+  animation: dot-one 2s infinite linear
+}
+
+.dot-two {
+  animation: dot-two 2s infinite linear
+}
+
+.dot-three {
+  animation: dot-three 2s infinite linear
+}
+
+@keyframes dot-one {
+  0% {
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 0;
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes dot-two {
+  0% {
+    opacity: 0;
+  }
+
+  25% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes dot-three {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

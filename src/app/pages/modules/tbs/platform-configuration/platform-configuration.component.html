@@ -1,0 +1,340 @@
+<!-- ==============New================== -->
+
+<!-- <div class="row align-items-center" *ngIf="loadingInProgress">
+  <app-waiting-circle></app-waiting-circle>
+</div> -->
+
+<!-- <div class="row mb-4 mx-1  {{ loadingInProgress ? 'hidden' : '' }}"> -->
+<div class="row mb-4 mx-1">
+  <div class="card">
+    <div class="card-body pb-3">
+      <div class="row">
+        <div class="card-body px-4 pt-0">
+          <div class="row align-items-end">
+            <div class="col-6 col-lg-3 p-0 pe-3">
+              <div class="mb-3">
+                <label class="col-form-label">Year</label>
+                <select
+                  class="form-select"
+                  aria-label="Year"
+                  [(ngModel)]="selectedYear"
+                  (change)="loadData()"
+                >
+                  <!-- <option selected value="">Select...</option> -->
+                  <option *ngFor="let item of yearList" [value]="item.value">
+                    {{ item.value }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-6 col-lg-3 p-0 pe-lg-3">
+              <div class="mb-3">
+                <label class="col-form-label">Month</label>
+                <select
+                  class="form-select"
+                  aria-label="Month"
+                  [(ngModel)]="selectedMonth"
+                  (change)="loadData()"
+                >
+                  <!-- <option selected value="">Select...</option> -->
+                  <option *ngFor="let item of monthList" [value]="item.id">
+                    {{ item.value }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <!-- <div class="col-6 col-lg-3">
+              <div class="mb-3">
+                <label class="col-form-label">Tenant</label>
+                <select class="form-select" aria-label="Tenant" [(ngModel)]="selectedTenant" (change)="loadData()">
+                  <option selected value="">Select...</option>
+                  <option *ngFor="let item of tenantList" [value]="item.id">{{item.value}}</option>
+                </select>
+              </div>
+            </div> -->
+
+            <div class="col-12 col-lg-3 p-0 pe-lg-3">
+              <div class="mb-3">
+                <label for="unitName" class="col-form-label">Unit</label>
+                <div class="row">
+                  <div class="col-10 col-lg-9">
+                    <input
+                      id="unitName"
+                      type="text"
+                      class="form-control"
+                      disabled
+                      value="{{ unitName }}"
+                    />
+                  </div>
+                  <div class="col-2 col-lg-3 d-flex justify-content-end">
+                    <app-right-tree-node
+                      *ngIf="!loadingInProgress"
+                      ButtonName="Units"
+                      ButtonColor="btn-dark"
+                      ButtonIcon="bi-box-fill"
+                      (UnitSelectionChanged)="getSelectedUnitFromTree($event)"
+                      [selectedUnitId]="this.unitId"
+                    >
+                    </app-right-tree-node>
+                    <!-- <app-right-tree-node ButtonName="Units" ButtonColor="btn-dark"
+                      ButtonIcon="bi-box-fill"></app-right-tree-node> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-3 p-0">
+              <div class="mb-3">
+                <label class="col-form-label">Service</label>
+                <select
+                  class="form-select"
+                  aria-label="Service"
+                  [(ngModel)]="selectedServiceMeterId"
+                  (change)="loadData()"
+                  [disabled]="!unitId"
+                >
+                  <option selected value="">Select...</option>
+                  <option
+                    *ngFor="let item of serviceList"
+                    [value]="item.meterList"
+                  >
+                    {{ item.serviceType }} ({{ item.unit }})
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row align-items-end" *ngIf="selectedServiceMeterId">
+            <div
+              class="alert alert-primary alert-border-left alert-dismissible fade show mb-0 mt-2"
+              role="alert"
+            >
+              <!-- <i class="ri-user-smile-line me-3 align-middle"></i> -->
+              <strong class="text-start">Included Meters</strong>
+              <ul class="mb-0">
+                <li *ngFor="let meter of meterPrintList">{{ meter }}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <app-table
+        *ngIf="!loadingInProgress"
+        [headArray]="headArray"
+        [dataArray]="dataArray"
+        [dataTableOptions]="consumptionTableOptions"
+        [displayPagination]="false"
+        (onReportGenerateClick)="downloadExcel()"
+      >
+      </app-table>
+    </div>
+  </div>
+</div>
+
+<!-- ==============New================== -->
+<!-- <div class="row mt-3 px-lg-5"> -->
+
+<!-- <div class="col-12 col-lg-4 mb-3" >
+    <div class="border border-0 border-dark-subtle px-3 rounded" style="height: 485px; overflow-y: scroll;">
+      <app-treeview-checkbox [selectParentNodes]="true" [checkboxesOnLeafNodes]="false"
+        [treeDataSource]="asseteTreeData"
+        (onAsseteTreeItemSelected)="onAsseteTreeChanged($event)"></app-treeview-checkbox>
+    </div>
+  </div> -->
+
+<!-- <div class="col-lg-1">
+
+  </div> -->
+
+<!-- ------------ Separate------------------- -->
+
+<!-- <div class="row mt-4 mx-auto">
+    <div class="row mb-3 justify-content-between">
+
+      <div class="col-lg-2 align-items-center mb-3">
+        <div class="row">
+          <div class="col-4 text-start">
+            <label class="col-form-label">Year</label>
+          </div>
+          <div class="col-8 ps-lg-0">
+            <select class="form-select" aria-label="Year" [(ngModel)]="selectedYear">
+              <option selected value="">Select...</option>
+              <option *ngFor="let item of yearList" [value]="item.id">{{item.value}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-2 align-items-center mb-3">
+        <div class="row">
+          <div class="col-4 text-start">
+            <label class="col-form-label">Month</label>
+          </div>
+          <div class="col-8 ps-lg-0">
+            <select class="form-select" aria-label="Month" [(ngModel)]="selectedMonth">
+              <option selected value="">Select...</option>
+              <option *ngFor="let item of monthList" [value]="item.id">{{item.value}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-2 align-items-center mb-3 ">
+        <div class="row">
+          <div class="col-4 text-start">
+            <label class="col-form-label">Service</label>
+          </div>
+          <div class="col-8">
+            <select class="form-select" aria-label="Service" [(ngModel)]="selectedService">
+              <option selected value="">Select...</option>
+              <option *ngFor="let item of serviceList" [value]="item.id">{{item.value}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 align-items-center mb-3 ">
+        <div class="row">
+          <div class="col-4 text-start">
+            <label class="col-form-label">Tenant</label>
+          </div>
+          <div class="col-8 ps-lg-0">
+            <select class="form-select" aria-label="Tenant" [(ngModel)]="selectedTenant">
+              <option selected value="">Select...</option>
+              <option *ngFor="let item of tenantList" [value]="item.id">{{item.value}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 align-items-center mb-3">
+        <div class="row">
+          <div class="col-4 col-md-2 col-lg-2">
+            <label for="unitName" class="col-form-label">Unit</label>
+          </div>
+          <div class="col-6 col-md-6 col-lg-8">
+            <input id="unitName" type="text" class="form-control" disabled value="{{ unitName }}">
+          </div>
+          <div class="px-lg-0 col-2 col-md-2 col-lg-2 d-flex justify-content-end align-items-center ">
+            <app-right-tree-node ButtonName="Units" ButtonColor="btn-dark"
+              ButtonIcon="bi-box-fill"></app-right-tree-node>
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+
+
+    <div class="row mb-3">
+      <app-table></app-table>
+    </div>
+
+  </div> -->
+
+<!-- -------------------------Sparate------------------- -->
+
+<!-- <hr>
+
+  <div class="col-lg-7 mx-auto mt-5">
+
+    <div>
+
+      <div class="row mb-3 align-items-baseline">
+        <div class="col-3">
+          <label for="nameInput" class="form-label">Unit Name</label>
+        </div>
+        <div class="col-9">
+          <div class="row">
+            <div class="col-12 col-md-9">
+              <input type="text" class="form-control" disabled value="{{ unitName }}">
+            </div>
+            <div class="col-12 col-md-3 d-flex justify-content-end align-items-center mt-2 mt-md-0">
+              <app-right-tree-node ButtonName="Units" ButtonColor="btn-dark"
+                ButtonIcon="bi-box-fill"></app-right-tree-node>
+            </div>
+          </div>
+        </div>
+        <div class="col-9">
+          <input type="text" class="form-control" disabled value="{{ unitName }}">
+        </div>
+      </div>
+
+      <div class="row mb-3 align-items-baseline">
+        <div class="col-3">
+          <label class="form-label">Service</label>
+        </div>
+        <div class="col-9">
+          <select class="form-select" aria-label="Service" [(ngModel)]="selectedService">
+            <option selected value="">Select...</option>
+            <option *ngFor="let item of serviceList" [value]="item.id">{{item.value}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row mb-3 align-items-baseline">
+        <div class="col-3">
+          <label for="nameInput" class="form-label">Tenant</label>
+        </div>
+        <div class="col-9">
+          <input type="text" class="form-control" disabled value="{{ tenantName }}">
+        </div>
+      </div>
+
+      <div class="row mb-3 align-items-baseline">
+        <div class="col-3">
+          <label for="nameInput" class="form-label">Unit Code</label>
+        </div>
+        <div class="col-9">
+          <input type="text" class="form-control" disabled value="{{ unitCode }}">
+        </div>
+      </div>
+
+
+
+      <div class="row mb-3 align-items-baseline">
+        <div class="col-3">
+          <label class="form-label">Year</label>
+        </div>
+        <div class="col-9">
+          <select class="form-select" aria-label="Year" [(ngModel)]="selectedYear">
+            <option selected value="">Select...</option>
+            <option *ngFor="let item of yearList" [value]="item.id">{{item.value}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row mb-3 align-items-baseline">
+        <div class="col-3">
+          <label class="form-label">Month</label>
+        </div>
+        <div class="col-9">
+          <select class="form-select" aria-label="Month" [(ngModel)]="selectedMonth">
+            <option selected value="">Select...</option>
+            <option *ngFor="let item of monthList" [value]="item.id">{{item.value}}</option>
+          </select>
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="col-12 d-flex justify-content-end">
+      <div class="mb-3">
+        <button type="button" class="btn btn-success btn-label me-3">
+          <i class="bi bi-eye label-icon align-middle fs-16 me-2"></i> View</button>
+      </div>
+
+      <div class="mb-3">
+        <button type="button" class="btn btn-primary btn-label">
+          <i class="bi bi-download label-icon align-middle fs-16 me-2"></i> Download</button>
+      </div>
+    </div>
+
+  </div>
+
+</div> -->

@@ -1,0 +1,12 @@
+{
+	"messageDurationInMiliSeconds": "2000",
+	"errorMessageDurationInMiliSeconds": "5000",
+	"SomethisngWentWrongMessage": "Something went wrong!",
+	"UpdatingMessage": "Record has successfully updated",
+	"ValidationErrorMessageHeadder": "Validation Error",
+	"ErrorMessageHeadder": "Error",
+	"SuccessMessageHeadder": "Success",
+	"FailedMessageHeadder": "Failed",
+	"ManualMeterReadingsRowDeleteConfirmationMessage": "You want to Delete selected meter readings?",
+	"ManualMeterReadingsRecordDeletedNotificationMessage": "Meter Readings has been deleted succesfully"
+}
