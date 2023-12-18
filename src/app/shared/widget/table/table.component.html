@@ -16,7 +16,8 @@
                   <div
                     *ngIf="
                       allowCheckBoxes &&
-                      head.FieldName == '' && head.ColumnType == 'CheckBox'
+                      head.FieldName == '' &&
+                      head.ColumnType == 'CheckBox'
                     "
                   >
                     <input
@@ -88,7 +89,8 @@
                   <div
                     *ngIf="
                       allowCheckBoxes &&
-                      head.FieldName == '' && head.ColumnType == 'CheckBox' &&
+                      head.FieldName == '' &&
+                      head.ColumnType == 'CheckBox' &&
                       item['isRejecteableOrApprovableRecord']
                     "
                   >
@@ -179,19 +181,20 @@
                     <div class="hstack gap-2 justify-content-end">
                       <button
                         *ngIf="allowtoView"
-                        class="btn btn-sm btn-soft-info edit-list"
+                        class="btn btn-sm btn-info edit-list"
                         data-bs-toggle="modal"
                         data-bs-target="#createTask"
                         data-edit-id="15"
                         (click)="LoadDataOnRowDoubleClick(item)"
                         Generate="View"
+                        ngbTooltip="View"
                       >
-                        <i class="bi bi-eye fs-5"></i>
+                        <i class="bi bi-eye-fill text-muted"></i>
                       </button>
 
                       <button
                         *ngIf="allowtoApprove"
-                        class="btn btn-sm btn-soft-success remove-list"
+                        class="btn btn-sm btn-success remove-list"
                         data-bs-toggle="modal"
                         data-bs-target="#removeTaskItemModal"
                         data-remove-id="15"
@@ -204,7 +207,7 @@
 
                       <button
                         *ngIf="allowtoReject"
-                        class="btn btn-sm btn-soft-danger remove-list"
+                        class="btn btn-sm btn-danger remove-list"
                         data-bs-toggle="modal"
                         data-bs-target="#removeTaskItemModal"
                         data-remove-id="15"
@@ -225,7 +228,7 @@
                         Generate="Edit"
                         ngbTooltip="Edit"
                       >
-                        <i class="bi bi-pencil-fill text-dark"></i>
+                        <i class="bi bi-pencil-fill text-muted"></i>
                       </button>
 
                       <!-- Acknowledge -->
@@ -255,7 +258,7 @@
                           padding-right: 12px !important;
                           margin-right: 10%;
                         "
-                        class="btn btn-sm btn-soft-danger remove-list"
+                        class="btn btn-sm btn-danger remove-list"
                         data-bs-toggle="modal"
                         data-bs-target="#removeTaskItemModal"
                         data-remove-id="15"

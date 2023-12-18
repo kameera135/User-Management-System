@@ -8,5 +8,9 @@
 	"SuccessMessageHeadder": "Success",
 	"FailedMessageHeadder": "Failed",
 	"ManualMeterReadingsRowDeleteConfirmationMessage": "You want to Delete selected meter readings?",
-	"ManualMeterReadingsRecordDeletedNotificationMessage": "Meter Readings has been deleted succesfully"
+	"ManualMeterReadingsRecordDeletedNotificationMessage": "Meter Readings has been deleted succesfully",
+	"UpdateUserConfirmationMessage": "You want to update user details?",
+	"DeleteUserConfirmationMessage": "You want to delete user/s?",
+	"UserDeletedNotificationMessage": "User/s have been deleted?",
+	"UserUpdatedNotificationMessage": "User has been updated?"
 }

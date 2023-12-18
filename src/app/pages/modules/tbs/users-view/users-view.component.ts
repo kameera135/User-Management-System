@@ -22,7 +22,7 @@ export class UsersViewComponent {
   unitId!: string;
   selectedMeterCode: string = "";
   selectedTimeInterval: string = "";
-  selectedYear: string = new Date().getFullYear().toString();
+  // selectedYear: string = new Date().getFullYear().toString();
   selectedMonth: string = (new Date().getMonth() + 1).toString();
   service: string = "";
   serviceUnit: string = "";
@@ -30,9 +30,9 @@ export class UsersViewComponent {
   meterList: any[] = [];
   meterCodeList: any[] = [];
   yearList: any[] = [];
-  monthList: any[] = [];
+
   intervalList: any[] = [];
-  tableData: any[] = [];
+  // tableData: any[] = [];
   loadingInProgress: boolean = false;
   unitsLoading: boolean = false;
 
@@ -53,16 +53,56 @@ export class UsersViewComponent {
 
   selectedMeterTag: string = "";
 
-  extensionTableOptions: tableOptions = new tableOptions();
+  //**********************************************************************
+  searchTerm!: string;
+  roleList: any[] = [
+    { value: "All", id: 1 },
+    { value: "Tenant", id: 2 },
+    { value: "TM", id: 3 },
+    { value: "FM", id: 4 },
+  ];
+  selectedPlatform: string = "All";
+  UserUpdatedNotificationMessage!: string;
+
+  usersViewTableOptions: tableOptions = new tableOptions();
 
   headArray = [
-    { Head: "Date", FieldName: "Date", ColumnType: "Data" },
-    { Head: "Time", FieldName: "Time", ColumnType: "Data" },
-    { Head: "Meter Reading", FieldName: "MeterReading", ColumnType: "Data" },
+    { Head: "", FieldName: "", ColumnType: "CheckBox" },
+    { Head: "User Name", FieldName: "UserName", ColumnType: "Data" },
+    { Head: "First Name", FieldName: "FirstName", ColumnType: "Data" },
+    { Head: "Last Name", FieldName: "LastName", ColumnType: "Data" },
+    { Head: "Role", FieldName: "Role", ColumnType: "Data" },
+    { Head: "Email", FieldName: "Email", ColumnType: "Data" },
     { Head: "", FieldName: "", ColumnType: "Action" },
   ];
 
-  //dataArray = []
+  tableData = [
+    {
+      UserName: "Harper.Bennett",
+      FirstName: "Harper",
+      LastName: "Bennett",
+      Role: "Tenant",
+      Email: "harperbennett@yoyo.com",
+      isRejecteableOrApprovableRecord: true,
+    },
+    {
+      UserName: "Mia.Rodriguez",
+      FirstName: "Mia",
+      LastName: "Rodriguez",
+      Role: "TM",
+      Email: "miarodriguez@yoyo.com",
+      isRejecteableOrApprovableRecord: true,
+    },
+    {
+      UserName: "Nolan.Sullivan",
+      FirstName: "Nolan",
+      LastName: "Sullivan",
+      Role: "Tenant",
+      Email: "nolansullivan@yoyo.com",
+      isRejecteableOrApprovableRecord: true,
+    },
+  ];
+
   meterReadingsDataArray: any = [];
 
   meterDataArray = [{ value: "" }];
@@ -77,17 +117,27 @@ export class UsersViewComponent {
   ) {}
 
   ngOnInit(): void {
-    if (this.unitId) {
-      this.fetchMeterListByUnitId(this.unitId);
-    }
-    this.fetchAssertTree();
+    // if (this.unitId) {
+    //   this.fetchMeterListByUnitId(this.unitId);
+    // }
+    // this.fetchAssertTree();
 
-    this.tableData = this.meterReadingsDataArray;
+    // this.tableData = this.meterReadingsDataArray;
 
-    this.extensionTableOptions.allowExportButton = true;
-    this.extensionTableOptions.allowCheckbox = true;
-    this.extensionTableOptions.allowBulkApproveButton = true;
-    this.extensionTableOptions.allowActivateButton = true;
+    this.usersViewTableOptions.allowCheckbox = true;
+    this.usersViewTableOptions.allowBulkDeleteButton = true;
+    this.usersViewTableOptions.allowDeleteButton = true;
+    this.usersViewTableOptions.allowUpdateButton = true;
+    this.usersViewTableOptions.allowViewButton = true;
+
+    this.usersViewTableOptions.rowEditConfirmationMessage =
+      this.appService.popUpMessageConfig[0].UpdateUserConfirmationMessage;
+    this.usersViewTableOptions.rowDeleteConfirmationMessage =
+      this.appService.popUpMessageConfig[0].DeleteUserConfirmationMessage;
+    this.usersViewTableOptions.recordDeletedNotificationMessage =
+      this.appService.popUpMessageConfig[0].UserDeletedNotificationMessage;
+    this.UserUpdatedNotificationMessage =
+      this.appService.popUpMessageConfig[0].UserUpdatedNotificationMessage;
 
     this.breadcrumbService.loadBreadcrumbValue([
       { label: "Users", active: false },
@@ -109,20 +159,20 @@ export class UsersViewComponent {
       }
     );
 
-    this.monthList = [
-      { value: "January", id: 1 },
-      { value: "February", id: 2 },
-      { value: "March", id: 3 },
-      { value: "April", id: 4 },
-      { value: "May", id: 5 },
-      { value: "June", id: 6 },
-      { value: "July", id: 7 },
-      { value: "August", id: 8 },
-      { value: "September", id: 9 },
-      { value: "October", id: 10 },
-      { value: "November", id: 11 },
-      { value: "December", id: 12 },
-    ];
+    // this.platformList = [
+    //   { value: "January", id: 1 },
+    //   { value: "February", id: 2 },
+    //   { value: "March", id: 3 },
+    //   { value: "April", id: 4 },
+    //   { value: "May", id: 5 },
+    //   { value: "June", id: 6 },
+    //   { value: "July", id: 7 },
+    //   { value: "August", id: 8 },
+    //   { value: "September", id: 9 },
+    //   { value: "October", id: 10 },
+    //   { value: "November", id: 11 },
+    //   { value: "December", id: 12 },
+    // ];
 
     // this.asseteTreeData = [
     //   {
@@ -182,7 +232,7 @@ export class UsersViewComponent {
     //   }
     // ];
 
-    this.getAutoMeterReadings();
+    // this.getAutoMeterReadings();
   }
 
   onAsseteTreeChanged(selectedItems: any[]): void {
@@ -191,7 +241,7 @@ export class UsersViewComponent {
 
   getAutoMeterReadings() {
     if (
-      this.selectedYear != "" &&
+      this.selectedPlatform != "" &&
       this.selectedMonth != "" &&
       this.selectedMeterCode != "" &&
       this.unitId != ""
@@ -351,120 +401,20 @@ export class UsersViewComponent {
     // });
   }
 
-  getSelectedUnitFromTree(item: any) {
-    console.log("Auto meter reading", item);
-
-    this.serviceUnit = "";
-    this.selectedUnit = item;
-    this.selectedMeterTag = "";
-    this.unitId = item.id;
-    this.unitName = item.name;
-
-    this.getAutoMeterReadings();
-
-    this.fetchMeterListByUnitId(item.id);
-  }
-
   onPaginationChange(page: number): void {
     this.selectedPage = page;
     console.log("Selected page:");
     console.log(this.selectedPage);
-    this.getAutoMeterReadings();
+    this.getUsers();
   }
   onPagesizeChange(pageSize: number): void {
     this.selectedPageSize = pageSize;
     console.log("Page size changed to:");
     console.log(this.selectedPageSize);
-    this.getAutoMeterReadings();
+    this.getUsers();
   }
 
-  getDateTime() {
-    var today = new Date();
-    var date =
-      today.getFullYear() +
-      "-" +
-      (today.getMonth() + 1).toString().padStart(2, "0") +
-      "-" +
-      today.getDate().toString().padStart(2, "0");
-    var time =
-      today.getHours().toString().padStart(2, "0") +
-      ":" +
-      today.getMinutes().toString().padStart(2, "0") +
-      ":" +
-      today.getSeconds().toString().padStart(2, "0");
-    this.exportDateTime = date + " " + time;
-  }
+  getUsers() {}
 
-  //Handle the download button clicking
-  downloadExcel() {
-    this.reportMonth = this.monthList.find(
-      (month) => month.id === parseInt(this.selectedMonth)
-    );
-    var month = this.reportMonth.value;
-
-    var reportName = `${
-      this.appService.appConfig[0].consumptionReportName[0].meter_readings
-    } ${this.selectedYear}-${this.selectedMonth.padStart(2, "0")} (${
-      this.selectedMeterCode
-    })`;
-    var sheetName = `${this.appService.appConfig[0].consumptionSheetName[0].meter_readings}`;
-
-    if (this.selectedMeterTag != "") {
-      // this.shared
-      //   .getAllMeterReadings(
-      //     this.selectedMeterTag,
-      //     this.selectedYear,
-      //     this.selectedMonth
-      //   )
-      //   .subscribe({
-      //     next: (result: any) => {
-      //       console.log("result", result);
-      //       const meterReadingsDataArray = result.map((item: any) => ({
-      //         Date: item.ts.slice(0, -9),
-      //         Time: item.ts.slice(11),
-      //         MeterReading: item.value,
-      //       }));
-      //       var arrayOfArrayData = [
-      //         ["Marina One - Tenant Billing System"],
-      //         [],
-      //         [`Meter Readings`],
-      //         [],
-      //         [`Unit ID`, `${this.unitId}`],
-      //         [`Meter ID`, `${this.selectedMeterCode}`],
-      //         [`Meter Mode`, `Auto`],
-      //         [`Year and Month`, `${this.selectedYear}-${month}`],
-      //         [],
-      //         ["Date", "Time", `Meter Reading ${this.serviceUnit}`],
-      //       ];
-      //       for (var i = 0; i < meterReadingsDataArray.length; i++) {
-      //         var rowData: any = [
-      //           meterReadingsDataArray[i].Date,
-      //           meterReadingsDataArray[i].Time,
-      //           meterReadingsDataArray[i].MeterReading,
-      //         ];
-      //         arrayOfArrayData.push(rowData);
-      //       }
-      //       this.getDateTime();
-      //       arrayOfArrayData.push(
-      //         [],
-      //         ["Generated On : ", `${this.exportDateTime}`]
-      //       );
-      //       this.reportService.generateExcelFile(
-      //         arrayOfArrayData,
-      //         sheetName,
-      //         reportName
-      //       );
-      //     },
-      //     error: (error: any) => {
-      //       console.log("Getting meter all readings data: error");
-      //       console.log(error);
-      //       this.notifierService.error({
-      //         detail: "Error",
-      //         summary: "Could not export the meter readings.",
-      //         duration: 4000,
-      //       });
-      //     },
-      //   });
-    }
-  }
+  searchUser(item: any) {}
 }
