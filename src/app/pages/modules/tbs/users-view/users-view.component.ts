@@ -16,6 +16,8 @@ import { AppService } from "src/app/app.service";
   styleUrls: ["./users-view.component.scss"],
 })
 export class UsersViewComponent {
+  dropDownList = this.appService.tempData[0].users[0].dropDown;
+
   asseteTreeData: any = {};
 
   unitName!: string;

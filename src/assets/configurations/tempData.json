@@ -1,0 +1,5 @@
+{
+    "users" : [{
+        "dropDown" : ["FM","TM","Tenant"]
+    }]
+}

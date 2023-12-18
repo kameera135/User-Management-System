@@ -7,6 +7,7 @@ import { toastServicePopUpConfigurations } from "./shared/models/Configurations/
 import { approvalStatusConfigurations } from "./shared/models/Configurations/approvalStatusConfigurations";
 import { AuthService } from "./auth/auth.service";
 import { User } from "./shared/models/User";
+import { tempDataModel } from "./shared/models/Cams-new/tempDataModel";
 
 @Injectable({
   providedIn: "root",
@@ -21,6 +22,8 @@ export class AppService implements OnDestroy {
   popUpMessageConfig: toastServicePopUpConfigurations[] = [];
 
   approvalStatusConfig: approvalStatusConfigurations[] = [];
+
+  tempData: tempDataModel[] = [];
 
   constructor(private http: HttpClient, private auth: AuthService) {
     this.destroy$ = new Subject<void>();
@@ -60,6 +63,12 @@ export class AppService implements OnDestroy {
       this.http.get("/assets/configurations/approvalStatus.json")
     ).then((value: any) => {
       this.approvalStatusConfig[0] = value as approvalStatusConfigurations;
+    });
+
+    await firstValueFrom(
+      this.http.get("/assets/configurations/tempData.json")
+    ).then((value: any) => {
+      this.tempData[0] = value as tempDataModel;
     });
   }
 
