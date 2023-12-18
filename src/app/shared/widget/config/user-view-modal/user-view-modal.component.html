@@ -1,7 +1,12 @@
 <div class="modal-header">
-  <h5 class="modal-title fs-4" id="addReadingsModal">{{modalTitle}} : {{meterName}}</h5>
-  <button id="btnCommonModalClose" type="button" class="bg-transparent border-0" aria-label="Close"
-    (click)="activeModal.dismiss('Cross click')">
+  <h5 class="modal-title fs-4" id="addReadingsModal">{{ modalTitle }}</h5>
+  <button
+    id="btnCommonModalClose"
+    type="button"
+    class="bg-transparent border-0"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
     <span aria-hidden="true">
       <i class="bi bi-x-lg text-dark"></i>
     </span>
@@ -9,52 +14,90 @@
 </div>
 
 <form #form="ngForm" (ngSubmit)="onFormSubmit()">
-
   <div class="row modal-body">
-    <!-- //{{modalDataTenant}} -->
+    <div class="col-6">
+      <div class="mb-3">
+        <label class="col-form-label">User Name*</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="userName"
+          name="userName"
+          [disabled]="type == 'View'"
+        />
+        <div class="input-group"></div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="mb-3">
+        <label class="col-form-label">Role*</label>
+        <ng-select
+          [(ngModel)]="role"
+          [multiple]="false"
+          [placeholder]="role ? role : 'Select'"
+          name="selectRole"
+          style="width: auto"
+          [clearable]="false"
+          [disabled]="type == 'View'"
+        >
+          <ng-option *ngFor="let role of roleList" [value]="role.value">
+            {{ role.value }}
+          </ng-option>
+        </ng-select>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="mb-3">
+        <label class="col-form-label">First Name*</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="firstName"
+          name="firstName"
+          [disabled]="type == 'View'"
+        />
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="mb-3">
+        <label class="col-form-label">Last Name*</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="lastName"
+          name="lastName"
+          [disabled]="type == 'View'"
+        />
+      </div>
+    </div>
+
     <div class="col-12">
       <div class="mb-3">
-        <label class="col-form-label">Date</label>
-        <!-- <input type="date" class="form-control" [(ngModel)]="date" name="date"> -->
-        <div class="input-group">
-          <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="selectedDate" ngbDatepicker
-            #d="ngbDatepicker" />
-          <button class="btn btn-primary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
-        </div>
+        <label class="col-form-label">Email*</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="email"
+          name="email"
+          [disabled]="type == 'View'"
+        />
       </div>
     </div>
-
-    <div class="col-6">
-      <div class="mb-3">
-        <label class="col-form-label">Normal Compensate</label>
-        <input type="number" class="form-control" [(ngModel)]="normalCompensate" name="normalCompensate">
-      </div>
-    </div>
-
-    <div class="col-6">
-      <div class="mb-3">
-        <label class="col-form-label">Extended Compensate</label>
-        <input type="number" class="form-control" [(ngModel)]="extendedCompensate" name="extendedCompensate">
-      </div>
-    </div>
-
-    <!-- <div class="row col-12 mb-3 mx-auto align-items-baseline justify-content-end">
-      <div class="col-5">
-        <label class="form-label align-items-center">Extended Compensate</label>
-      </div>
-      <div class="col-7">
-        <input type="number" class="form-control" id="exampleFormControlInput1">
-      </div>
-    </div> -->
 
     <div class="col-12 mx-auto">
-      <div class="d-flex justify-content-end ">
-        <button type="submit" class="btn btn-success btn-label">
-          <i class="bi bi-clipboard-plus-fill label-icon align-middle fs-16 me-2"></i>Add</button>
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-success btn-label mt-3">
+          <i
+            class="bi bi-person-plus-fill label-icon align-middle fs-16 me-2"
+          ></i
+          >Add
+        </button>
       </div>
     </div>
   </div>
 </form>
 
-<div class="modal-footer">
-</div>
+<div class="modal-footer"></div>
