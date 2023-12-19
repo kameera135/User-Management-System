@@ -7,6 +7,7 @@ import { tableOptions } from "src/app/shared/models/tableOptions";
 import { AppService } from "src/app/app.service";
 import { User } from "src/app/shared/models/Cams-new/User";
 import { UserViewModalComponent } from "src/app/shared/widget/config/user-view-modal/user-view-modal.component";
+import { UpdateConfirmationModalComponent } from "src/app/shared/widget/config/update-confirmation-modal/update-confirmation-modal.component";
 
 @Component({
   selector: "app-users-view",
@@ -130,12 +131,6 @@ export class UsersViewComponent {
     this.getUsers();
   }
 
-  getUsers() {}
-
-  getUsersByRole() {}
-
-  searchUser(item: any) {}
-
   onAddUserButtonClicked(): void {
     this.openModal("Add", "Add A User", "", "", "", "", "");
   }
@@ -176,7 +171,7 @@ export class UsersViewComponent {
     const modalRef = this.modalService.open(UserViewModalComponent, {
       size: "s",
       centered: true,
-      backdrop: "static",
+      // backdrop: "static",
       keyboard: false,
     });
 
@@ -200,15 +195,63 @@ export class UsersViewComponent {
             this.postUser(this.userModel);
           } else if (type == "Edit") {
             this.putUser(this.userModel);
+          } else if (type == "View") {
+            //confirmation modal open
+            const modalRefForConfirmation = this.modalService.open(
+              UpdateConfirmationModalComponent,
+              {
+                centered: true,
+                backdrop: "static",
+                keyboard: false,
+              }
+            );
+            modalRefForConfirmation.componentInstance.notificationMessage =
+              this.usersViewTableOptions.rowEditConfirmationMessage;
+            modalRefForConfirmation.result
+              .then((result) => {
+                if (result == "Yes") {
+                  console.log("Confirmed to edit");
+                  this.openModal(
+                    "Edit",
+                    "Update User",
+                    userName,
+                    firstName,
+                    lastName,
+                    role,
+                    email
+                  );
+                } else {
+                  console.log("Not confirmed to edit");
+                  this.openModal(
+                    "View",
+                    "User",
+                    userName,
+                    firstName,
+                    lastName,
+                    role,
+                    email
+                  );
+                }
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+            //second modal closed
           }
         } else {
-          console.log("Data not submitted from add building model");
+          console.log("Data not submitted from add User View Modal");
         }
       })
       .catch((error) => {
         console.log(error);
       });
   }
+
+  getUsers() {}
+
+  getUsersByRole() {}
+
+  searchUser(item: any) {}
 
   postUser(user: any) {
     console.log("Add", user);

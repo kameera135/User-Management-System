@@ -20,6 +20,9 @@ export class UserViewModalComponent {
   @Input() role!: any;
   @Input() email!: string;
 
+  buttonName!: string;
+  buttonIcon!: string;
+
   constructor(
     public activeModal: NgbActiveModal,
     private notifierService: NgToastService,
@@ -27,13 +30,16 @@ export class UserViewModalComponent {
   ) {}
 
   ngOnInit() {
-    console.log(
-      this.userName,
-      this.firstName,
-      this.lastName,
-      this.role,
-      this.email
-    );
+    if (this.type == "Add") {
+      this.buttonName = "Add";
+      this.buttonIcon = "bi-person-plus-fill";
+    } else if (this.type == "Edit") {
+      this.buttonName = "Save";
+      this.buttonIcon = "bi-floppy2-fill";
+    } else {
+      this.buttonName = "Edit";
+      this.buttonIcon = "bi-pencil-fill";
+    }
   }
 
   onFormSubmit() {
@@ -59,6 +65,13 @@ export class UserViewModalComponent {
     user.role = this.role;
     user.email = this.email;
 
+    // if (this.type == "Add") {
+    //   this.activeModal.close(user);
+    // } else if (this.type == "Edit") {
+    //   this.activeModal.close(user);
+    // } else {
+    //   this.activeModal.close(user);
+    // }
     this.activeModal.close(user);
   }
 }
