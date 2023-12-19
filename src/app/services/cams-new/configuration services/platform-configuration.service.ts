@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { AppService } from "src/app/app.service";
-import { PlatformConfigurationComponent } from "src/app/pages/modules/tbs/platform-configuration/platform-configuration.component";
+import { PlatformConfigurationComponent } from "src/app/pages/modules/cams-new/platform-configuration/platform-configuration.component";
 import { AssertTreeNode } from "src/app/shared/models/assertTreeModel";
 import { AuthService } from "src/app/auth/auth.service";
 

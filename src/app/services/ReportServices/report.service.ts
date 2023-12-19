@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import * as Excel from "exceljs";
 import { AppService } from "src/app/app.service";
-import { PlatformConfigurationComponent } from "src/app/pages/modules/tbs/platform-configuration/platform-configuration.component";
+import { PlatformConfigurationComponent } from "src/app/pages/modules/cams-new/platform-configuration/platform-configuration.component";
 
 @Injectable({
   providedIn: "root",
