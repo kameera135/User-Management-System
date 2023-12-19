@@ -7,26 +7,28 @@ import { ScrollspyDirective } from './scrollspy.directive';
 import { FormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
+import { WidgetModule } from "./widget/widget.module";
 
 
 
 @NgModule({
-  declarations: [
-    BreadcrumbsComponent,
-    ScrollspyDirective,
-  ],
-  imports: [
-    CommonModule,
-    NgbNavModule,
-    NgbAccordionModule,
-    NgbDropdownModule,
-    FormsModule,
-    MatRadioModule, 
-    MatButtonModule
-  ],
-  exports: [
-    BreadcrumbsComponent,
-    ScrollspyDirective
-  ]
+    declarations: [
+        BreadcrumbsComponent,
+        ScrollspyDirective,
+    ],
+    exports: [
+        BreadcrumbsComponent,
+        ScrollspyDirective
+    ],
+    imports: [
+        CommonModule,
+        NgbNavModule,
+        NgbAccordionModule,
+        NgbDropdownModule,
+        FormsModule,
+        MatRadioModule,
+        MatButtonModule,
+        WidgetModule
+    ]
 })
 export class SharedModule { }

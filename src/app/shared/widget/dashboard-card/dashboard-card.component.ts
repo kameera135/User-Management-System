@@ -25,6 +25,7 @@ export class DashboardCardComponent {
 
     this.router.navigate([path]);
   }
+
 }
 
 

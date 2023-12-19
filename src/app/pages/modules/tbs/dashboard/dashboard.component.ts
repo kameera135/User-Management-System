@@ -13,104 +13,62 @@ export class DashboardComponent {
   loadingInProgress: boolean = false;
 
   hasAlert: boolean = false;
+  showAddTile: boolean = true;
 
-  menuItems: any = [];
+  menuItems: any[] = [];
   menus: any = [
     {
-      label: "Users",
+      //label: "Users",
       subItems: [
         {
           label: "Users ",
           path: "/users-view",
           description: "View users and customize users",
         },
-        // {
-        //   label: "View Invoice",
-        //   path: "/view-invoice",
-        //   description:
-        //     "View invoices for Tenants and download the invoice as a PDF.",
-        // },
-        // {
-        //   label: "Send Invoice",
-        //   path: "/send-invoice",
-        //   description:
-        //     "Manually email invoices to tenants (Individual Or Bulk)",
-        // },
       ],
     },
+    
     {
-      label: "Configuration",
-      subItems: [
-        {
-          label: "Platform Configuration",
-          path: "/platform-configuration",
-          description: "Customize platform configuration",
-        },
-        {
-          label: "Feature Configuration",
-          path: "/feature-configuration",
-          description: "Customize feature configuration",
-        },
-        {
-          label: "Profile Configuration",
-          path: "/profile-configuration",
-          description: "Customize profile configuration",
-        },
-      ],
-    },
-    {
-      label: "Activity Logs",
+      //label: "Activity Logs",
       subItems: [
         {
           label: "Activity Logs",
           path: "/activity-logs",
           description: "View Activity Logs",
         },
-        // {
-        //   label: "Meter Compensate",
-        //   path: "/meter-compensate",
-        //   description: "View meter compensates and add meter compensates",
-        // },
-        // {
-        //   label: "Meter Daily Summary",
-        //   path: "/meter-daily-summary",
-        //   description: "View summary of daily consumption per Meters",
-        // },
-        // {
-        //   label: "Manual Meter Readings",
-        //   path: "/manual-meter-readings",
-        //   description:
-        //     "View manual meter readings and add or delete meter readings",
-        // },
       ],
     },
     {
-      label: "User Account",
+      //label: "User Account",
       subItems: [
         {
           label: "User Account",
           path: "/user-account",
           description: "Customize user account.",
         },
-        // {
-        //   label: "Meter Daily Summary",
-        //   path: "/meter-daily-summary",
-        //   description: "View summary of daily consumption per Meters",
-        // },
-        // {
-        //   label: "Manual Meter Readings",
-        //   path: "/manual-meter-readings",
-        //   description:
-        //     "View manual meter readings and add or delete meter readings",
-        // },
-        // {
-        //   label: "Activity Logs",
-        //   path: "/activity-logs",
-        //   description: "View Activity Logs data and acknowledge Activity Logss",
-        //   hasAlert: false,
-        // },
       ],
     },
+    {
+      //label: "Configuration",
+      subItems: [
+        {
+          label: "Configuration",
+          path: "/platform-configuration",
+          description: "Customize platform configuration",
+        },
+      ],
+    },
+    {
+      //label: "Activity Logs",
+      subItems: [
+        {
+          label: "Add Platform",
+          path: "",
+          description: "Add new platforms",
+        },
+      ],
+    },
+    
   ];
 
   constructor(
@@ -135,12 +93,48 @@ export class DashboardComponent {
         this.hasAlert = result.hasAlert;
 
         if (this.hasAlert) {
-          this.menuItems[2].subItems[4].hasAlert = true;
+          this.menuItems[4].subItems[0].hasAlert = true;
         }
       },
       error: (error) => {
         console.log(error);
       },
     });
+  }
+
+  addTile(): void {
+    // Find the 'Add Platform' menu item in the 'menus' array
+    const addPlatformMenuItem = this.menus.find((menu: { subItems: any[]; }) => menu.subItems.some((subItem: { label: string; }) => subItem.label === 'Add Platform'));
+
+    if (addPlatformMenuItem) {
+      // Create a new tile and add it to the 'Add Platform' subItems array
+      const newTile = {
+        label: "New Tile",
+        path: "/new-tile-path",
+        description: "Description of the new tile",
+        hasAlert: false, 
+      };
+
+      addPlatformMenuItem.subItems.push(newTile);
+
+      // Update the 'menuItems' array to reflect the changes
+      this.updateDashboard();
+    }
+  }
+
+  updateDashboard(): void {
+    let tiles: any[] = [];
+    for (let menu of this.menus) {
+      tiles = tiles.concat(menu.subItems);
+    }
+    this.menuItems = this.chunkArray(tiles, 3);
+  }
+
+  chunkArray(arr: any[], size: number): any[][] {
+    const chunkedArr = [];
+    for (let i = 0; i < arr.length; i += size) {
+      chunkedArr.push(arr.slice(i, i + size));
+    }
+    return chunkedArr;
   }
 }

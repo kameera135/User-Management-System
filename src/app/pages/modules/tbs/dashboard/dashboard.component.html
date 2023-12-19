@@ -4,10 +4,21 @@
 
 <div class="row mb-3 mx-1  {{ loadingInProgress ? 'hidden' : '' }}">
   <div class="container">
-    <div class="row g-5">
-      <div class="col" *ngFor="let menu of menuItems">
-        <app-dashboard-card [title]="menu.label" [subMenus]="menu.subItems"></app-dashboard-card>
+    <div class="row">
+      <!-- Include the SidebarComponent -->
+      
+      <div class="col-md-4" *ngFor="let menu of menuItems">
+        <!-- <app-dashboard-card [title]="menu.label" [subMenus]="menu.subItems"></app-dashboard-card> -->
+        <div class="dashboard-card">
+          <app-dashboard-card [subMenus]="menu.subItems"></app-dashboard-card>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4" *ngIf="showAddTile">
+          <app-dashboard-card (click)="addTile()"></app-dashboard-card>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
