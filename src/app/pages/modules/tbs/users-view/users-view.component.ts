@@ -8,6 +8,7 @@ import { AppService } from "src/app/app.service";
 import { User } from "src/app/shared/models/Cams-new/User";
 import { UserViewModalComponent } from "src/app/shared/widget/config/user-view-modal/user-view-modal.component";
 import { UpdateConfirmationModalComponent } from "src/app/shared/widget/config/update-confirmation-modal/update-confirmation-modal.component";
+import { MessageService } from "src/app/services/PopupMessages/message.service";
 
 @Component({
   selector: "app-users-view",
@@ -28,9 +29,11 @@ export class UsersViewComponent {
   searchTerm!: string;
 
   roleList: any[] = [{ value: "All", id: 1 }];
-
   selectedRole: string = "All";
+
   UserUpdatedNotificationMessage!: string;
+
+  serchedTerm!: string;
 
   usersViewTableOptions: tableOptions = new tableOptions();
 
@@ -77,7 +80,8 @@ export class UsersViewComponent {
     private shared: UsersViewService,
     private notifierService: NgToastService,
     private modalService: NgbModal,
-    private appService: AppService
+    private appService: AppService,
+    private alertService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -96,10 +100,10 @@ export class UsersViewComponent {
       this.appService.popUpMessageConfig[0].UpdateUserConfirmationMessage;
     this.usersViewTableOptions.rowDeleteConfirmationMessage =
       this.appService.popUpMessageConfig[0].DeleteUserConfirmationMessage;
-    this.usersViewTableOptions.recordDeletedNotificationMessage =
-      this.appService.popUpMessageConfig[0].UserDeletedNotificationMessage;
-    this.UserUpdatedNotificationMessage =
-      this.appService.popUpMessageConfig[0].UserUpdatedNotificationMessage;
+    // this.usersViewTableOptions.recordDeletedNotificationMessage =
+    //   this.appService.popUpMessageConfig[0].UserDeletedNotificationMessage;
+    // this.UserUpdatedNotificationMessage =
+    //   this.appService.popUpMessageConfig[0].UserUpdatedNotificationMessage;
 
     this.breadcrumbService.loadBreadcrumbValue([
       { label: "Users", active: false },
@@ -109,6 +113,50 @@ export class UsersViewComponent {
 
   loadData() {
     this.loadingInProgress = true;
+    if (
+      (this.serchedTerm == undefined ||
+        this.serchedTerm == null ||
+        this.serchedTerm == "") &&
+      (this.selectedRole == undefined ||
+        this.selectedRole == null ||
+        this.selectedRole == "All" ||
+        this.selectedRole == "")
+    ) {
+      this.getAllUsers();
+    } else if (
+      (this.serchedTerm != undefined ||
+        this.serchedTerm != null ||
+        this.serchedTerm != "") &&
+      (this.selectedRole == undefined ||
+        this.selectedRole == null ||
+        this.selectedRole == "All" ||
+        this.selectedRole == "")
+    ) {
+      this.searchUsers(this.serchedTerm);
+    } else if (
+      (this.serchedTerm == undefined ||
+        this.serchedTerm == null ||
+        this.serchedTerm == "") &&
+      (this.selectedRole != undefined ||
+        this.selectedRole != null ||
+        this.selectedRole != "All" ||
+        this.selectedRole != "")
+    ) {
+      this.getUsersByRole(this.serchedTerm);
+    } else if (
+      (this.serchedTerm != undefined ||
+        this.serchedTerm != null ||
+        this.serchedTerm != "") &&
+      (this.selectedRole != undefined ||
+        this.selectedRole != null ||
+        this.selectedRole != "All" ||
+        this.selectedRole != "")
+    ) {
+      this.searchUsersByRole(this.serchedTerm, this.selectedRole);
+    } else {
+      this.getAllUsers();
+      this.alertService.sideErrorAlert("Error", "Could not retrive data");
+    }
   }
 
   updateTable() {
@@ -124,11 +172,11 @@ export class UsersViewComponent {
 
   onPaginationChange(page: number): void {
     this.selectedPage = page;
-    this.getUsers();
+    this.loadData();
   }
   onPagesizeChange(pageSize: number): void {
     this.selectedPageSize = pageSize;
-    this.getUsers();
+    this.loadData();
   }
 
   onAddUserButtonClicked(): void {
@@ -171,7 +219,7 @@ export class UsersViewComponent {
     const modalRef = this.modalService.open(UserViewModalComponent, {
       size: "s",
       centered: true,
-      // backdrop: "static",
+      backdrop: "static",
       keyboard: false,
     });
 
@@ -247,16 +295,234 @@ export class UsersViewComponent {
       });
   }
 
-  getUsers() {}
+  getSearchTerm($event: KeyboardEvent) {
+    this.selectedPage = 1;
+    if ($event.key === "Enter") {
+      this.loadData();
+    }
+  }
 
-  getUsersByRole() {}
+  getAllUsers() {
+    this.shared
+      .getAllUsers(this.selectedPage, this.selectedPageSize)
+      .subscribe({
+        next: (response) => {
+          this.userList = response.response;
+          this.totalDataCount = response.rowCount;
+          this.updateTable();
+          this.loadingInProgress = false;
+        },
+        error: (error) => {
+          this.alertService.sideErrorAlert(
+            "Error",
+            this.appService.popUpMessageConfig[0]
+              .GetUserListSuccessSideAlertMessage
+          );
 
-  searchUser(item: any) {}
+          this.userList = [];
+          this.totalDataCount = 0;
+
+          this.updateTable();
+          this.loadingInProgress = false;
+        },
+      });
+  }
+
+  getUsersByRole(role: string) {
+    this.shared
+      .getUsersByRole(role, this.selectedPage, this.selectedPageSize)
+      .subscribe({
+        next: (response) => {
+          this.userList = response.response;
+          this.totalDataCount = response.rowCount;
+          this.updateTable();
+          this.loadingInProgress = false;
+        },
+        error: (error) => {
+          this.alertService.sideErrorAlert(
+            "Error",
+            this.appService.popUpMessageConfig[0]
+              .GetUserListSuccessSideAlertMessage
+          );
+
+          this.userList = [];
+          this.totalDataCount = 0;
+
+          this.updateTable();
+          this.loadingInProgress = false;
+        },
+      });
+  }
+
+  searchUsers(serchedTerm: string) {
+    this.shared
+      .getSearchedUsers(serchedTerm, this.selectedPage, this.selectedPageSize)
+      .subscribe({
+        next: (response) => {
+          this.userList = response.response;
+          this.totalDataCount = response.rowCount;
+
+          if (this.totalDataCount > 0) {
+            this.updateTable();
+            this.loadingInProgress = false;
+          } else {
+            this.alertService.warningSweetAlertMessage(
+              this.appService.popUpMessageConfig[0].NoDataNotificationMessage,
+              "No Data!",
+              4000
+            );
+            this.getAllUsers();
+          }
+        },
+        error: (error) => {
+          this.alertService.sideErrorAlert(
+            "Error",
+            this.appService.popUpMessageConfig[0]
+              .GetUserListSuccessSideAlertMessage
+          );
+
+          this.userList = [];
+          this.totalDataCount = 0;
+
+          this.updateTable();
+          this.loadingInProgress = false;
+        },
+      });
+  }
+
+  searchUsersByRole(serchedTerm: string, role: string) {
+    this.shared
+      .getSearchedUsersByRole(
+        serchedTerm,
+        role,
+        this.selectedPage,
+        this.selectedPageSize
+      )
+      .subscribe({
+        next: (response) => {
+          this.userList = response.response;
+          this.totalDataCount = response.rowCount;
+          if (this.totalDataCount > 0) {
+            this.updateTable();
+            this.loadingInProgress = false;
+          } else {
+            this.alertService.warningSweetAlertMessage(
+              this.appService.popUpMessageConfig[0].NoDataNotificationMessage,
+              "No Data!",
+              4000
+            );
+            this.getAllUsers();
+          }
+        },
+        error: (error) => {
+          this.alertService.sideErrorAlert(
+            "Error",
+            this.appService.popUpMessageConfig[0]
+              .GetUserListSuccessSideAlertMessage
+          );
+
+          this.userList = [];
+          this.totalDataCount = 0;
+
+          this.updateTable();
+          this.loadingInProgress = false;
+        },
+      });
+  }
 
   postUser(user: any) {
     console.log("Add", user);
+    this.shared.postUser(user).subscribe({
+      next: (response) => {
+        console.log(response);
+
+        this.alertService.sideSuccessAlert(
+          "Success",
+          this.appService.popUpMessageConfig[0].UserAddedSuccessSideAlertMessage
+        );
+        this.alertService.successSweetAlertMessage(
+          this.appService.popUpMessageConfig[0].UserAddedNotificationMessage,
+          "Updated!",
+          4000
+        );
+
+        this.loadData();
+      },
+      error: (error) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0].UserAddedErrorSideAlertMessage
+        );
+        //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
+      },
+    });
   }
-  putUser(user: any) {
+
+  putUser(user: User): void {
     console.log("Edit", user);
+    this.shared.putUser(user).subscribe({
+      next: (response) => {
+        console.log(response);
+
+        this.alertService.sideSuccessAlert(
+          "Success",
+          this.appService.popUpMessageConfig[0]
+            .UserUpdatedSuccessSideAlertMessage
+        );
+        this.alertService.successSweetAlertMessage(
+          this.appService.popUpMessageConfig[0].UserUpdatedNotificationMessage,
+          "Updated!",
+          4000
+        );
+
+        this.loadData();
+      },
+      error: (error) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0].UserUpdatedErrorSideAlertMessage
+        );
+        //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
+      },
+    });
+  }
+
+  deleteUsers(items: any): void {
+    let ids: number[] = [];
+
+    items.forEach((element: any) => {
+      ids.push(element.id);
+    });
+
+    this.removeUsers(ids);
+  }
+
+  removeUsers(ids: number[]): void {
+    this.shared.deleteUser(ids).subscribe({
+      next: (response) => {
+        console.log(response);
+
+        this.alertService.sideSuccessAlert(
+          "Success",
+          this.appService.popUpMessageConfig[0]
+            .UserDeletedSuccessSideAlertMessage
+        );
+        this.alertService.successSweetAlertMessage(
+          this.appService.popUpMessageConfig[0].UserDeletedNotificationMessage,
+          "Deleted!",
+          4000
+        );
+
+        this.loadData();
+      },
+
+      error: (error) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0].UserDeletedErrorSideAlertMessage
+        );
+        //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
+      },
+    });
   }
 }

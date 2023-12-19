@@ -427,18 +427,18 @@ export class TableComponent {
       this.onDelete.emit(tempSelectedItemArray);
     }
 
-    this.notifierService.success({
-      type: "success",
-      detail: "Deleted",
-      summary: "Successfully deleted",
-      duration: 2000,
-    });
+    // this.notifierService.success({
+    //   type: "success",
+    //   detail: "Deleted",
+    //   summary: "Successfully deleted",
+    //   duration: 2000,
+    // });
 
-    this.sweetAlert.successSweetAlertMessage(
-      this.recordDeletedNotificationMessage,
-      "Deleted!",
-      timerInterval
-    );
+    // this.sweetAlert.successSweetAlertMessage(
+    //   this.recordDeletedNotificationMessage,
+    //   "Deleted!",
+    //   timerInterval
+    // );
     // Swal.fire({
     //   title: "Deleted!",
 

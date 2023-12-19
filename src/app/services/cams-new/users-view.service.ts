@@ -1,22 +1,92 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { AppService } from "src/app/app.service";
-import { AuthService } from "src/app/auth/auth.service";
-import { Meter } from "src/app/shared/models/Tbs/meter";
-import { AssertTreeNode } from "src/app/shared/models/assertTreeModel";
+import { PaginatedResponse } from "src/app/shared/models/Cams-new/PaginatedResponse";
+import { User } from "src/app/shared/models/Cams-new/User";
 
 @Injectable({
   providedIn: "root",
 })
 export class UsersViewService {
-  constructor(
-    private appService: AppService,
-    private httpClient: HttpClient,
-    private authService: AuthService
-  ) {}
+  constructor(private appService: AppService, private httpClient: HttpClient) {}
 
-  baseUrl = this.appService.appConfig[0].apiUrl;
-  user = this.appService.user.id;
+  apiUrl = this.appService.appConfig[0].apiUrl;
+  user = this.appService.user;
 
-  getAllUsers() {}
+  getAllUsers(page: number, pageSize: number) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("viewedBy", this.user.id);
+    queryParams = queryParams.append("page", page);
+    queryParams = queryParams.append("pageSize", pageSize);
+
+    const url = `${this.apiUrl}/end-point`;
+    return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
+  }
+
+  getUsersByRole(role: string, page: number, pageSize: number) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("viewedBy", this.user.id);
+    queryParams = queryParams.append("role", role);
+    queryParams = queryParams.append("page", page);
+    queryParams = queryParams.append("pageSize", pageSize);
+
+    const url = `${this.apiUrl}/end-point`;
+    return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
+  }
+
+  getSearchedUsers(searchedTerm: string, page: number, pageSize: number) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("viewedBy", this.user.id);
+    queryParams = queryParams.append("searchedTerm", searchedTerm);
+    queryParams = queryParams.append("page", page);
+    queryParams = queryParams.append("pageSize", pageSize);
+
+    const url = `${this.apiUrl}/end-point`;
+    return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
+  }
+
+  getSearchedUsersByRole(
+    searchedTerm: string,
+    role: string,
+    page: number,
+    pageSize: number
+  ) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("viewedBy", this.user.id);
+    queryParams = queryParams.append("searchedTerm", searchedTerm);
+    queryParams = queryParams.append("role", role);
+    queryParams = queryParams.append("page", page);
+    queryParams = queryParams.append("pageSize", pageSize);
+
+    const url = `${this.apiUrl}/end-point`;
+    return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
+  }
+
+  postUser(model: User) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("createdBy", this.user.id);
+
+    return this.httpClient.post(`${this.apiUrl}/end-point`, model, {
+      params: queryParams,
+    });
+  }
+
+  putUser(model: User) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("updatedBy", this.user.id);
+
+    return this.httpClient.put(`${this.apiUrl}/end-point`, model, {
+      params: queryParams,
+    });
+  }
+
+  deleteUser(list: number[]) {
+    //list is the id list of users which have to be deleted
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("deletedBy", this.user.id);
+
+    return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
+      params: queryParams,
+    });
+  }
 }
