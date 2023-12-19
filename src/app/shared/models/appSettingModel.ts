@@ -1,7 +1,6 @@
 import { dateFormat } from "./dateFormat";
 
 export interface appSettingModel {
-
   version: string;
 
   apiUrl: string;
@@ -39,4 +38,6 @@ export interface appSettingModel {
   consumptionReportName: any[];
 
   consumptionSheetName: any[];
+
+  roleList: any[];
 }

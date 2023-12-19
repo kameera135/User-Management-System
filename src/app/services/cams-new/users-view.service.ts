@@ -17,4 +17,6 @@ export class UsersViewService {
 
   baseUrl = this.appService.appConfig[0].apiUrl;
   user = this.appService.user.id;
+
+  getAllUsers() {}
 }

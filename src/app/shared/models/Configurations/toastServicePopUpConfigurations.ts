@@ -1,22 +1,29 @@
 export interface toastServicePopUpConfigurations {
+  messageDurationInMiliSeconds: number;
 
-    messageDurationInMiliSeconds: number;
+  errorMessageDurationInMiliSeconds: number;
 
-    errorMessageDurationInMiliSeconds: number;
+  SomethisngWentWrongMessage: string;
 
-    SomethisngWentWrongMessage: string;
+  UpdatingMessage: string;
 
-    UpdatingMessage: string;
+  ValidationErrorMessageHeadder: string;
 
-    ValidationErrorMessageHeadder: string;
+  ErrorMessageHeadder: string;
 
-    ErrorMessageHeadder: string;
+  SuccessMessageHeadder: string;
 
-    SuccessMessageHeadder: string;
+  FailedMessageHeadder: string;
 
-    FailedMessageHeadder: string;
+  ManualMeterReadingsRowDeleteConfirmationMessage: string;
 
-    ManualMeterReadingsRowDeleteConfirmationMessage: string;
+  ManualMeterReadingsRecordDeletedNotificationMessage: string;
 
-    ManualMeterReadingsRecordDeletedNotificationMessage: string;
+  UpdateUserConfirmationMessage: string;
+
+  DeleteUserConfirmationMessage: string;
+
+  UserDeletedNotificationMessage: string;
+
+  UserUpdatedNotificationMessage: string;
 }

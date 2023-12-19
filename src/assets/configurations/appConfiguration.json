@@ -51,5 +51,13 @@
 	"maximumYearRangeForReport": 10,
 	"maximumYearRangeForMeterInfo": 10,
 	"billingDate": "5",
-	"reportFillColor": "79CBDF"
+	"reportFillColor": "79CBDF",
+
+
+	
+	"roleList":[
+    	{ "value": "Tenant", "id": 2 },
+    	{ "value": "TM", "id": 3 },
+    	{ "value": "FM", "id": 4 }
+	]
 }

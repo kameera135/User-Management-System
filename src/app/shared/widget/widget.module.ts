@@ -45,6 +45,7 @@ import { DashboardCardComponent } from "./dashboard-card/dashboard-card.componen
 import { UserViewModalComponent } from "./config/user-view-modal/user-view-modal.component";
 import { ActivityLogsModalComponent } from "./config/activity-logs-modal/activity-logs-modal.component";
 import { MatRadioModule } from "@angular/material/radio";
+import { UpdateConfirmationModalComponent } from './config/update-confirmation-modal/update-confirmation-modal.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { MatRadioModule } from "@angular/material/radio";
     DashboardCardComponent,
     UserViewModalComponent,
     ActivityLogsModalComponent,
+    UpdateConfirmationModalComponent,
   ],
   imports: [
     CommonModule,

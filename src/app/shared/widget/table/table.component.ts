@@ -10,6 +10,7 @@ import {
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgToastService } from "ng-angular-popup";
 import { AppService } from "src/app/app.service";
+import { MessageService } from "src/app/services/PopupMessages/message.service";
 
 // Sweet Alert
 import Swal from "sweetalert2";
@@ -41,9 +42,6 @@ export class TableComponent {
   @Input() selectedPageSize: number = 5;
 
   @Input() pageSizeArray: any[] = ["5", "10", "20", "50", "100"];
-
-
-
 
   @Output() onEdit = new EventEmitter(); //Handles Edit click
 
@@ -111,9 +109,9 @@ export class TableComponent {
 
   allowtoReject: boolean = false;
 
-  allowtoDisplayAcknowledged: boolean = false
+  allowtoDisplayAcknowledged: boolean = false;
 
-  allowtoAcknowledge: boolean = false
+  allowtoAcknowledge: boolean = false;
 
   allowtoGenerate: boolean = false;
 
@@ -167,17 +165,16 @@ export class TableComponent {
 
   reject_single_record_permission: string = "";
 
-
   constructor(
     private modalService: NgbModal,
     private notifierService: NgToastService,
     private appService: AppService,
+    private sweetAlert: MessageService
   ) {
     this.collectionSize = this.dataArray.length;
   }
 
   ngOnInit(): void {
-
     if (
       this.dataArray == undefined ||
       this.dataArray == null ||
@@ -211,18 +208,20 @@ export class TableComponent {
 
   //This method set the properties for the datatable
   setTableOptions() {
-
     if (this.dataTableOptions != undefined && this.dataTableOptions != null) {
+      this.view_single_record_permission =
+        this.dataTableOptions.view_single_Record_permission;
 
-      this.view_single_record_permission = this.dataTableOptions.view_single_Record_permission;
+      this.approve_single_record_permission =
+        this.dataTableOptions.approve_single_record_permission;
 
-      this.approve_single_record_permission = this.dataTableOptions.approve_single_record_permission;
-
-      this.reject_single_record_permission = this.dataTableOptions.reject_single_record_permission;
+      this.reject_single_record_permission =
+        this.dataTableOptions.reject_single_record_permission;
 
       this.allowtoUpdate = this.dataTableOptions.allowUpdateButton;
 
-      this.allowtoUpdateMeterReset = this.dataTableOptions.allowUpdateMeterResetButton;
+      this.allowtoUpdateMeterReset =
+        this.dataTableOptions.allowUpdateMeterResetButton;
 
       this.allowtoAdd = this.dataTableOptions.allowAddButton;
 
@@ -234,7 +233,8 @@ export class TableComponent {
 
       this.allowtoAcknowledge = this.dataTableOptions.allowAcknowledgeButton;
 
-      this.allowtoDisplayAcknowledged = this.dataTableOptions.allowDisplayAcknowledgedButton;
+      this.allowtoDisplayAcknowledged =
+        this.dataTableOptions.allowDisplayAcknowledgedButton;
 
       this.allowtoReject = this.dataTableOptions.allowRejectButton;
 
@@ -248,7 +248,8 @@ export class TableComponent {
 
       this.allowExportAsExcel = this.dataTableOptions.allowExportAsExcel;
 
-      this.allowtoAddTenantManager = this.dataTableOptions.allowtoAddTenantManager;
+      this.allowtoAddTenantManager =
+        this.dataTableOptions.allowtoAddTenantManager;
 
       this.allowtoAddFacilityManager =
         this.dataTableOptions.allowtoAddFacilityManager;
@@ -433,23 +434,28 @@ export class TableComponent {
       duration: 2000,
     });
 
-    Swal.fire({
-      title: "Deleted!",
+    this.sweetAlert.successSweetAlertMessage(
+      this.recordDeletedNotificationMessage,
+      "Deleted!",
+      timerInterval
+    );
+    // Swal.fire({
+    //   title: "Deleted!",
 
-      text: this.recordDeletedNotificationMessage,
+    //   text: this.recordDeletedNotificationMessage,
 
-      icon: "success",
+    //   icon: "success",
 
-      confirmButtonColor: "#299cdb",
+    //   confirmButtonColor: "#299cdb",
 
-      timer: this.appService.popUpMessageConfig[0].messageDurationInMiliSeconds,
+    //   timer: this.appService.popUpMessageConfig[0].messageDurationInMiliSeconds,
 
-      timerProgressBar: true,
+    //   timerProgressBar: true,
 
-      willClose: () => {
-        clearInterval(timerInterval);
-      },
-    });
+    //   willClose: () => {
+    //     clearInterval(timerInterval);
+    //   },
+    // });
   }
 
   //Approve Record
@@ -578,12 +584,10 @@ export class TableComponent {
   }
 
   sortData(column: string, order: string) {
-
     this.currentSortedColumn = column;
 
     this.currentSortedOrder = order;
 
     this.onSort.emit([column, order]);
-
   }
 }
