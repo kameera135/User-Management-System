@@ -49,7 +49,7 @@
     "react-apexcharts": "^1.4.1",
     "rxjs": "^7.8.0",
     "simplebar-angular": "^3.2.4",
-    "sweetalert2": "^11.6.16",
+    "sweetalert2": "^11.6.13",
     "tslib": "^2.4.1",
     "zone.js": "^0.12.0"
   },
