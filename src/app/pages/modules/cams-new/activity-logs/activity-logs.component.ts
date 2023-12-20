@@ -1,14 +1,13 @@
 import { Component } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { NgToastService } from "ng-angular-popup";
 import { AppService } from "src/app/app.service";
 import { MessageService } from "src/app/services/PopupMessages/message.service";
 import { BreadcrumbService } from "src/app/services/breadcrumb/breadcrumb.service";
 import { ActivityLogsService } from "src/app/services/cams-new/activity-logs.service";
-import { MeterReset } from "src/app/shared/models/Tbs/meterReset";
+import { ActivityLogData } from "src/app/shared/models/Cams-new/ActivityLogData";
 import { tableOptions } from "src/app/shared/models/tableOptions";
 import { ActivityLogsModalComponent } from "src/app/shared/widget/config/activity-logs-modal/activity-logs-modal.component";
-import Swal from "sweetalert2";
+
 @Component({
   selector: "app-activity-logs",
   templateUrl: "./activity-logs.component.html",
@@ -16,261 +15,346 @@ import Swal from "sweetalert2";
 })
 export class ActivityLogsComponent {
   loadingInProgress: boolean = false;
+
   selectedYear: string = new Date().getFullYear().toString();
   selectedMonth: string = (new Date().getMonth() + 1).toString();
-  serviceList: any[] = [];
   yearList: any[] = [];
   monthList: any[] = [];
-  tableData: any[] = [];
-  meterResetDataModel!: MeterReset;
-  meterResetData!: MeterReset[];
-  meterResetByMeterId!: any;
-  extensionTableOptions: tableOptions = new tableOptions();
+
+  userModel!: ActivityLogData;
+  userList!: ActivityLogData[];
+  userDetailsArray: any = [];
+
+  totalDataCount!: number;
+  selectedPage: number = 1;
+  selectedPageSize: number = 20;
+
+  searchTerm!: string;
+
+  roleList: any[] = [{ value: "All Roles", id: 1 }];
+  selectedRole: string = this.roleList[0].value;
+  platformList: any[] = [{ value: "All Platforms", id: 1 }];
+  selectedPlatform: string = this.platformList[0].value;
+
+  UserUpdatedNotificationMessage!: string;
+
+  serchedTerm!: string;
+
+  usersViewTableOptions: tableOptions = new tableOptions();
+
   headArray = [
-    { Head: "Meter ID", FieldName: "MeterCode", ColumnType: "Data" },
-    { Head: "Date", FieldName: "Date", ColumnType: "Data" },
-    {
-      Head: "Time Before Reset",
-      FieldName: "TimeBeforeReset",
-      ColumnType: "Data",
-    },
-    {
-      Head: "Value Before Reset",
-      FieldName: "ValueBeforeReset",
-      ColumnType: "Data",
-    },
-    { Head: "Reset Mode", FieldName: "ResetMode", ColumnType: "Data" },
-    { Head: "Reset Value", FieldName: "EndValue", ColumnType: "Data" },
-    { Head: "Start Value", FieldName: "StartValue", ColumnType: "Data" },
-    { Head: "", FieldName: "", ColumnType: "Action" },
+    { Head: "ID", FieldName: "ID", ColumnType: "Data" },
+    { Head: "User Name", FieldName: "UserName", ColumnType: "Data" },
+    { Head: "Platform", FieldName: "Platform", ColumnType: "Data" },
+    { Head: "Role", FieldName: "Role", ColumnType: "Data" },
+    { Head: "Activity Type", FieldName: "ActivityType", ColumnType: "Data" },
+    { Head: "Description", FieldName: "Description", ColumnType: "Data" },
+    { Head: "Time", FieldName: "Time", ColumnType: "Data" },
+    { Head: "Actions", FieldName: "", ColumnType: "Action" },
   ];
-  meterResetDataArray = [
+
+  //to remove
+  tableData = [
     {
-      Id: 0,
-      Date: "",
-      TimeBeforeReset: "",
-      ValueBeforeReset: 0,
-      MeterCode: "",
-      LastReading: 0,
-      EndValue: 0,
-      StartValue: 0,
-      ResetMode: "",
-      Acknowledge: false,
-      changeButton: false,
+      ID: "1254123658",
+      UserName: "Harper.Bennett",
+      Platform: "TBS",
+      Role: "Tenant",
+      ActivityType: "SingleSignOn-Auth",
+      Description: "Logged into the platform",
+      Time: "Dec 19, 2023, 9:15:54 PM",
+      Details: {
+        Setting: "PS_PAGE",
+        Data: 20,
+        Description: "Pagination Page Size",
+      },
+    },
+    {
+      ID: "4512589562",
+      UserName: "Mia.Rodriguez",
+      Platform: "TBS",
+      Role: "Tenant",
+      ActivityType: "SingleSignOn-Auth",
+      Description: "Logged into the platform",
+      Time: "Dec 19, 2023, 9:05:50 PM",
+      Details: "userId = 2218",
+    },
+    {
+      ID: "7895624568",
+      UserName: "Nolan.Sullivan",
+      Platform: "TBS",
+      Role: "Tenant",
+      ActivityType: "SingleSignOn-Auth",
+      Description: "Logged into the platform",
+      Time: "Dec 19, 2023, 19:13:43 PM",
+      Details: [
+        {
+          Date: "2023-10-22T00:00:00",
+          NormalConsumption: 27.745999384,
+          ExtendedConsumption: 25.045599445,
+        },
+        {
+          Date: "2023-10-21T00:00:00",
+          NormalConsumption: 27.777549384,
+          ExtendedConsumption: 25.000199445,
+        },
+        {
+          Date: "2023-10-12T00:00:00",
+          NormalConsumption: 27.725999384,
+          ExtendedConsumption: 29.000199445,
+        },
+      ],
     },
   ];
+
   constructor(
     private breadcrumbService: BreadcrumbService,
     private shared: ActivityLogsService,
-    private notifierService: NgToastService,
     private modalService: NgbModal,
     private appService: AppService,
-    private sweetAlert: MessageService
+    private alertService: MessageService
   ) {}
 
   ngOnInit(): void {
-    this.breadcrumbService.loadBreadcrumbValue([
-      { label: "Activity Logs", active: false },
-      { label: "Activity Logs", active: true },
-    ]);
-
     const currentYear = new Date().getFullYear();
     this.yearList = Array.from(
-      { length: this.appService.appConfig[0].maximumYearRangeForMeterInfo },
+      { length: this.appService.appConfig[0].maximumYearRange },
       (_, index) => {
         const year = currentYear - index;
         return { value: year.toString(), id: index + 1 };
       }
     );
 
-    //this.monthList = this.shared.monthList;
-    this.extensionTableOptions.allowAcknowledgeButton = true;
-    this.extensionTableOptions.allowDisplayAcknowledgedButton = true;
-    this.extensionTableOptions.allowUpdateMeterResetButton = true;
-    this.extensionTableOptions.recordApproveConfirmationMessage =
-      "Do you Acknowledge?";
-    this.extensionTableOptions.recordRejectingConfirmationMessage =
-      "Do you want to remove this Activity Logs record?";
-    this.extensionTableOptions.rowEditConfirmationMessage =
-      "Do you want to edit this Activity Logs record?";
-    this.getMeterResetData();
-  }
-  getMeterResetData() {
-    if (this.selectedYear != "" && this.selectedMonth != "") {
-      this.loadData();
+    this.monthList = this.appService.appConfig[0].months;
+
+    var roles = this.appService.appConfig[0].roleList;
+    for (let i = 0; i < roles.length; i++) {
+      this.roleList.push(roles[i]);
     }
+
+    //to edit
+    var platforms = [
+      { value: "AES", id: 2 },
+      { value: "TBS", id: 3 },
+      { value: "EMS", id: 4 },
+    ];
+    for (let i = 0; i < platforms.length; i++) {
+      this.platformList.push(platforms[i]);
+    }
+
+    this.usersViewTableOptions.allowViewActionsButton = true;
+
+    this.breadcrumbService.loadBreadcrumbValue([
+      { label: "Users", active: false },
+      { label: "Users", active: true },
+    ]);
   }
+
   loadData() {
-    // this.loadingInProgress = true;
-    // this.shared
-    //   .getMeterResetData(this.selectedYear, this.selectedMonth)
-    //   .subscribe({
-    //     next: (result: any) => {
-    //       this.meterResetData = result;
-    //       this.updateTable();
-    //       this.tableData = this.meterResetDataArray;
-    //       console.log("get tableData");
-    //       console.log(this.tableData);
-    //       this.loadingInProgress = false;
-    //     },
-    //     error: (error) => {
-    //       console.log("Getting meter compensate data: error");
-    //       console.log(error);
-    //       this.meterResetDataArray = [];
-    //       this.notifierService.error({
-    //         detail: "Error",
-    //         summary: "Could not retrieve the data list.",
-    //         duration: 4000,
-    //       });
-    //       this.loadingInProgress = false;
-    //     },
-    //   });
+    this.loadingInProgress = true;
+    // if (
+    //   (this.serchedTerm == undefined ||
+    //     this.serchedTerm == null ||
+    //     this.serchedTerm == "") &&
+    //   (this.selectedRole == undefined ||
+    //     this.selectedRole == null ||
+    //     this.selectedRole == "All" ||
+    //     this.selectedRole == "")
+    // ) {
+    //   this.getAllUsers();
+    // } else if (
+    //   (this.serchedTerm != undefined ||
+    //     this.serchedTerm != null ||
+    //     this.serchedTerm != "") &&
+    //   (this.selectedRole == undefined ||
+    //     this.selectedRole == null ||
+    //     this.selectedRole == "All" ||
+    //     this.selectedRole == "")
+    // ) {
+    //   this.searchUsers(this.serchedTerm);
+    // } else if (
+    //   (this.serchedTerm == undefined ||
+    //     this.serchedTerm == null ||
+    //     this.serchedTerm == "") &&
+    //   (this.selectedRole != undefined ||
+    //     this.selectedRole != null ||
+    //     this.selectedRole != "All" ||
+    //     this.selectedRole != "")
+    // ) {
+    //   this.getUsersByRole(this.serchedTerm);
+    // } else if (
+    //   (this.serchedTerm != undefined ||
+    //     this.serchedTerm != null ||
+    //     this.serchedTerm != "") &&
+    //   (this.selectedRole != undefined ||
+    //     this.selectedRole != null ||
+    //     this.selectedRole != "All" ||
+    //     this.selectedRole != "")
+    // ) {
+    //   this.searchUsersByRole(this.serchedTerm, this.selectedRole);
+    // } else {
+    //   this.getAllUsers();
+    //   this.alertService.sideErrorAlert("Error", "Could not retrive data");
+    // }
   }
+
   updateTable() {
-    this.meterResetDataArray = this.meterResetData.map((item) => ({
-      Id: item.id,
-      Date: item.date.slice(0, -9),
-      TimeBeforeReset: item.timeBeforeReset,
-      ValueBeforeReset: item.valueBeforeReset,
-      MeterCode: item.meterId,
-      LastReading: item.lastReading,
-      EndValue: item.lastValue,
-      StartValue: item.startValue,
-      ResetMode: item.resetMode,
-      Acknowledge: item.ack,
-      changeButton: item.ack === true ? true : false,
+    this.userDetailsArray = this.userList.map((item) => ({
+      UserName: item.username,
+      Role: item.role,
     }));
-  }
-  editMeterReset(item: any): void {
-    const addReadingsModal = this.modalService.open(
-      ActivityLogsModalComponent,
-      {
-        size: "md",
-        centered: true,
-        backdrop: "static",
-        keyboard: false,
-      }
-    );
-    addReadingsModal.componentInstance.modalTitle = "Edit Activity Logs";
-    addReadingsModal.componentInstance.date = item.Date;
-    addReadingsModal.componentInstance.timeBeforeReset = item.TimeBeforeReset;
-    addReadingsModal.componentInstance.valueBeforeReset = item.ValueBeforeReset;
-    addReadingsModal.componentInstance.meterCode = item.MeterCode;
-    addReadingsModal.componentInstance.endValue = item.EndValue;
-    addReadingsModal.componentInstance.startValue = item.StartValue;
-    addReadingsModal.componentInstance.resetMode = item.ResetMode;
-    addReadingsModal.componentInstance.ack = item.Ack;
-    this.meterResetByMeterId = this.meterResetData.find(
-      (meterReset) => meterReset.id === item.Id
-    );
-    addReadingsModal.result
-      .then((result) => {
-        if (result) {
-          console.log("Getting data from edit-activity-logs modal to post");
-          console.log("main", result);
-          this.meterResetDataModel = result;
-          const editMeterResetDataArray = {
-            lastValue: this.meterResetDataModel.lastValue,
-            startValue: this.meterResetDataModel.startValue,
-            resetMode: this.meterResetDataModel.resetMode,
-            ack: this.meterResetDataModel.ack,
-            updatedBy: this.shared.user,
-          };
-          console.log("editMeterResetDataArray", editMeterResetDataArray);
-          this.updateMeterResetData(item.Id, editMeterResetDataArray);
-        } else {
-          console.log("Data not submitted");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-  updateMeterResetData(meterResetId: number, MeterResetData: any) {
-    // this.shared.putMeterReset(meterResetId, MeterResetData).subscribe({
-    //   next: (results: any) => {
-    //     console.log("Editing a Activity Logs: ");
-    //     console.log(results);
-    //     this.notifierService.success({
-    //       detail: "Success",
-    //       summary: "Activity Logs edited successfully !",
-    //       duration: 4000,
-    //     });
-    //     this.sweetAlert.successSweetAlertMessage(
-    //       "Activity Logs has been updated.",
-    //       "Updated!",
-    //       4000
-    //     );
-    //     // Swal.fire({
-    //     //   title: 'Edited!',
-    //     //   text: 'Activity Logs has been edited.',
-    //     //   icon: 'success',
-    //     //   confirmButtonColor: '#299CDB',
-    //     //   timer: this.appService.popUpMessageConfig[0].messageDurationInMiliSeconds,
-    //     //   timerProgressBar: true,
-    //     //   willClose: () => {
-    //     //     clearInterval(4000);
-    //     //   },
-    //     // });
-    //     this.loadData();
-    //   },
-    //   error: (error: any) => {
-    //     console.log("Editing a Activity Logs : error");
-    //     console.log(error);
-    //     this.notifierService.error({
-    //       detail: "Error",
-    //       summary: "Edition failed.",
-    //       duration: 4000,
-    //     });
-    //   },
-    // });
+    this.tableData = this.userDetailsArray;
   }
 
-  setAsAcknowledged(item: any): void {
-    console.log(item);
-    const meterResetId = item.Id;
-
-    let acknowledgeDataAray = { ack: "true", updatedBy: this.shared.user };
-
-    // this.shared
-    //   .putMeterResetAcknowledge(meterResetId, acknowledgeDataAray)
-    //   .subscribe({
-    //     next: (results: any) => {
-    //       console.log("Acknowledged Activity Logs: ");
-    //       console.log(results);
-    //       this.notifierService.success({
-    //         detail: "Success",
-    //         summary: "Activity Logs acknowledged successfully !",
-    //         duration: 4000,
-    //       });
-
-    //       this.sweetAlert.successSweetAlertMessage(
-    //         "Activity Logs has been Acknowledged.",
-    //         "Acknowledged!",
-    //         4000
-    //       );
-    //       // Swal.fire({
-    //       //   title: 'Acknowledged!',
-    //       //   text: 'Activity Logs has been Acknowledged.',
-    //       //   icon: 'success',
-    //       //   confirmButtonColor: '#299CDB',
-    //       //   timer: this.appService.popUpMessageConfig[0].messageDurationInMiliSeconds,
-    //       //   timerProgressBar: true,
-    //       //   willClose: () => {
-    //       //     clearInterval(4000);
-    //       //   },
-    //       // });
-    //       this.loadData();
-    //     },
-    //     error: (error: any) => {
-    //       console.log("Acknowledge Activity Logs : error");
-    //       console.log(error);
-    //       this.notifierService.error({
-    //         detail: "Error",
-    //         summary: "Acknowledgement failed.",
-    //         duration: 4000,
-    //       });
-    //     },
-    //   });
+  onPaginationChange(page: number): void {
+    this.selectedPage = page;
+    this.loadData();
   }
+  onPagesizeChange(pageSize: number): void {
+    this.selectedPageSize = pageSize;
+    this.loadData();
+  }
+
+  onViewButtonClicked(row: any) {
+    this.openModal("View", "Extra Details", row.Details);
+  }
+
+  openModal(type: string, modalTitle: string, details: any): void {
+    const modalRef = this.modalService.open(ActivityLogsModalComponent, {
+      size: "s",
+      centered: true,
+      backdrop: "static",
+      keyboard: false,
+    });
+    modalRef.componentInstance.modalTitle = modalTitle;
+    modalRef.componentInstance.details = details;
+  }
+
+  // getAllUsers() {
+  //   this.shared
+  //     .getAllUsers(this.selectedPage, this.selectedPageSize)
+  //     .subscribe({
+  //       next: (response) => {
+  //         this.userList = response.response;
+  //         this.totalDataCount = response.rowCount;
+  //         this.updateTable();
+  //         this.loadingInProgress = false;
+  //       },
+  //       error: (error) => {
+  //         this.alertService.sideErrorAlert(
+  //           "Error",
+  //           this.appService.popUpMessageConfig[0]
+  //             .GetUserListSuccessSideAlertMessage
+  //         );
+
+  //         this.userList = [];
+  //         this.totalDataCount = 0;
+
+  //         this.updateTable();
+  //         this.loadingInProgress = false;
+  //       },
+  //     });
+  // }
+
+  // getUsersByRole(role: string) {
+  //   this.shared
+  //     .getUsersByRole(role, this.selectedPage, this.selectedPageSize)
+  //     .subscribe({
+  //       next: (response) => {
+  //         this.userList = response.response;
+  //         this.totalDataCount = response.rowCount;
+  //         this.updateTable();
+  //         this.loadingInProgress = false;
+  //       },
+  //       error: (error) => {
+  //         this.alertService.sideErrorAlert(
+  //           "Error",
+  //           this.appService.popUpMessageConfig[0]
+  //             .GetUserListSuccessSideAlertMessage
+  //         );
+
+  //         this.userList = [];
+  //         this.totalDataCount = 0;
+
+  //         this.updateTable();
+  //         this.loadingInProgress = false;
+  //       },
+  //     });
+  // }
+
+  // searchUsers(serchedTerm: string) {
+  //   this.shared
+  //     .getSearchedUsers(serchedTerm, this.selectedPage, this.selectedPageSize)
+  //     .subscribe({
+  //       next: (response) => {
+  //         this.userList = response.response;
+  //         this.totalDataCount = response.rowCount;
+
+  //         if (this.totalDataCount > 0) {
+  //           this.updateTable();
+  //           this.loadingInProgress = false;
+  //         } else {
+  //           this.alertService.warningSweetAlertMessage(
+  //             this.appService.popUpMessageConfig[0].NoDataNotificationMessage,
+  //             "No Data!",
+  //             4000
+  //           );
+  //           this.getAllUsers();
+  //         }
+  //       },
+  //       error: (error) => {
+  //         this.alertService.sideErrorAlert(
+  //           "Error",
+  //           this.appService.popUpMessageConfig[0]
+  //             .GetUserListSuccessSideAlertMessage
+  //         );
+
+  //         this.userList = [];
+  //         this.totalDataCount = 0;
+
+  //         this.updateTable();
+  //         this.loadingInProgress = false;
+  //       },
+  //     });
+  // }
+
+  // searchUsersByRole(serchedTerm: string, role: string) {
+  //   this.shared
+  //     .getSearchedUsersByRole(
+  //       serchedTerm,
+  //       role,
+  //       this.selectedPage,
+  //       this.selectedPageSize
+  //     )
+  //     .subscribe({
+  //       next: (response) => {
+  //         this.userList = response.response;
+  //         this.totalDataCount = response.rowCount;
+  //         if (this.totalDataCount > 0) {
+  //           this.updateTable();
+  //           this.loadingInProgress = false;
+  //         } else {
+  //           this.alertService.warningSweetAlertMessage(
+  //             this.appService.popUpMessageConfig[0].NoDataNotificationMessage,
+  //             "No Data!",
+  //             4000
+  //           );
+  //           this.getAllUsers();
+  //         }
+  //       },
+  //       error: (error) => {
+  //         this.alertService.sideErrorAlert(
+  //           "Error",
+  //           this.appService.popUpMessageConfig[0]
+  //             .GetUserListSuccessSideAlertMessage
+  //         );
+
+  //         this.userList = [];
+  //         this.totalDataCount = 0;
+
+  //         this.updateTable();
+  //         this.loadingInProgress = false;
+  //       },
+  //     });
+  // }
 }

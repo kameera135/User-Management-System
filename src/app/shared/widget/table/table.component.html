@@ -193,6 +193,19 @@
                       </button>
 
                       <button
+                        *ngIf="allowtoViewActions"
+                        class="btn btn-sm btn-info edit-list"
+                        data-bs-toggle="modal"
+                        data-bs-target="#createTask"
+                        data-edit-id="15"
+                        (click)="LoadDataOnRowDoubleClick(item)"
+                        Generate="View"
+                        ngbTooltip="View"
+                      >
+                        <i class="bi bi-list text-muted"></i>
+                      </button>
+
+                      <button
                         *ngIf="allowtoApprove"
                         class="btn btn-sm btn-success remove-list"
                         data-bs-toggle="modal"

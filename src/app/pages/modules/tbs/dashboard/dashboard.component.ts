@@ -27,7 +27,7 @@ export class DashboardComponent {
         },
       ],
     },
-    
+
     {
       //label: "Activity Logs",
       subItems: [
@@ -68,7 +68,6 @@ export class DashboardComponent {
         },
       ],
     },
-    
   ];
 
   constructor(
@@ -78,7 +77,7 @@ export class DashboardComponent {
   ) {}
 
   ngOnInit(): void {
-    this.showAlert();
+    // this.showAlert();
 
     this.menuItems = this.menus;
 
@@ -87,24 +86,28 @@ export class DashboardComponent {
     ]);
   }
 
-  showAlert(): any {
-    this.ActivityLogsService.getAcknowledgeAlert().subscribe({
-      next: (result) => {
-        this.hasAlert = result.hasAlert;
+  // showAlert(): any {
+  //   this.ActivityLogsService.getAcknowledgeAlert().subscribe({
+  //     next: (result) => {
+  //       this.hasAlert = result.hasAlert;
 
-        if (this.hasAlert) {
-          this.menuItems[4].subItems[0].hasAlert = true;
-        }
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
-  }
+  //       if (this.hasAlert) {
+  //         this.menuItems[4].subItems[0].hasAlert = true;
+  //       }
+  //     },
+  //     error: (error) => {
+  //       console.log(error);
+  //     },
+  //   });
+  // }
 
   addTile(): void {
     // Find the 'Add Platform' menu item in the 'menus' array
-    const addPlatformMenuItem = this.menus.find((menu: { subItems: any[]; }) => menu.subItems.some((subItem: { label: string; }) => subItem.label === 'Add Platform'));
+    const addPlatformMenuItem = this.menus.find((menu: { subItems: any[] }) =>
+      menu.subItems.some(
+        (subItem: { label: string }) => subItem.label === "Add Platform"
+      )
+    );
 
     if (addPlatformMenuItem) {
       // Create a new tile and add it to the 'Add Platform' subItems array
@@ -112,7 +115,7 @@ export class DashboardComponent {
         label: "New Tile",
         path: "/new-tile-path",
         description: "Description of the new tile",
-        hasAlert: false, 
+        hasAlert: false,
       };
 
       addPlatformMenuItem.subItems.push(newTile);

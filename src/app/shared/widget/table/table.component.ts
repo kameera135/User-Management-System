@@ -105,6 +105,8 @@ export class TableComponent {
 
   allowtoView: boolean = false;
 
+  allowtoViewActions: boolean = false;
+
   allowtoApprove: boolean = false;
 
   allowtoReject: boolean = false;
@@ -226,6 +228,8 @@ export class TableComponent {
       this.allowtoAdd = this.dataTableOptions.allowAddButton;
 
       this.allowtoView = this.dataTableOptions.allowViewButton;
+
+      this.allowtoViewActions = this.dataTableOptions.allowViewActionsButton;
 
       this.allowtoDelete = this.dataTableOptions.allowDeleteButton;
 

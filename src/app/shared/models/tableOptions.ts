@@ -1,73 +1,73 @@
 export class tableOptions {
+  allowDeleteButton: boolean = false;
 
-    allowDeleteButton: boolean = false;
+  allowUpdateButton: boolean = false;
 
-    allowUpdateButton: boolean = false;
+  allowUpdateMeterResetButton: boolean = false;
 
-    allowUpdateMeterResetButton: boolean = false;
+  allowAddButton: boolean = false;
 
-    allowAddButton: boolean = false;
+  allowViewButton: boolean = false;
 
-    allowViewButton: boolean = false;
+  allowViewActionsButton: boolean = false;
 
-    allowApproveButton: boolean = false;
+  allowApproveButton: boolean = false;
 
-    allowExportAsExcel: boolean = false;
+  allowExportAsExcel: boolean = false;
 
-    allowRejectButton: boolean = false;
+  allowRejectButton: boolean = false;
 
-    allowAcknowledgeButton: boolean = false
+  allowAcknowledgeButton: boolean = false;
 
-    allowDisplayAcknowledgedButton: boolean = false
+  allowDisplayAcknowledgedButton: boolean = false;
 
-    allowGenerateButton: boolean = false;
+  allowGenerateButton: boolean = false;
 
-    allowExportButton: boolean = false;
+  allowExportButton: boolean = false;
 
-    allowNewExtensionButton: boolean = false;
+  allowNewExtensionButton: boolean = false;
 
-    allowNewStandingOrderButton: boolean = false;
+  allowNewStandingOrderButton: boolean = false;
 
-    allowCheckbox: boolean = false;
+  allowCheckbox: boolean = false;
 
-    allowBulkApproveButton: boolean = false;
+  allowBulkApproveButton: boolean = false;
 
-    allowBulkActivateButton: boolean = false;
+  allowBulkActivateButton: boolean = false;
 
-    allowBulkDeactivateButton: boolean = false;
+  allowBulkDeactivateButton: boolean = false;
 
-    allowActivateButton: boolean = false;
+  allowActivateButton: boolean = false;
 
-    allowBulkRejectButton: boolean = false;
+  allowBulkRejectButton: boolean = false;
 
-    allowBulkDeleteButton: boolean = false;
+  allowBulkDeleteButton: boolean = false;
 
-    tableTitle: string = "";//Display the title of the table above the table
+  tableTitle: string = ""; //Display the title of the table above the table
 
-    rowDeleteConfirmationMessage: string = "";
+  rowDeleteConfirmationMessage: string = "";
 
-    rowEditConfirmationMessage: string = "";
+  rowEditConfirmationMessage: string = "";
 
-    recordApproveConfirmationMessage: string = "";
+  recordApproveConfirmationMessage: string = "";
 
-    recordRejectingConfirmationMessage: string = "";
+  recordRejectingConfirmationMessage: string = "";
 
-    recordDeletedNotificationMessage: string = "";
+  recordDeletedNotificationMessage: string = "";
 
-    recordUpdatedNotificationMessage: string = "";
+  recordUpdatedNotificationMessage: string = "";
 
-    recordApprovedNotificationMessage: string = "";
+  recordApprovedNotificationMessage: string = "";
 
-    recordRejectedNotificationMessage: string = "";
+  recordRejectedNotificationMessage: string = "";
 
-    allowtoAddTenantManager: boolean = false;
+  allowtoAddTenantManager: boolean = false;
 
-    allowtoAddFacilityManager: boolean = false;
+  allowtoAddFacilityManager: boolean = false;
 
-    allowtoRemoveTenantManager: boolean = false;
+  allowtoRemoveTenantManager: boolean = false;
 
-    allowtoRemoveFacilityManager: boolean = false;
+  allowtoRemoveFacilityManager: boolean = false;
 
-    allowtoRemoveOPCTag: boolean = false;//This Displays/Hide OPC tag removing button
-
+  allowtoRemoveOPCTag: boolean = false; //This Displays/Hide OPC tag removing button
 }
