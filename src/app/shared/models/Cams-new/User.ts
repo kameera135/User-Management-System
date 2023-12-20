@@ -4,4 +4,6 @@ export class User {
   lastName!: string;
   role!: string;
   email!: string;
+  phoneNumber!: string;
+  userProfileCode!: string;
 }

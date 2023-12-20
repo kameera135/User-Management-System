@@ -19,6 +19,8 @@ export class UserViewModalComponent {
   @Input() lastName!: string;
   @Input() role!: any;
   @Input() email!: string;
+  @Input() phoneNumber!: string;
+  @Input() userProfileCode!: string;
 
   buttonName!: string;
   buttonIcon!: string;
@@ -48,6 +50,7 @@ export class UserViewModalComponent {
       this.firstName == "" ||
       this.lastName == "" ||
       this.role == "" ||
+      this.userProfileCode == "" ||
       this.email == ""
     ) {
       this.notifierService.warning({
@@ -64,14 +67,9 @@ export class UserViewModalComponent {
     user.lastName = this.lastName;
     user.role = this.role;
     user.email = this.email;
+    user.phoneNumber = this.phoneNumber;
+    user.userProfileCode = this.userProfileCode;
 
-    // if (this.type == "Add") {
-    //   this.activeModal.close(user);
-    // } else if (this.type == "Edit") {
-    //   this.activeModal.close(user);
-    // } else {
-    //   this.activeModal.close(user);
-    // }
     this.activeModal.close(user);
   }
 }

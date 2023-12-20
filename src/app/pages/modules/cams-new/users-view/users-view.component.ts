@@ -55,6 +55,8 @@ export class UsersViewComponent {
       LastName: "Bennett",
       Role: "Tenant",
       Email: "harperbennett@yoyo.com",
+      phoneNumber: "0221513654",
+      userProfileCode: "UPC12345",
       isRejecteableOrApprovableRecord: true,
     },
     {
@@ -63,6 +65,8 @@ export class UsersViewComponent {
       LastName: "Rodriguez",
       Role: "TM",
       Email: "miarodriguez@yoyo.com",
+      phoneNumber: "0663251985",
+      userProfileCode: "USR789ABC",
       isRejecteableOrApprovableRecord: true,
     },
     {
@@ -71,6 +75,8 @@ export class UsersViewComponent {
       LastName: "Sullivan",
       Role: "Tenant",
       Email: "nolansullivan@yoyo.com",
+      phoneNumber: "0784562354",
+      userProfileCode: "PROFILE_XYZ987",
       isRejecteableOrApprovableRecord: true,
     },
   ];
@@ -180,30 +186,34 @@ export class UsersViewComponent {
   }
 
   onAddUserButtonClicked(): void {
-    this.openModal("Add", "Add A User", "", "", "", "", "");
+    this.openModal("Add", "New User Account", "", "", "", "", "", "", "");
   }
 
   onEditButtonClicked(row: any) {
     this.openModal(
       "Edit",
-      "Update User",
+      "Edit User Account Details",
       row.UserName,
       row.FirstName,
       row.LastName,
       row.Role,
-      row.Email
+      row.Email,
+      row.phoneNumber,
+      row.userProfileCode
     );
   }
 
   onViewButtonClicked(row: any) {
     this.openModal(
       "View",
-      "User",
+      "User Account Details",
       row.UserName,
       row.FirstName,
       row.LastName,
       row.Role,
-      row.Email
+      row.Email,
+      row.phoneNumber,
+      row.userProfileCode
     );
   }
 
@@ -214,7 +224,9 @@ export class UsersViewComponent {
     firstName: string,
     lastName: string,
     role: string,
-    email: string
+    email: string,
+    phoneNumber: string,
+    userProfileCode: string
   ): void {
     const modalRef = this.modalService.open(UserViewModalComponent, {
       size: "s",
@@ -231,6 +243,8 @@ export class UsersViewComponent {
     modalRef.componentInstance.lastName = lastName;
     modalRef.componentInstance.role = role;
     modalRef.componentInstance.email = email;
+    modalRef.componentInstance.phoneNumber = phoneNumber;
+    modalRef.componentInstance.userProfileCode = userProfileCode;
 
     modalRef.result
       .then((result) => {
@@ -261,12 +275,14 @@ export class UsersViewComponent {
                   console.log("Confirmed to edit");
                   this.openModal(
                     "Edit",
-                    "Update User",
+                    "Edit User Account Details",
                     userName,
                     firstName,
                     lastName,
                     role,
-                    email
+                    email,
+                    phoneNumber,
+                    userProfileCode
                   );
                 } else {
                   console.log("Not confirmed to edit");
@@ -277,7 +293,9 @@ export class UsersViewComponent {
                     firstName,
                     lastName,
                     role,
-                    email
+                    email,
+                    phoneNumber,
+                    userProfileCode
                   );
                 }
               })
