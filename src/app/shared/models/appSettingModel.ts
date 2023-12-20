@@ -27,7 +27,7 @@ export interface appSettingModel {
 
   maximumYearRangeForReport: number;
 
-  maximumYearRangeForMeterInfo: number;
+  maximumYearRange: number;
 
   billingDate: number;
 
@@ -40,4 +40,6 @@ export interface appSettingModel {
   consumptionSheetName: any[];
 
   roleList: any[];
+
+  months: any[];
 }

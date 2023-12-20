@@ -25,5 +25,23 @@ export interface toastServicePopUpConfigurations {
 
   UserDeletedNotificationMessage: string;
 
+  UserDeletedSuccessSideAlertMessage: string;
+
+  UserDeletedErrorSideAlertMessage: string;
+
   UserUpdatedNotificationMessage: string;
+
+  UserUpdatedSuccessSideAlertMessage: string;
+
+  UserUpdatedErrorSideAlertMessage: string;
+
+  UserAddedNotificationMessage: string;
+
+  UserAddedSuccessSideAlertMessage: string;
+
+  UserAddedErrorSideAlertMessage: string;
+
+  GetUserListSuccessSideAlertMessage: string;
+
+  NoDataNotificationMessage: string;
 }

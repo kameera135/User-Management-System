@@ -26,13 +26,13 @@ import { PagesRoutingModule } from "./pages-routing.module";
 import { SharedModule } from "../shared/shared.module";
 import { WidgetModule } from "../shared/widget/widget.module";
 import { NgSelectModule } from "@ng-select/ng-select";
-import { PlatformConfigurationComponent } from "./modules/tbs/platform-configuration/platform-configuration.component";
-import { FeatureConfigurationComponent } from "./modules/tbs/feature-configuration/feature-configuration.component";
-import { ProfileConfigurationComponent } from "./modules/tbs/profile-configuration/profile-configuration.component";
-import { ActivityLogsComponent } from "./modules/tbs/activity-logs/activity-logs.component";
+import { PlatformConfigurationComponent } from "./modules/cams-new/platform-configuration/platform-configuration.component";
+import { FeatureConfigurationComponent } from "./modules/cams-new/feature-configuration/feature-configuration.component";
+import { ProfileConfigurationComponent } from "./modules/cams-new/profile-configuration/profile-configuration.component";
+import { ActivityLogsComponent } from "./modules/cams-new/activity-logs/activity-logs.component";
 import { DashboardComponent } from "./modules/tbs/dashboard/dashboard.component";
-import { UserAccountComponent } from "./modules/tbs/user-account/user-account.component";
-import { UsersViewComponent } from "./modules/tbs/users-view/users-view.component";
+import { UserAccountComponent } from "./modules/cams-new/user-account/user-account.component";
+import { UsersViewComponent } from "./modules/cams-new/users-view/users-view.component";
 
 @NgModule({
   declarations: [

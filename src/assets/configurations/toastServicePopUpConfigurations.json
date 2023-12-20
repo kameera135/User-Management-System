@@ -9,8 +9,22 @@
 	"FailedMessageHeadder": "Failed",
 	"ManualMeterReadingsRowDeleteConfirmationMessage": "You want to Delete selected meter readings?",
 	"ManualMeterReadingsRecordDeletedNotificationMessage": "Meter Readings has been deleted succesfully",
+
+	"NoDataNotificationMessage": "Did not find any data.",
+
 	"UpdateUserConfirmationMessage": "You want to update user details?",
+	"UserUpdatedNotificationMessage": "User has been updated",
+	"UserUpdatedSuccessSideAlertMessage": "User updated successfully !",
+	"UserUpdatedErrorSideAlertMessage": "Could not update user.",	
+
 	"DeleteUserConfirmationMessage": "You want to delete user/s?",
-	"UserDeletedNotificationMessage": "User/s have been deleted?",
-	"UserUpdatedNotificationMessage": "User has been updated?"
+	"UserDeletedNotificationMessage": "User/s have been deleted",
+	"UserDeletedSuccessSideAlertMessage": "Users deleted successfully !",
+	"UserDeletedErrorSideAlertMessage": "Could not delete users."	,
+
+	"UserAddedNotificationMessage": "User has been added",
+	"UserAddedSuccessSideAlertMessage": "User added successfully !",
+	"UserAddedErrorSideAlertMessage": "Could not add a user.",
+
+	"GetUserListSuccessSideAlertMessage": "Could not retrieve the data list."
 }

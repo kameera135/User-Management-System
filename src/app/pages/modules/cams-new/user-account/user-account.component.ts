@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
 import { BreadcrumbService } from "src/app/services/breadcrumb/breadcrumb.service";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { tableOptions } from "src/app/shared/models/tableOptions";
 
 @Component({
@@ -23,6 +22,15 @@ export class UserAccountComponent {
   tenantList: any[] = [];
   extensionData: any[] = [];
   loadingInProgress: boolean = false;
+
+  userName!: string;
+  password!: string;
+  firstName!: string;
+  lastName!: string;
+  role!: string;
+  email!: string;
+  phoneNumber!: string;
+  userProfile!: string;
 
   extensionTableOptions: tableOptions = new tableOptions();
 
@@ -267,11 +275,7 @@ export class UserAccountComponent {
     window.alert("Invoice Generated");
   }
 
-  generateAll() {
-    window.alert("All Invoices are Generated");
-  }
+  changePassword() {}
 
-  reGenerate() {
-    window.alert("Invoice Re-generated");
-  }
+  onEditClicked() {}
 }

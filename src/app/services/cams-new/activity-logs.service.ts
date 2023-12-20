@@ -1,27 +1,91 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
 import { AppService } from "src/app/app.service";
-import { AuthService } from "src/app/auth/auth.service";
+import { ActivityLogData } from "src/app/shared/models/Cams-new/ActivityLogData";
+import { PaginatedResponse } from "src/app/shared/models/Cams-new/PaginatedResponse";
 
 @Injectable({
   providedIn: "root",
 })
 export class ActivityLogsService {
-  constructor(
-    private appService: AppService,
-    private httpClient: HttpClient,
-    private authService: AuthService
-  ) {}
+  constructor(private appService: AppService, private httpClient: HttpClient) {}
 
-  baseUrl = this.appService.appConfig[0].apiUrl;
-  user = this.appService.user.id;
+  apiUrl = this.appService.appConfig[0].apiUrl;
+  user = this.appService.user;
 
-  getAcknowledgeAlert(): Observable<any> {
+  getAllUsers(page: number, pageSize: number) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("userID", this.user);
+    queryParams = queryParams.append("viewedBy", this.user.id);
+    queryParams = queryParams.append("page", page);
+    queryParams = queryParams.append("pageSize", pageSize);
 
-    return this.httpClient.get(`${this.baseUrl}/api/activity-logss/Ack-Alert`, {
+    const url = `${this.apiUrl}/end-point`;
+    return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
+  }
+
+  getUsersByRole(role: string, page: number, pageSize: number) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("viewedBy", this.user.id);
+    queryParams = queryParams.append("role", role);
+    queryParams = queryParams.append("page", page);
+    queryParams = queryParams.append("pageSize", pageSize);
+
+    const url = `${this.apiUrl}/end-point`;
+    return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
+  }
+
+  getSearchedUsers(searchedTerm: string, page: number, pageSize: number) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("viewedBy", this.user.id);
+    queryParams = queryParams.append("searchedTerm", searchedTerm);
+    queryParams = queryParams.append("page", page);
+    queryParams = queryParams.append("pageSize", pageSize);
+
+    const url = `${this.apiUrl}/end-point`;
+    return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
+  }
+
+  getSearchedUsersByRole(
+    searchedTerm: string,
+    role: string,
+    page: number,
+    pageSize: number
+  ) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("viewedBy", this.user.id);
+    queryParams = queryParams.append("searchedTerm", searchedTerm);
+    queryParams = queryParams.append("role", role);
+    queryParams = queryParams.append("page", page);
+    queryParams = queryParams.append("pageSize", pageSize);
+
+    const url = `${this.apiUrl}/end-point`;
+    return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
+  }
+
+  postUser(model: ActivityLogData) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("createdBy", this.user.id);
+
+    return this.httpClient.post(`${this.apiUrl}/end-point`, model, {
+      params: queryParams,
+    });
+  }
+
+  putUser(model: ActivityLogData) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("updatedBy", this.user.id);
+
+    return this.httpClient.put(`${this.apiUrl}/end-point`, model, {
+      params: queryParams,
+    });
+  }
+
+  deleteUser(list: number[]) {
+    //list is the id list of users which have to be deleted
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("deletedBy", this.user.id);
+
+    return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
       params: queryParams,
     });
   }
