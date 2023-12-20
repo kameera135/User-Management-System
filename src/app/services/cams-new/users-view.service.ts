@@ -8,9 +8,13 @@ import { User } from "src/app/shared/models/Cams-new/User";
   providedIn: "root",
 })
 export class UsersViewService {
+  getUsersByPlatform(Platform: string, selectedPage: number, selectedPageSize: number) {
+    throw new Error("Method not implemented.");
+  }
   constructor(private appService: AppService, private httpClient: HttpClient) {}
 
   apiUrl = this.appService.appConfig[0].apiUrl;
+  //apiUrl = "http://127.0.0.1:3000/api/users"
   user = this.appService.user;
 
   getAllUsers(page: number, pageSize: number) {

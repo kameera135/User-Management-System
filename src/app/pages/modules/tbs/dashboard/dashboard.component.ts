@@ -124,44 +124,5 @@ export class DashboardComponent {
   //   });
   // }
 
-  addTile(): void {
-    // Find the 'Add Platform' menu item in the 'menus' array
-    const addPlatformMenuItem = this.menus.find((menu: { subItems: any[] }) =>
-      menu.subItems.some(
-        (subItem: { label: string }) => subItem.label === "Add Platform"
-      )
-    );
-
-    if (addPlatformMenuItem) {
-      // Create a new tile and add it to the 'Add Platform' subItems array
-      const newTile = {
-        label: "New Tile",
-        path: "/new-tile-path",
-        description: "Description of the new tile",
-        hasAlert: false,
-      };
-
-      addPlatformMenuItem.subItems.push(newTile);
-
-      // Update the 'menuItems' array to reflect the changes
-      this.updateDashboard();
-    }
-  }
-
-  updateDashboard(): void {
-    let tiles: any[] = [];
-    for (let menu of this.menus) {
-      tiles = tiles.concat(menu.subItems);
-    }
-    this.menuItems = this.chunkArray(tiles, 3);
-  }
-
-  chunkArray(arr: any[], size: number): any[][] {
-    const chunkedArr = [];
-    for (let i = 0; i < arr.length; i += size) {
-      chunkedArr.push(arr.slice(i, i + size));
-    }
-    return chunkedArr;
-  }
 }
 

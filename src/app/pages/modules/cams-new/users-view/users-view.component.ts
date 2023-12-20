@@ -42,10 +42,11 @@ export class UsersViewComponent {
     { Head: "User Name", FieldName: "UserName", ColumnType: "Data" },
     { Head: "First Name", FieldName: "FirstName", ColumnType: "Data" },
     { Head: "Last Name", FieldName: "LastName", ColumnType: "Data" },
-    { Head: "Role", FieldName: "Role", ColumnType: "Data" },
+    { Head: "Platform", FieldName: "Platform", ColumnType: "Data" },
     { Head: "Email", FieldName: "Email", ColumnType: "Data" },
     { Head: "", FieldName: "", ColumnType: "Action" },
   ];
+  usersViewService: any;
 
   //to remove
   tableData = [
@@ -53,7 +54,7 @@ export class UsersViewComponent {
       UserName: "Harper.Bennett",
       FirstName: "Harper",
       LastName: "Bennett",
-      Role: "Tenant",
+      Platform: "AES",
       Email: "harperbennett@yoyo.com",
       phoneNumber: "0221513654",
       userProfileCode: "UPC12345",
@@ -63,7 +64,7 @@ export class UsersViewComponent {
       UserName: "Mia.Rodriguez",
       FirstName: "Mia",
       LastName: "Rodriguez",
-      Role: "TM",
+      Platform: "TBS",
       Email: "miarodriguez@yoyo.com",
       phoneNumber: "0663251985",
       userProfileCode: "USR789ABC",
@@ -73,7 +74,7 @@ export class UsersViewComponent {
       UserName: "Nolan.Sullivan",
       FirstName: "Nolan",
       LastName: "Sullivan",
-      Role: "Tenant",
+      Platform: "Energy Management System",
       Email: "nolansullivan@yoyo.com",
       phoneNumber: "0784562354",
       userProfileCode: "PROFILE_XYZ987",
@@ -176,6 +177,22 @@ export class UsersViewComponent {
     this.tableData = this.userDetailsArray;
   }
 
+  // updateTable(){
+  //   this.loadingInProgress = true; // Set loading flag to true before making the API call
+
+  //   this.usersViewService.getUsers().subscribe(
+  //     (data: User[]) => {
+  //       this.userList = data; // Assign received data to userList
+  //       this.loadingInProgress = false; // Set loading flag to false after data retrieval
+  //     },
+  //     (error: any) => {
+  //       // Handle error
+  //       console.error('Error fetching data:', error);
+  //       this.loadingInProgress = false; // Set loading flag to false in case of an error
+  //     }
+  //   );
+  // }
+
   onPaginationChange(page: number): void {
     this.selectedPage = page;
     this.loadData();
@@ -210,7 +227,7 @@ export class UsersViewComponent {
       row.UserName,
       row.FirstName,
       row.LastName,
-      row.Role,
+      row.Platform,
       row.Email,
       row.phoneNumber,
       row.userProfileCode
@@ -223,7 +240,7 @@ export class UsersViewComponent {
     userName: string,
     firstName: string,
     lastName: string,
-    role: string,
+    platform: string,
     email: string,
     phoneNumber: string,
     userProfileCode: string
@@ -241,7 +258,7 @@ export class UsersViewComponent {
     modalRef.componentInstance.userName = userName;
     modalRef.componentInstance.firstName = firstName;
     modalRef.componentInstance.lastName = lastName;
-    modalRef.componentInstance.role = role;
+    modalRef.componentInstance.role = platform;
     modalRef.componentInstance.email = email;
     modalRef.componentInstance.phoneNumber = phoneNumber;
     modalRef.componentInstance.userProfileCode = userProfileCode;
@@ -279,7 +296,7 @@ export class UsersViewComponent {
                     userName,
                     firstName,
                     lastName,
-                    role,
+                    platform,
                     email,
                     phoneNumber,
                     userProfileCode
@@ -292,7 +309,7 @@ export class UsersViewComponent {
                     userName,
                     firstName,
                     lastName,
-                    role,
+                    platform,
                     email,
                     phoneNumber,
                     userProfileCode

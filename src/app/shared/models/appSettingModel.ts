@@ -1,6 +1,7 @@
 import { dateFormat } from "./dateFormat";
 
 export interface appSettingModel {
+  PlatformList: any;
   version: string;
 
   apiUrl: string;
