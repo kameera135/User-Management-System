@@ -11,7 +11,7 @@ export class MenuService {
     {
       id: 100,
       label: "Users",
-      icon: "bi-receipt",
+      icon: "bi-people",
       module: "1",
       subItems: [
         {
@@ -53,14 +53,14 @@ export class MenuService {
         },
         {
           id: 4,
-          label: "Feature Configuration",
+          label: "Role Configuration",
           link: "/feature-configuration",
           parentId: 100,
           module: "1",
         },
         {
           id: 6,
-          label: "Profile Configuration",
+          label: "Permission Configuration",
           link: "/profile-configuration",
           parentId: 100,
           module: "1",
@@ -71,7 +71,7 @@ export class MenuService {
       id: 300,
       label: "Activity Logs",
       collapseid: "sidebarDashboards",
-      icon: "bi-speedometer2",
+      icon: "bi-activity",
       module: "1",
       subItems: [
         {
@@ -105,14 +105,46 @@ export class MenuService {
       ],
     },
     {
-      id: 300,
-      label: "User Account",
+      id: 400,
+      label: "Password Policy",
       collapseid: "sidebarDashboards",
-      icon: "bi-speedometer2",
+      icon: "bi-file-earmark-lock",
       module: "1",
       subItems: [
         {
           id: 4,
+          label: "Password Policy",
+          link: "/password-policy",
+          parentId: 102,
+          module: "1",
+        },
+      ],
+    },
+    {
+      id: 500,
+      label: "Tokens",
+      collapseid: "sidebarDashboards",
+      icon: "bi-shield-lock",
+      module: "1",
+      subItems: [
+        {
+          id: 2,
+          label: "API Tokens",
+          link: "/api-tokens",
+          parentId: 102,
+          module: "1",
+        },
+      ],
+    },
+    {
+      id: 300,
+      label: "User Account",
+      collapseid: "sidebarDashboards",
+      icon: "bi-person-circle",
+      module: "1",
+      subItems: [
+        {
+          id: 2,
           label: "User Account",
           link: "/user-account",
           parentId: 102,

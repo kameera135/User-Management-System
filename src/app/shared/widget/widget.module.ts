@@ -45,11 +45,8 @@ import { DashboardCardComponent } from "./dashboard-card/dashboard-card.componen
 import { UserViewModalComponent } from "./config/user-view-modal/user-view-modal.component";
 import { ActivityLogsModalComponent } from "./config/activity-logs-modal/activity-logs-modal.component";
 import { MatRadioModule } from "@angular/material/radio";
-<<<<<<< Updated upstream
 import { UpdateConfirmationModalComponent } from './config/update-confirmation-modal/update-confirmation-modal.component';
-=======
 import { SidebarComponent } from './sidebar/sidebar.component';
->>>>>>> Stashed changes
 
 @NgModule({
   declarations: [
@@ -64,11 +61,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     DashboardCardComponent,
     UserViewModalComponent,
     ActivityLogsModalComponent,
-<<<<<<< Updated upstream
     UpdateConfirmationModalComponent,
-=======
     SidebarComponent,
->>>>>>> Stashed changes
   ],
   imports: [
     CommonModule,
