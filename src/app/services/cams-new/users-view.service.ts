@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { AppService } from "src/app/app.service";
 import { PaginatedResponse } from "src/app/shared/models/Cams-new/PaginatedResponse";
 import { User } from "src/app/shared/models/Cams-new/User";
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -14,7 +15,9 @@ export class UsersViewService {
   constructor(private appService: AppService, private httpClient: HttpClient) {}
 
   apiUrl = this.appService.appConfig[0].apiUrl;
-  //apiUrl = "http://127.0.0.1:3000/api/users"
+  
+  //baseUrl = this.appService.appConfig[0].apiUrl;
+  //apiUrl = "http://127.0.0.1:3000/api";
   user = this.appService.user;
 
   getAllUsers(page: number, pageSize: number) {
@@ -23,7 +26,8 @@ export class UsersViewService {
     queryParams = queryParams.append("page", page);
     queryParams = queryParams.append("pageSize", pageSize);
 
-    const url = `${this.apiUrl}/end-point`;
+    // const url = `${this.apiUrl}/api/users`;
+    const url = `http://127.0.0.1:3000/api/users`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
@@ -34,6 +38,7 @@ export class UsersViewService {
     queryParams = queryParams.append("page", page);
     queryParams = queryParams.append("pageSize", pageSize);
 
+    // const url = `${this.apiUrl}/end-point`;
     const url = `${this.apiUrl}/end-point`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }

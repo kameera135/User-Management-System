@@ -1,6 +1,6 @@
 {
 	"version": "1.0.0",
-	"apiUrl": "https://localhost:7016",
+	"apiUrl": "http://127.0.0.1:3000",
 	"signOn": "http://10.20.30.149:8085",
 	"configModule": "http://localhost:5002",
 	"camsBackEnd": "172.16.5.24",

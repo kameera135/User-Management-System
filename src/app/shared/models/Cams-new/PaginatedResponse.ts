@@ -1,4 +1,4 @@
-export class PaginatedResponse {
+export class PaginatedResponse{
   response!: any[];
   rowCount!: number;
 }
