@@ -17,6 +17,8 @@ export class tableOptions {
 
   allowRejectButton: boolean = false;
 
+  allowDeactivateButton: boolean = false;
+
   allowAcknowledgeButton: boolean = false;
 
   allowDisplayAcknowledgedButton: boolean = false;

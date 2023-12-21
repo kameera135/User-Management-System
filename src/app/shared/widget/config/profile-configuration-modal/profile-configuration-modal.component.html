@@ -1,0 +1,82 @@
+<div class="modal-header">
+  <h5 class="modal-title fs-4" id="addReadingsModal">{{ modalTitle }}</h5>
+  <button
+    id="btnCommonModalClose"
+    type="button"
+    class="bg-transparent border-0"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">
+      <i class="bi bi-x-lg text-dark"></i>
+    </span>
+  </button>
+</div>
+
+<form #form="ngForm" (ngSubmit)="onFormSubmit()">
+  <div class="row modal-body">
+    <div class="col-6">
+      <div class="mb-3">
+        <label class="col-form-label">Profile Code*</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="profileCode"
+          name="profileCode"
+          [disabled]="type == 'View'"
+        />
+        <div class="input-group"></div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="mb-3">
+        <label class="col-form-label">Status</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="status"
+          name="status"
+          [disabled]="type == 'View'"
+        />
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="mb-3">
+        <label class="col-form-label">Created Date*</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="createdDate"
+          name="createdDate"
+          [disabled]="type == 'View'"
+        />
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="mb-3">
+        <label class="col-form-label">Created By*</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="createdBy"
+          name="createdBy"
+          [disabled]="type == 'View'"
+        />
+      </div>
+    </div>
+
+    <div class="col-12 mx-auto">
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-success btn-label mt-3">
+          <i class="bi {{ buttonIcon }} label-icon align-middle fs-16 me-2"></i
+          >{{ buttonName }}
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="modal-footer"></div>

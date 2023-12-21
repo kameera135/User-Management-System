@@ -111,6 +111,14 @@ export class TableComponent {
 
   allowtoReject: boolean = false;
 
+  allowtoBulkActivate: boolean = false;
+
+  allowtoBulkDeactivate: boolean = false;
+
+  bulkActivationAllowed: boolean = false;
+
+  bulkDeactivationAllowed: boolean = false;
+
   allowtoDisplayAcknowledged: boolean = false;
 
   allowtoAcknowledge: boolean = false;
@@ -134,6 +142,10 @@ export class TableComponent {
   allowtoAddFacilityManager: boolean = false;
 
   allowtoRemoveFacilityManager: boolean = false;
+
+  userAllowBulkActivateButton: boolean = false;
+
+  userAllowBulkDeactivateButton: boolean = false;
 
   titleOfTable: string = "";
 
@@ -166,6 +178,10 @@ export class TableComponent {
   approve_single_record_permission: string = "";
 
   reject_single_record_permission: string = "";
+
+  recordDeactivateConfirmationMessage: string = "";
+
+  recordActivateConfirmationMessage: string = "";
 
   constructor(
     private modalService: NgbModal,
@@ -242,6 +258,10 @@ export class TableComponent {
 
       this.allowtoReject = this.dataTableOptions.allowRejectButton;
 
+      this.allowtoBulkActivate = this.dataTableOptions.allowActivateButton;
+
+      this.allowtoBulkDeactivate = this.dataTableOptions.allowDeactivateButton;
+
       this.allowCheckBoxes = this.dataTableOptions.allowCheckbox;
 
       this.allowtoGenerate = this.dataTableOptions.allowGenerateButton;
@@ -267,6 +287,12 @@ export class TableComponent {
       this.userAllowBulkRejectButton =
         this.dataTableOptions.allowBulkRejectButton;
 
+      this.userAllowBulkActivateButton =
+        this.dataTableOptions.allowBulkActivateButton;
+
+      this.userAllowBulkDeactivateButton =
+        this.dataTableOptions.allowBulkDeactivateButton;
+
       // this.userAllowBulkDeleteButton =
       //   this.dataTableOptions.allowBulkApproveButton;
 
@@ -288,6 +314,9 @@ export class TableComponent {
       this.recordDeletedNotificationMessage =
         this.dataTableOptions.recordDeletedNotificationMessage;
 
+      this.recordDeactivateConfirmationMessage =
+        this.dataTableOptions.recordDeactivateConfirmationMessage;
+
       this.recordUpdatedNotificationMessage =
         this.dataTableOptions.recordUpdatedNotificationMessage;
 
@@ -296,6 +325,9 @@ export class TableComponent {
 
       this.recordRejectedNotificationMessage =
         this.dataTableOptions.recordRejectedNotificationMessage;
+
+      this.recordActivateConfirmationMessage =
+        this.dataTableOptions.recordActivateConfirmationMessage;
     }
   }
 
@@ -562,15 +594,23 @@ export class TableComponent {
     ) {
       this.bulkApprovalAllowed = true;
 
+      this.bulkActivationAllowed = true;
+
       this.bulkDeleteAllowed = true;
 
       this.bulkRejectAllowed = true;
+
+      this.bulkDeactivationAllowed = true;
     } else {
       this.bulkApprovalAllowed = false;
+
+      this.bulkActivationAllowed = false;
 
       this.bulkDeleteAllowed = false;
 
       this.bulkRejectAllowed = false;
+
+      this.bulkDeactivationAllowed = false;
     }
   }
 

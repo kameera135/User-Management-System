@@ -351,7 +351,7 @@ export class UsersViewComponent {
           this.alertService.sideErrorAlert(
             "Error",
             this.appService.popUpMessageConfig[0]
-              .GetUserListSuccessSideAlertMessage
+              .GetUserListErrorSideAlertMessage
           );
 
           this.userList = [];
@@ -377,7 +377,7 @@ export class UsersViewComponent {
           this.alertService.sideErrorAlert(
             "Error",
             this.appService.popUpMessageConfig[0]
-              .GetUserListSuccessSideAlertMessage
+              .GetUserListErrorSideAlertMessage
           );
 
           this.userList = [];
@@ -413,7 +413,7 @@ export class UsersViewComponent {
           this.alertService.sideErrorAlert(
             "Error",
             this.appService.popUpMessageConfig[0]
-              .GetUserListSuccessSideAlertMessage
+              .GetUserListErrorSideAlertMessage
           );
 
           this.userList = [];
@@ -453,7 +453,7 @@ export class UsersViewComponent {
           this.alertService.sideErrorAlert(
             "Error",
             this.appService.popUpMessageConfig[0]
-              .GetUserListSuccessSideAlertMessage
+              .GetUserListErrorSideAlertMessage
           );
 
           this.userList = [];

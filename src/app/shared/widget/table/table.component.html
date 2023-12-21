@@ -393,6 +393,46 @@
 
               <button
                 type="button"
+                [disabled]="!bulkApprovalAllowed"
+                *ngIf="allowtoApprove && userAllowBulkApproveButton"
+                (click)="confirm(appoveModal, -1, 'Approve')"
+                class="btn btn-success btn-label"
+                ngbTooltip="Bulk Approval"
+              >
+                <i
+                  class="bi bi-check-lg label-icon align-middle fs-16 me-2"
+                ></i>
+                Approve
+              </button>
+
+              <button
+                type="button"
+                [disabled]="!bulkActivationAllowed"
+                *ngIf="allowtoBulkActivate && userAllowBulkActivateButton"
+                (click)="confirm(appoveModal, -1, 'Approve')"
+                class="btn btn-success btn-label"
+                ngbTooltip="Activate selected items"
+              >
+                <i
+                  class="bi bi-check-lg label-icon align-middle fs-16 me-2"
+                ></i>
+                Activate
+              </button>
+
+              <button
+                type="button"
+                [disabled]="!bulkDeactivationAllowed"
+                *ngIf="allowtoBulkDeactivate && userAllowBulkDeactivateButton"
+                (click)="confirm(rejectModal, -1, 'Reject')"
+                class="btn btn-warning btn-label"
+                ngbTooltip="Deactivate selected items"
+              >
+                <i class="bi bi-x-lg label-icon align-middle fs-16 me-2"></i>
+                Deactivate
+              </button>
+
+              <button
+                type="button"
                 [disabled]="!bulkDeleteAllowed"
                 *ngIf="allowtoDelete && userAllowBulkDeleteButton"
                 (click)="confirm(deleteModal, -1, 'Delete')"
@@ -590,7 +630,6 @@
       </div>
     </div>
   </div>
-  <!-- /.modal-content -->
 
   <!-- rowItemDisplayModal -->
   <ng-template #rowItemDisplayModal let-modal>

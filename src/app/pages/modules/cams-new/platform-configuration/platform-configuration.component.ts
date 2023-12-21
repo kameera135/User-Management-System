@@ -2,14 +2,12 @@ import { Component } from "@angular/core";
 import { BreadcrumbService } from "src/app/services/breadcrumb/breadcrumb.service";
 import { tableOptions } from "src/app/shared/models/tableOptions";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { NgToastService } from "ng-angular-popup";
 import { PlatformConfigurationService } from "src/app/services/cams-new/configuration services/platform-configuration.service";
-import { ConsumptionByService } from "src/app/shared/models/Tbs/consumptionByService";
 import { AppService } from "src/app/app.service";
-import { Unit } from "src/app/shared/models/Tbs/unit";
-import { LocationMapService } from "src/app/services/location-map.service";
-import { isEmpty, isNull } from "lodash";
-import { ReportService } from "src/app/services/ReportServices/report.service";
+import { Platform } from "src/app/shared/models/Cams-new/Platform";
+import { MessageService } from "src/app/services/PopupMessages/message.service";
+import { PlatformConfigurationModalComponent } from "src/app/shared/widget/config/platform-configuration-modal/platform-configuration-modal.component";
+import { UpdateConfirmationModalComponent } from "src/app/shared/widget/config/update-confirmation-modal/update-confirmation-modal.component";
 
 @Component({
   selector: "app-platform-configuration",
@@ -17,425 +15,614 @@ import { ReportService } from "src/app/services/ReportServices/report.service";
   styleUrls: ["./platform-configuration.component.scss"],
 })
 export class PlatformConfigurationComponent {
-  asseteTreeData: any = {};
-  userId: number = 0;
-  tenantName: string = "Name of the Tenant";
-  unitCode: string = "STN1-BLD2-UNT-749567";
-  unitName: string = "Select..";
-  selectedServiceMeterId: string = "";
-  selectedServiceType: string = "";
-  selectedServiceUnit: string = "";
-  meterList: string = "";
-  selectedYear: string = new Date().getFullYear().toString();
-  selectedMonth: string = (new Date().getMonth() + 1).toString();
-  selectedTenant: string = "";
-  serviceList: any[] = [];
-  filterdResult: any[] = [];
-  yearList: any[] = [];
-  monthList: any[] = [];
-  tenantList: any[] = [];
-  consumptionData: any[] = [];
   loadingInProgress: boolean = false;
-  pageSize: any[] = [50];
-  selectedPageSize: number = 50;
-  serviceSet: any[] = [];
-  meterPrintList: string[] = [];
-  nameOfOrganization: string = "";
-  moduleName: string = "";
-  reportMonth: string = "";
-  dateTime: string = "";
 
-  selectedUnit!: Unit;
-  unitId!: string;
+  platformModel!: Platform;
+  platformList!: Platform[];
+  platformDetailsArray: any = [];
 
-  consumptionByServiceModel!: ConsumptionByService;
-  consumptionByServiceData!: ConsumptionByService[];
+  totalDataCount!: number;
+  selectedPage: number = 1;
+  selectedPageSize: number = 20;
 
-  loading: boolean = false;
+  searchTerm!: string;
 
-  consumptionTableOptions: tableOptions = new tableOptions();
+  roleList: any[] = [{ value: "All", id: 1 }];
+  selectedRole: string = "All";
+
+  platformUpdatedNotificationMessage!: string;
+
+  serchedTerm!: string;
+
+  platformConfigTableOptions: tableOptions = new tableOptions();
 
   headArray = [
-    //{ 'Head': '', 'FieldName': '', 'ColumnType': 'CheckBox' },
-    { Head: "Date", FieldName: "date", ColumnType: "Data" },
+    { Head: "", FieldName: "", ColumnType: "CheckBox" },
+    { Head: "Platform Code", FieldName: "PlatformCode", ColumnType: "Data" },
     {
-      Head: "Normal Consumption",
-      FieldName: "normalConsumption",
+      Head: "Application Name",
+      FieldName: "ApplicationName",
       ColumnType: "Data",
-      AllowSort: false,
     },
-    {
-      Head: "Extended Consumption",
-      FieldName: "extendedConsumption",
-      ColumnType: "Data",
-      AllowSort: false,
-    },
-    { Head: "Total", FieldName: "total", ColumnType: "Data", AllowSort: false },
+    { Head: "Description", FieldName: "Description", ColumnType: "Data" },
+    { Head: "Status", FieldName: "Status", ColumnType: "Data" },
+    { Head: "", FieldName: "", ColumnType: "Action" },
   ];
 
-  dataArray: any = [];
-
-  dataTable = [
-    { date: "", normalConsumption: 0, extendedConsumption: 0, total: 0 },
+  //to remove
+  tableData = [
+    {
+      PlatformCode: "Code001",
+      ApplicationName: "ApplicationL",
+      Description: "This is description one",
+      Status: "Active",
+      isRejecteableOrApprovableRecord: true,
+    },
+    {
+      PlatformCode: "Code002",
+      ApplicationName: "ApplicationM",
+      Description: "This is description two",
+      Status: "Active",
+      isRejecteableOrApprovableRecord: true,
+    },
+    {
+      PlatformCode: "Code002",
+      ApplicationName: "ApplicationM",
+      Description: "This is description three",
+      Status: "Active",
+      isRejecteableOrApprovableRecord: true,
+    },
   ];
-
-  // dataTable = [
-  //   { date: '2023-10-25', normalConsumption: 524, extendedConsumption: 264, total: 788, isRejecteableOrApprovableRecord: true },
-  //   { 'date': '2023-10-26', 'normalConsumption': 658, 'extendedConsumption': 221, 'total': 654, 'isRejecteableOrApprovableRecord': true },
-  // ]
-
-  //================================================
-
-  // dataTable = [
-  //   // do this
-  //   { 'Date': '2023-06-' + Math.floor(Math.random() * 30), 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'Total': Math.floor(Math.random() * 1000), 'isRejecteableOrApprovableRecord': true },
-  //   { 'Date': '2023-06-' + Math.floor(Math.random() * 30), 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'Total': Math.floor(Math.random() * 1000), 'isRejecteableOrApprovableRecord': true },
-  //   { 'Date': '2023-06-' + Math.floor(Math.random() * 30), 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'Total': Math.floor(Math.random() * 1000), 'isRejecteableOrApprovableRecord': true },
-  //   { 'Date': '2023-06-' + Math.floor(Math.random() * 30), 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'Total': Math.floor(Math.random() * 1000), 'isRejecteableOrApprovableRecord': true },
-  //   { 'Date': '2023-06-' + Math.floor(Math.random() * 30), 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'Total': Math.floor(Math.random() * 1000), 'isRejecteableOrApprovableRecord': true },
-  //   { 'Date': '2023-06-' + Math.floor(Math.random() * 30), 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'Total': Math.floor(Math.random() * 1000), 'isRejecteableOrApprovableRecord': true },
-  //   { 'Date': '2023-06-' + Math.floor(Math.random() * 30), 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'Total': Math.floor(Math.random() * 1000), 'isRejecteableOrApprovableRecord': true },
-  // ]
-
-  // headArray1 = [
-  //   { 'Head': '', 'FieldName': '', 'ColumnType': 'CheckBox' },
-  //   { 'Head': 'Tenant', 'FieldName': 'Tenant', 'ColumnType': 'Data' },
-  //   { 'Head': 'Date', 'FieldName': 'Date', 'ColumnType': 'Data' },
-  //   { 'Head': 'Normal Consumption', 'FieldName': 'NormalConsumption', 'ColumnType': 'Data' },
-  //   { 'Head': 'Extended Consumption', 'FieldName': 'ExtendedConsumption', 'ColumnType': 'Data' },
-  //   { 'Head': 'Normal Compensate', 'FieldName': 'NormalCompensate', 'ColumnType': 'Data' },
-  //   { 'Head': 'Extended Compensate', 'FieldName': 'ExtendedCompensate', 'ColumnType': 'Data' },
-
-  // ];
-
-  // //this is fake data, just for demo purpose
-  // dataTable1 = [
-  //   { 'Date': '2023-06-' + Math.floor(Math.random() * 30), 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'NormalCompensate': Math.floor(Math.random() * 1000), 'ExtendedCompensate': Math.floor(Math.random() * 1000), 'isRejecteableOrApprovableRecord': true },
-  //   { 'Date': '2023-06-' + Math.floor(Math.random() * 30), 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'NormalCompensate': Math.floor(Math.random() * 1000), 'ExtendedCompensate': Math.floor(Math.random() * 1000) },
-  //   { 'Date': '2023-06-' + Math.floor(Math.random() * 30), 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'NormalCompensate': Math.floor(Math.random() * 1000), 'ExtendedCompensate': Math.floor(Math.random() * 1000) },
-  //   { 'Date': '2023-06-' + Math.floor(Math.random() * 30), 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'NormalCompensate': Math.floor(Math.random() * 1000), 'ExtendedCompensate': Math.floor(Math.random() * 1000) },
-  //   { 'Date': '2023-06-' + Math.floor(Math.random() * 30), 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'NormalCompensate': Math.floor(Math.random() * 1000), 'ExtendedCompensate': Math.floor(Math.random() * 1000) },
-  //   { 'Date': '2023-06-' + Math.floor(Math.random() * 30), 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'NormalCompensate': Math.floor(Math.random() * 1000), 'ExtendedCompensate': Math.floor(Math.random() * 1000) },
-  //   { 'Date': '2023-06-' + Math.floor(Math.random() * 30), 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'NormalCompensate': Math.floor(Math.random() * 1000), 'ExtendedCompensate': Math.floor(Math.random() * 1000) },
-  //   { 'Date': '2023-06-' + Math.floor(Math.random() * 30), 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'NormalCompensate': Math.floor(Math.random() * 1000), 'ExtendedCompensate': Math.floor(Math.random() * 1000) },
-  //   { 'Date': '2023-06-' + Math.floor(Math.random() * 30), 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'NormalCompensate': Math.floor(Math.random() * 1000), 'ExtendedCompensate': Math.floor(Math.random() * 1000) },
-  // ];
-
-  // ====================================================
 
   constructor(
     private breadcrumbService: BreadcrumbService,
-    private consumptionService: PlatformConfigurationService,
-    private notifierService: NgToastService,
+    private shared: PlatformConfigurationService,
+    private modalService: NgbModal,
     private appService: AppService,
-    private locationMap: LocationMapService,
-    private reportService: ReportService
+    private alertService: MessageService
   ) {}
 
   ngOnInit(): void {
-    //this.consumptionTableOptions.allowCheckbox = true;
-    this.consumptionTableOptions.allowGenerateButton = true;
+    var roles = this.appService.appConfig[0].roleList;
+    for (let i = 0; i < roles.length; i++) {
+      this.roleList.push(roles[i]);
+    }
 
-    this.nameOfOrganization = this.appService.appConfig[0].nameOfOrganization;
-    this.moduleName = this.appService.appConfig[0].moduleName;
+    this.platformConfigTableOptions.allowCheckbox = true;
+    this.platformConfigTableOptions.allowBulkDeleteButton = true;
+    this.platformConfigTableOptions.allowDeleteButton = true;
+    this.platformConfigTableOptions.allowUpdateButton = true;
+    this.platformConfigTableOptions.allowViewButton = true;
+    this.platformConfigTableOptions.allowActivateButton = true;
+    this.platformConfigTableOptions.allowBulkActivateButton = true;
+    this.platformConfigTableOptions.allowDeactivateButton = true;
+    this.platformConfigTableOptions.allowBulkDeactivateButton = true;
+
+    this.platformConfigTableOptions.rowEditConfirmationMessage =
+      this.appService.popUpMessageConfig[0].UpdatePlatformConfirmationMessage;
+    this.platformConfigTableOptions.rowDeleteConfirmationMessage =
+      this.appService.popUpMessageConfig[0].DeletePlatformConfirmationMessage;
+    this.platformConfigTableOptions.recordApproveConfirmationMessage =
+      this.appService.popUpMessageConfig[0].ActivatePlatformConfirmationMessage;
+    this.platformConfigTableOptions.recordRejectingConfirmationMessage =
+      this.appService.popUpMessageConfig[0].DeactivatePlatformConfirmationMessage;
 
     this.breadcrumbService.loadBreadcrumbValue([
       { label: "Configuration", active: false },
-      { label: "Platform Configuration", active: true },
+      { label: "Platforms", active: true },
     ]);
-
-    //this.selectedService = "";
-
-    //this.consumptionData = this.dataTable;
-
-    // this.serviceList = [
-    //   { value: "Water/Leters", id: 1 },
-    //   { value: "Electricity", id: 2 },
-    //   { value: "Air Condition", id: 3 },
-    //   { value: "Gas", id: 4 },
-    // ];
-
-    // this.yearList = [
-    //   { value: "2023", id: 1 },
-    //   { value: "2022", id: 2 },
-    //   { value: "2021", id: 3 },
-    // ];
-
-    let currentYear = new Date().getFullYear();
-    const maxYear = this.appService.appConfig[0].maximumYearRangeForInvoice;
-    for (let i = 0; i < maxYear; i++) {
-      this.yearList.push({ value: currentYear - i, id: i + 1 });
-    }
-
-    this.monthList = [
-      { value: "January", id: 1 },
-      { value: "February", id: 2 },
-      { value: "March", id: 3 },
-      { value: "April", id: 4 },
-      { value: "May", id: 5 },
-      { value: "June", id: 6 },
-      { value: "July", id: 7 },
-      { value: "August", id: 8 },
-      { value: "September", id: 9 },
-      { value: "October", id: 10 },
-      { value: "November", id: 11 },
-      { value: "December", id: 12 },
-    ];
-
-    this.tenantList = [
-      { value: "Tenant-1", id: 1 },
-      { value: "Tenant-2", id: 2 },
-      { value: "Tenant-3", id: 3 },
-      { value: "Tenant-4", id: 4 },
-      { value: "Tenant-5", id: 5 },
-      { value: "Tenant-6", id: 6 },
-      { value: "Tenant-7", id: 7 },
-      { value: "Tenant-8", id: 8 },
-      { value: "Tenant-9", id: 9 },
-      { value: "Tenant-10", id: 10 },
-    ];
-
-    //this.fetchAssertTree();
-
-    this.loadData();
-  }
-
-  onAsseteTreeChanged(selectedItems: any[]): void {
-    window.alert(selectedItems.map((x) => x.unitName).join(", ") + " selected");
   }
 
   loadData() {
-    if (this.selectedYear != "" && this.selectedMonth != "") {
-      //window.alert("Year and Month selected");
-      this.fetchConsumptionByService();
-      this.findSelectedService(this.unitId);
-      this.meterList = this.selectedServiceMeterId;
-
-      this.meterPrintList = this.meterList.split(",");
-      console.log("&&&&", this.selectedServiceMeterId);
-      console.log("%%%%%", this.meterPrintList[0]);
-    }
-  }
-
-  fetchConsumptionByService() {
     this.loadingInProgress = true;
-
     if (
-      this.selectedServiceMeterId != "" &&
-      this.selectedServiceMeterId != undefined
+      (this.serchedTerm == undefined ||
+        this.serchedTerm == null ||
+        this.serchedTerm == "") &&
+      (this.selectedRole == undefined ||
+        this.selectedRole == null ||
+        this.selectedRole == "All" ||
+        this.selectedRole == "")
     ) {
-      // this.loadingInProgress = true
-      // this.consumptionService
-      //   .getConsumptionByService(
-      //     this.selectedYear,
-      //     this.selectedMonth,
-      //     this.selectedServiceMeterId
-      //   )
-      //   .subscribe({
-      //     next: (result: any) => {
-      //       this.consumptionByServiceData = result;
-      //       console.log("Getting consumption by service data: ");
-      //       // console.log(this.consumptionByServiceData);
-      //       console.log("Service", this.selectedServiceMeterId);
-      //       console.log(result);
-      //       for (let i = 0; i < this.monthList.length; i++) {
-      //         if (this.selectedMonth == this.monthList[i].id) {
-      //           this.reportMonth = this.monthList[i].value;
-      //           console.log("+++", this.reportMonth);
-      //         }
-      //       }
-      //       if (!isNull(this.consumptionByServiceData)) this.updateTable();
-      //       else this.dataTable = [];
-      //       this.dataArray = this.dataTable;
-      //       this.loadingInProgress = false;
-      //     },
-      //     error: (error) => {
-      //       console.log("Getting consumption by service data: error");
-      //       console.log(error);
-      //       this.dataTable = [];
-      //       this.notifierService.error({
-      //         detail: "Error",
-      //         summary: "Could not retrieve the data list.",
-      //         duration: 4000,
-      //       });
-      //       this.loadingInProgress = false;
-      //     },
-      //   });
+      this.getAllPlatforms();
+    } else if (
+      (this.serchedTerm != undefined ||
+        this.serchedTerm != null ||
+        this.serchedTerm != "") &&
+      (this.selectedRole == undefined ||
+        this.selectedRole == null ||
+        this.selectedRole == "All" ||
+        this.selectedRole == "")
+    ) {
+      this.searchPlatforms(this.serchedTerm);
+    } else if (
+      (this.serchedTerm == undefined ||
+        this.serchedTerm == null ||
+        this.serchedTerm == "") &&
+      (this.selectedRole != undefined ||
+        this.selectedRole != null ||
+        this.selectedRole != "All" ||
+        this.selectedRole != "")
+    ) {
+      this.getPlatformsByRole(this.serchedTerm);
+    } else if (
+      (this.serchedTerm != undefined ||
+        this.serchedTerm != null ||
+        this.serchedTerm != "") &&
+      (this.selectedRole != undefined ||
+        this.selectedRole != null ||
+        this.selectedRole != "All" ||
+        this.selectedRole != "")
+    ) {
+      this.searchPlatformsByRole(this.serchedTerm, this.selectedRole);
     } else {
-      this.dataArray = [];
-      this.loadingInProgress = false;
+      this.getAllPlatforms();
+      this.alertService.sideErrorAlert("Error", "Could not retrive data");
     }
   }
 
   updateTable() {
-    this.dataTable = this.consumptionByServiceData.map((item) => ({
-      //date: item.date,
-      date: new Date(item.date).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "2-digit",
-      }),
-      normalConsumption: item.normalConsumption,
-      extendedConsumption: item.extendedConsumption,
-      total: item.normalConsumption + item.extendedConsumption,
-      isRejecteableOrApprovableRecord: true,
+    this.platformDetailsArray = this.platformList.map((item) => ({
+      PlatformCode: item.platformCode,
+      ApplicationName: item.applicationName,
+      Description: item.description,
+      Status: item.status,
     }));
-    // this.consumptionData = this.dataTable;
-    // console.log(this.consumptionData);
-
-    return this.dataTable;
+    this.tableData = this.platformDetailsArray;
   }
 
-  // fetchAssertTree() {
-  //   this.userId = this.appService.user.id;
-  //   this.loadingInProgress = true
-  //   this.locationMap.getLocationMap(this.userId).subscribe({
-  //     next: (results) => {
-  //       this.asseteTreeData = results;
-  //       this.loadingInProgress = false
-  //     },
-  //     error: (error) => {
-  //       console.log('Getting Assert Tree : error');
-  //       console.log(error);
-  //       this.loadingInProgress = false;
-  //     }
-  //   })
-  // }
-
-  getSelectedUnitFromTree(item: any) {
-    this.consumptionByServiceData = [];
-    this.selectedUnit = item;
-    this.unitId = item.id;
-    this.unitName = item.name;
-    this.selectedServiceMeterId = "";
-
+  onPaginationChange(page: number): void {
+    this.selectedPage = page;
     this.loadData();
-    this.fetchServices(item.id);
+  }
+  onPagesizeChange(pageSize: number): void {
+    this.selectedPageSize = pageSize;
+    this.loadData();
   }
 
-  fetchServices(unitId: string) {
-    // this.loadingInProgress = true;
-    // this.consumptionService.getServices(unitId).subscribe({
-    //   next: (results) => {
-    //     console.log("Getting the Assert Tree:", results);
-    //     this.serviceList = results;
-    //     console.log("this.serviceList", this.serviceList);
-    //     this.loadingInProgress = false;
-    //   },
-    //   error: (error) => {
-    //     console.log("Getting Assert Tree : error", error);
-    //     this.loadingInProgress = false;
-    //   },
-    // });
+  onAddPlatformButtonClicked(): void {
+    this.openModal("Add", "New Platform", "", "", "", "");
   }
 
-  findSelectedService(unitId: string) {
-    // this.consumptionService.getServices(unitId).subscribe({
-    //   next: (results) => {
-    //     for (let i = 0; i < results.length; i++) {
-    //       //for (let j = 0; j < results[i].meterList.length; j++) {
-    //       if (this.selectedServiceMeterId == results[i].meterList) {
-    //         this.selectedServiceType = results[i].serviceType;
-    //         this.selectedServiceUnit = results[i].unit;
-    //         console.log("$$$$$ ", this.selectedServiceType);
-    //         console.log("$$$$$ ", results[i].unit);
-    //       }
-    //       //}
-    //     }
-    //     // for (let i = 0; i < results.length; i++) {
-    //     //   if (this.selectedServiceType == results[i].serviceType) {
-    //     //     this.meterList = results[i].meterList
-    //     //     console.log("lllllllll", this.meterList)
-    //     //   }
-    //     // }
-    //   },
-    //   error: (error) => {
-    //     console.log("Getting Assert Tree : error", error);
-    //   },
-    // });
-  }
-
-  getDateTime() {
-    var today = new Date();
-    var date =
-      today.getFullYear() +
-      "-" +
-      (today.getMonth() + 1).toString().padStart(2, "0") +
-      "-" +
-      today.getDate().toString().padStart(2, "0");
-    var time =
-      today.getHours().toString().padStart(2, "0") +
-      ":" +
-      today.getMinutes().toString().padStart(2, "0") +
-      ":" +
-      today.getSeconds().toString().padStart(2, "0");
-    this.dateTime = date + " " + time;
-  }
-
-  downloadExcel() {
-    //var reportName = `Consumption_By_Service_${this.unitName}_${this.selectedServiceType}`
-
-    var reportName =
-      this.appService.appConfig[0].consumptionReportName[0]
-        .consumption_by_service +
-      ` ${this.selectedYear}-${this.selectedMonth.padStart(2, "0")} (${
-        this.unitCode
-      })`;
-    var sheetName =
-      this.appService.appConfig[0].consumptionSheetName[0]
-        .consumption_by_service;
-
-    //var arrayOfArrayData: any = [];
-
-    var arrayOfArrayData = [
-      [this.nameOfOrganization + ` - ` + this.moduleName],
-      [],
-      ["Consumption By Service Report"],
-      [],
-      //[`Daily Consumption - ( ${this.selectedServiceType} ) - ${this.selectedYear}/${this.selectedMonth}`],
-      ["Unit", `${this.unitName} (${this.unitCode})`],
-      ["Year and Month", `${this.selectedYear} - ${this.reportMonth}`],
-      [
-        "Service Type",
-        `${this.selectedServiceType} (${this.selectedServiceUnit})`,
-      ],
-      ["Included Meters", `${this.meterPrintList}`],
-      [],
-      ["Date", "Normal Consumption", "Extended Consumption", "Total"],
-    ];
-
-    // for (var i = 0; i < arrayData.length; i++) {
-    //   var rowData: any = ["", arrayData[i][1]];
-
-    //   arrayOfArrayData.push(rowData)
-    // }
-
-    for (var i = 0; i < this.dataTable.length; i++) {
-      var rowData: any = [
-        this.dataTable[i].date,
-        this.dataTable[i].normalConsumption,
-        this.dataTable[i].extendedConsumption,
-        this.dataTable[i].total,
-      ];
-      arrayOfArrayData.push(rowData);
-    }
-    this.getDateTime();
-    arrayOfArrayData.push([], ["Generated At : " + `${this.dateTime}`]);
-    console.log("dd", arrayOfArrayData);
-
-    this.reportService.generateExcelFile(
-      arrayOfArrayData,
-      sheetName,
-      reportName
+  onEditButtonClicked(row: any) {
+    this.openModal(
+      "Edit",
+      "Edit Platform Details",
+      row.PlatformCode,
+      row.ApplicationName,
+      row.Description,
+      row.Status
     );
   }
 
-  // getServices(item: any) {
-  //   console.log(item)
-  //   this.selectedUnit = item;
-  //   this.unitId = item.id
-  //   this.unitName = item.name
-  //   //this.fetchMeterListByUnitId(item.id)
-  //   this.fetchConsumptionByService()
-  // }
+  onViewButtonClicked(row: any) {
+    this.openModal(
+      "View",
+      "Platform Details",
+      row.PlatformCode,
+      row.ApplicationName,
+      row.Description,
+      row.Status
+    );
+  }
+
+  openModal(
+    type: string,
+    modalTitle: string,
+    platformCode: string,
+    applicationName: string,
+    description: string,
+    status: string
+  ): void {
+    const modalRef = this.modalService.open(
+      PlatformConfigurationModalComponent,
+      {
+        size: "s",
+        centered: true,
+        backdrop: "static",
+        keyboard: false,
+      }
+    );
+
+    modalRef.componentInstance.type = type;
+    modalRef.componentInstance.modalTitle = modalTitle;
+
+    modalRef.componentInstance.platformCode = platformCode;
+    modalRef.componentInstance.applicationName = applicationName;
+    modalRef.componentInstance.description = description;
+    modalRef.componentInstance.status = status;
+
+    modalRef.result
+      .then((result) => {
+        if (result) {
+          console.log("Getting data from Platform Configuration Modal");
+          console.log(result);
+
+          this.platformModel = result;
+          if (type == "Add") {
+            this.postPlatform(this.platformModel);
+          } else if (type == "Edit") {
+            this.putPlatform(this.platformModel);
+          } else if (type == "View") {
+            //confirmation modal open
+            const modalRefForConfirmation = this.modalService.open(
+              UpdateConfirmationModalComponent,
+              {
+                centered: true,
+                backdrop: "static",
+                keyboard: false,
+              }
+            );
+            modalRefForConfirmation.componentInstance.notificationMessage =
+              this.platformConfigTableOptions.rowEditConfirmationMessage;
+            modalRefForConfirmation.result
+              .then((result) => {
+                if (result == "Yes") {
+                  console.log("Confirmed to edit");
+                  this.openModal(
+                    "Edit",
+                    "Edit Platform Details",
+                    platformCode,
+                    applicationName,
+                    description,
+                    status
+                  );
+                } else {
+                  console.log("Not confirmed to edit");
+                  this.openModal(
+                    "View",
+                    "Platform",
+                    platformCode,
+                    applicationName,
+                    description,
+                    status
+                  );
+                }
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+            //second modal closed
+          }
+        } else {
+          console.log("Data not submitted from add Platform View Modal");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  getSearchTerm($event: KeyboardEvent) {
+    this.selectedPage = 1;
+    if ($event.key === "Enter") {
+      this.loadData();
+    }
+  }
+
+  getAllPlatforms() {
+    this.shared
+      .getAllPlatforms(this.selectedPage, this.selectedPageSize)
+      .subscribe({
+        next: (response) => {
+          this.platformList = response.response;
+          this.totalDataCount = response.rowCount;
+          this.updateTable();
+          this.loadingInProgress = false;
+        },
+        error: (error) => {
+          this.alertService.sideErrorAlert(
+            "Error",
+            this.appService.popUpMessageConfig[0]
+              .GetPlatformListErrorSideAlertMessage
+          );
+
+          this.platformList = [];
+          this.totalDataCount = 0;
+
+          this.updateTable();
+          this.loadingInProgress = false;
+        },
+      });
+  }
+
+  getPlatformsByRole(role: string) {
+    this.shared
+      .getPlatformsByRole(role, this.selectedPage, this.selectedPageSize)
+      .subscribe({
+        next: (response: any) => {
+          this.platformList = response.response;
+          this.totalDataCount = response.rowCount;
+          this.updateTable();
+          this.loadingInProgress = false;
+        },
+        error: (error: any) => {
+          this.alertService.sideErrorAlert(
+            "Error",
+            this.appService.popUpMessageConfig[0]
+              .GetPlatformListErrorSideAlertMessage
+          );
+
+          this.platformList = [];
+          this.totalDataCount = 0;
+
+          this.updateTable();
+          this.loadingInProgress = false;
+        },
+      });
+  }
+
+  searchPlatforms(serchedTerm: string) {
+    this.shared
+      .getSearchedPlatforms(
+        serchedTerm,
+        this.selectedPage,
+        this.selectedPageSize
+      )
+      .subscribe({
+        next: (response: any) => {
+          this.platformList = response.response;
+          this.totalDataCount = response.rowCount;
+
+          if (this.totalDataCount > 0) {
+            this.updateTable();
+            this.loadingInProgress = false;
+          } else {
+            this.alertService.warningSweetAlertMessage(
+              this.appService.popUpMessageConfig[0].NoDataNotificationMessage,
+              "No Data!",
+              4000
+            );
+            this.getAllPlatforms();
+          }
+        },
+        error: (error: any) => {
+          this.alertService.sideErrorAlert(
+            "Error",
+            this.appService.popUpMessageConfig[0]
+              .GetPlatformListErrorSideAlertMessage
+          );
+
+          this.platformList = [];
+          this.totalDataCount = 0;
+
+          this.updateTable();
+          this.loadingInProgress = false;
+        },
+      });
+  }
+
+  searchPlatformsByRole(serchedTerm: string, role: string) {
+    this.shared
+      .getSearchedPlatformsByRole(
+        serchedTerm,
+        role,
+        this.selectedPage,
+        this.selectedPageSize
+      )
+      .subscribe({
+        next: (response: any) => {
+          this.platformList = response.response;
+          this.totalDataCount = response.rowCount;
+          if (this.totalDataCount > 0) {
+            this.updateTable();
+            this.loadingInProgress = false;
+          } else {
+            this.alertService.warningSweetAlertMessage(
+              this.appService.popUpMessageConfig[0].NoDataNotificationMessage,
+              "No Data!",
+              4000
+            );
+            this.getAllPlatforms();
+          }
+        },
+        error: (error: any) => {
+          this.alertService.sideErrorAlert(
+            "Error",
+            this.appService.popUpMessageConfig[0]
+              .GetPlatformListErrorSideAlertMessage
+          );
+
+          this.platformList = [];
+          this.totalDataCount = 0;
+
+          this.updateTable();
+          this.loadingInProgress = false;
+        },
+      });
+  }
+
+  postPlatform(platform: any) {
+    console.log("Add", platform);
+    this.shared.postPlatform(platform).subscribe({
+      next: (response: any) => {
+        console.log(response);
+
+        this.alertService.sideSuccessAlert(
+          "Success",
+          this.appService.popUpMessageConfig[0]
+            .PlatformAddedSuccessSideAlertMessage
+        );
+        this.alertService.successSweetAlertMessage(
+          this.appService.popUpMessageConfig[0]
+            .PlatformAddedNotificationMessage,
+          "Updated!",
+          4000
+        );
+
+        this.loadData();
+      },
+      error: (error: any) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0]
+            .PlatformAddedErrorSideAlertMessage
+        );
+        //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
+      },
+    });
+  }
+
+  putPlatform(platform: Platform): void {
+    console.log("Edit", platform);
+    this.shared.putPlatform(platform).subscribe({
+      next: (response: any) => {
+        console.log(response);
+
+        this.alertService.sideSuccessAlert(
+          "Success",
+          this.appService.popUpMessageConfig[0]
+            .PlatformUpdatedSuccessSideAlertMessage
+        );
+        this.alertService.successSweetAlertMessage(
+          this.appService.popUpMessageConfig[0]
+            .PlatformUpdatedNotificationMessage,
+          "Updated!",
+          4000
+        );
+
+        this.loadData();
+      },
+      error: (error: any) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0]
+            .PlatformUpdatedErrorSideAlertMessage
+        );
+        //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
+      },
+    });
+  }
+
+  deletePlatforms(items: any): void {
+    let ids: number[] = [];
+
+    items.forEach((element: any) => {
+      ids.push(element.id);
+    });
+
+    this.removeplatforms(ids);
+  }
+
+  removeplatforms(ids: number[]): void {
+    this.shared.deletePlatform(ids).subscribe({
+      next: (response: any) => {
+        console.log(response);
+
+        this.alertService.sideSuccessAlert(
+          "Success",
+          this.appService.popUpMessageConfig[0]
+            .PlatformDeletedSuccessSideAlertMessage
+        );
+        this.alertService.successSweetAlertMessage(
+          this.appService.popUpMessageConfig[0]
+            .PlatformDeletedNotificationMessage,
+          "Deleted!",
+          4000
+        );
+
+        this.loadData();
+      },
+
+      error: (error: any) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0]
+            .PlatformDeletedErrorSideAlertMessage
+        );
+        //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
+      },
+    });
+  }
+
+  activatePlatforms(items: any): void {
+    let ids: number[] = [];
+
+    items[0].forEach((element: any) => {
+      ids.push(element.id);
+    });
+
+    console.log(ids);
+
+    this.activatePlatform(ids);
+  }
+
+  deactivatePlatforms(items: any): void {
+    let ids: number[] = [];
+
+    items[0].forEach((element: any) => {
+      ids.push(element.id);
+    });
+
+    console.log(ids);
+
+    this.deactivatePlatform(ids);
+  }
+
+  activatePlatform(ids: number[]): void {
+    this.shared.activatePlatform(ids).subscribe({
+      next: (response: any) => {
+        console.log("Activating a Platform: ");
+        console.log(response);
+        this.alertService.sideSuccessAlert(
+          "Success",
+          this.appService.popUpMessageConfig[0]
+            .PlatformActivatedSuccessSideAlertMessage
+        );
+        this.alertService.successSweetAlertMessage(
+          this.appService.popUpMessageConfig[0]
+            .PlatformActivateNotificationMessage,
+          "Actvated!",
+          4000
+        );
+
+        this.loadData();
+      },
+
+      error: (error: any) => {
+        console.log("Activating a Platform: error");
+        console.log(error);
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0]
+            .PlatformActivatedErrorSideAlertMessage
+        );
+        //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
+      },
+    });
+  }
+
+  deactivatePlatform(ids: number[]): void {
+    this.shared.deactivatePlatform(ids).subscribe({
+      next: (response: any) => {
+        console.log("Deactivating a Platform: ");
+        console.log(response);
+
+        this.alertService.sideSuccessAlert(
+          "Success",
+          this.appService.popUpMessageConfig[0]
+            .PlatformDeactivatedSuccessSideAlertMessage
+        );
+        this.alertService.successSweetAlertMessage(
+          this.appService.popUpMessageConfig[0]
+            .PlatformDeactivateNotificationMessage,
+          "Deactvated!",
+          4000
+        );
+
+        this.loadData();
+      },
+
+      error: (error: any) => {
+        console.log("Deactivating a Platform: error");
+        console.log(error);
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0]
+            .PlatformDeactivatedErrorSideAlertMessage
+        );
+        //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
+      },
+    });
+  }
 }

@@ -47,6 +47,9 @@ import { ActivityLogsModalComponent } from "./config/activity-logs-modal/activit
 import { MatRadioModule } from "@angular/material/radio";
 import { UpdateConfirmationModalComponent } from "./config/update-confirmation-modal/update-confirmation-modal.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
+import { PlatformConfigurationModalComponent } from "./config/platform-configuration-modal/platform-configuration-modal.component";
+import { FeatureConfigurationModalComponent } from "./config/feature-configuration-modal/feature-configuration-modal.component";
+import { ProfileConfigurationModalComponent } from "./config/profile-configuration-modal/profile-configuration-modal.component";
 
 @NgModule({
   declarations: [
@@ -63,6 +66,9 @@ import { SidebarComponent } from "./sidebar/sidebar.component";
     ActivityLogsModalComponent,
     UpdateConfirmationModalComponent,
     SidebarComponent,
+    PlatformConfigurationModalComponent,
+    FeatureConfigurationModalComponent,
+    ProfileConfigurationModalComponent,
   ],
   imports: [
     CommonModule,
