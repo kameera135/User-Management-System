@@ -145,8 +145,8 @@ export class ActivityLogsComponent {
     this.usersViewTableOptions.allowViewActionsButton = true;
 
     this.breadcrumbService.loadBreadcrumbValue([
-      { label: "Users", active: false },
-      { label: "Users", active: true },
+      { label: "Activity Logs", active: false },
+      { label: "Activity Logs", active: true },
     ]);
   }
 

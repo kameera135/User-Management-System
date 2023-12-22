@@ -68,6 +68,38 @@ export class MenuService {
       ],
     },
     {
+      id: 400,
+      label: "Password Policy",
+      collapseid: "sidebarDashboards",
+      icon: "bi-file-earmark-lock",
+      module: "1",
+      subItems: [
+        {
+          id: 4,
+          label: "Password Policy",
+          link: "/password-policy",
+          parentId: 102,
+          module: "1",
+        },
+      ],
+    },
+    {
+      id: 500,
+      label: "Tokens",
+      collapseid: "sidebarDashboards",
+      icon: "bi-shield-lock",
+      module: "1",
+      subItems: [
+        {
+          id: 2,
+          label: "API Tokens",
+          link: "/api-tokens",
+          parentId: 102,
+          module: "1",
+        },
+      ],
+    },
+    {
       id: 300,
       label: "Activity Logs",
       collapseid: "sidebarDashboards",
@@ -102,38 +134,6 @@ export class MenuService {
         //   parentId: 800,
         //   module: "1",
         // },
-      ],
-    },
-    {
-      id: 400,
-      label: "Password Policy",
-      collapseid: "sidebarDashboards",
-      icon: "bi-file-earmark-lock",
-      module: "1",
-      subItems: [
-        {
-          id: 4,
-          label: "Password Policy",
-          link: "/password-policy",
-          parentId: 102,
-          module: "1",
-        },
-      ],
-    },
-    {
-      id: 500,
-      label: "Tokens",
-      collapseid: "sidebarDashboards",
-      icon: "bi-shield-lock",
-      module: "1",
-      subItems: [
-        {
-          id: 2,
-          label: "API Tokens",
-          link: "/api-tokens",
-          parentId: 102,
-          module: "1",
-        },
       ],
     },
     {

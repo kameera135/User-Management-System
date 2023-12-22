@@ -73,5 +73,11 @@
     	{ "value": "Tenant", "id": 2 },
     	{ "value": "TM", "id": 3 },
     	{ "value": "FM", "id": 4 }
+	],
+
+	"platformList":[
+    	{ "value": "Airecon Extention System", "id": 2 },
+    	{ "value": "Tenant Billing System", "id": 3 },
+    	{ "value": "Energy Management System", "id": 4 }
 	]
 }

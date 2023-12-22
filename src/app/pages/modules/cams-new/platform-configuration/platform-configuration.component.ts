@@ -40,8 +40,8 @@ export class PlatformConfigurationComponent {
     { Head: "", FieldName: "", ColumnType: "CheckBox" },
     { Head: "Platform Code", FieldName: "PlatformCode", ColumnType: "Data" },
     {
-      Head: "Application Name",
-      FieldName: "ApplicationName",
+      Head: "Platform Name",
+      FieldName: "PlatformName",
       ColumnType: "Data",
     },
     { Head: "Description", FieldName: "Description", ColumnType: "Data" },
@@ -53,21 +53,21 @@ export class PlatformConfigurationComponent {
   tableData = [
     {
       PlatformCode: "Code001",
-      ApplicationName: "ApplicationL",
+      PlatformName: "PlatformL",
       Description: "This is description one",
       Status: "Active",
       isRejecteableOrApprovableRecord: true,
     },
     {
       PlatformCode: "Code002",
-      ApplicationName: "ApplicationM",
+      PlatformName: "PlatformM",
       Description: "This is description two",
       Status: "Active",
       isRejecteableOrApprovableRecord: true,
     },
     {
       PlatformCode: "Code002",
-      ApplicationName: "ApplicationM",
+      PlatformName: "PlatformM",
       Description: "This is description three",
       Status: "Active",
       isRejecteableOrApprovableRecord: true,
@@ -164,7 +164,7 @@ export class PlatformConfigurationComponent {
   updateTable() {
     this.platformDetailsArray = this.platformList.map((item) => ({
       PlatformCode: item.platformCode,
-      ApplicationName: item.applicationName,
+      PlatformName: item.PlatformName,
       Description: item.description,
       Status: item.status,
     }));
@@ -189,7 +189,7 @@ export class PlatformConfigurationComponent {
       "Edit",
       "Edit Platform Details",
       row.PlatformCode,
-      row.ApplicationName,
+      row.PlatformName,
       row.Description,
       row.Status
     );
@@ -200,17 +200,18 @@ export class PlatformConfigurationComponent {
       "View",
       "Platform Details",
       row.PlatformCode,
-      row.ApplicationName,
+      row.PlatformName,
       row.Description,
       row.Status
     );
   }
 
+  
   openModal(
     type: string,
     modalTitle: string,
     platformCode: string,
-    applicationName: string,
+    platformName: string,
     description: string,
     status: string
   ): void {
@@ -228,7 +229,7 @@ export class PlatformConfigurationComponent {
     modalRef.componentInstance.modalTitle = modalTitle;
 
     modalRef.componentInstance.platformCode = platformCode;
-    modalRef.componentInstance.applicationName = applicationName;
+    modalRef.componentInstance.platformName = platformName;
     modalRef.componentInstance.description = description;
     modalRef.componentInstance.status = status;
 
@@ -263,7 +264,7 @@ export class PlatformConfigurationComponent {
                     "Edit",
                     "Edit Platform Details",
                     platformCode,
-                    applicationName,
+                    platformName,
                     description,
                     status
                   );
@@ -273,7 +274,7 @@ export class PlatformConfigurationComponent {
                     "View",
                     "Platform",
                     platformCode,
-                    applicationName,
+                    platformName,
                     description,
                     status
                   );

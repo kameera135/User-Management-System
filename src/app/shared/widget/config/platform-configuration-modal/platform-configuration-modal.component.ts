@@ -11,17 +11,20 @@ import { Platform } from "src/app/shared/models/Cams-new/Platform";
 })
 export class PlatformConfigurationModalComponent {
   roleList: any[] = this.appService.appConfig[0].roleList;
+  platformList: any[] = this.appService.appConfig[0].PlatformList;
 
   @Input() type!: string;
   @Input() modalTitle!: string;
 
   @Input() platformCode!: string;
-  @Input() applicationName!: string;
+  @Input() platformName!: string;
   @Input() description!: string;
   @Input() status!: any;
 
   buttonName!: string;
   buttonIcon!: string;
+  cancelButtonIcon: string = "bi-x-circle-fill";
+  cancelButtonName: string = "Cancel";
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -31,21 +34,27 @@ export class PlatformConfigurationModalComponent {
 
   ngOnInit() {
     if (this.type == "Add") {
+      //main button
       this.buttonName = "Add";
       this.buttonIcon = "bi-person-plus-fill";
+
     } else if (this.type == "Edit") {
       this.buttonName = "Save";
       this.buttonIcon = "bi-floppy2-fill";
+      
     } else {
       this.buttonName = "Edit";
       this.buttonIcon = "bi-pencil-fill";
     }
+    //cancel button
+      this.cancelButtonIcon;
+      this.cancelButtonName;
   }
 
   onFormSubmit() {
     if (
       this.platformCode == "" ||
-      this.applicationName == "" ||
+      this.platformName == "" ||
       this.description == "" ||
       this.status == ""
     ) {
@@ -59,7 +68,7 @@ export class PlatformConfigurationModalComponent {
 
     const platform = new Platform();
     platform.platformCode = this.platformCode;
-    platform.applicationName = this.applicationName;
+    platform.PlatformName = this.platformName;
     platform.description = this.description;
     platform.status = this.status;
 

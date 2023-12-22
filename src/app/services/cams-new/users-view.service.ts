@@ -26,8 +26,9 @@ export class UsersViewService {
     queryParams = queryParams.append("page", page);
     queryParams = queryParams.append("pageSize", pageSize);
 
-    // const url = `${this.apiUrl}/api/users`;
-    const url = `http://127.0.0.1:3000/api/users`;
+    //const url = `${this.apiUrl}/api/users`;
+    // const url = `https://bde3571dc2464887aa2530a7485c88fc.api.mockbin.io/`;
+    const url = `https://6e8a56b690f74a619f86ce09f1bd46eb.api.mockbin.io/`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 

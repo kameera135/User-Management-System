@@ -1,6 +1,6 @@
 export class Platform {
   platformCode!: string;
-  applicationName!: string;
+  PlatformName!: string;
   description!: string;
   status!: string;
 }

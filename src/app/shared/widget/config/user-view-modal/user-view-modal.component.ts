@@ -17,13 +17,16 @@ export class UserViewModalComponent {
   @Input() userName!: string;
   @Input() firstName!: string;
   @Input() lastName!: string;
-  @Input() role!: any;
+  @Input() platform!: any;
   @Input() email!: string;
   @Input() phoneNumber!: string;
   @Input() userProfileCode!: string;
 
   buttonName!: string;
   buttonIcon!: string;
+  cancelButtonIcon: string = "bi-x-circle-fill";
+  cancelButtonName: string = "Cancel";
+ 
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -35,6 +38,7 @@ export class UserViewModalComponent {
     if (this.type == "Add") {
       this.buttonName = "Add";
       this.buttonIcon = "bi-person-plus-fill";
+      
     } else if (this.type == "Edit") {
       this.buttonName = "Save";
       this.buttonIcon = "bi-floppy2-fill";
@@ -42,6 +46,9 @@ export class UserViewModalComponent {
       this.buttonName = "Edit";
       this.buttonIcon = "bi-pencil-fill";
     }
+    //cancel button
+    this.cancelButtonIcon;
+    this.cancelButtonName;
   }
 
   onFormSubmit() {
@@ -49,7 +56,7 @@ export class UserViewModalComponent {
       this.userName == "" ||
       this.firstName == "" ||
       this.lastName == "" ||
-      this.role == "" ||
+      this.platform == "" ||
       this.userProfileCode == "" ||
       this.email == ""
     ) {
@@ -65,7 +72,7 @@ export class UserViewModalComponent {
     user.userName = this.userName;
     user.firstName = this.firstName;
     user.lastName = this.lastName;
-    user.role = this.role;
+    user.platform = this.platform;
     user.email = this.email;
     user.phoneNumber = this.phoneNumber;
     user.userProfileCode = this.userProfileCode;

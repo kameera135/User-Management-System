@@ -9,6 +9,7 @@ import { User } from "src/app/shared/models/Cams-new/User";
 import { UserViewModalComponent } from "src/app/shared/widget/config/user-view-modal/user-view-modal.component";
 import { UpdateConfirmationModalComponent } from "src/app/shared/widget/config/update-confirmation-modal/update-confirmation-modal.component";
 import { MessageService } from "src/app/services/PopupMessages/message.service";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: "app-users-view",
@@ -89,7 +90,9 @@ export class UsersViewComponent {
     private notifierService: NgToastService,
     private modalService: NgbModal,
     private appService: AppService,
-    private alertService: MessageService
+    private alertService: MessageService,
+    private http: HttpClient,
+    
   ) {}
 
   ngOnInit(): void {
@@ -117,6 +120,8 @@ export class UsersViewComponent {
       { label: "Users", active: false },
       { label: "Users", active: true },
     ]);
+
+    this.loadData();
   }
 
   loadData() {
@@ -172,8 +177,9 @@ export class UsersViewComponent {
       UserName: item.userName,
       FirstName: item.firstName,
       LastName: item.lastName,
-      Platform: item.Platform,
+      Platform: item.platform,
       Email: item.email,
+      isRejecteableOrApprovableRecord:true
     }));
     this.tableData = this.userDetailsArray;
   }
@@ -214,7 +220,7 @@ export class UsersViewComponent {
       row.UserName,
       row.FirstName,
       row.LastName,
-      row.Role,
+      row.Platform,
       row.Email,
       row.phoneNumber,
       row.userProfileCode
@@ -259,7 +265,7 @@ export class UsersViewComponent {
     modalRef.componentInstance.userName = userName;
     modalRef.componentInstance.firstName = firstName;
     modalRef.componentInstance.lastName = lastName;
-    modalRef.componentInstance.role = platform;
+    modalRef.componentInstance.platform = platform;
     modalRef.componentInstance.email = email;
     modalRef.componentInstance.phoneNumber = phoneNumber;
     modalRef.componentInstance.userProfileCode = userProfileCode;
@@ -341,7 +347,8 @@ export class UsersViewComponent {
   getAllUsers() {
     this.shared
       .getAllUsers(this.selectedPage, this.selectedPageSize)
-      .subscribe({
+     .subscribe({
+        
         next: (response) => {
           this.userList = response.response;
           this.totalDataCount = response.rowCount;
