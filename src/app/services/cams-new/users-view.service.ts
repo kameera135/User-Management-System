@@ -15,9 +15,6 @@ export class UsersViewService {
   constructor(private appService: AppService, private httpClient: HttpClient) {}
 
   apiUrl = this.appService.appConfig[0].apiUrl;
-  
-  //baseUrl = this.appService.appConfig[0].apiUrl;
-  //apiUrl = "http://127.0.0.1:3000/api";
   user = this.appService.user;
 
   getAllUsers(page: number, pageSize: number) {
@@ -26,9 +23,8 @@ export class UsersViewService {
     queryParams = queryParams.append("page", page);
     queryParams = queryParams.append("pageSize", pageSize);
 
-    //const url = `${this.apiUrl}/api/users`;
-    // const url = `https://bde3571dc2464887aa2530a7485c88fc.api.mockbin.io/`;
-    const url = `https://6e8a56b690f74a619f86ce09f1bd46eb.api.mockbin.io/`;
+    const url = `${this.apiUrl}/api/users`;
+    //const url = `https://6e8a56b690f74a619f86ce09f1bd46eb.api.mockbin.io/`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 

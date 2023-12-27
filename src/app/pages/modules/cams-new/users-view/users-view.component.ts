@@ -179,6 +179,8 @@ export class UsersViewComponent {
       LastName: item.lastName,
       Platform: item.platform,
       Email: item.email,
+      PhoneNumber: item.phoneNumber,
+      ProfileCode: item.userProfileCode,
       isRejecteableOrApprovableRecord:true
     }));
     this.tableData = this.userDetailsArray;
@@ -222,8 +224,8 @@ export class UsersViewComponent {
       row.LastName,
       row.Platform,
       row.Email,
-      row.phoneNumber,
-      row.userProfileCode
+      row.PhoneNumber,
+      row.UserProfileCode
     );
   }
 
@@ -236,8 +238,8 @@ export class UsersViewComponent {
       row.LastName,
       row.Platform,
       row.Email,
-      row.phoneNumber,
-      row.userProfileCode
+      row.PhoneNumber,
+      row.UserProfileCode
     );
   }
 

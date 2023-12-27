@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProfileConfigurationModalComponent } from './profile-configuration-modal.component';
+import { RoleConfigurationModalComponent } from './role-configuration-modal.component';
 
 describe('ProfileConfigurationModalComponent', () => {
-  let component: ProfileConfigurationModalComponent;
-  let fixture: ComponentFixture<ProfileConfigurationModalComponent>;
+  let component: RoleConfigurationModalComponent;
+  let fixture: ComponentFixture<RoleConfigurationModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProfileConfigurationModalComponent ]
+      declarations: [ RoleConfigurationModalComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ProfileConfigurationModalComponent);
+    fixture = TestBed.createComponent(RoleConfigurationModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

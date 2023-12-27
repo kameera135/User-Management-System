@@ -4,7 +4,7 @@ import { RouterModule, Routes } from "@angular/router";
 // Component pages
 import { PlatformConfigurationComponent } from "./modules/cams-new/platform-configuration/platform-configuration.component";
 import { FeatureConfigurationComponent } from "./modules/cams-new/feature-configuration/feature-configuration.component";
-import { ProfileConfigurationComponent } from "./modules/cams-new/profile-configuration/profile-configuration.component";
+import { RoleConfigurationComponent } from "./modules/cams-new/role-configuration/role-configuration.component";
 import { ActivityLogsComponent } from "./modules/cams-new/activity-logs/activity-logs.component";
 import { DashboardComponent } from "./modules/tbs/dashboard/dashboard.component";
 import { UserAccountComponent } from "./modules/cams-new/user-account/user-account.component";
@@ -33,8 +33,8 @@ const routes: Routes = [
     component: FeatureConfigurationComponent,
   },
   {
-    path: "profile-configuration",
-    component: ProfileConfigurationComponent,
+    path: "role-configuration",
+    component: RoleConfigurationComponent,
   },
   {
     path: "users-view",

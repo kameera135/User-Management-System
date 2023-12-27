@@ -79,16 +79,24 @@ export interface toastServicePopUpConfigurations {
   FeatureDeletedNotificationMessage: string;
   FeatureDeletedErrorSideAlertMessage: string;
 
-  UpdateProfileConfirmationMessage: string;
-  DeleteProfileConfirmationMessage: string;
-  GetProfileListErrorSideAlertMessage: string;
-  ProfileAddedSuccessSideAlertMessage: string;
-  ProfileAddedNotificationMessage: string;
-  ProfileAddedErrorSideAlertMessage: string;
-  ProfileUpdatedSuccessSideAlertMessage: string;
-  ProfileUpdatedNotificationMessage: string;
-  ProfileUpdatedErrorSideAlertMessage: string;
-  ProfileDeletedSuccessSideAlertMessage: string;
-  ProfileDeletedNotificationMessage: string;
-  ProfileDeletedErrorSideAlertMessage: string;
+  UpdateRoleConfirmationMessage: string;
+  DeleteRoleConfirmationMessage: string;
+  GetRoleListErrorSideAlertMessage: string;
+  RoleAddedSuccessSideAlertMessage: string;
+  RoleAddedNotificationMessage: string;
+  RoleAddedErrorSideAlertMessage: string;
+  RoleUpdatedSuccessSideAlertMessage: string;
+  RoleUpdatedNotificationMessage: string;
+  RoleUpdatedErrorSideAlertMessage: string;
+  RoleDeletedSuccessSideAlertMessage: string;
+  RoleDeletedNotificationMessage: string;
+  RoleDeletedErrorSideAlertMessage: string;
+  ActivateRoleConfirmationMessage: string;
+  DeactivateRoleConfirmationMessage: string;
+  RoleActivatedSuccessSideAlertMessage: string;
+  RoleActivateNotificationMessage: string;
+  RoleActivatedErrorSideAlertMessage: string;
+  RoleDeactivatedSuccessSideAlertMessage: string;
+  RoleDeactivateNotificationMessage: string;
+  RoleDeactivatedErrorSideAlertMessage: string;
 }

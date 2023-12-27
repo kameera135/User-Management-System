@@ -42,5 +42,7 @@ export interface appSettingModel {
 
   roleList: any[];
 
+  platformList: any[];
+
   months: any[];
 }

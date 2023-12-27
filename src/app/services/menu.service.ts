@@ -54,14 +54,14 @@ export class MenuService {
         {
           id: 4,
           label: "Role Configuration",
-          link: "/feature-configuration",
+          link: "/role-configuration",
           parentId: 100,
           module: "1",
         },
         {
           id: 6,
           label: "Permission Configuration",
-          link: "/profile-configuration",
+          link: "/feature-configuration",
           parentId: 100,
           module: "1",
         },

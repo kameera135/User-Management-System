@@ -10,8 +10,8 @@ import { Platform } from "src/app/shared/models/Cams-new/Platform";
   styleUrls: ["./platform-configuration-modal.component.scss"],
 })
 export class PlatformConfigurationModalComponent {
-  roleList: any[] = this.appService.appConfig[0].roleList;
-  platformList: any[] = this.appService.appConfig[0].PlatformList;
+  //roleList: any[] = this.appService.appConfig[0].roleList;
+  platformList: any[] = this.appService.appConfig[0].platformList;
 
   @Input() type!: string;
   @Input() modalTitle!: string;
@@ -68,7 +68,7 @@ export class PlatformConfigurationModalComponent {
 
     const platform = new Platform();
     platform.platformCode = this.platformCode;
-    platform.PlatformName = this.platformName;
+    platform.platformName = this.platformName;
     platform.description = this.description;
     platform.status = this.status;
 

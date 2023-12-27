@@ -5,24 +5,24 @@ import { AppService } from "src/app/app.service";
 import { AssertTreeNode } from "src/app/shared/models/assertTreeModel";
 import { AuthService } from "src/app/auth/auth.service";
 import { PaginatedResponse } from "src/app/shared/models/Cams-new/PaginatedResponse";
-import { Profile } from "src/app/shared/models/Cams-new/Profile";
+import { Role } from "src/app/shared/models/Cams-new/Role";
 
 @Injectable({
   providedIn: "root",
 })
-export class ProfileConfigurationService {
+export class RoleConfigurationService {
   constructor(private appService: AppService, private httpClient: HttpClient) {}
 
   apiUrl = this.appService.appConfig[0].apiUrl;
   user = this.appService.user;
 
-  getAllUsers(page: number, pageSize: number) {
+  getAllRoles(page: number, pageSize: number) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("viewedBy", this.user.id);
     queryParams = queryParams.append("page", page);
     queryParams = queryParams.append("pageSize", pageSize);
 
-    const url = `${this.apiUrl}/end-point`;
+    const url = `${this.apiUrl}/api/roles`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
@@ -37,7 +37,7 @@ export class ProfileConfigurationService {
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
-  getSearchedUsers(searchedTerm: string, page: number, pageSize: number) {
+  getSearchedRoles(searchedTerm: string, page: number, pageSize: number) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("viewedBy", this.user.id);
     queryParams = queryParams.append("searchedTerm", searchedTerm);
@@ -65,7 +65,7 @@ export class ProfileConfigurationService {
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
-  postUser(model: Profile) {
+  postRole(model: Role) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("createdBy", this.user.id);
 
@@ -74,7 +74,7 @@ export class ProfileConfigurationService {
     });
   }
 
-  putUser(model: Profile) {
+  putRole(model: Role) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("updatedBy", this.user.id);
 
@@ -83,10 +83,28 @@ export class ProfileConfigurationService {
     });
   }
 
-  deleteUser(list: number[]) {
+  deleteRoles(list: number[]) {
     //list is the id list of users which have to be deleted
     let queryParams = new HttpParams();
     queryParams = queryParams.append("deletedBy", this.user.id);
+
+    return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
+      params: queryParams,
+    });
+  }
+
+  activateRoles(list: any[]) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("activatedBy", this.user.id);
+
+    return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
+      params: queryParams,
+    });
+  }
+
+  deactivateRoles(list: any[]) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("deactivatedBy", this.user.id);
 
     return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
       params: queryParams,

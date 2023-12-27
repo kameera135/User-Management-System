@@ -5,107 +5,71 @@
 </div> -->
 
 <!-- <div class="row mb-4 mx-1  {{ loadingInProgress ? 'hidden' : '' }}"> -->
-<div class="row mb-4 mx-1">
-  <div class="card">
-    <div class="card-body pb-3">
-      <div class="row">
-        <div class="card-body">
-          <div class="row align-items-end">
-            <div class="col-6 col-lg-4">
-              <div class="mb-3">
-                <label class="col-form-label">Year</label>
-                <select
-                  class="form-select"
-                  aria-label="Year"
-                  [(ngModel)]="selectedYear"
-                  (change)="loadData()"
-                >
-                  <!-- <option selected value="">Select...</option> -->
-                  <option *ngFor="let item of yearList" [value]="item.value">
-                    {{ item.value }}
-                  </option>
-                </select>
-              </div>
-            </div>
-
-            <div class="col-6 col-lg-4">
-              <div class="mb-3">
-                <label class="col-form-label">Month</label>
-                <select
-                  class="form-select"
-                  aria-label="Month"
-                  [(ngModel)]="selectedMonth"
-                  (change)="loadData()"
-                >
-                  <!-- <option selected value="">Select...</option> -->
-                  <option *ngFor="let item of monthList" [value]="item.id">
-                    {{ item.value }}
-                  </option>
-                </select>
-              </div>
-            </div>
-
-            <!-- <div class="col-6 col-lg-2">
-              <div class="mb-3">
-                <label class="col-form-label">Service</label>
-                <select class="form-select" aria-label="Service" [(ngModel)]="selectedService" (change)="loadData()">
-                  <option selected value="">Select...</option>
-                  <option *ngFor="let item of serviceList" [value]="item.id">{{item.value}}</option>
-                </select>
-              </div>
-            </div> -->
-
-            <!-- <div class="col-12 col-lg-3">
-              <div class="mb-3">
-                <label class="col-form-label">Tenant</label>
-                <select class="form-select" aria-label="Tenant" [(ngModel)]="selectedTenant" (change)="loadData()">
-                  <option selected value="">Select...</option>
-                  <option *ngFor="let item of tenantList" [value]="item.id">{{item.value}}</option>
-                </select>
-              </div>
-            </div> -->
-
-            <div class="col-12 col-lg-4">
-              <div class="mb-3">
-                <label for="unitName" class="col-form-label">Unit</label>
-                <div class="row">
-                  <div class="col-10 col-lg-9">
-                    <input
-                      id="unitName"
-                      type="text"
-                      class="form-control"
-                      disabled
-                      value="{{ unitName }}"
-                      [(ngModel)]="unitName"
-                    />
-                  </div>
-                  <div class="col-2 col-lg-3 d-flex justify-content-end">
-                    <app-right-tree-node
-                      ButtonName="Units"
-                      ButtonColor="btn-dark"
-                      ButtonIcon="bi-box-fill"
-                      (UnitSelectionChanged)="getSelectedUnitFromTree($event)"
-                      [selectedUnitId]="this.unitId"
-                    >
-                    </app-right-tree-node>
-                  </div>
-                </div>
-              </div>
-            </div>
+  <div class="row mb-3 mx-1">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-5 col-lg-5 mt-1"><h2>Roles</h2></div>
+  
+          <div class="col-4 col-lg-4 mt-1">
+            <a
+              class="btn btn-primary float-end"
+              style="margin-right: 3"
+              (click)="onAddRoleButtonClicked()"
+            >
+              <i
+                class="bi bi-plus-square-fill label-icon align-middle fs-16 me-2"
+              ></i>
+              Add Role</a
+            >
+          </div>
+  
+          <!-- <div class="col-2 col-lg-2 mt-1">
+            <select
+              class="form-select"
+              aria-label="Platform"
+              [(ngModel)]="selectedRole"
+              (change)="loadData()"
+            >
+              <option *ngFor="let item of roleList" [value]="item.value">
+                {{ item.value }}
+              </option>
+            </select>
+          </div> -->
+  
+          <div class="form-outline col-3 col-lg-3 mt-1">
+            <input
+              (keyup)="getSearchTerm($event)"
+              [(ngModel)]="searchTerm"
+              type="text"
+              id="searchKey"
+              class="form-control input-sm"
+              placeholder="Search Role"
+            />
           </div>
         </div>
       </div>
-      <app-table
+  
+      <div class="card-body pb-3">
+        <app-table
         *ngIf="!loadingInProgress"
         [headArray]="headArray"
-        [dataArray]="dataArray"
-        [dataTableOptions]="consumptionTableOptions"
-        [displayPagination]="false"
-        (onReportGenerateClick)="downloadExcel()"
-      ></app-table>
+        [dataArray]="tableData"
+        [dataTableOptions]="roleConfigTableOptions"
+        [totalRowsInSelection]="totalDataCount"
+        [selectedPageSize]="selectedPageSize"
+        [selectedPage]="selectedPage"
+        (onPaginationChanged)="onPaginationChange($event)"
+        (onPagesizeChanged)="onPagesizeChange($event)"
+        (onEdit)="onEditButtonClicked($event)"
+        (onDelete)="deleteRoles($event)"
+        (onRowDoubleClick)="onViewButtonClicked($event)"
+        (dblClick)="onViewButtonClicked($event)">
+        </app-table>
+      </div>
     </div>
   </div>
-</div>
+  
 
 <!-- ==============New================== -->
 

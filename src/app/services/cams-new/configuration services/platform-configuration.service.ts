@@ -23,7 +23,7 @@ export class PlatformConfigurationService {
     queryParams = queryParams.append("page", page);
     queryParams = queryParams.append("pageSize", pageSize);
 
-    const url = `${this.apiUrl}/end-point`;
+    const url = `${this.apiUrl}/api/platforms`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 

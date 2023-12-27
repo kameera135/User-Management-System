@@ -36,6 +36,8 @@ export class PlatformConfigurationComponent {
 
   platformConfigTableOptions: tableOptions = new tableOptions();
 
+  tableData: any;
+
   headArray = [
     { Head: "", FieldName: "", ColumnType: "CheckBox" },
     { Head: "Platform Code", FieldName: "PlatformCode", ColumnType: "Data" },
@@ -50,29 +52,29 @@ export class PlatformConfigurationComponent {
   ];
 
   //to remove
-  tableData = [
-    {
-      PlatformCode: "Code001",
-      PlatformName: "PlatformL",
-      Description: "This is description one",
-      Status: "Active",
-      isRejecteableOrApprovableRecord: true,
-    },
-    {
-      PlatformCode: "Code002",
-      PlatformName: "PlatformM",
-      Description: "This is description two",
-      Status: "Active",
-      isRejecteableOrApprovableRecord: true,
-    },
-    {
-      PlatformCode: "Code002",
-      PlatformName: "PlatformM",
-      Description: "This is description three",
-      Status: "Active",
-      isRejecteableOrApprovableRecord: true,
-    },
-  ];
+  // tableData = [
+  //   {
+  //     PlatformCode: "Code001",
+  //     PlatformName: "PlatformL",
+  //     Description: "This is description one",
+  //     Status: "Active",
+  //     isRejecteableOrApprovableRecord: true,
+  //   },
+  //   {
+  //     PlatformCode: "Code002",
+  //     PlatformName: "PlatformM",
+  //     Description: "This is description two",
+  //     Status: "Active",
+  //     isRejecteableOrApprovableRecord: true,
+  //   },
+  //   {
+  //     PlatformCode: "Code002",
+  //     PlatformName: "PlatformM",
+  //     Description: "This is description three",
+  //     Status: "Active",
+  //     isRejecteableOrApprovableRecord: true,
+  //   },
+  // ];
 
   constructor(
     private breadcrumbService: BreadcrumbService,
@@ -111,6 +113,8 @@ export class PlatformConfigurationComponent {
       { label: "Configuration", active: false },
       { label: "Platforms", active: true },
     ]);
+
+    this.loadData();
   }
 
   loadData() {
@@ -164,9 +168,10 @@ export class PlatformConfigurationComponent {
   updateTable() {
     this.platformDetailsArray = this.platformList.map((item) => ({
       PlatformCode: item.platformCode,
-      PlatformName: item.PlatformName,
+      PlatformName: item.platformName,
       Description: item.description,
       Status: item.status,
+      isRejecteableOrApprovableRecord:true
     }));
     this.tableData = this.platformDetailsArray;
   }
