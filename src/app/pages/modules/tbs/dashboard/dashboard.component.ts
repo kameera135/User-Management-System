@@ -37,7 +37,7 @@ export class DashboardComponent {
           description: "Customize platform configuration",
         },
       ],
-    }, 
+    },
 
     {
       //label: "Configuration",
@@ -123,6 +123,4 @@ export class DashboardComponent {
   //     },
   //   });
   // }
-
 }
-

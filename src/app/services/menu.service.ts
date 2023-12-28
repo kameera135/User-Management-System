@@ -93,7 +93,7 @@ export class MenuService {
         {
           id: 2,
           label: "API Tokens",
-          link: "/api-tokens",
+          link: "/system-tokens",
           parentId: 102,
           module: "1",
         },
