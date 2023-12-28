@@ -48,7 +48,7 @@ import { MatRadioModule } from "@angular/material/radio";
 import { UpdateConfirmationModalComponent } from "./config/update-confirmation-modal/update-confirmation-modal.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
 import { PlatformConfigurationModalComponent } from "./config/platform-configuration-modal/platform-configuration-modal.component";
-import { FeatureConfigurationModalComponent } from "./config/feature-configuration-modal/feature-configuration-modal.component";
+import { PermissionConfigurationModalComponent } from "./config/permission-configuration-modal/permission-configuration-modal.component";
 import { RoleConfigurationModalComponent } from "./config/role-configuration-modal/role-configuration-modal.component";
 
 @NgModule({
@@ -67,7 +67,7 @@ import { RoleConfigurationModalComponent } from "./config/role-configuration-mod
     UpdateConfirmationModalComponent,
     SidebarComponent,
     PlatformConfigurationModalComponent,
-    FeatureConfigurationModalComponent,
+    PermissionConfigurationModalComponent,
     RoleConfigurationModalComponent,
   ],
   imports: [

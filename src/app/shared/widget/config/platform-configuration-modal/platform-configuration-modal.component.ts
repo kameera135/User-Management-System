@@ -9,6 +9,7 @@ import { Platform } from "src/app/shared/models/Cams-new/Platform";
   templateUrl: "./platform-configuration-modal.component.html",
   styleUrls: ["./platform-configuration-modal.component.scss"],
 })
+
 export class PlatformConfigurationModalComponent {
   //roleList: any[] = this.appService.appConfig[0].roleList;
   platformList: any[] = this.appService.appConfig[0].platformList;

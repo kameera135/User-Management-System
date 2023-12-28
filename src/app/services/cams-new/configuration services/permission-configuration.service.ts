@@ -5,28 +5,28 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { AssertTreeNode } from "src/app/shared/models/assertTreeModel";
 import { AuthService } from "src/app/auth/auth.service";
 import { PaginatedResponse } from "src/app/shared/models/Cams-new/PaginatedResponse";
-import { Feature } from "src/app/shared/models/Cams-new/Feature";
+import { Permission } from "src/app/shared/models/Cams-new/Permission";
 
 @Injectable({
   providedIn: "root",
 })
-export class FeatureConfigurationService {
+export class PermissionConfigurationService {
   constructor(private appService: AppService, private httpClient: HttpClient) {}
 
   apiUrl = this.appService.appConfig[0].apiUrl;
   user = this.appService.user;
 
-  getAllUsers(page: number, pageSize: number) {
+  getAllPermissions(page: number, pageSize: number) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("viewedBy", this.user.id);
     queryParams = queryParams.append("page", page);
     queryParams = queryParams.append("pageSize", pageSize);
 
-    const url = `${this.apiUrl}/end-point`;
+    const url = `${this.apiUrl}/api/permissions`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
-  getUsersByRole(role: string, page: number, pageSize: number) {
+  getPermissionsByRole(role: string, page: number, pageSize: number) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("viewedBy", this.user.id);
     queryParams = queryParams.append("role", role);
@@ -37,7 +37,7 @@ export class FeatureConfigurationService {
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
-  getSearchedUsers(searchedTerm: string, page: number, pageSize: number) {
+  getSearchedPermissions(searchedTerm: string, page: number, pageSize: number) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("viewedBy", this.user.id);
     queryParams = queryParams.append("searchedTerm", searchedTerm);
@@ -48,7 +48,7 @@ export class FeatureConfigurationService {
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
-  getSearchedUsersByRole(
+  getSearchelPermissionsByRole(
     searchedTerm: string,
     role: string,
     page: number,
@@ -65,7 +65,7 @@ export class FeatureConfigurationService {
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
-  postUser(model: Feature) {
+  postPermission(model: Permission) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("createdBy", this.user.id);
 
@@ -74,7 +74,7 @@ export class FeatureConfigurationService {
     });
   }
 
-  putUser(model: Feature) {
+  putPermission(model: Permission) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("updatedBy", this.user.id);
 
@@ -83,10 +83,28 @@ export class FeatureConfigurationService {
     });
   }
 
-  deleteUser(list: number[]) {
-    //list is the id list of users which have to be deleted
+  deletePermission(list: number[]) {
+    //list is the id list oflPermissions which have to be deleted
     let queryParams = new HttpParams();
     queryParams = queryParams.append("deletedBy", this.user.id);
+
+    return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
+      params: queryParams,
+    });
+  }
+
+  activatePermissions(list: any[]) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("activatedBy", this.user.id);
+
+    return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
+      params: queryParams,
+    });
+  }
+
+  deactivatePermissions(list: any[]) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("deactivatedBy", this.user.id);
 
     return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
       params: queryParams,

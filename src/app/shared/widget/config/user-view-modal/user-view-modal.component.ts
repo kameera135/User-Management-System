@@ -20,6 +20,8 @@ export class UserViewModalComponent {
   @Input() platform!: any;
   @Input() email!: string;
   @Input() phoneNumber!: string;
+  @Input() password!: string;
+  @Input() confirmPassword!: string;
   @Input() userProfileCode!: string;
 
   buttonName!: string;

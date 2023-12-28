@@ -66,18 +66,26 @@ export interface toastServicePopUpConfigurations {
   PlatformDeactivateNotificationMessage: string;
   PlatformDeactivatedErrorSideAlertMessage: string;
 
-  UpdateFeatureConfirmationMessage: string;
-  DeleteFeatureConfirmationMessage: string;
-  GetFeatureListErrorSideAlertMessage: string;
-  FeatureAddedSuccessSideAlertMessage: string;
-  FeatureAddedNotificationMessage: string;
-  FeatureAddedErrorSideAlertMessage: string;
-  FeatureUpdatedSuccessSideAlertMessage: string;
-  FeatureUpdatedNotificationMessage: string;
-  FeatureUpdatedErrorSideAlertMessage: string;
-  FeatureDeletedSuccessSideAlertMessage: string;
-  FeatureDeletedNotificationMessage: string;
-  FeatureDeletedErrorSideAlertMessage: string;
+  UpdatePermissionConfirmationMessage: string;
+  DeletePermissionConfirmationMessage: string;
+  GetPermissionListErrorSideAlertMessage: string;
+  PermissionAddedSuccessSideAlertMessage: string;
+  PermissionAddedNotificationMessage: string;
+  PermissionAddedErrorSideAlertMessage: string;
+  PermissionUpdatedSuccessSideAlertMessage: string;
+  PermissionUpdatedNotificationMessage: string;
+  PermissionUpdatedErrorSideAlertMessage: string;
+  PermissionDeletedSuccessSideAlertMessage: string;
+  PermissionDeletedNotificationMessage: string;
+  PermissionDeletedErrorSideAlertMessage: string;
+  ActivatePermissionConfirmationMessage: string;
+  DeactivatePermissionConfirmationMessage: string;
+  PermissionActivatedSuccessSideAlertMessage: string;
+  PermissionActivateNotificationMessage: string;
+  PermissionActivatedErrorSideAlertMessage: string;
+  PermissionDeactivatedSuccessSideAlertMessage: string;
+  PermissionDeactivateNotificationMessage: string;
+  PermissionDeactivatedErrorSideAlertMessage: string;
 
   UpdateRoleConfirmationMessage: string;
   DeleteRoleConfirmationMessage: string;

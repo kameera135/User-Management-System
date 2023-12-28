@@ -14,8 +14,8 @@
 </div>
 
 <form #form="ngForm" (ngSubmit)="onFormSubmit()">
-  <div class="row modal-body">
-    <div class="col-6">
+  <div class="col modal-body col-12">
+    <div class="col-12">
       <div class="mb-3">
         <label class="col-form-label">User Name*</label>
         <input
@@ -29,7 +29,7 @@
       </div>
     </div>
 
-    <div class="col-6">
+    <div class="col-12">
       <div class="mb-3">
         <label class="col-form-label">Platform*</label>
         <ng-select
@@ -48,7 +48,7 @@
       </div>
     </div>
 
-    <div class="col-6">
+    <div class="col-12">
       <div class="mb-3">
         <label class="col-form-label">First Name*</label>
         <input
@@ -61,7 +61,7 @@
       </div>
     </div>
 
-    <div class="col-6">
+    <div class="col-12">
       <div class="mb-3">
         <label class="col-form-label">Last Name*</label>
         <input
@@ -74,7 +74,7 @@
       </div>
     </div>
 
-    <div class="col-6">
+    <div class="col-12">
       <div class="mb-3">
         <label class="col-form-label">Phone Number</label>
         <input
@@ -96,6 +96,31 @@
           [(ngModel)]="email"
           name="email"
           [disabled]="type == 'View'"
+        />
+      </div>
+    </div>
+
+    <!-- Add this code snippet inside the form, where you want to place the password fields -->
+    <div class="col-12" *ngIf="type !== 'View' && type !== 'Edit'">
+      <div class="mb-3">
+        <label class="col-form-label">Password*</label>
+        <input
+          type="password"
+          class="form-control"
+          [(ngModel)]="password"
+          name="password"
+        />
+      </div>
+    </div>
+
+    <div class="col-12" *ngIf="type !== 'View' && type !== 'Edit'">
+      <div class="mb-3">
+        <label class="col-form-label">Confirm Password*</label>
+        <input
+          type="password"
+          class="form-control"
+          [(ngModel)]="confirmPassword"
+          name="confirmPassword"
         />
       </div>
     </div>

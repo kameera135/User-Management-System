@@ -3,7 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 
 // Component pages
 import { PlatformConfigurationComponent } from "./modules/cams-new/platform-configuration/platform-configuration.component";
-import { FeatureConfigurationComponent } from "./modules/cams-new/feature-configuration/feature-configuration.component";
+import { PermissionConfigurationComponent } from "./modules/cams-new/permission-configuration/permission-configuration.component";
 import { RoleConfigurationComponent } from "./modules/cams-new/role-configuration/role-configuration.component";
 import { ActivityLogsComponent } from "./modules/cams-new/activity-logs/activity-logs.component";
 import { DashboardComponent } from "./modules/tbs/dashboard/dashboard.component";
@@ -29,8 +29,8 @@ const routes: Routes = [
     component: PlatformConfigurationComponent,
   },
   {
-    path: "feature-configuration",
-    component: FeatureConfigurationComponent,
+    path: "permission-configuration",
+    component: PermissionConfigurationComponent,
   },
   {
     path: "role-configuration",

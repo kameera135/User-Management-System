@@ -2,26 +2,28 @@ import { Component, Input } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgToastService } from "ng-angular-popup";
 import { AppService } from "src/app/app.service";
-import { Feature } from "src/app/shared/models/Cams-new/Feature";
+import { Permission } from "src/app/shared/models/Cams-new/Permission";
 
 @Component({
-  selector: "app-feature-configuration-modal",
-  templateUrl: "./feature-configuration-modal.component.html",
-  styleUrls: ["./feature-configuration-modal.component.scss"],
+  selector: "app-permission-configuration-modal",
+  templateUrl: "./permission-configuration-modal.component.html",
+  styleUrls: ["./permission-configuration-modal.component.scss"],
 })
-export class FeatureConfigurationModalComponent {
+export class PermissionConfigurationModalComponent {
   roleList: any[] = this.appService.appConfig[0].roleList;
 
   @Input() type!: string;
   @Input() modalTitle!: string;
 
-  @Input() featureCode!: string;
-  @Input() feature!: string;
+  @Input() permissionCode!: string;
+  @Input() permissionName!: string;
   @Input() createdDate!: string;
   @Input() status!: any;
 
   buttonName!: string;
   buttonIcon!: string;
+  cancelButtonIcon: string = "bi-x-circle-fill";
+  cancelButtonName: string = "Cancel";
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -40,12 +42,15 @@ export class FeatureConfigurationModalComponent {
       this.buttonName = "Edit";
       this.buttonIcon = "bi-pencil-fill";
     }
+
+      this.cancelButtonIcon;
+      this.cancelButtonName;
   }
 
   onFormSubmit() {
     if (
-      this.featureCode == "" ||
-      this.feature == "" ||
+      this.permissionCode == "" ||
+      this.permissionName == "" ||
       this.createdDate == "" ||
       this.status == ""
     ) {
@@ -57,9 +62,9 @@ export class FeatureConfigurationModalComponent {
       return;
     }
 
-    const feature = new Feature();
-    feature.featureCode = this.featureCode;
-    feature.feature = this.feature;
+    const feature = new Permission();
+    feature.permissionCode = this.permissionCode;
+    feature.permissionName = this.permissionName;
     feature.createdDate = this.createdDate;
     feature.status = this.status;
 

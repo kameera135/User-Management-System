@@ -27,7 +27,7 @@ import { SharedModule } from "../shared/shared.module";
 import { WidgetModule } from "../shared/widget/widget.module";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { PlatformConfigurationComponent } from "./modules/cams-new/platform-configuration/platform-configuration.component";
-import { FeatureConfigurationComponent } from "./modules/cams-new/feature-configuration/feature-configuration.component";
+import { PermissionConfigurationComponent } from "./modules/cams-new/permission-configuration/permission-configuration.component";
 import { RoleConfigurationComponent } from "./modules/cams-new/role-configuration/role-configuration.component";
 import { ActivityLogsComponent } from "./modules/cams-new/activity-logs/activity-logs.component";
 import { DashboardComponent } from "./modules/tbs/dashboard/dashboard.component";
@@ -37,7 +37,7 @@ import { UsersViewComponent } from "./modules/cams-new/users-view/users-view.com
 @NgModule({
   declarations: [
     PlatformConfigurationComponent,
-    FeatureConfigurationComponent,
+    PermissionConfigurationComponent,
     RoleConfigurationComponent,
     ActivityLogsComponent,
     DashboardComponent,

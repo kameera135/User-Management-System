@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FeatureConfigurationModalComponent } from './feature-configuration-modal.component';
+import { FeatureConfigurationModalComponent } from './permission-configuration-modal.component';
 
 describe('FeatureConfigurationModalComponent', () => {
   let component: FeatureConfigurationModalComponent;

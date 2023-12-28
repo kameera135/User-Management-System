@@ -111,13 +111,13 @@ export class RoleConfigurationComponent {
     this.roleConfigTableOptions.allowBulkDeactivateButton = true;
 
     this.roleConfigTableOptions.rowEditConfirmationMessage =
-      this.appService.popUpMessageConfig[0].UpdatePlatformConfirmationMessage;
+      this.appService.popUpMessageConfig[0].UpdateRoleConfirmationMessage;
     this.roleConfigTableOptions.rowDeleteConfirmationMessage =
-      this.appService.popUpMessageConfig[0].DeletePlatformConfirmationMessage;
+      this.appService.popUpMessageConfig[0].DeleteRoleConfirmationMessage;
     this.roleConfigTableOptions.recordApproveConfirmationMessage =
-      this.appService.popUpMessageConfig[0].ActivatePlatformConfirmationMessage;
+      this.appService.popUpMessageConfig[0].ActivateRoleConfirmationMessage;
     this.roleConfigTableOptions.recordRejectingConfirmationMessage =
-      this.appService.popUpMessageConfig[0].DeactivatePlatformConfirmationMessage;
+      this.appService.popUpMessageConfig[0].DeactivateRoleConfirmationMessage;
 
     this.breadcrumbService.loadBreadcrumbValue([
       { label: "Configuration", active: false },
@@ -180,6 +180,7 @@ export class RoleConfigurationComponent {
     // }
       
   }
+  
   searchRoles(serchedTerm: string) {
     this.shared
       .getSearchedRoles(
@@ -189,7 +190,7 @@ export class RoleConfigurationComponent {
       )
       .subscribe({
         next: (response: any) => {
-          this.platformList = response.response;
+          this.roleList = response.response;
           this.totalDataCount = response.rowCount;
 
           if (this.totalDataCount > 0) {

@@ -43,7 +43,7 @@ export class UsersViewComponent {
     { Head: "User Name", FieldName: "UserName", ColumnType: "Data" },
     { Head: "First Name", FieldName: "FirstName", ColumnType: "Data" },
     { Head: "Last Name", FieldName: "LastName", ColumnType: "Data" },
-    { Head: "Platform", FieldName: "Platform", ColumnType: "Data" },
+    //{ Head: "Platform", FieldName: "Platform", ColumnType: "Data" },
     { Head: "Email", FieldName: "Email", ColumnType: "Data" },
     { Head: "", FieldName: "", ColumnType: "Action" },
   ];

@@ -61,7 +61,7 @@ export class MenuService {
         {
           id: 6,
           label: "Permission Configuration",
-          link: "/feature-configuration",
+          link: "/permission-configuration",
           parentId: 100,
           module: "1",
         },
