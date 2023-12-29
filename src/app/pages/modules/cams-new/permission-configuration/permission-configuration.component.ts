@@ -139,6 +139,7 @@ export class PermissionConfigurationComponent {
     this.permissionConfigTableOptions.allowBulkActivateButton = true;
     this.permissionConfigTableOptions.allowDeactivateButton = true;
     this.permissionConfigTableOptions.allowBulkDeactivateButton = true;
+    this.permissionConfigTableOptions.displayPagination = true;
 
     this.permissionConfigTableOptions.rowEditConfirmationMessage =
       this.appService.popUpMessageConfig[0].UpdatePermissionConfirmationMessage;

@@ -1,4 +1,6 @@
 export class tableOptions {
+  displayPagination: boolean = false;
+
   allowDeleteButton: boolean = false;
 
   allowUpdateButton: boolean = false;

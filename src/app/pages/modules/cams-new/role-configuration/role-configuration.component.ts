@@ -109,6 +109,7 @@ export class RoleConfigurationComponent {
     this.roleConfigTableOptions.allowBulkActivateButton = true;
     this.roleConfigTableOptions.allowDeactivateButton = true;
     this.roleConfigTableOptions.allowBulkDeactivateButton = true;
+    this.roleConfigTableOptions.displayPagination = true;
 
     this.roleConfigTableOptions.rowEditConfirmationMessage =
       this.appService.popUpMessageConfig[0].UpdateRoleConfirmationMessage;

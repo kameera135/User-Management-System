@@ -37,7 +37,7 @@ export class TableComponent {
 
   @Input() loadingInProgress: boolean = false;
 
-  @Input() displayPagination: boolean = true;
+  //@Input() displayPagination: boolean = false;
 
   @Input() selectedPageSize: number = 5;
 
@@ -76,6 +76,9 @@ export class TableComponent {
   testArray: any[] = [];
 
   selectedDataRow: any;
+
+  //now if displayPlagination want value has been true in page
+  displayPagination: boolean = false;
 
   currentSortedColumn: string = "";
 
@@ -237,6 +240,8 @@ export class TableComponent {
         this.dataTableOptions.reject_single_record_permission;
 
       this.allowtoUpdate = this.dataTableOptions.allowUpdateButton;
+
+      this.displayPagination = this.dataTableOptions.displayPagination;
 
       this.allowtoUpdateMeterReset =
         this.dataTableOptions.allowUpdateMeterResetButton;

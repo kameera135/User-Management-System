@@ -106,6 +106,7 @@ export class UsersViewComponent {
     this.usersViewTableOptions.allowDeleteButton = true;
     this.usersViewTableOptions.allowUpdateButton = true;
     this.usersViewTableOptions.allowViewButton = true;
+    this.usersViewTableOptions.displayPagination = true;
 
     this.usersViewTableOptions.rowEditConfirmationMessage =
       this.appService.popUpMessageConfig[0].UpdateUserConfirmationMessage;

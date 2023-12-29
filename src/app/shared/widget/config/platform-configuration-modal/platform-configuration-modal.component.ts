@@ -20,6 +20,7 @@ export class PlatformConfigurationModalComponent {
   @Input() platformCode!: string;
   @Input() platformName!: string;
   @Input() description!: string;
+  @Input() url!: string;
   @Input() status!: any;
 
   buttonName!: string;

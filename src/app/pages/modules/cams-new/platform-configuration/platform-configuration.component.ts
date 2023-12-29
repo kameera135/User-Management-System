@@ -99,6 +99,10 @@ export class PlatformConfigurationComponent {
     this.platformConfigTableOptions.allowBulkActivateButton = true;
     this.platformConfigTableOptions.allowDeactivateButton = true;
     this.platformConfigTableOptions.allowBulkDeactivateButton = true;
+    
+    //for display paginations. It is not default.
+    this.platformConfigTableOptions.displayPagination = true;
+
 
     this.platformConfigTableOptions.rowEditConfirmationMessage =
       this.appService.popUpMessageConfig[0].UpdatePlatformConfirmationMessage;
@@ -209,6 +213,10 @@ export class PlatformConfigurationComponent {
       row.Description,
       row.Status
     );
+  }
+
+  onAddRoleButtonClicked(){
+
   }
 
   

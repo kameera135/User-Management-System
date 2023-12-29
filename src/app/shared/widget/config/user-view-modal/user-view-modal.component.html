@@ -31,25 +31,6 @@
 
     <div class="col-12">
       <div class="mb-3">
-        <label class="col-form-label">Platform*</label>
-        <ng-select
-          [(ngModel)]="platform"
-          [multiple]="false"
-          [placeholder]="platform ? platform : 'Select'"
-          name="selectRole"
-          style="width: auto"
-          [clearable]="false"
-          [disabled]="type == 'View'"
-        >
-          <ng-option *ngFor="let role of roleList" [value]="role.value">
-            {{ role.value }}
-          </ng-option>
-        </ng-select>
-      </div>
-    </div>
-
-    <div class="col-12">
-      <div class="mb-3">
         <label class="col-form-label">First Name*</label>
         <input
           type="text"
@@ -100,10 +81,39 @@
       </div>
     </div>
 
-    <!-- Add this code snippet inside the form, where you want to place the password fields -->
-    <div class="col-12" *ngIf="type !== 'View' && type !== 'Edit'">
+    <!-- <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
       <div class="mb-3">
-        <label class="col-form-label">Password*</label>
+        <label class="col-form-label">Platform*</label>
+        <ng-select
+          [(ngModel)]="platform"
+          [multiple]="false"
+          [placeholder]="platform ? platform : 'Select'"
+          name="selectRole"
+          style="width: auto"
+          [clearable]="false"
+          [disabled]="type == 'View'"
+        >
+          <ng-option *ngFor="let role of roleList" [value]="role.value">
+            {{ role.value }}
+          </ng-option>
+        </ng-select>
+      </div>
+    </div> -->
+
+    <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
+      <div class="mb-3">
+        <label class="col-form-label">Platforms and Roles</label>
+        <app-table
+          *ngIf="!loadingInProgress"
+          [headArray]="headArray"
+          [dataArray]="tableData">
+        </app-table>
+      </div>
+    </div>
+
+    <div class="col-12" *ngIf="type !== 'View'">
+      <div class="mb-3">
+        <label class="col-form-label">Password</label>
         <input
           type="password"
           class="form-control"
@@ -113,9 +123,9 @@
       </div>
     </div>
 
-    <div class="col-12" *ngIf="type !== 'View' && type !== 'Edit'">
+    <div class="col-12" *ngIf="type !== 'View'">
       <div class="mb-3">
-        <label class="col-form-label">Confirm Password*</label>
+        <label class="col-form-label">Confirm Password</label>
         <input
           type="password"
           class="form-control"

@@ -9,6 +9,8 @@ import { ActivityLogsComponent } from "./modules/cams-new/activity-logs/activity
 import { DashboardComponent } from "./modules/tbs/dashboard/dashboard.component";
 import { UserAccountComponent } from "./modules/cams-new/user-account/user-account.component";
 import { UsersViewComponent } from "./modules/cams-new/users-view/users-view.component";
+import { SystemTokensComponent } from "./modules/cams-new/system-tokens/system-tokens.component";
+import { PasswordPolicyComponent } from "./modules/cams-new/password-policy/password-policy.component";
 
 const routes: Routes = [
   {
@@ -44,6 +46,14 @@ const routes: Routes = [
     path: "activity-logs",
     component: ActivityLogsComponent,
   },
+  {
+    path: "system-tokens",
+    component: SystemTokensComponent,
+  },
+  {
+    path: "password-policy",
+    component: PasswordPolicyComponent,
+  }
 ];
 
 @NgModule({

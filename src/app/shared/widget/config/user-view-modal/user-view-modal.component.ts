@@ -3,6 +3,7 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgToastService } from "ng-angular-popup";
 import { AppService } from "src/app/app.service";
 import { User } from "src/app/shared/models/Cams-new/User";
+import { tableOptions } from "src/app/shared/models/tableOptions";
 
 @Component({
   selector: "app-user-view-modal",
@@ -28,6 +29,10 @@ export class UserViewModalComponent {
   buttonIcon!: string;
   cancelButtonIcon: string = "bi-x-circle-fill";
   cancelButtonName: string = "Cancel";
+
+  loadingInProgress: boolean = false;
+
+  rolesViewTableOptions: tableOptions = new tableOptions();
  
 
   constructor(
@@ -51,6 +56,8 @@ export class UserViewModalComponent {
     //cancel button
     this.cancelButtonIcon;
     this.cancelButtonName;
+
+    this.rolesViewTableOptions
   }
 
   onFormSubmit() {
@@ -81,4 +88,33 @@ export class UserViewModalComponent {
 
     this.activeModal.close(user);
   }
+
+  headArray = [
+  
+    { Head: "Platforms", FieldName: "Platforms", ColumnType: "Data" },
+    { Head: "Role", FieldName: "Role", ColumnType: "Data" },
+  ];
+
+  tableData = [
+      {
+        Platforms: "Airecone Extention System",
+        Role: "Facility Manager",
+      },
+      {
+        Platforms: "Airecone Extention System",
+        Role: "Tenant",
+      },
+      {
+        Platforms: "Tenant Billing System",
+        Role: "Tenant Manager",
+      },
+      {
+        Platforms: "User Managemant System",
+        Role: "Admin",
+      },
+      {
+        Platforms: "Airecone Extention System",
+        Role: "Tenant Manager",
+      }
+    ];
 }
