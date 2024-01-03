@@ -17,6 +17,9 @@ import { ActivityLogsModalComponent } from "src/app/shared/widget/config/activit
 export class PasswordPolicyComponent {
   loadingInProgress: boolean = false;
 
+  passwordMinLength!: number;
+  passwordMaxLength!: number;
+
   selectedYear: string = new Date().getFullYear().toString();
   selectedMonth: string = (new Date().getMonth() + 1).toString();
   yearList: any[] = [];
@@ -117,6 +120,9 @@ export class PasswordPolicyComponent {
   ) {}
 
   ngOnInit(): void {
+    this.passwordMinLength = 8;
+    this.passwordMaxLength = 16;
+
     const currentYear = new Date().getFullYear();
     this.yearList = Array.from(
       { length: this.appService.appConfig[0].maximumYearRange },
