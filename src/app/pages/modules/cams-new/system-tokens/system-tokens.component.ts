@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
+import { SystemTokensService } from "src/app/services/cams-new/system-tokens.service";
 
 @Component({
   selector: "app-system-tokens",
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ["./system-tokens.component.scss"],
 })
 export class SystemTokensComponent {
-
+  constructor(private shared: SystemTokensService) {}
 }
