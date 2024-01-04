@@ -11,19 +11,28 @@ import { Permission } from "src/app/shared/models/Cams-new/Permission";
 })
 export class PermissionConfigurationModalComponent {
   roleList: any[] = this.appService.appConfig[0].roleList;
+  platformList : any[] = this.appService.appConfig[0].platformList;
+
+  selectedRole: string = "User Managemant System";
 
   @Input() type!: string;
   @Input() modalTitle!: string;
 
   @Input() permissionCode!: string;
   @Input() permissionName!: string;
+  @Input() description!: string;
   @Input() createdDate!: string;
-  @Input() status!: any;
+  @Input() status!: string;
 
   buttonName!: string;
   buttonIcon!: string;
   cancelButtonIcon: string = "bi-x-circle-fill";
   cancelButtonName: string = "Cancel";
+
+  statusOptions: { label: string, value: string }[] = [
+    { label: 'Active', value: 'Active' },
+    { label: 'Deactive', value: 'Deactive' }
+  ];
 
   constructor(
     public activeModal: NgbActiveModal,

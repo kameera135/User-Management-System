@@ -2,38 +2,39 @@
   <app-waiting-circle></app-waiting-circle>
 </div> -->
 
-<!-- <div class="row mb-4 mx-1  {{ loadingInProgress ? 'hidden' : '' }}"> -->
+<!-- <div class="row mb-3 mx-1  {{ loadingInProgress ? 'hidden' : '' }}"> -->
     <div class="row mb-3 mx-1">
         <div class="card">
           <div class="card-header">
             <div class="row">
-              <div class="col-5 col-lg-5 mt-1"><h2>API Tokens</h2></div>
+              <div class="col-3 col-lg-3 mt-1"><h2>{{platformName}}Users</h2></div>
       
               <div class="col-4 col-lg-4 mt-1">
                 <a
                   class="btn btn-primary float-end"
                   style="margin-right: 3"
-                  (click)="onAddTokenButtonClicked()"
+                  (click)="onAddUserButtonClicked()"
                 >
                   <i
-                    class="bi bi-plus-square-fill label-icon align-middle fs-16 me-2"
+                    class="bi bi-person-plus-fill label-icon align-middle fs-16 me-2"
                   ></i>
-                  Add Token</a
+                  Add User</a
                 >
               </div>
       
-              <!-- <div class="col-2 col-lg-2 mt-1">
+              <div class="col-2 col-lg-2 mt-1">
                 <select
                   class="form-select"
                   aria-label="Platform"
                   [(ngModel)]="selectedRole"
                   (change)="loadData()"
                 >
-                  <option *ngFor="let item of roleList" [value]="item.value">
+                  <!-- <option selected value="">Select...</option> -->
+                  <option *ngFor="let item of platformList" [value]="item.value">
                     {{ item.value }}
                   </option>
                 </select>
-              </div> -->
+              </div>
       
               <div class="form-outline col-3 col-lg-3 mt-1">
                 <input
@@ -42,7 +43,7 @@
                   type="text"
                   id="searchKey"
                   class="form-control input-sm"
-                  placeholder="Search Tokens"
+                  placeholder="Search User"
                 />
               </div>
             </div>
@@ -50,20 +51,22 @@
       
           <div class="card-body pb-3">
             <app-table
-            *ngIf="!loadingInProgress"
-            [headArray]="headArray"
-            [dataArray]="tableData"
-            [dataTableOptions]="tokenConfigTableOptions"
-            [totalRowsInSelection]="totalDataCount"
-            [selectedPageSize]="selectedPageSize"
-            [selectedPage]="selectedPage"
-            (onPaginationChanged)="onPaginationChange($event)"
-            (onPagesizeChanged)="onPagesizeChange($event)"
-            (onEdit)="onEditButtonClicked($event)"
-            (onDelete)="deleteTokens($event)"
-            (onRowDoubleClick)="onViewButtonClicked($event)"
-            (dblClick)="onViewButtonClicked($event)">
+              *ngIf="!loadingInProgress"
+              [headArray]="headArray"
+              [dataArray]="tableData"
+              [dataTableOptions]="usersViewTableOptions"
+              [totalRowsInSelection]="totalDataCount"
+              [selectedPageSize]="selectedPageSize"
+              [selectedPage]="selectedPage"
+              (onPaginationChanged)="onPaginationChange($event)"
+              (onPagesizeChanged)="onPagesizeChange($event)"
+              (onEdit)="onEditButtonClicked($event)"
+              (onDelete)="deleteUsers($event)"
+              (onRowDoubleClick)="onViewButtonClicked($event)"
+              (dblClick)="onViewButtonClicked($event)"
+            >
             </app-table>
           </div>
         </div>
       </div>
+      

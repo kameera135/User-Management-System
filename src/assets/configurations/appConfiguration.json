@@ -79,5 +79,10 @@
     	{ "value": "Airecon Extention System", "id": 2 },
     	{ "value": "Tenant Billing System", "id": 3 },
     	{ "value": "Energy Management System", "id": 4 }
+	],
+
+	"status":[
+    	{ "value": "Active", "id": 2 },
+    	{ "value": "Diactivate", "id": 3 }
 	]
 }

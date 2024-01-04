@@ -90,5 +90,18 @@
 	"RoleActivatedErrorSideAlertMessage":"Activation failed.",
 	"RoleDeactivatedSuccessSideAlertMessage":"Roles deactivated successfully !",
 	"RoleDeactivateNotificationMessage":"Roles have been deactivated.",
-	"RoleDeactivatedErrorSideAlertMessage":"Deactivation failed."
+	"RoleDeactivatedErrorSideAlertMessage":"Deactivation failed.",
+
+	"UpdateTokenConfirmationMessage": "You want to update Token details?",
+	"DeleteTokenConfirmationMessage": "You want to delete Token/s?",
+	"GetTokenListErrorSideAlertMessage": "Could not retrieve the data list.",
+	"TokenAddedSuccessSideAlertMessage": "Token added successfully !",
+	"TokenAddedNotificationMessage": "Token has been added",
+	"TokenAddedErrorSideAlertMessage": "Could not add a Token.",
+	"TokenUpdatedSuccessSideAlertMessage": "Token updated successfully !",
+	"TokenUpdatedNotificationMessage": "Token has been updated",
+	"TokenUpdatedErrorSideAlertMessage": "Could not update Token.",
+	"TokenDeletedSuccessSideAlertMessage": "Tokens deleted successfully !",
+	"TokenDeletedNotificationMessage": "Token/s have been deleted",
+	"TokenDeletedErrorSideAlertMessage": "Could not delete Tokens."
 }

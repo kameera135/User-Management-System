@@ -107,4 +107,17 @@ export interface toastServicePopUpConfigurations {
   RoleDeactivatedSuccessSideAlertMessage: string;
   RoleDeactivateNotificationMessage: string;
   RoleDeactivatedErrorSideAlertMessage: string;
+
+  UpdateTokenConfirmationMessage: string;
+  DeleteTokenConfirmationMessage: string;
+  GetTokenListErrorSideAlertMessage: string;
+  TokenAddedSuccessSideAlertMessage: string;
+  TokenAddedNotificationMessage: string;
+  TokenAddedErrorSideAlertMessage: string;
+  TokenUpdatedSuccessSideAlertMessage: string;
+  TokenUpdatedNotificationMessage: string;
+  TokenUpdatedErrorSideAlertMessage: string;
+  TokenDeletedSuccessSideAlertMessage: string;
+  TokenDeletedNotificationMessage: string;
+  TokenDeletedErrorSideAlertMessage: string;
 }

@@ -35,6 +35,8 @@ import { UserAccountComponent } from "./modules/cams-new/user-account/user-accou
 import { UsersViewComponent } from "./modules/cams-new/users-view/users-view.component";
 import { PasswordPolicyComponent } from './modules/cams-new/password-policy/password-policy.component';
 import { SystemTokensComponent } from './modules/cams-new/system-tokens/system-tokens.component';
+import { PlatformUsersComponent } from "./modules/cams-new/platform-users/platform-users.component";
+
 
 @NgModule({
   declarations: [
@@ -47,6 +49,7 @@ import { SystemTokensComponent } from './modules/cams-new/system-tokens/system-t
     UsersViewComponent,
     PasswordPolicyComponent,
     SystemTokensComponent,
+    PlatformUsersComponent
   ],
   imports: [
     CommonModule,

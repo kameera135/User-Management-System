@@ -11,6 +11,8 @@ import { Role as Role } from "src/app/shared/models/Cams-new/Role";
 })
 export class RoleConfigurationModalComponent {
   roleList: any[] = this.appService.appConfig[0].roleList;
+  platformList : any[] = this.appService.appConfig[0].platformList;
+
 
   @Input() type!: string;
   @Input() modalTitle!: string;
@@ -19,12 +21,22 @@ export class RoleConfigurationModalComponent {
   @Input() roleName!: string;
   @Input() createdDate!: string;
   @Input() description!: string;
-  @Input() status!: any;
+  @Input() status!: string;
 
   buttonName!: string;
   buttonIcon!: string;
   cancelButtonIcon: string = "bi-x-circle-fill";
   cancelButtonName: string = "Cancel";
+
+  selectedRole: string = "User Managemant System";
+
+  disablePlatforms: boolean = false; 
+
+  // Array to hold the dropdown options
+  statusOptions: { label: string, value: string }[] = [
+    { label: 'Active', value: 'Active' },
+    { label: 'Deactive', value: 'Deactive' }
+  ];
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -47,6 +59,13 @@ export class RoleConfigurationModalComponent {
     //cancel button
     this.cancelButtonIcon;
     this.cancelButtonName;
+
+    //disable the input feild
+    if (this.type === 'View') {
+      this.disablePlatforms = true;
+    } else {
+      this.disablePlatforms = false;
+    }
   }
 
   onFormSubmit() {
@@ -73,5 +92,6 @@ export class RoleConfigurationModalComponent {
     role.status = this.status;
 
     this.activeModal.close(role);
+    
   }
 }

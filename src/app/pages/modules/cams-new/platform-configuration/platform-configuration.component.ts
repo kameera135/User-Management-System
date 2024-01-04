@@ -103,6 +103,9 @@ export class PlatformConfigurationComponent {
     //for display paginations. It is not default.
     this.platformConfigTableOptions.displayPagination = true;
 
+    //for show users in respective platforms
+    this.platformConfigTableOptions.allowToViewPlatformUsers = true;
+
 
     this.platformConfigTableOptions.rowEditConfirmationMessage =
       this.appService.popUpMessageConfig[0].UpdatePlatformConfirmationMessage;

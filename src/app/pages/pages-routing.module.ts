@@ -11,6 +11,7 @@ import { UserAccountComponent } from "./modules/cams-new/user-account/user-accou
 import { UsersViewComponent } from "./modules/cams-new/users-view/users-view.component";
 import { SystemTokensComponent } from "./modules/cams-new/system-tokens/system-tokens.component";
 import { PasswordPolicyComponent } from "./modules/cams-new/password-policy/password-policy.component";
+import { PlatformUsersComponent } from "./modules/cams-new/platform-users/platform-users.component";
 
 const routes: Routes = [
   {
@@ -53,6 +54,10 @@ const routes: Routes = [
   {
     path: "password-policy",
     component: PasswordPolicyComponent,
+  },
+  {
+    path: "platform-users",
+    component: PlatformUsersComponent
   }
 ];
 

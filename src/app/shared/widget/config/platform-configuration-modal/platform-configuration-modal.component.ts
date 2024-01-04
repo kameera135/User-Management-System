@@ -21,12 +21,19 @@ export class PlatformConfigurationModalComponent {
   @Input() platformName!: string;
   @Input() description!: string;
   @Input() url!: string;
-  @Input() status!: any;
+  @Input() status!: string;
 
   buttonName!: string;
   buttonIcon!: string;
   cancelButtonIcon: string = "bi-x-circle-fill";
   cancelButtonName: string = "Cancel";
+
+  // Array to hold the dropdown options
+  statusOptions: { label: string, value: string }[] = [
+    { label: 'Active', value: 'Active' },
+    { label: 'Deactive', value: 'Deactive' }
+  ];
+
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -51,6 +58,7 @@ export class PlatformConfigurationModalComponent {
     //cancel button
       this.cancelButtonIcon;
       this.cancelButtonName;
+      
   }
 
   onFormSubmit() {
@@ -75,5 +83,6 @@ export class PlatformConfigurationModalComponent {
     platform.status = this.status;
 
     this.activeModal.close(platform);
+    
   }
 }

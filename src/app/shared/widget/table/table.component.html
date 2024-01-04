@@ -244,6 +244,20 @@
                         <i class="bi bi-pencil-fill text-muted"></i>
                       </button>
 
+                      <!--Show users in respective platforms button-->
+                      <button
+                        *ngIf="allowToViewPlatformUsers"
+                        class="btn btn-sm btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#createTask"
+                        data-edit-id="15"
+                        (click)="showPlatformUserView()"
+                        Generate="User"
+                        ngbTooltip="User"
+                      >
+                        <i class="bi bi-people-fill text-muted"></i>
+                      </button>
+
                       <!-- Acknowledge -->
                       <button
                         *ngIf="allowtoAcknowledge && !item['changeButton']"

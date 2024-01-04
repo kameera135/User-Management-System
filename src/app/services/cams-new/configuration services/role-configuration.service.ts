@@ -9,7 +9,7 @@ import { Role } from "src/app/shared/models/Cams-new/Role";
 
 @Injectable({
   providedIn: "root",
-})
+})  
 export class RoleConfigurationService {
   constructor(private appService: AppService, private httpClient: HttpClient) {}
 

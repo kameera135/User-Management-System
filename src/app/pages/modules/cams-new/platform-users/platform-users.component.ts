@@ -12,11 +12,12 @@ import { MessageService } from "src/app/services/PopupMessages/message.service";
 import { HttpClient } from "@angular/common/http";
 
 @Component({
-  selector: "app-users-view",
-  templateUrl: "./users-view.component.html",
-  styleUrls: ["./users-view.component.scss"],
+  selector: 'app-platform-users',
+  templateUrl: './platform-users.component.html',
+  styleUrls: ['./platform-users.component.scss']
 })
-export class UsersViewComponent {
+export class PlatformUsersComponent {
+
   loadingInProgress: boolean = false;
 
   userModel!: User;
@@ -51,6 +52,8 @@ export class UsersViewComponent {
   ];
   usersViewService: any;
   tableData: any;
+
+  platformName!: string  
 
   //to remove
   // tableData = [
@@ -120,7 +123,8 @@ export class UsersViewComponent {
     //   this.appService.popUpMessageConfig[0].UserUpdatedNotificationMessage;
 
     this.breadcrumbService.loadBreadcrumbValue([
-      { label: "Users", active: false },
+      { label: "Configuration", active: false },
+      { label: "Platforms", active: false },
       { label: "Users", active: true },
     ]);
 

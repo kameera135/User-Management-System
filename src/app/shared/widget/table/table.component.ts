@@ -7,6 +7,7 @@ import {
   QueryList,
   ViewChildren,
 } from "@angular/core";
+import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgToastService } from "ng-angular-popup";
 import { AppService } from "src/app/app.service";
@@ -76,6 +77,9 @@ export class TableComponent {
   testArray: any[] = [];
 
   selectedDataRow: any;
+
+  //To show platform users
+  allowToViewPlatformUsers: boolean = false;
 
   //now if displayPlagination want value has been true in page
   displayPagination: boolean = false;
@@ -190,7 +194,8 @@ export class TableComponent {
     private modalService: NgbModal,
     private notifierService: NgToastService,
     private appService: AppService,
-    private sweetAlert: MessageService
+    private sweetAlert: MessageService,
+    private router: Router
   ) {
     this.collectionSize = this.dataArray.length;
   }
@@ -232,6 +237,9 @@ export class TableComponent {
     if (this.dataTableOptions != undefined && this.dataTableOptions != null) {
       this.view_single_record_permission =
         this.dataTableOptions.view_single_Record_permission;
+
+      //assign in platform user showing button  
+      this.allowToViewPlatformUsers = this.dataTableOptions.allowToViewPlatformUsers;
 
       this.approve_single_record_permission =
         this.dataTableOptions.approve_single_record_permission;
@@ -334,6 +342,11 @@ export class TableComponent {
       this.recordActivateConfirmationMessage =
         this.dataTableOptions.recordActivateConfirmationMessage;
     }
+  }
+
+  //show users in respective platforms
+  showPlatformUserView(){
+    this.router.navigate(['/platform-users']);
   }
 
   //Method handles update buttton click on the grid

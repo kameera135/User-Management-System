@@ -50,6 +50,8 @@ import { SidebarComponent } from "./sidebar/sidebar.component";
 import { PlatformConfigurationModalComponent } from "./config/platform-configuration-modal/platform-configuration-modal.component";
 import { PermissionConfigurationModalComponent } from "./config/permission-configuration-modal/permission-configuration-modal.component";
 import { RoleConfigurationModalComponent } from "./config/role-configuration-modal/role-configuration-modal.component";
+import { SystemTokenModalComponent } from './config/system-token-modal/system-token-modal/system-token-modal.component';
+import { PlatformUserModalComponent } from './config/platform-user-modal/platform-user-modal.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +71,8 @@ import { RoleConfigurationModalComponent } from "./config/role-configuration-mod
     PlatformConfigurationModalComponent,
     PermissionConfigurationModalComponent,
     RoleConfigurationModalComponent,
+    SystemTokenModalComponent,
+    PlatformUserModalComponent,
   ],
   imports: [
     CommonModule,
