@@ -1,25 +1,31 @@
-import { Component, OnInit, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { EventService } from '../../core/services/event.service';
-import { MenuItem } from './menu.model';
-import { MenuService } from '../../services/menu.service';
-import { EventEmitService } from 'src/app/core/services/event-emit.service';
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  Output,
+  ViewChild,
+  ElementRef,
+} from "@angular/core";
+import { Router, NavigationEnd } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
+import { EventService } from "../../core/services/event.service";
+import { MenuItem } from "./menu.model";
+import { MenuService } from "../../services/menu.service";
+import { EventEmitService } from "src/app/core/services/event-emit.service";
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  selector: "app-navbar",
+  templateUrl: "./navbar.component.html",
+  styleUrls: ["./navbar.component.scss"],
 })
 export class NavbarComponent implements OnInit {
-
   menu: any;
 
   mode: string | undefined;
 
   menuItems: MenuItem[] = [];
 
-  @ViewChild('sideMenu') sideMenu!: ElementRef;
+  @ViewChild("sideMenu") sideMenu!: ElementRef;
 
   @Output() mobileMenuButtonClicked = new EventEmitter();
 
@@ -33,51 +39,50 @@ export class NavbarComponent implements OnInit {
 
   receivedPathFromDashboard: any;
 
-  constructor(private router: Router, public translate: TranslateService, private eventService: EventService, private sideMenuService: MenuService, private eventEmitService: EventEmitService) {
-    translate.setDefaultLang('en');
+  constructor(
+    private router: Router,
+    public translate: TranslateService,
+    private eventService: EventService,
+    private sideMenuService: MenuService,
+    private eventEmitService: EventEmitService
+  ) {
+    translate.setDefaultLang("en");
 
     this.eventEmitService.dataEvent.subscribe((data) => {
       this.receivedPathFromDashboard = data;
-      console.log("Received Path From Dashboard", this.receivedPathFromDashboard)
+      console.log(
+        "Received Path From Dashboard",
+        this.receivedPathFromDashboard
+      );
 
-      console.log('receivedPathFromDashboard', this.receivedPathFromDashboard)
+      console.log("receivedPathFromDashboard", this.receivedPathFromDashboard);
       //this.updateDashboardSelection(this.receivedPathFromDashboard)
     });
   }
 
   ngOnInit(): void {
-
     //Load all the appropriate menu items from the database according to the user rights
     this.menuItems = this.sideMenuService.getMenu();
 
-    this.eventService.subscribe('changedBreadcrumbValue', (layout) => {
-
+    this.eventService.subscribe("changedBreadcrumbValue", (layout) => {
       this.breadCrumbItems = layout;
-
     });
 
     setTimeout(() => {
-
       this.initActiveMenu();
-
     }, 0);
-
   }
 
   //This method set the selected module number and then referesh the page to populate the changes
   changeMenu(module: any) {
-
     this.moduleNumber = module;
 
     this.ngOnInit();
-
   }
 
   //This method Filter out the appropriate links for the selected module
   findModuleLinks(menuItem: any[]): any[] {
-
-    return menuItem.filter(p => p.module == this.moduleNumber);
-
+    return menuItem.filter((p) => p.module == this.moduleNumber);
   }
 
   /***
@@ -93,7 +98,9 @@ export class NavbarComponent implements OnInit {
         if (!item.classList.contains("active")) {
           item.setAttribute("aria-expanded", false);
         }
-        (item.nextElementSibling) ? item.nextElementSibling.classList.remove("show") : null;
+        item.nextElementSibling
+          ? item.nextElementSibling.classList.remove("show")
+          : null;
       }
       if (item.classList.contains("nav-link")) {
         if (item.nextElementSibling) {
@@ -106,19 +113,32 @@ export class NavbarComponent implements OnInit {
   }
 
   // remove active items of two-column-menu
-  activateParentDropdown(item: any) { // navbar-nav menu add active
+  activateParentDropdown(item: any) {
+    // navbar-nav menu add active
     item.classList.add("active");
     let parentCollapseDiv = item.closest(".collapse.menu-dropdown");
     if (parentCollapseDiv) {
       // to set aria expand true remaining
       parentCollapseDiv.classList.add("show");
       parentCollapseDiv.parentElement.children[0].classList.add("active");
-      parentCollapseDiv.parentElement.children[0].setAttribute("aria-expanded", "true");
+      parentCollapseDiv.parentElement.children[0].setAttribute(
+        "aria-expanded",
+        "true"
+      );
       if (parentCollapseDiv.parentElement.closest(".collapse.menu-dropdown")) {
-        parentCollapseDiv.parentElement.closest(".collapse").classList.add("show");
-        if (parentCollapseDiv.parentElement.closest(".collapse").previousElementSibling)
-          parentCollapseDiv.parentElement.closest(".collapse").previousElementSibling.classList.add("active");
-        parentCollapseDiv.parentElement.closest(".collapse").previousElementSibling.setAttribute("aria-expanded", "true");
+        parentCollapseDiv.parentElement
+          .closest(".collapse")
+          .classList.add("show");
+        if (
+          parentCollapseDiv.parentElement.closest(".collapse")
+            .previousElementSibling
+        )
+          parentCollapseDiv.parentElement
+            .closest(".collapse")
+            .previousElementSibling.classList.add("active");
+        parentCollapseDiv.parentElement
+          .closest(".collapse")
+          .previousElementSibling.setAttribute("aria-expanded", "true");
       }
       return false;
     }
@@ -126,7 +146,7 @@ export class NavbarComponent implements OnInit {
   }
 
   updateActive(event: any) {
-    console.log('event', event)
+    console.log("event", event);
     const ul = document.getElementById("navbar-nav");
 
     if (ul) {
@@ -134,7 +154,7 @@ export class NavbarComponent implements OnInit {
       this.removeActivation(items);
     }
     this.activateParentDropdown(event.target);
-    console.log('event.target', event.target)
+    console.log("event.target", event.target);
     //event.target = <a _ngcontent-vhf-c2="" class="nav-link active" ng-reflect-router-link="/meter-daily-summary" data-parent="800" href="/meter-daily-summary" aria-expanded="false"><!--bindings={}-->Meter Daily Summary </a>
   }
 
@@ -142,7 +162,7 @@ export class NavbarComponent implements OnInit {
     const ul = document.getElementById("navbar-nav");
 
     const simulatedEvent = {
-      target: `<a _ngcontent-vhf-c2="" class="nav-link active" ng-reflect-router-link="${path}" data-parent="800" href="${path}" aria-expanded="false"><!--bindings={}-->Meter Daily Summary </a>`
+      target: `<a _ngcontent-vhf-c2="" class="nav-link active" ng-reflect-router-link="${path}" data-parent="800" href="${path}" aria-expanded="false"><!--bindings={}-->Meter Daily Summary </a>`,
     };
 
     if (ul) {
@@ -158,7 +178,9 @@ export class NavbarComponent implements OnInit {
 
     if (ul) {
       const items = Array.from(ul.querySelectorAll("a.nav-link"));
-      let activeItems = items.filter((x: any) => x.classList.contains("active"));
+      let activeItems = items.filter((x: any) =>
+        x.classList.contains("active")
+      );
       this.removeActivation(activeItems);
       let matchingMenuItem = items.find((x: any) => {
         return x.pathname === pathName;
@@ -172,25 +194,27 @@ export class NavbarComponent implements OnInit {
   toggleSubItem(event: any) {
     if (event.target && event.target.nextElementSibling)
       event.target.nextElementSibling.classList.toggle("show");
-  };
+  }
 
   toggleItem(event: any) {
-    let isCurrentMenuId = event.target.closest('a.nav-link');
+    let isCurrentMenuId = event.target.closest("a.nav-link");
 
     let isMenu = isCurrentMenuId.nextElementSibling as any;
-    let dropDowns = Array.from(document.querySelectorAll('#navbar-nav .show'));
+    let dropDowns = Array.from(document.querySelectorAll("#navbar-nav .show"));
     dropDowns.forEach((node: any) => {
-      node.classList.remove('show');
+      node.classList.remove("show");
     });
 
-    (isMenu) ? isMenu.classList.add('show') : null;
+    isMenu ? isMenu.classList.add("show") : null;
 
     const ul = document.getElementById("navbar-nav");
     if (ul) {
       const iconItems = Array.from(ul.getElementsByTagName("a"));
-      let activeIconItems = iconItems.filter((x: any) => x.classList.contains("active"));
+      let activeIconItems = iconItems.filter((x: any) =>
+        x.classList.contains("active")
+      );
       activeIconItems.forEach((item: any) => {
-        item.setAttribute('aria-expanded', "false")
+        item.setAttribute("aria-expanded", "false");
         item.classList.remove("active");
       });
     }
@@ -198,7 +222,6 @@ export class NavbarComponent implements OnInit {
       this.activateParentDropdown(isCurrentMenuId);
     }
   }
-
 
   /**
    * Returns true or false if given menu item has child or not
@@ -217,5 +240,4 @@ export class NavbarComponent implements OnInit {
       els[0].classList.remove(className);
     }
   }
-
 }

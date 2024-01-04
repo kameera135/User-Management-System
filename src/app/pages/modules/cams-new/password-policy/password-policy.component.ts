@@ -4,6 +4,7 @@ import { AppService } from "src/app/app.service";
 import { MessageService } from "src/app/services/PopupMessages/message.service";
 import { BreadcrumbService } from "src/app/services/breadcrumb/breadcrumb.service";
 import { ActivityLogsService } from "src/app/services/cams-new/activity-logs.service";
+import { PasswordPolicyService } from "src/app/services/cams-new/password-policy.service";
 import { ActivityLogData } from "src/app/shared/models/Cams-new/ActivityLogData";
 import { tableOptions } from "src/app/shared/models/tableOptions";
 import { ActivityLogsModalComponent } from "src/app/shared/widget/config/activity-logs-modal/activity-logs-modal.component";
@@ -15,6 +16,9 @@ import { ActivityLogsModalComponent } from "src/app/shared/widget/config/activit
 })
 export class PasswordPolicyComponent {
   loadingInProgress: boolean = false;
+
+  passwordMinLength!: number;
+  passwordMaxLength!: number;
 
   selectedYear: string = new Date().getFullYear().toString();
   selectedMonth: string = (new Date().getMonth() + 1).toString();
@@ -109,13 +113,16 @@ export class PasswordPolicyComponent {
 
   constructor(
     private breadcrumbService: BreadcrumbService,
-    private shared: ActivityLogsService,
+    private shared: PasswordPolicyService,
     private modalService: NgbModal,
     private appService: AppService,
     private alertService: MessageService
   ) {}
 
   ngOnInit(): void {
+    this.passwordMinLength = 8;
+    this.passwordMaxLength = 16;
+
     const currentYear = new Date().getFullYear();
     this.yearList = Array.from(
       { length: this.appService.appConfig[0].maximumYearRange },
