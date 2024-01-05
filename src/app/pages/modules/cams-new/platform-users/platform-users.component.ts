@@ -266,7 +266,7 @@ export class PlatformUsersComponent {
     // Check the 'type' parameter to determine the view 
     let modalSize = "m";
     if(type == "Add"){
-      modalSize = "lg"
+      modalSize = "xl"
     }
     
     const modalRef = this.modalService.open(PlatformUserModalComponent, {
