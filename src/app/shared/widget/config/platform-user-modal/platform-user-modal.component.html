@@ -12,6 +12,16 @@
       </span>
     </button>
 </div>
+
+<div class="card-body pb-3" *ngIf="type !== 'View' && type !=='Edit'">
+    <app-table
+      *ngIf="!loadingInProgress"
+      [headArray]="headArray"
+      [dataArray]="tableData"
+      [dataTableOptions]="platformUserModelViewTableOption"
+    >
+    </app-table>
+</div>
   
 <form #form="ngForm" (ngSubmit)="onFormSubmit()">
     <div class="col modal-body col-12">

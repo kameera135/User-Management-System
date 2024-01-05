@@ -2,7 +2,10 @@ import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgToastService } from 'ng-angular-popup';
 import { AppService } from 'src/app/app.service';
+import { MessageService } from 'src/app/services/PopupMessages/message.service';
+import { PlatformUsersService } from 'src/app/services/cams-new/platform-users.service';
 import { User } from 'src/app/shared/models/Cams-new/User';
+import { PlatformUser } from 'src/app/shared/models/Cams-new/platform-user';
 import { tableOptions } from 'src/app/shared/models/tableOptions';
 
 interface ListItem {
@@ -31,24 +34,45 @@ export class PlatformUserModalComponent {
   @Input() password!: string;
   @Input() confirmPassword!: string;
   @Input() userProfileCode!: string;
+  empId!: string;
 
   buttonName!: string;
   buttonIcon!: string;
   cancelButtonIcon: string = "bi-x-circle-fill";
   cancelButtonName: string = "Cancel";
 
+  userList!: PlatformUser[];
+  userModal!: PlatformUser;
+
+  selectedPage: number = 1;
+  selectedPageSize: number = 20;
+  totalDataCount!: number;
+
   loadingInProgress: boolean = false;
 
   rolesViewTableOptions: tableOptions = new tableOptions();
   isEditable: boolean = true;
 
- 
+  platformUserModelViewTableOption: tableOptions = new tableOptions();
+  userDetailsArray: any;
+  tableData: any;
 
   constructor(
     public activeModal: NgbActiveModal,
     private notifierService: NgToastService,
-    private appService: AppService
+    private appService: AppService,
+    private shared: PlatformUsersService,
+    private alertService: MessageService,
   ) {}
+
+  headArray = [
+  
+    { Head: "", FieldName: "", ColumnType: "CheckBox" },
+    { Head: "EmpId", FieldName: "EmpId", ColumnType: "Data" },
+    { Head: "User Name", FieldName: "UserName", ColumnType: "Data" },
+    //{ Head: "Platform", FieldName: "Platform", ColumnType: "Data" },
+    { Head: "Email", FieldName: "Email", ColumnType: "Data" },
+  ];
 
   ngOnInit() {
     if (this.type == "Add") {
@@ -66,7 +90,53 @@ export class PlatformUserModalComponent {
     this.cancelButtonIcon;
     this.cancelButtonName;
 
-    this.rolesViewTableOptions
+    this.platformUserModelViewTableOption.allowCheckbox = true;
+
+    this.loaddata();
+    
+  }
+
+  loaddata(){
+    this.loadingInProgress = true;
+    this.getAllPlatformUsers();
+  }
+
+  updateTable() {
+    this.userDetailsArray = this.userList.map((item) => ({
+      EmpId: item.empId,
+      UserName: item.userName,
+      Email: item.email,
+      isRejecteableOrApprovableRecord:true
+
+    }));
+    this.tableData = this.userDetailsArray;
+  }
+
+  getAllPlatformUsers() {
+    this.shared
+      .getAllPlatformUsers(this.selectedPage, this.selectedPageSize)
+     .subscribe({
+        
+        next: (response) => {
+          this.userList = response.response;
+          this.totalDataCount = response.rowCount;
+          this.updateTable();
+          this.loadingInProgress = false;
+        },
+        error: (error) => {
+          this.alertService.sideErrorAlert(
+            "Error",
+            this.appService.popUpMessageConfig[0]
+              .GetUserListErrorSideAlertMessage
+          );
+
+          this.userList = [];
+          this.totalDataCount = 0;
+
+          this.updateTable();
+          this.loadingInProgress = false;
+        },
+      });
   }
 
   onFormSubmit() {
@@ -86,14 +156,14 @@ export class PlatformUserModalComponent {
       return;
     }
 
-    const user = new User();
+    const user = new PlatformUser();
+    user.empId = this.empId;
     user.userName = this.userName;
     user.firstName = this.firstName;
     user.lastName = this.lastName;
     user.platform = this.platform;
     user.email = this.email;
     user.phoneNumber = this.phoneNumber;
-    user.userProfileCode = this.userProfileCode;
 
     this.activeModal.close(user);
   }
@@ -122,33 +192,4 @@ export class PlatformUserModalComponent {
       // Hide the list items view after adding items to textarea
       this.showListItems = false;
   }
-  headArray = [
-  
-    { Head: "Platforms", FieldName: "Platforms", ColumnType: "Data" },
-    { Head: "Role", FieldName: "Role", ColumnType: "Data" },
-  ];
-
-  tableData = [
-      {
-        Platforms: "Airecone Extention System",
-        Role: "Facility Manager",
-      },
-      {
-        Platforms: "Airecone Extention System",
-        Role: "Tenant",
-      },
-      {
-        Platforms: "Tenant Billing System",
-        Role: "Tenant Manager",
-      },
-      {
-        Platforms: "User Managemant System",
-        Role: "Admin",
-      },
-      {
-        Platforms: "Airecone Extention System",
-        Role: "Tenant Manager",
-      }
-    ];
-
 }

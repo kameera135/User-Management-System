@@ -262,8 +262,15 @@ export class PlatformUsersComponent {
     phoneNumber: string,
     userProfileCode: string
   ): void {
+
+    // Check the 'type' parameter to determine the view 
+    let modalSize = "m";
+    if(type == "Add"){
+      modalSize = "lg"
+    }
+    
     const modalRef = this.modalService.open(PlatformUserModalComponent, {
-      size: "s",
+      size: modalSize,
       centered: true,
       backdrop: "static",
       keyboard: false,

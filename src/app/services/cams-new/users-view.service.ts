@@ -9,6 +9,7 @@ import { environment } from "src/environments/environment";
   providedIn: "root",
 })
 export class UsersViewService {
+  
   getUsersByPlatform(Platform: string, selectedPage: number, selectedPageSize: number) {
     throw new Error("Method not implemented.");
   }
