@@ -10,6 +10,7 @@ import { UserViewModalComponent } from "src/app/shared/widget/config/user-view-m
 import { UpdateConfirmationModalComponent } from "src/app/shared/widget/config/update-confirmation-modal/update-confirmation-modal.component";
 import { MessageService } from "src/app/services/PopupMessages/message.service";
 import { HttpClient } from "@angular/common/http";
+import { PlatformUserModalComponent } from "src/app/shared/widget/config/platform-user-modal/platform-user-modal.component";
 
 @Component({
   selector: 'app-platform-users',
@@ -261,7 +262,7 @@ export class PlatformUsersComponent {
     phoneNumber: string,
     userProfileCode: string
   ): void {
-    const modalRef = this.modalService.open(UserViewModalComponent, {
+    const modalRef = this.modalService.open(PlatformUserModalComponent, {
       size: "s",
       centered: true,
       backdrop: "static",

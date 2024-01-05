@@ -11,6 +11,7 @@ import { WidgetModule } from "./widget/widget.module";
 
 
 
+
 @NgModule({
     declarations: [
         BreadcrumbsComponent,
