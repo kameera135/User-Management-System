@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgToastService } from "ng-angular-popup";
 import { UsersViewService } from "src/app/services/cams-new/users-view.service";
@@ -11,6 +11,9 @@ import { UpdateConfirmationModalComponent } from "src/app/shared/widget/config/u
 import { MessageService } from "src/app/services/PopupMessages/message.service";
 import { HttpClient } from "@angular/common/http";
 import { PlatformUserModalComponent } from "src/app/shared/widget/config/platform-user-modal/platform-user-modal.component";
+import { PlatformUser } from "src/app/shared/models/Cams-new/platform-user";
+import { ActivatedRoute } from "@angular/router";
+import { PlatformUsersService } from "src/app/services/cams-new/platform-users.service";
 
 @Component({
   selector: 'app-platform-users',
@@ -21,15 +24,18 @@ export class PlatformUsersComponent {
 
   loadingInProgress: boolean = false;
 
-  userModel!: User;
-  userList!: User[];
+  userModel!: PlatformUser;
+  userList!: PlatformUser[];
   userDetailsArray: any = [];
 
   totalDataCount!: number;
   selectedPage: number = 1;
   selectedPageSize: number = 20;
 
+  @Input() platform!: string;
+
   searchTerm!: string;
+  
 
   roleList: any[] = [{ value: "All", id: 1 }];
   platformList: any[] = [{ value: "All", id: 1 }];
@@ -54,7 +60,7 @@ export class PlatformUsersComponent {
   usersViewService: any;
   tableData: any;
 
-  platformName!: string  
+  platformName!: string
 
   //to remove
   // tableData = [
@@ -92,12 +98,13 @@ export class PlatformUsersComponent {
 
   constructor(
     private breadcrumbService: BreadcrumbService,
-    private shared: UsersViewService,
+    private shared: PlatformUsersService,
     private notifierService: NgToastService,
     private modalService: NgbModal,
     private appService: AppService,
     private alertService: MessageService,
     private http: HttpClient,
+    private route:ActivatedRoute
     
   ) {}
 
@@ -106,6 +113,7 @@ export class PlatformUsersComponent {
     for (let i = 0; i < platforms.length; i++) {
       this.platformList.push(platforms[i]);
     }
+
 
     this.usersViewTableOptions.allowCheckbox = true;
     this.usersViewTableOptions.allowBulkDeleteButton = true;
@@ -163,7 +171,7 @@ export class PlatformUsersComponent {
         this.selectedRole != "All" ||
         this.selectedRole != "")
     ) {
-      this.getUsersByRole(this.serchedTerm);
+      // this.getUsersByRole(this.serchedTerm);
     } else if (
       (this.serchedTerm != undefined ||
         this.serchedTerm != null ||
@@ -188,7 +196,6 @@ export class PlatformUsersComponent {
       Platform: item.platform,
       Email: item.email,
       PhoneNumber: item.phoneNumber,
-      ProfileCode: item.userProfileCode,
       isRejecteableOrApprovableRecord:true
     }));
     this.tableData = this.userDetailsArray;
@@ -363,7 +370,7 @@ export class PlatformUsersComponent {
 
   getAllUsers() {
     this.shared
-      .getAllUsers(this.selectedPage, this.selectedPageSize)
+      .getAllPlatformUsers(this.selectedPage, this.selectedPageSize)
      .subscribe({
         
         next: (response) => {
@@ -388,31 +395,31 @@ export class PlatformUsersComponent {
       });
   }
 
-  getUsersByRole(role: string) {
-    this.shared
-      .getUsersByRole(role, this.selectedPage, this.selectedPageSize)
-      .subscribe({
-        next: (response) => {
-          this.userList = response.response;
-          this.totalDataCount = response.rowCount;
-          this.updateTable();
-          this.loadingInProgress = false;
-        },
-        error: (error) => {
-          this.alertService.sideErrorAlert(
-            "Error",
-            this.appService.popUpMessageConfig[0]
-              .GetUserListErrorSideAlertMessage
-          );
+  // getUsersByRole(role: string) {
+  //   this.shared
+  //     .getUsersByRole(role, this.selectedPage, this.selectedPageSize)
+  //     .subscribe({
+  //       next: (response) => {
+  //         this.userList = response.response;
+  //         this.totalDataCount = response.rowCount;
+  //         this.updateTable();
+  //         this.loadingInProgress = false;
+  //       },
+  //       error: (error) => {
+  //         this.alertService.sideErrorAlert(
+  //           "Error",
+  //           this.appService.popUpMessageConfig[0]
+  //             .GetUserListErrorSideAlertMessage
+  //         );
 
-          this.userList = [];
-          this.totalDataCount = 0;
+  //         this.userList = [];
+  //         this.totalDataCount = 0;
 
-          this.updateTable();
-          this.loadingInProgress = false;
-        },
-      });
-  }
+  //         this.updateTable();
+  //         this.loadingInProgress = false;
+  //       },
+  //     });
+  // }
 
   searchUsers(serchedTerm: string) {
     this.shared
@@ -518,7 +525,7 @@ export class PlatformUsersComponent {
     });
   }
 
-  putUser(user: User): void {
+  putUser(user: PlatformUser): void {
     console.log("Edit", user);
     this.shared.putUser(user).subscribe({
       next: (response) => {

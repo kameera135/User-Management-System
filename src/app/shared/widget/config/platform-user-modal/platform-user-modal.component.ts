@@ -70,7 +70,8 @@ export class PlatformUserModalComponent {
     { Head: "", FieldName: "", ColumnType: "CheckBox" },
     { Head: "EmpId", FieldName: "EmpId", ColumnType: "Data" },
     { Head: "User Name", FieldName: "UserName", ColumnType: "Data" },
-    //{ Head: "Platform", FieldName: "Platform", ColumnType: "Data" },
+    { Head: "First Name", FieldName: "FirstName", ColumnType: "Data" },
+    { Head: "Last Name", FieldName: "LastName", ColumnType: "Data" },
     { Head: "Email", FieldName: "Email", ColumnType: "Data" },
   ];
 
@@ -106,6 +107,8 @@ export class PlatformUserModalComponent {
       EmpId: item.empId,
       UserName: item.userName,
       Email: item.email,
+      FirstName: item.firstName,
+      LastName: item.lastName,
       isRejecteableOrApprovableRecord:true
 
     }));

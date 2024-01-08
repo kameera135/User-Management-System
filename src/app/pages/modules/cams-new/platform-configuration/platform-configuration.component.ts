@@ -207,6 +207,7 @@ export class PlatformConfigurationComponent {
     );
   }
 
+
   onViewButtonClicked(row: any) {
     this.openModal(
       "View",
@@ -216,10 +217,6 @@ export class PlatformConfigurationComponent {
       row.Description,
       row.Status
     );
-  }
-
-  onAddRoleButtonClicked(){
-
   }
 
   

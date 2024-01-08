@@ -54,5 +54,32 @@ export class PlatformUsersService {
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
+  postUser(model: PlatformUser) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("createdBy", this.user.id);
+
+    return this.httpClient.post(`${this.apiUrl}/end-point`, model, {
+      params: queryParams,
+    });
+  }
+
+  putUser(model: PlatformUser) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("updatedBy", this.user.id);
+
+    return this.httpClient.put(`${this.apiUrl}/end-point`, model, {
+      params: queryParams,
+    });
+  }
+
+  deleteUser(list: number[]) {
+    //list is the id list of users which have to be deleted
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("deletedBy", this.user.id);
+
+    return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
+      params: queryParams,
+    });
+  }
 
 }

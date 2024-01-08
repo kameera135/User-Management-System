@@ -27,7 +27,7 @@
   
 <form #form="ngForm" (ngSubmit)="onFormSubmit()">
     <div class="col modal-body col-12">
-        <div class="col-12">
+        <div class="col-12" *ngIf="type !== 'Add'">
             <div class="mb-3">
                 <label class="col-form-label">User Name*</label>
                 <input
@@ -74,100 +74,6 @@
             </div>
         </div>
           
-          
-
-        <!-- <div class="col-12">
-            <div class="mb-3">
-                <label class="col-form-label">Last Name*</label>
-                <input
-                type="text"
-                class="form-control"
-                [(ngModel)]="lastName"
-                name="lastName"
-                [disabled]="type == 'View'"
-                />
-            </div>
-        </div> -->
-
-        <!-- <div class="col-12">
-            <div class="mb-3">
-                <label class="col-form-label">Phone Number</label>
-                <input
-                type="text"
-                class="form-control"
-                [(ngModel)]="phoneNumber"
-                name="phoneNumber"
-                [disabled]="type == 'View'"
-                />
-            </div>
-        </div>
-
-        <div class="col-12">
-            <div class="mb-3">
-                <label class="col-form-label">Email*</label>
-                <input
-                type="text"
-                class="form-control"
-                [(ngModel)]="email"
-                name="email"
-                [disabled]="type == 'View'"
-                />
-            </div>
-        </div> -->
-
-        <!-- <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
-        <div class="mb-3">
-            <label class="col-form-label">Platform*</label>
-            <ng-select
-            [(ngModel)]="platform"
-            [multiple]="false"
-            [placeholder]="platform ? platform : 'Select'"
-            name="selectRole"
-            style="width: auto"
-            [clearable]="false"
-            [disabled]="type == 'View'"
-            >
-            <ng-option *ngFor="let role of roleList" [value]="role.value">
-                {{ role.value }}
-            </ng-option>
-            </ng-select>
-        </div>
-        </div> -->
-
-        <!-- <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
-            <div class="mb-3">
-                <label class="col-form-label">Platforms and Roles</label>
-                <app-table
-                *ngIf="!loadingInProgress"
-                [headArray]="headArray"
-                [dataArray]="tableData">
-                </app-table>
-            </div>
-        </div> -->
-
-        <!-- <div class="col-12" *ngIf="type !== 'View'">
-            <div class="mb-3">
-                <label class="col-form-label">Password</label>
-                <input
-                type="password"
-                class="form-control"
-                [(ngModel)]="password"
-                name="password"
-                />
-            </div>
-        </div>
-
-        <div class="col-12" *ngIf="type !== 'View'">
-            <div class="mb-3">
-                <label class="col-form-label">Confirm Password</label>
-                <input
-                type="password"
-                class="form-control"
-                [(ngModel)]="confirmPassword"
-                name="confirmPassword"
-                />
-            </div>
-        </div> -->
 
         <div class="col-12 mx-auto">
             <div class="d-flex justify-content-end">
