@@ -34,6 +34,7 @@ export class PlatformUserModalComponent {
   @Input() password!: string;
   @Input() confirmPassword!: string;
   @Input() userProfileCode!: string;
+  @Input() role!: string;
   empId!: string;
 
   buttonName!: string;
@@ -100,6 +101,7 @@ export class PlatformUserModalComponent {
   loaddata(){
     this.loadingInProgress = true;
     this.getAllPlatformUsers();
+    this.getAllPlatformUsersRoles();
   }
 
   updateTable() {
@@ -118,6 +120,33 @@ export class PlatformUserModalComponent {
   getAllPlatformUsers() {
     this.shared
       .getAllPlatformUsers(this.selectedPage, this.selectedPageSize)
+     .subscribe({
+        
+        next: (response) => {
+          this.userList = response.response;
+          this.totalDataCount = response.rowCount;
+          this.updateTable();
+          this.loadingInProgress = false;
+        },
+        error: (error) => {
+          this.alertService.sideErrorAlert(
+            "Error",
+            this.appService.popUpMessageConfig[0]
+              .GetUserListErrorSideAlertMessage
+          );
+
+          this.userList = [];
+          this.totalDataCount = 0;
+
+          this.updateTable();
+          this.loadingInProgress = false;
+        },
+      });
+  }
+
+  getAllPlatformUsersRoles() {
+    this.shared
+      .getAllPlatformUsersRoles(this.selectedPage, this.selectedPageSize)
      .subscribe({
         
         next: (response) => {

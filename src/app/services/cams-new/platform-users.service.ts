@@ -25,6 +25,17 @@ export class PlatformUsersService {
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
+  getAllPlatformUsersRoles(page: number, pageSize: number) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("viewedBy", this.user.id);
+    queryParams = queryParams.append("page", page);
+    queryParams = queryParams.append("pageSize", pageSize);
+
+    const url = `${this.apiUrl}/api/user/platform/role`;
+    //const url = `https://6e8a56b690f74a619f86ce09f1bd46eb.api.mockbin.io/`;
+    return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
+  }
+
 
   getSearchedUsers(searchedTerm: string, page: number, pageSize: number) {
     let queryParams = new HttpParams();

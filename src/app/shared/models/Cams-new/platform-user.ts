@@ -6,4 +6,5 @@ export class PlatformUser {
     platform!: string;
     email!: string;
     phoneNumber!: string;
+    role!: string
 }
