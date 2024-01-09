@@ -9,7 +9,6 @@ import { Platform } from "src/app/shared/models/Cams-new/Platform";
   templateUrl: "./platform-configuration-modal.component.html",
   styleUrls: ["./platform-configuration-modal.component.scss"],
 })
-
 export class PlatformConfigurationModalComponent {
   //roleList: any[] = this.appService.appConfig[0].roleList;
   platformList: any[] = this.appService.appConfig[0].platformList;
@@ -29,11 +28,10 @@ export class PlatformConfigurationModalComponent {
   cancelButtonName: string = "Cancel";
 
   // Array to hold the dropdown options
-  statusOptions: { label: string, value: string }[] = [
-    { label: 'Active', value: 'Active' },
-    { label: 'Deactive', value: 'Deactive' }
+  statusOptions: { label: string; value: string }[] = [
+    { label: "Active", value: "Active" },
+    { label: "Deactive", value: "Deactive" },
   ];
-
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -46,19 +44,16 @@ export class PlatformConfigurationModalComponent {
       //main button
       this.buttonName = "Add";
       this.buttonIcon = "bi-person-plus-fill";
-
     } else if (this.type == "Edit") {
       this.buttonName = "Save";
       this.buttonIcon = "bi-floppy2-fill";
-      
     } else {
       this.buttonName = "Edit";
       this.buttonIcon = "bi-pencil-fill";
     }
     //cancel button
-      this.cancelButtonIcon;
-      this.cancelButtonName;
-      
+    this.cancelButtonIcon;
+    this.cancelButtonName;
   }
 
   onFormSubmit() {
@@ -83,6 +78,5 @@ export class PlatformConfigurationModalComponent {
     platform.status = this.status;
 
     this.activeModal.close(platform);
-    
   }
 }

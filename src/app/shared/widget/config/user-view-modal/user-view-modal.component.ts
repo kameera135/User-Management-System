@@ -33,7 +33,6 @@ export class UserViewModalComponent {
   loadingInProgress: boolean = false;
 
   rolesViewTableOptions: tableOptions = new tableOptions();
- 
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -45,7 +44,6 @@ export class UserViewModalComponent {
     if (this.type == "Add") {
       this.buttonName = "Add";
       this.buttonIcon = "bi-person-plus-fill";
-      
     } else if (this.type == "Edit") {
       this.buttonName = "Save";
       this.buttonIcon = "bi-floppy2-fill";
@@ -57,7 +55,7 @@ export class UserViewModalComponent {
     this.cancelButtonIcon;
     this.cancelButtonName;
 
-    this.rolesViewTableOptions
+    this.rolesViewTableOptions;
   }
 
   onFormSubmit() {
@@ -81,40 +79,38 @@ export class UserViewModalComponent {
     user.userName = this.userName;
     user.firstName = this.firstName;
     user.lastName = this.lastName;
-    user.platform = this.platform;
     user.email = this.email;
-    user.phoneNumber = this.phoneNumber;
-    user.userProfileCode = this.userProfileCode;
+    user.phone = this.phoneNumber;
+    user.password = this.password;
 
     this.activeModal.close(user);
   }
 
   headArray = [
-  
     { Head: "Platforms", FieldName: "Platforms", ColumnType: "Data" },
     { Head: "Role", FieldName: "Role", ColumnType: "Data" },
   ];
 
   tableData = [
-      {
-        Platforms: "Airecone Extention System",
-        Role: "Facility Manager",
-      },
-      {
-        Platforms: "Airecone Extention System",
-        Role: "Tenant",
-      },
-      {
-        Platforms: "Tenant Billing System",
-        Role: "Tenant Manager",
-      },
-      {
-        Platforms: "User Managemant System",
-        Role: "Admin",
-      },
-      {
-        Platforms: "Airecone Extention System",
-        Role: "Tenant Manager",
-      }
-    ];
+    {
+      Platforms: "Airecone Extention System",
+      Role: "Facility Manager",
+    },
+    {
+      Platforms: "Airecone Extention System",
+      Role: "Tenant",
+    },
+    {
+      Platforms: "Tenant Billing System",
+      Role: "Tenant Manager",
+    },
+    {
+      Platforms: "User Managemant System",
+      Role: "Admin",
+    },
+    {
+      Platforms: "Airecone Extention System",
+      Role: "Tenant Manager",
+    },
+  ];
 }
