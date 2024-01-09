@@ -86,7 +86,7 @@ export class DashboardComponent {
       subItems: [
         {
           label: "Tokens",
-          path: "/api-token",
+          path: "/system-tokens",
           description: "View API Tokens",
         },
       ],

@@ -60,7 +60,7 @@ export class PlatformUsersComponent {
   usersViewService: any;
   tableData: any;
 
-  platformName!: string
+  @Input() platformName!: string
 
   //to remove
   // tableData = [
@@ -136,6 +136,11 @@ export class PlatformUsersComponent {
       { label: "Platforms", active: false },
       { label: "Users", active: true },
     ]);
+
+    this.route.params.subscribe(params => {
+      this.platformName = params['platformName'];
+    });
+
 
     this.loadData();
   }
@@ -227,13 +232,13 @@ export class PlatformUsersComponent {
   }
 
   onAddUserButtonClicked(): void {
-    this.openModal("Add", "New User Account", "", "", "", "", "", "", "");
+    this.openModal("Add", "Assign New Users ", "", "", "", "", "", "", "");
   }
 
   onEditButtonClicked(row: any) {
     this.openModal(
       "Edit",
-      "Edit User Account Details",
+      "Assign Roles",
       row.UserName,
       row.FirstName,
       row.LastName,

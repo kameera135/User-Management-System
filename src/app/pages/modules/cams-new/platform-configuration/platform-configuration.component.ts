@@ -8,6 +8,7 @@ import { Platform } from "src/app/shared/models/Cams-new/Platform";
 import { MessageService } from "src/app/services/PopupMessages/message.service";
 import { PlatformConfigurationModalComponent } from "src/app/shared/widget/config/platform-configuration-modal/platform-configuration-modal.component";
 import { UpdateConfirmationModalComponent } from "src/app/shared/widget/config/update-confirmation-modal/update-confirmation-modal.component";
+import { Route, Router } from "@angular/router";
 
 @Component({
   selector: "app-platform-configuration",
@@ -81,7 +82,8 @@ export class PlatformConfigurationComponent {
     private shared: PlatformConfigurationService,
     private modalService: NgbModal,
     private appService: AppService,
-    private alertService: MessageService
+    private alertService: MessageService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -172,6 +174,10 @@ export class PlatformConfigurationComponent {
     }
   }
 
+  navigateToPlatformUser(platformName: string) {
+    this.router.navigate(['/platform-users', platformName]);
+  }
+
   updateTable() {
     this.platformDetailsArray = this.platformList.map((item) => ({
       PlatformCode: item.platformCode,
@@ -208,7 +214,7 @@ export class PlatformConfigurationComponent {
   }
 
   onViewPlatformUsers(row:any){
-    row.Platform
+    this.router.navigate(['/platform-users', row.PlatformName]);
   }
 
   onViewButtonClicked(row: any) {

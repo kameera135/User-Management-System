@@ -136,22 +136,22 @@ export class MenuService {
         // },
       ],
     },
-    {
-      id: 300,
-      label: "User Account",
-      collapseid: "sidebarDashboards",
-      icon: "bi-person-circle",
-      module: "1",
-      subItems: [
-        {
-          id: 2,
-          label: "User Account",
-          link: "/user-account",
-          parentId: 102,
-          module: "1",
-        },
-      ],
-    },
+    // {
+    //   id: 300,
+    //   label: "User Account",
+    //   collapseid: "sidebarDashboards",
+    //   icon: "bi-person-circle",
+    //   module: "1",
+    //   subItems: [
+    //     {
+    //       id: 2,
+    //       label: "User Account",
+    //       link: "/user-account",
+    //       parentId: 102,
+    //       module: "1",
+    //     },
+    //   ],
+    // },
   ];
 
   constructor() {}
