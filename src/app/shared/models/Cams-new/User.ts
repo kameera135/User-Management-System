@@ -1,9 +1,9 @@
 export class User {
+  userId!: number;
   userName!: string;
   firstName!: string;
   lastName!: string;
-  platform!: string;
   email!: string;
-  phoneNumber!: string;
-  userProfileCode!: string;
+  phone!: any;
+  password!: string;
 }

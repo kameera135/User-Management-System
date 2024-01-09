@@ -27,16 +27,19 @@ export class UsersViewComponent {
   selectedPage: number = 1;
   selectedPageSize: number = 20;
 
-  searchTerm!: string;
+  searchTerm!: string; //************************************************** */
 
-  roleList: any[] = [{ value: "All", id: 1 }];
-  platformList: any[] = [{ value: "All", id: 1 }];
+  platformListDefault: any[] = [{ value: "All", id: "All" }];
+  // platformList!: any[];
+  platformList: any[] = [
+    { value: "Airecon Extention System", id: "AES" },
+    { value: "Tenant Billing System", id: "TBS" },
+    { value: "Energy Management System", id: "EMS" },
+  ];
 
-  selectedRole: string = "All";
+  selectedPlatform: string = "All";
 
   UserUpdatedNotificationMessage!: string;
-
-  serchedTerm!: string;
 
   usersViewTableOptions: tableOptions = new tableOptions();
 
@@ -45,7 +48,6 @@ export class UsersViewComponent {
     { Head: "User Name", FieldName: "UserName", ColumnType: "Data" },
     { Head: "First Name", FieldName: "FirstName", ColumnType: "Data" },
     { Head: "Last Name", FieldName: "LastName", ColumnType: "Data" },
-    //{ Head: "Platform", FieldName: "Platform", ColumnType: "Data" },
     { Head: "Email", FieldName: "Email", ColumnType: "Data" },
     { Head: "", FieldName: "", ColumnType: "Action" },
   ];
@@ -80,7 +82,7 @@ export class UsersViewComponent {
   //     LastName: "Sullivan",
   //     Platform: "Energy Management System",
   //     Email: "nolansullivan@yoyo.com",
-  //     phoneNumber: "0784562354",
+  //     phoneNumber: "0784562354",platformList
   //     userProfileCode: "PROFILE_XYZ987",
   //     isRejecteableOrApprovableRecord: true,
   //   },
@@ -93,14 +95,13 @@ export class UsersViewComponent {
     private modalService: NgbModal,
     private appService: AppService,
     private alertService: MessageService,
-    private http: HttpClient,
-    
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
-    var platforms = this.appService.appConfig[0].platformList;
+    var platforms = this.platformList;
     for (let i = 0; i < platforms.length; i++) {
-      this.platformList.push(platforms[i]);
+      this.platformListDefault.push(platforms[i]);
     }
 
     this.usersViewTableOptions.allowCheckbox = true;
@@ -128,47 +129,48 @@ export class UsersViewComponent {
   }
 
   loadData() {
+    console.log("3>>", this.searchTerm);
     this.loadingInProgress = true;
     if (
-      (this.serchedTerm == undefined ||
-        this.serchedTerm == null ||
-        this.serchedTerm == "") &&
-      (this.selectedRole == undefined ||
-        this.selectedRole == null ||
-        this.selectedRole == "All" ||
-        this.selectedRole == "")
+      (this.searchTerm == undefined ||
+        this.searchTerm == null ||
+        this.searchTerm == "") &&
+      (this.selectedPlatform == undefined ||
+        this.selectedPlatform == null ||
+        this.selectedPlatform == "All" ||
+        this.selectedPlatform == "")
     ) {
       this.getAllUsers();
     } else if (
-      (this.serchedTerm != undefined ||
-        this.serchedTerm != null ||
-        this.serchedTerm != "") &&
-      (this.selectedRole == undefined ||
-        this.selectedRole == null ||
-        this.selectedRole == "All" ||
-        this.selectedRole == "")
+      (this.searchTerm != undefined ||
+        this.searchTerm != null ||
+        this.searchTerm != "") &&
+      (this.selectedPlatform == undefined ||
+        this.selectedPlatform == null ||
+        this.selectedPlatform == "All" ||
+        this.selectedPlatform == "")
     ) {
-      this.searchUsers(this.serchedTerm);
+      this.searchUsers(this.searchTerm);
     } else if (
-      (this.serchedTerm == undefined ||
-        this.serchedTerm == null ||
-        this.serchedTerm == "") &&
-      (this.selectedRole != undefined ||
-        this.selectedRole != null ||
-        this.selectedRole != "All" ||
-        this.selectedRole != "")
+      (this.searchTerm == undefined ||
+        this.searchTerm == null ||
+        this.searchTerm == "") &&
+      (this.selectedPlatform != undefined ||
+        this.selectedPlatform != null ||
+        this.selectedPlatform != "All" ||
+        this.selectedPlatform != "")
     ) {
-      this.getUsersByRole(this.serchedTerm);
+      this.getUsersByPlatform(this.selectedPlatform);
     } else if (
-      (this.serchedTerm != undefined ||
-        this.serchedTerm != null ||
-        this.serchedTerm != "") &&
-      (this.selectedRole != undefined ||
-        this.selectedRole != null ||
-        this.selectedRole != "All" ||
-        this.selectedRole != "")
+      (this.searchTerm != undefined ||
+        this.searchTerm != null ||
+        this.searchTerm != "") &&
+      (this.selectedPlatform != undefined ||
+        this.selectedPlatform != null ||
+        this.selectedPlatform != "All" ||
+        this.selectedPlatform != "")
     ) {
-      this.searchUsersByRole(this.serchedTerm, this.selectedRole);
+      this.searchUsersByPlatform(this.searchTerm, this.selectedPlatform);
     } else {
       this.getAllUsers();
       this.alertService.sideErrorAlert("Error", "Could not retrive data");
@@ -180,11 +182,9 @@ export class UsersViewComponent {
       UserName: item.userName,
       FirstName: item.firstName,
       LastName: item.lastName,
-      Platform: item.platform,
       Email: item.email,
-      PhoneNumber: item.phoneNumber,
-      ProfileCode: item.userProfileCode,
-      isRejecteableOrApprovableRecord:true
+      PhoneNumber: item.phone,
+      isRejecteableOrApprovableRecord: true,
     }));
     this.tableData = this.userDetailsArray;
   }
@@ -343,8 +343,10 @@ export class UsersViewComponent {
   }
 
   getSearchTerm($event: KeyboardEvent) {
+    console.log("1>>", this.searchTerm);
     this.selectedPage = 1;
     if ($event.key === "Enter") {
+      console.log("2>>", this.searchTerm);
       this.loadData();
     }
   }
@@ -352,8 +354,7 @@ export class UsersViewComponent {
   getAllUsers() {
     this.shared
       .getAllUsers(this.selectedPage, this.selectedPageSize)
-     .subscribe({
-        
+      .subscribe({
         next: (response) => {
           this.userList = response.response;
           this.totalDataCount = response.rowCount;
@@ -376,9 +377,9 @@ export class UsersViewComponent {
       });
   }
 
-  getUsersByRole(role: string) {
+  getUsersByPlatform(platformId: string) {
     this.shared
-      .getUsersByRole(role, this.selectedPage, this.selectedPageSize)
+      .getUsersByPlatform(platformId, this.selectedPage, this.selectedPageSize)
       .subscribe({
         next: (response) => {
           this.userList = response.response;
@@ -438,11 +439,11 @@ export class UsersViewComponent {
       });
   }
 
-  searchUsersByRole(serchedTerm: string, role: string) {
+  searchUsersByPlatform(serchedTerm: string, platform: string) {
     this.shared
-      .getSearchedUsersByRole(
+      .getSearchedUsersByPlatform(
         serchedTerm,
-        role,
+        platform,
         this.selectedPage,
         this.selectedPageSize
       )
