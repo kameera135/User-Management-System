@@ -54,7 +54,7 @@
       </div>
     </div>
 
-    <div class="col-12">
+    <!-- <div class="col-12">
       <div class="mb-3">
         <label class="col-form-label">Platforms</label>
         <select
@@ -63,11 +63,22 @@
           [(ngModel)]="selectedRole"
           [disabled]="type == 'View'"
         >
-          <!-- <option selected value="">Select...</option> -->
+          <option selected value="">Select...</option>
           <option *ngFor="let item of platformList" [value]="item.value">
             {{ item.value }}
           </option>
         </select>
+      </div>
+    </div> -->
+
+    <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
+      <div class="mb-3">
+        <label class="col-form-label">Platforms and Roles</label>
+        <app-table
+          *ngIf="!loadingInProgress"
+          [headArray]="headArray"
+          [dataArray]="tableData">
+        </app-table>
       </div>
     </div>
 

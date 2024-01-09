@@ -4,11 +4,18 @@ import { NgToastService } from "ng-angular-popup";
 import { AppService } from "src/app/app.service";
 import { Role as Role } from "src/app/shared/models/Cams-new/Role";
 
+interface ListItem {
+  name: string;
+  selected: boolean;
+}
+
 @Component({
   selector: "app-role-configuration-modal",
   templateUrl: "./role-configuration-modal.component.html",
   styleUrls: ["./role-configuration-modal.component.scss"],
 })
+
+
 export class RoleConfigurationModalComponent {
   roleList: any[] = this.appService.appConfig[0].roleList;
   platformList : any[] = this.appService.appConfig[0].platformList;
@@ -22,6 +29,8 @@ export class RoleConfigurationModalComponent {
   @Input() createdDate!: string;
   @Input() description!: string;
   @Input() status!: string;
+  @Input() permission!: string;
+  @Input() platform!: string
 
   buttonName!: string;
   buttonIcon!: string;
@@ -31,6 +40,8 @@ export class RoleConfigurationModalComponent {
   selectedRole: string = "User Managemant System";
 
   disablePlatforms: boolean = false; 
+
+  isEditable: boolean = true;
 
   // Array to hold the dropdown options
   statusOptions: { label: string, value: string }[] = [
@@ -93,5 +104,29 @@ export class RoleConfigurationModalComponent {
 
     this.activeModal.close(role);
     
+  }
+
+  showListItems: boolean = false;
+  
+  listItems: ListItem[] = [
+      { name: 'Item 1', selected: false },
+      { name: 'Item 2', selected: false },
+      { name: 'Item 3', selected: false }
+  ]; // Replace with your list items
+
+  toggleListItems() {
+      // Toggle the visibility of list items view
+      if (this.type !== 'View') {
+          this.showListItems = !this.showListItems;
+      }
+  }
+
+  addSelectedItems() {
+      // Get selected items and add them to the textarea
+      const selectedItems = this.listItems.filter(item => item.selected);
+      this.permission = selectedItems.map(item => item.name).join('\n');
+
+      // Hide the list items view after adding items to textarea
+      this.showListItems = false;
   }
 }

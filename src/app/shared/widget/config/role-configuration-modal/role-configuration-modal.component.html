@@ -23,7 +23,7 @@
           class="form-control"
           [(ngModel)]="roleCode"
           name="roleCode"
-          [disabled]="type == 'View'"
+          [disabled]="type == 'View' || type == 'Permission'"
         />
         <div class="input-group"></div>
       </div>
@@ -37,12 +37,12 @@
           class="form-control"
           [(ngModel)]="roleName"
           name="roleName"
-          [disabled]="type == 'View'"
+          [disabled]="type == 'View' || type == 'Permission'"
         />
       </div>
     </div>
 
-    <div class="col-12">
+    <div class="col-12" *ngIf="type!= 'Permission'">
       <div class="mb-3">
         <label class="col-form-label">Description*</label>
         <textarea
@@ -61,8 +61,8 @@
         <select
           class="form-select"
           aria-label="Platform"
-          [(ngModel)]="selectedRole"
-          [disabled]="disablePlatforms"
+          [(ngModel)]="platform"
+          [disabled]="!isEditable || type === 'View'"
         >
           <!-- <option selected value="">Select...</option> -->
           <option *ngFor="let item of platformList" [value]="item.value">
@@ -72,8 +72,40 @@
       </div>
     </div>
 
+    <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
+      <div class="mb-3">
+          <label class="col-form-label">Permissions</label>
+          <div class="input-group">
+              <textarea 
+                  class="form-control" 
+                  name="permission"
+                  [ngModel]="permission"
+                  [disabled]="!isEditable || type === 'View'" 
+                  cols="30" 
+                  rows="15">
+              </textarea>
+              <div class="input-group-append" *ngIf="type != 'View'">
+                  <button class="btn btn-outline-secondary edit-button" type="button" (click)="toggleListItems()">
+                    <i class="fas fa-plus"></i> 
+                  </button>
+              </div>
+          </div>
+      </div>
+       <!-- Box to display list items -->
+       <div class="list-items-box" *ngIf="showListItems">
+          <ul>
+              <li *ngFor="let item of listItems">
+                  <label>
+                      <input type="checkbox" [(ngModel)]="item.selected" />
+                      {{ item.name }}
+                  </label>
+              </li>
+          </ul>
+          <button class="btn btn-primary" (click)="addSelectedItems()">Done</button>
+      </div>
+    </div>
 
-    <div class="col-6" *ngIf="type != 'Add' && type != 'Edit'">
+    <div class="col-6" *ngIf="type != 'Add' && type != 'Edit' && type != 'Permission'">
       <div class="mb-3">
         <label class="col-form-label">Created Date*</label>
         <input
@@ -86,7 +118,7 @@
       </div>
     </div>
 
-    <div class="col-6" *ngIf="type != 'Add'">
+    <div class="col-6" *ngIf="type != 'Add' && type != 'Permission'">
       <div class="mb-3">
         <label class="col-form-label">Status</label>
         <select 

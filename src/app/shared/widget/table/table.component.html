@@ -251,11 +251,25 @@
                         data-bs-toggle="modal"
                         data-bs-target="#createTask"
                         data-edit-id="15"
-                        (click)="showPlatformUserView()"
+                        (click)="showPlatformUserView(item)"
                         Generate="User"
                         ngbTooltip="User"
                       >
                         <i class="bi bi-people-fill text-muted"></i>
+                      </button>
+
+                      <!--Show permissions-->
+                      <button
+                        *ngIf="allowToViewPermissions"
+                        class="btn btn-sm btn-success"
+                        data-bs-toggle="modal"
+                        data-bs-target="#showPermission"
+                        data-edit-id="15"
+                        (click)="loadPermissionData(item)"
+                        Generate="Permissions"
+                        ngbTooltip="Permissions"
+                      >
+                        <i class="bi bi-shield-fill text-muted"></i>
                       </button>
 
                       <!-- Acknowledge -->

@@ -72,6 +72,10 @@ export class TableComponent {
 
   @Output() onRemove = new EventEmitter();
 
+  @Output() onViewPermission = new EventEmitter();
+
+  @Output() onViewPlaformUsers = new EventEmitter();
+
   selectedItemArray: any[] = [];
 
   testArray: any[] = [];
@@ -80,6 +84,9 @@ export class TableComponent {
 
   //To show platform users
   allowToViewPlatformUsers: boolean = false;
+
+  //To show permissions
+  allowToViewPermissions: boolean = false;
 
   //now if displayPlagination want value has been true in page
   displayPagination: boolean = false;
@@ -241,6 +248,9 @@ export class TableComponent {
       //assign in platform user showing button  
       this.allowToViewPlatformUsers = this.dataTableOptions.allowToViewPlatformUsers;
 
+      //assign view permission button
+      this.allowToViewPermissions = this.dataTableOptions.allowToViewPermissions;
+
       this.approve_single_record_permission =
         this.dataTableOptions.approve_single_record_permission;
 
@@ -345,8 +355,13 @@ export class TableComponent {
   }
 
   //show users in respective platforms
-  showPlatformUserView(){
+  showPlatformUserView(id:any){
+    this.onViewPlaformUsers.emit(id);
     this.router.navigate(['/platform-users']);
+  }
+
+  loadPermissionData(id:any){
+    this.onViewPermission.emit(id);
   }
 
   //Method handles update buttton click on the grid

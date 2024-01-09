@@ -29,6 +29,8 @@ export class PermissionConfigurationModalComponent {
   cancelButtonIcon: string = "bi-x-circle-fill";
   cancelButtonName: string = "Cancel";
 
+  loadingInProgress: boolean = false;
+
   statusOptions: { label: string, value: string }[] = [
     { label: 'Active', value: 'Active' },
     { label: 'Deactive', value: 'Deactive' }
@@ -79,4 +81,25 @@ export class PermissionConfigurationModalComponent {
 
     this.activeModal.close(feature);
   }
+
+  headArray = [
+  
+    { Head: "Platforms", FieldName: "Platforms", ColumnType: "Data" },
+    { Head: "Role", FieldName: "Role", ColumnType: "Data" },
+  ];
+
+  tableData = [
+      {
+        Platforms: "Airecone Extention System",
+        Role: "Facility Manager",
+      },
+      {
+        Platforms: "Tenant Billing System",
+        Role: "Tenant Manager",
+      },
+      {
+        Platforms: "Airecone Extention System",
+        Role: "Tenant Manager",
+      }
+    ];
 }

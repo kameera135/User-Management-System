@@ -111,6 +111,9 @@ export class RoleConfigurationComponent {
     this.roleConfigTableOptions.allowBulkDeactivateButton = true;
     this.roleConfigTableOptions.displayPagination = true;
 
+    //show permission view button
+    this.roleConfigTableOptions.allowToViewPermissions = true;
+
     this.roleConfigTableOptions.rowEditConfirmationMessage =
       this.appService.popUpMessageConfig[0].UpdateRoleConfirmationMessage;
     this.roleConfigTableOptions.rowDeleteConfirmationMessage =
@@ -275,6 +278,18 @@ export class RoleConfigurationComponent {
 
   onAddRoleButtonClicked(): void {
     this.openModal("Add", "New Role", "", "", "", "","");
+  }
+
+  onViewPermissionButtonClicked(row: any) {
+    this.openModal(
+      "Permission",
+      "Add Permissions",
+      row.RoleCode,
+      row.RoleName,
+      "",
+      "",
+      ""
+    );
   }
 
 

@@ -3,6 +3,8 @@ export class tableOptions {
 
   allowToViewPlatformUsers: boolean = false;
 
+  allowToViewPermissions: boolean = false;
+
   allowDeleteButton: boolean = false;
 
   allowUpdateButton: boolean = false;

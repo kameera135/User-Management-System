@@ -207,6 +207,9 @@ export class PlatformConfigurationComponent {
     );
   }
 
+  onViewPlatformUsers(row:any){
+    row.Platform
+  }
 
   onViewButtonClicked(row: any) {
     this.openModal(
