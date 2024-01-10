@@ -56,7 +56,7 @@ const routes: Routes = [
     component: PasswordPolicyComponent,
   },
   {
-    path: "platform-users",
+    path: "platform-users/:id",
     component: PlatformUsersComponent
   }
 ];

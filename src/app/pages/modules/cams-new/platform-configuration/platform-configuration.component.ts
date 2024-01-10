@@ -214,7 +214,7 @@ export class PlatformConfigurationComponent {
   }
 
   onViewPlatformUsers(row:any){
-    this.router.navigate(['/platform-users', row.PlatformName]);
+    this.router.navigate(['/platform-users/:id', row.PlatformName]);
   }
 
   onViewButtonClicked(row: any) {

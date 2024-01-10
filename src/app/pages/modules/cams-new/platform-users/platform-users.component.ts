@@ -138,7 +138,7 @@ export class PlatformUsersComponent {
     ]);
 
     this.route.params.subscribe(params => {
-      this.platformName = params['platformName'];
+      this.platformName = params['PlatformName'];
     });
 
 
