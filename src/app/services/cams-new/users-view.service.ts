@@ -17,7 +17,7 @@ export class UsersViewService {
   getAllUsers(page: number, pageSize: number) {
     let queryParams = new HttpParams();
     //queryParams = queryParams.append("viewedBy", this.user.id);
-    queryParams = queryParams.append("platformId", "All");
+    queryParams = queryParams.append("platformId", 0);
 
     const url = `${this.apiUrl}/api/users/${page}/${pageSize}`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
@@ -35,7 +35,7 @@ export class UsersViewService {
   getSearchedUsers(searchedTerm: string, page: number, pageSize: number) {
     let queryParams = new HttpParams();
     //queryParams = queryParams.append("viewedBy", this.user.id);
-    queryParams = queryParams.append("platformId", "All");
+    queryParams = queryParams.append("platformId", 0);
     queryParams = queryParams.append("userName", searchedTerm);
 
     const url = `${this.apiUrl}/api/users/${page}/${pageSize}`;
@@ -59,7 +59,7 @@ export class UsersViewService {
 
   postUser(model: User) {
     let queryParams = new HttpParams();
-    //queryParams = queryParams.append("createdBy", this.user.id);
+    queryParams = queryParams.append("createdBy", this.user.id);
 
     return this.httpClient.post(`${this.apiUrl}/api/user`, model, {
       params: queryParams,
@@ -70,18 +70,18 @@ export class UsersViewService {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("updatedBy", this.user.id);
 
-    return this.httpClient.put(`${this.apiUrl}/end-point`, model, {
+    return this.httpClient.put(`${this.apiUrl}/api/user`, model, {
       params: queryParams,
     });
   }
 
   deleteUser(list: number[]) {
-    //list is the id list of users which have to be deleted
     let queryParams = new HttpParams();
     queryParams = queryParams.append("deletedBy", this.user.id);
 
-    return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
+    return this.httpClient.delete(`${this.apiUrl}/api/users`, {
       params: queryParams,
+      body: list,
     });
   }
 }

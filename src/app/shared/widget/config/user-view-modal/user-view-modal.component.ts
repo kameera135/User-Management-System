@@ -23,7 +23,7 @@ export class UserViewModalComponent {
   @Input() phoneNumber!: string;
   @Input() password!: string;
   @Input() confirmPassword!: string;
-  @Input() userProfileCode!: string;
+  @Input() userId!: string;
 
   buttonName!: string;
   buttonIcon!: string;
@@ -63,13 +63,21 @@ export class UserViewModalComponent {
       this.userName == "" ||
       this.firstName == "" ||
       this.lastName == "" ||
-      this.platform == "" ||
-      this.userProfileCode == "" ||
+      this.password == "" ||
       this.email == ""
     ) {
       this.notifierService.warning({
         detail: "Warning",
         summary: "Please fill required fields",
+        duration: 2000,
+      });
+      return;
+    }
+
+    if (this.password != this.confirmPassword) {
+      this.notifierService.warning({
+        detail: "Warning",
+        summary: "Please confirm the password",
         duration: 2000,
       });
       return;
@@ -82,6 +90,7 @@ export class UserViewModalComponent {
     user.email = this.email;
     user.phone = this.phoneNumber;
     user.password = this.password;
+    user.userId = this.userId;
 
     this.activeModal.close(user);
   }

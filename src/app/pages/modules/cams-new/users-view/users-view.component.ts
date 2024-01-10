@@ -29,12 +29,12 @@ export class UsersViewComponent {
 
   searchTerm!: string; //************************************************** */
 
-  platformListDefault: any[] = [{ value: "All", id: "All" }];
+  platformListDefault: any[] = [{ value: "All", id: "0" }];
   // platformList!: any[];
   platformList: any[] = [
-    { value: "Airecon Extention System", id: "AES" },
-    { value: "Tenant Billing System", id: "TBS" },
-    { value: "Energy Management System", id: "EMS" },
+    { value: "Airecon Extention System", id: "1" },
+    { value: "Tenant Billing System", id: "2" },
+    { value: "Energy Management System", id: "3" },
   ];
 
   selectedPlatform: string = "All";
@@ -53,40 +53,6 @@ export class UsersViewComponent {
   ];
   usersViewService: any;
   tableData: any;
-
-  //to remove
-  // tableData = [
-  //   {
-  //     UserName: "Harper.Bennett",
-  //     FirstName: "Harper",
-  //     LastName: "Bennett",
-  //     Platform: "AES",
-  //     Email: "harperbennett@yoyo.com",
-  //     phoneNumber: "0221513654",
-  //     userProfileCode: "UPC12345",
-  //     isRejecteableOrApprovableRecord: true,
-  //   },
-  //   {
-  //     UserName: "Mia.Rodriguez",
-  //     FirstName: "Mia",
-  //     LastName: "Rodriguez",
-  //     Platform: "TBS",
-  //     Email: "miarodriguez@yoyo.com",
-  //     phoneNumber: "0663251985",
-  //     userProfileCode: "USR789ABC",
-  //     isRejecteableOrApprovableRecord: true,
-  //   },
-  //   {
-  //     UserName: "Nolan.Sullivan",
-  //     FirstName: "Nolan",
-  //     LastName: "Sullivan",
-  //     Platform: "Energy Management System",
-  //     Email: "nolansullivan@yoyo.com",
-  //     phoneNumber: "0784562354",platformList
-  //     userProfileCode: "PROFILE_XYZ987",
-  //     isRejecteableOrApprovableRecord: true,
-  //   },
-  // ];
 
   constructor(
     private breadcrumbService: BreadcrumbService,
@@ -129,7 +95,6 @@ export class UsersViewComponent {
   }
 
   loadData() {
-    console.log("3>>", this.searchTerm);
     this.loadingInProgress = true;
     if (
       (this.searchTerm == undefined ||
@@ -184,26 +149,12 @@ export class UsersViewComponent {
       LastName: item.lastName,
       Email: item.email,
       PhoneNumber: item.phone,
+      Password: item.password,
+      UserId: item.userId,
       isRejecteableOrApprovableRecord: true,
     }));
     this.tableData = this.userDetailsArray;
   }
-
-  // updateTable(){
-  //   this.loadingInProgress = true; // Set loading flag to true before making the API call
-
-  //   this.usersViewService.getUsers().subscribe(
-  //     (data: User[]) => {
-  //       this.userList = data; // Assign received data to userList
-  //       this.loadingInProgress = false; // Set loading flag to false after data retrieval
-  //     },
-  //     (error: any) => {
-  //       // Handle error
-  //       console.error('Error fetching data:', error);
-  //       this.loadingInProgress = false; // Set loading flag to false in case of an error
-  //     }
-  //   );
-  // }
 
   onPaginationChange(page: number): void {
     this.selectedPage = page;
@@ -215,7 +166,7 @@ export class UsersViewComponent {
   }
 
   onAddUserButtonClicked(): void {
-    this.openModal("Add", "New User Account", "", "", "", "", "", "", "");
+    this.openModal("Add", "New User Account", "", "", "", "", "", "", "", "");
   }
 
   onEditButtonClicked(row: any) {
@@ -228,7 +179,8 @@ export class UsersViewComponent {
       row.Platform,
       row.Email,
       row.PhoneNumber,
-      row.UserProfileCode
+      row.Password,
+      row.UserId
     );
   }
 
@@ -242,7 +194,8 @@ export class UsersViewComponent {
       row.Platform,
       row.Email,
       row.PhoneNumber,
-      row.UserProfileCode
+      row.password,
+      row.UserId
     );
   }
 
@@ -255,7 +208,8 @@ export class UsersViewComponent {
     platform: string,
     email: string,
     phoneNumber: string,
-    userProfileCode: string
+    password: string,
+    userId: string
   ): void {
     const modalRef = this.modalService.open(UserViewModalComponent, {
       size: "s",
@@ -273,7 +227,8 @@ export class UsersViewComponent {
     modalRef.componentInstance.platform = platform;
     modalRef.componentInstance.email = email;
     modalRef.componentInstance.phoneNumber = phoneNumber;
-    modalRef.componentInstance.userProfileCode = userProfileCode;
+    modalRef.componentInstance.password = password;
+    modalRef.componentInstance.userId = userId;
 
     modalRef.result
       .then((result) => {
@@ -311,7 +266,8 @@ export class UsersViewComponent {
                     platform,
                     email,
                     phoneNumber,
-                    userProfileCode
+                    password,
+                    userId
                   );
                 } else {
                   console.log("Not confirmed to edit");
@@ -324,7 +280,8 @@ export class UsersViewComponent {
                     platform,
                     email,
                     phoneNumber,
-                    userProfileCode
+                    password,
+                    userId
                   );
                 }
               })
@@ -343,10 +300,8 @@ export class UsersViewComponent {
   }
 
   getSearchTerm($event: KeyboardEvent) {
-    console.log("1>>", this.searchTerm);
     this.selectedPage = 1;
     if ($event.key === "Enter") {
-      console.log("2>>", this.searchTerm);
       this.loadData();
     }
   }
@@ -420,7 +375,8 @@ export class UsersViewComponent {
               "No Data!",
               4000
             );
-            this.getAllUsers();
+            this.searchTerm = "";
+            this.loadData();
           }
         },
         error: (error) => {
@@ -460,7 +416,8 @@ export class UsersViewComponent {
               "No Data!",
               4000
             );
-            this.getAllUsers();
+            this.searchTerm = "";
+            this.loadData();
           }
         },
         error: (error) => {
@@ -538,9 +495,8 @@ export class UsersViewComponent {
 
   deleteUsers(items: any): void {
     let ids: number[] = [];
-
     items.forEach((element: any) => {
-      ids.push(element.id);
+      ids.push(element.UserId);
     });
 
     this.removeUsers(ids);
