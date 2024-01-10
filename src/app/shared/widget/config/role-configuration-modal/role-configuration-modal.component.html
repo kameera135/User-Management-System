@@ -80,7 +80,7 @@
                   class="form-control" 
                   name="permission"
                   [ngModel]="permission"
-                  [disabled]="!isEditable || type === 'View'" 
+                  [disabled]="!isEditable || type === 'View' || type == 'Permission'" 
                   cols="30" 
                   rows="15">
               </textarea>
@@ -96,7 +96,7 @@
           <ul>
               <li *ngFor="let item of listItems">
                   <label>
-                      <input type="checkbox" [(ngModel)]="item.selected" />
+                      <input type="checkbox" [(ngModel)]="item.selected" [ngModelOptions]="{standalone: true}"/>
                       {{ item.name }}
                   </label>
               </li>
