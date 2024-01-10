@@ -68,9 +68,9 @@ export class UsersViewService {
 
   putUser(model: User) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("updatedBy", this.user.id);
+    //queryParams = queryParams.append("updatedBy", this.user.id);
 
-    return this.httpClient.put(`${this.apiUrl}/end-point`, model, {
+    return this.httpClient.put(`${this.apiUrl}/api/user`, model, {
       params: queryParams,
     });
   }

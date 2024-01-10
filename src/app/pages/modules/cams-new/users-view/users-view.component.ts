@@ -54,40 +54,6 @@ export class UsersViewComponent {
   usersViewService: any;
   tableData: any;
 
-  //to remove
-  // tableData = [
-  //   {
-  //     UserName: "Harper.Bennett",
-  //     FirstName: "Harper",
-  //     LastName: "Bennett",
-  //     Platform: "AES",
-  //     Email: "harperbennett@yoyo.com",
-  //     phoneNumber: "0221513654",
-  //     userProfileCode: "UPC12345",
-  //     isRejecteableOrApprovableRecord: true,
-  //   },
-  //   {
-  //     UserName: "Mia.Rodriguez",
-  //     FirstName: "Mia",
-  //     LastName: "Rodriguez",
-  //     Platform: "TBS",
-  //     Email: "miarodriguez@yoyo.com",
-  //     phoneNumber: "0663251985",
-  //     userProfileCode: "USR789ABC",
-  //     isRejecteableOrApprovableRecord: true,
-  //   },
-  //   {
-  //     UserName: "Nolan.Sullivan",
-  //     FirstName: "Nolan",
-  //     LastName: "Sullivan",
-  //     Platform: "Energy Management System",
-  //     Email: "nolansullivan@yoyo.com",
-  //     phoneNumber: "0784562354",platformList
-  //     userProfileCode: "PROFILE_XYZ987",
-  //     isRejecteableOrApprovableRecord: true,
-  //   },
-  // ];
-
   constructor(
     private breadcrumbService: BreadcrumbService,
     private shared: UsersViewService,
@@ -129,7 +95,6 @@ export class UsersViewComponent {
   }
 
   loadData() {
-    console.log("3>>", this.searchTerm);
     this.loadingInProgress = true;
     if (
       (this.searchTerm == undefined ||
@@ -184,6 +149,8 @@ export class UsersViewComponent {
       LastName: item.lastName,
       Email: item.email,
       PhoneNumber: item.phone,
+      Password: item.password,
+      UserId: item.userId,
       isRejecteableOrApprovableRecord: true,
     }));
     this.tableData = this.userDetailsArray;
@@ -215,7 +182,7 @@ export class UsersViewComponent {
   }
 
   onAddUserButtonClicked(): void {
-    this.openModal("Add", "New User Account", "", "", "", "", "", "", "");
+    this.openModal("Add", "New User Account", "", "", "", "", "", "", "", "");
   }
 
   onEditButtonClicked(row: any) {
@@ -228,7 +195,8 @@ export class UsersViewComponent {
       row.Platform,
       row.Email,
       row.PhoneNumber,
-      row.UserProfileCode
+      row.Password,
+      row.UserId
     );
   }
 
@@ -242,7 +210,8 @@ export class UsersViewComponent {
       row.Platform,
       row.Email,
       row.PhoneNumber,
-      row.UserProfileCode
+      row.password,
+      row.UserId
     );
   }
 
@@ -255,7 +224,8 @@ export class UsersViewComponent {
     platform: string,
     email: string,
     phoneNumber: string,
-    userProfileCode: string
+    password: string,
+    userId: string
   ): void {
     const modalRef = this.modalService.open(UserViewModalComponent, {
       size: "s",
@@ -273,7 +243,8 @@ export class UsersViewComponent {
     modalRef.componentInstance.platform = platform;
     modalRef.componentInstance.email = email;
     modalRef.componentInstance.phoneNumber = phoneNumber;
-    modalRef.componentInstance.userProfileCode = userProfileCode;
+    modalRef.componentInstance.password = password;
+    modalRef.componentInstance.userId = userId;
 
     modalRef.result
       .then((result) => {
@@ -311,7 +282,8 @@ export class UsersViewComponent {
                     platform,
                     email,
                     phoneNumber,
-                    userProfileCode
+                    password,
+                    userId
                   );
                 } else {
                   console.log("Not confirmed to edit");
@@ -324,7 +296,8 @@ export class UsersViewComponent {
                     platform,
                     email,
                     phoneNumber,
-                    userProfileCode
+                    password,
+                    userId
                   );
                 }
               })
@@ -343,10 +316,8 @@ export class UsersViewComponent {
   }
 
   getSearchTerm($event: KeyboardEvent) {
-    console.log("1>>", this.searchTerm);
     this.selectedPage = 1;
     if ($event.key === "Enter") {
-      console.log("2>>", this.searchTerm);
       this.loadData();
     }
   }
