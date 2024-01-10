@@ -63,7 +63,6 @@ export class UserViewModalComponent {
       this.userName == "" ||
       this.firstName == "" ||
       this.lastName == "" ||
-      this.platform == "" ||
       this.password == "" ||
       this.email == ""
     ) {

@@ -29,12 +29,12 @@ export class UsersViewComponent {
 
   searchTerm!: string; //************************************************** */
 
-  platformListDefault: any[] = [{ value: "All", id: "All" }];
+  platformListDefault: any[] = [{ value: "All", id: "0" }];
   // platformList!: any[];
   platformList: any[] = [
-    { value: "Airecon Extention System", id: "AES" },
-    { value: "Tenant Billing System", id: "TBS" },
-    { value: "Energy Management System", id: "EMS" },
+    { value: "Airecon Extention System", id: "1" },
+    { value: "Tenant Billing System", id: "2" },
+    { value: "Energy Management System", id: "3" },
   ];
 
   selectedPlatform: string = "All";
@@ -155,22 +155,6 @@ export class UsersViewComponent {
     }));
     this.tableData = this.userDetailsArray;
   }
-
-  // updateTable(){
-  //   this.loadingInProgress = true; // Set loading flag to true before making the API call
-
-  //   this.usersViewService.getUsers().subscribe(
-  //     (data: User[]) => {
-  //       this.userList = data; // Assign received data to userList
-  //       this.loadingInProgress = false; // Set loading flag to false after data retrieval
-  //     },
-  //     (error: any) => {
-  //       // Handle error
-  //       console.error('Error fetching data:', error);
-  //       this.loadingInProgress = false; // Set loading flag to false in case of an error
-  //     }
-  //   );
-  // }
 
   onPaginationChange(page: number): void {
     this.selectedPage = page;
@@ -391,7 +375,8 @@ export class UsersViewComponent {
               "No Data!",
               4000
             );
-            this.getAllUsers();
+            this.searchTerm = "";
+            this.loadData();
           }
         },
         error: (error) => {
@@ -431,7 +416,8 @@ export class UsersViewComponent {
               "No Data!",
               4000
             );
-            this.getAllUsers();
+            this.searchTerm = "";
+            this.loadData();
           }
         },
         error: (error) => {
@@ -509,9 +495,8 @@ export class UsersViewComponent {
 
   deleteUsers(items: any): void {
     let ids: number[] = [];
-
     items.forEach((element: any) => {
-      ids.push(element.id);
+      ids.push(element.UserId);
     });
 
     this.removeUsers(ids);
