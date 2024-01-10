@@ -174,10 +174,6 @@ export class PlatformConfigurationComponent {
     }
   }
 
-  navigateToPlatformUser(platformName: string) {
-    this.router.navigate(['/platform-users', platformName]);
-  }
-
   updateTable() {
     this.platformDetailsArray = this.platformList.map((item) => ({
       PlatformCode: item.platformCode,
@@ -213,6 +209,7 @@ export class PlatformConfigurationComponent {
     );
   }
 
+  //pass platform detials to platform-user component
   onViewPlatformUsers(row:any){
     this.router.navigate(['/platform-users/:id', row.PlatformName]);
   }
