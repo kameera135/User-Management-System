@@ -204,9 +204,9 @@ export class PlatformUserModalComponent {
   showListItems: boolean = false;
   
   listItems: ListItem[] = [
-      { name: 'Item 1', selected: false },
-      { name: 'Item 2', selected: false },
-      { name: 'Item 3', selected: false }
+      { name: 'Tenenat Manager', selected: false },
+      { name: 'Tenant', selected: false },
+      { name: 'Admin', selected: false },
   ]; // Replace with your list items
 
   toggleListItems() {
@@ -218,8 +218,10 @@ export class PlatformUserModalComponent {
 
   addSelectedItems() {
       // Get selected items and add them to the textarea
-      const selectedItems = this.listItems.filter(item => item.selected);
-      this.platform = selectedItems.map(item => item.name).join('\n');
+      const existing = this.platform
+      const selectedItems = this.listItems.filter(item => item.selected).map(item => item.name).join('\n');
+      const set = new Set([...existing, ...selectedItems]);
+      this.platform = existing + '\n' + selectedItems;
 
       // Hide the list items view after adding items to textarea
       this.showListItems = false;

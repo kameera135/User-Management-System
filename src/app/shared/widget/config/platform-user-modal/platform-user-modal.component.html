@@ -35,7 +35,7 @@
                 class="form-control"
                 [(ngModel)]="userName"
                 name="userName"
-                [disabled]="type == 'View'"
+                [disabled]="type == 'View' || type == 'Edit'"
                 />
                 <div class="input-group"></div>
             </div>
@@ -49,7 +49,7 @@
                         class="form-control" 
                         name="platform"
                         [ngModel]="platform"
-                        [disabled]="!isEditable || type === 'View'" 
+                        [disabled]="!isEditable || type === 'View' || type == 'Edit'" 
                         cols="30" 
                         rows="15">
                     </textarea>
@@ -61,11 +61,11 @@
                 </div>
             </div>
              <!-- Box to display list items -->
-             <div class="list-items-box" *ngIf="showListItems">
+            <div class="list-items-box" *ngIf="showListItems">
                 <ul>
                     <li *ngFor="let item of listItems">
                         <label>
-                            <input type="checkbox" [(ngModel)]="item.selected" />
+                            <input type="checkbox" [(ngModel)]="item.selected" [ngModelOptions]="{standalone: true}"/>
                             {{ item.name }}
                         </label>
                     </li>

@@ -137,6 +137,7 @@ export class PlatformUsersComponent {
       { label: "Users", active: true },
     ]);
 
+    //get platform name from the platform configuration component
     this.route.params.subscribe(params => {
       this.platformName = params['PlatformName'];
     });

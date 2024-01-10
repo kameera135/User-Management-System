@@ -213,10 +213,10 @@ export class RoleConfigurationComponent {
           this.alertService.sideErrorAlert(
             "Error",
             this.appService.popUpMessageConfig[0]
-              .GetPlatformListErrorSideAlertMessage
+              .GetRoleListErrorSideAlertMessage
           );
 
-          this.platformList = [];
+          this.roleList = [];
           this.totalDataCount = 0;
 
           this.updateTable();
