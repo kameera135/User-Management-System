@@ -27,15 +27,11 @@ export class UsersViewComponent {
   selectedPage: number = 1;
   selectedPageSize: number = 20;
 
-  searchTerm!: string; //************************************************** */
+  searchTerm!: string;
 
   platformListDefault: any[] = [{ value: "All", id: "0" }];
-  // platformList!: any[];
-  platformList: any[] = [
-    { value: "Airecon Extention System", id: "1" },
-    { value: "Tenant Billing System", id: "2" },
-    { value: "Energy Management System", id: "3" },
-  ];
+
+  platformList: any[] = [];
 
   selectedPlatform: string = "All";
 
@@ -65,10 +61,7 @@ export class UsersViewComponent {
   ) {}
 
   ngOnInit(): void {
-    var platforms = this.platformList;
-    for (let i = 0; i < platforms.length; i++) {
-      this.platformListDefault.push(platforms[i]);
-    }
+    this.getPlatformList();
 
     this.usersViewTableOptions.allowCheckbox = true;
     this.usersViewTableOptions.allowBulkDeleteButton = true;
@@ -527,6 +520,26 @@ export class UsersViewComponent {
           this.appService.popUpMessageConfig[0].UserDeletedErrorSideAlertMessage
         );
         //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
+      },
+    });
+  }
+
+  getPlatformList() {
+    this.shared.getPlatformList().subscribe({
+      next: (response: any) => {
+        this.platformList = response;
+
+        var platforms = this.platformList;
+        for (let i = 0; i < platforms.length; i++) {
+          this.platformListDefault.push(platforms[i]);
+        }
+      },
+      error: (error) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0]
+            .GetPlatformComboboxListErrorSideAlertMessage
+        );
       },
     });
   }

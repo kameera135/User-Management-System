@@ -61,7 +61,10 @@ export class UserViewModalComponent {
       this.buttonIcon = "bi-pencil-fill";
     }
 
-    this.getRolesAndPlatforms(this.userId);
+    if (this.type == "View") {
+      this.getRolesAndPlatforms(this.userId);
+    }
+
     //cancel button
     this.cancelButtonIcon;
     this.cancelButtonName;

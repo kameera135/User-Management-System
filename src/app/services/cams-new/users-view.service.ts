@@ -94,4 +94,12 @@ export class UsersViewService {
     const url = `${this.apiUrl}/api/user/platforms_and_roles`;
     return this.httpClient.get<PlatformRole[]>(url, { params: queryParams });
   }
+
+  getPlatformList() {
+    let queryParams = new HttpParams();
+    //queryParams = queryParams.append("viewedBy", this.user.id);
+
+    const url = `${this.apiUrl}/api/configuration/platforms/combobox`;
+    return this.httpClient.get(url, { params: queryParams });
+  }
 }

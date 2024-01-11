@@ -43,6 +43,8 @@ export interface toastServicePopUpConfigurations {
 
   GetUserListErrorSideAlertMessage: string;
 
+  GetPlatformComboboxListErrorSideAlertMessage: string;
+
   NoDataNotificationMessage: string;
 
   UpdatePlatformConfirmationMessage: string;
