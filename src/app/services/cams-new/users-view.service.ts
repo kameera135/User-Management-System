@@ -24,7 +24,7 @@ export class UsersViewService {
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
-  getUsersByPlatform(platformId: string, page: number, pageSize: number) {
+  getUsersByPlatform(platformId: number, page: number, pageSize: number) {
     let queryParams = new HttpParams();
     //queryParams = queryParams.append("viewedBy", this.user.id);
     queryParams = queryParams.append("platformId", platformId);
@@ -45,7 +45,7 @@ export class UsersViewService {
 
   getSearchedUsersByPlatform(
     searchedTerm: string,
-    platformId: string,
+    platformId: number,
     page: number,
     pageSize: number
   ) {

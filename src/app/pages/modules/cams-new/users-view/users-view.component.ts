@@ -10,6 +10,7 @@ import { UserViewModalComponent } from "src/app/shared/widget/config/user-view-m
 import { UpdateConfirmationModalComponent } from "src/app/shared/widget/config/update-confirmation-modal/update-confirmation-modal.component";
 import { MessageService } from "src/app/services/PopupMessages/message.service";
 import { HttpClient } from "@angular/common/http";
+import { AddBulkUsersModalComponent } from "src/app/shared/widget/config/add-bulk-users-modal/add-bulk-users-modal.component";
 
 @Component({
   selector: "app-users-view",
@@ -27,13 +28,15 @@ export class UsersViewComponent {
   selectedPage: number = 1;
   selectedPageSize: number = 20;
 
+  isInitialized: boolean = false;
+
   searchTerm!: string;
 
-  platformListDefault: any[] = [{ value: "All", id: "0" }];
+  platformListDefault: any[] = [{ value: "All Platforms", id: "0" }];
 
   platformList: any[] = [];
 
-  selectedPlatform: string = "All";
+  selectedPlatform!: number;
 
   UserUpdatedNotificationMessage!: string;
 
@@ -95,8 +98,7 @@ export class UsersViewComponent {
         this.searchTerm == "") &&
       (this.selectedPlatform == undefined ||
         this.selectedPlatform == null ||
-        this.selectedPlatform == "All" ||
-        this.selectedPlatform == "")
+        this.selectedPlatform == 0)
     ) {
       this.getAllUsers();
     } else if (
@@ -105,8 +107,7 @@ export class UsersViewComponent {
         this.searchTerm != "") &&
       (this.selectedPlatform == undefined ||
         this.selectedPlatform == null ||
-        this.selectedPlatform == "All" ||
-        this.selectedPlatform == "")
+        this.selectedPlatform == 0)
     ) {
       this.searchUsers(this.searchTerm);
     } else if (
@@ -115,8 +116,7 @@ export class UsersViewComponent {
         this.searchTerm == "") &&
       (this.selectedPlatform != undefined ||
         this.selectedPlatform != null ||
-        this.selectedPlatform != "All" ||
-        this.selectedPlatform != "")
+        this.selectedPlatform != 0)
     ) {
       this.getUsersByPlatform(this.selectedPlatform);
     } else if (
@@ -125,8 +125,7 @@ export class UsersViewComponent {
         this.searchTerm != "") &&
       (this.selectedPlatform != undefined ||
         this.selectedPlatform != null ||
-        this.selectedPlatform != "All" ||
-        this.selectedPlatform != "")
+        this.selectedPlatform != 0)
     ) {
       this.searchUsersByPlatform(this.searchTerm, this.selectedPlatform);
     } else {
@@ -299,6 +298,15 @@ export class UsersViewComponent {
     }
   }
 
+  onBulkUsersClicked() {
+    const modalRef = this.modalService.open(AddBulkUsersModalComponent, {
+      size: "s",
+      centered: true,
+      backdrop: "static",
+      keyboard: false,
+    });
+  }
+
   getAllUsers() {
     this.shared
       .getAllUsers(this.selectedPage, this.selectedPageSize)
@@ -325,7 +333,7 @@ export class UsersViewComponent {
       });
   }
 
-  getUsersByPlatform(platformId: string) {
+  getUsersByPlatform(platformId: number) {
     this.shared
       .getUsersByPlatform(platformId, this.selectedPage, this.selectedPageSize)
       .subscribe({
@@ -388,7 +396,7 @@ export class UsersViewComponent {
       });
   }
 
-  searchUsersByPlatform(serchedTerm: string, platform: string) {
+  searchUsersByPlatform(serchedTerm: string, platform: number) {
     this.shared
       .getSearchedUsersByPlatform(
         serchedTerm,

@@ -52,6 +52,7 @@ import { PermissionConfigurationModalComponent } from "./config/permission-confi
 import { RoleConfigurationModalComponent } from "./config/role-configuration-modal/role-configuration-modal.component";
 import { SystemTokenModalComponent } from './config/system-token-modal/system-token-modal/system-token-modal.component';
 import { PlatformUserModalComponent } from './config/platform-user-modal/platform-user-modal.component';
+import { AddBulkUsersModalComponent } from './config/add-bulk-users-modal/add-bulk-users-modal.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { PlatformUserModalComponent } from './config/platform-user-modal/platfor
     RoleConfigurationModalComponent,
     SystemTokenModalComponent,
     PlatformUserModalComponent,
+    AddBulkUsersModalComponent,
   ],
   imports: [
     CommonModule,

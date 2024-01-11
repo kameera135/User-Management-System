@@ -7,11 +7,22 @@
     <div class="card">
       <div class="card-header">
         <div class="row">
-          <div class="col-3 col-lg-3 mt-1"><h2>Users</h2></div>
+          <div class="col-2 col-lg-2 mt-1"><h2>Users</h2></div>
 
-          <div class="col-4 col-lg-4 mt-1">
+          <div class="col-5 col-lg-5 mt-1">
             <a
               class="btn btn-primary float-end"
+              style="margin-right: 3"
+              (click)="onBulkUsersClicked()"
+            >
+              <i
+                class="bi bi-people-fill label-icon align-middle fs-16 me-2"
+              ></i>
+              Bulk Users</a
+            >
+
+            <a
+              class="btn btn-primary float-end me-4"
               style="margin-right: 3"
               (click)="onAddUserButtonClicked()"
             >
@@ -23,22 +34,11 @@
           </div>
 
           <div class="col-2 col-lg-2 mt-1">
-            <!-- <select
-            class="form-select"
-            aria-label="Platform"
-            [(ngModel)]="selectedPlatform"
-            (change)="loadData()"
-          >
-
-            <option *ngFor="let item of platformList" [value]="item.value">
-              {{ item.value }}
-            </option>
-          </select> -->
             <ng-select
               [(ngModel)]="selectedPlatform"
               [multiple]="false"
               (change)="loadData()"
-              placeholder="All Platforms"
+              [placeholder]="platformListDefault[0].value"
               name="comboBox"
               [clearable]="false"
             >
