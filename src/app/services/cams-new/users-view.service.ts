@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { AppService } from "src/app/app.service";
 import { PaginatedResponse } from "src/app/shared/models/Cams-new/PaginatedResponse";
+import { PlatformRole } from "src/app/shared/models/Cams-new/PlatformRole";
 import { User } from "src/app/shared/models/Cams-new/User";
 import { environment } from "src/environments/environment";
 
@@ -83,5 +84,14 @@ export class UsersViewService {
       params: queryParams,
       body: list,
     });
+  }
+
+  getRolesAndPlatforms(userId: number) {
+    let queryParams = new HttpParams();
+    //queryParams = queryParams.append("viewedBy", this.user.id);
+    queryParams = queryParams.append("userId", userId);
+
+    const url = `${this.apiUrl}/api/user/platforms_and_roles`;
+    return this.httpClient.get<PlatformRole[]>(url, { params: queryParams });
   }
 }

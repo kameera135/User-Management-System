@@ -2,6 +2,9 @@ import { Component, Input } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgToastService } from "ng-angular-popup";
 import { AppService } from "src/app/app.service";
+import { MessageService } from "src/app/services/PopupMessages/message.service";
+import { UsersViewService } from "src/app/services/cams-new/users-view.service";
+import { PlatformRole } from "src/app/shared/models/Cams-new/PlatformRole";
 import { User } from "src/app/shared/models/Cams-new/User";
 import { tableOptions } from "src/app/shared/models/tableOptions";
 
@@ -23,7 +26,11 @@ export class UserViewModalComponent {
   @Input() phoneNumber!: string;
   @Input() password!: string;
   @Input() confirmPassword!: string;
-  @Input() userId!: string;
+  @Input() userId!: number;
+
+  platformsRoles: any = [];
+  userPlatformRole!: PlatformRole;
+  userPlatformsRoles!: PlatformRole[];
 
   buttonName!: string;
   buttonIcon!: string;
@@ -37,7 +44,9 @@ export class UserViewModalComponent {
   constructor(
     public activeModal: NgbActiveModal,
     private notifierService: NgToastService,
-    private appService: AppService
+    private appService: AppService,
+    private shared: UsersViewService,
+    private alertService: MessageService
   ) {}
 
   ngOnInit() {
@@ -51,11 +60,47 @@ export class UserViewModalComponent {
       this.buttonName = "Edit";
       this.buttonIcon = "bi-pencil-fill";
     }
+
+    this.getRolesAndPlatforms(this.userId);
     //cancel button
     this.cancelButtonIcon;
     this.cancelButtonName;
 
     this.rolesViewTableOptions;
+  }
+
+  getRolesAndPlatforms(userId: number) {
+    this.loadingInProgress = true;
+    this.shared.getRolesAndPlatforms(userId).subscribe({
+      next: (response) => {
+        this.userPlatformsRoles = response;
+        this.updateTable();
+        this.loadingInProgress = false;
+      },
+      error: (error) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          "Cannot retrive platforms roles"
+          // this.appService.popUpMessageConfig[0]
+          //   .GetUserListErrorSideAlertMessage
+        );
+
+        this.tableData = [];
+
+        this.updateTable();
+        this.loadingInProgress = false;
+      },
+    });
+  }
+
+  updateTable() {
+    this.platformsRoles = this.userPlatformsRoles.map((item) => ({
+      PlatformId: item.platformId,
+      Platforms: item.platformName,
+      RoleId: item.roleId,
+      Roles: item.roleName,
+    }));
+    this.tableData = this.platformsRoles;
   }
 
   onFormSubmit() {
@@ -97,29 +142,8 @@ export class UserViewModalComponent {
 
   headArray = [
     { Head: "Platforms", FieldName: "Platforms", ColumnType: "Data" },
-    { Head: "Role", FieldName: "Role", ColumnType: "Data" },
+    { Head: "Roles", FieldName: "Roles", ColumnType: "Data" },
   ];
 
-  tableData = [
-    {
-      Platforms: "Airecone Extention System",
-      Role: "Facility Manager",
-    },
-    {
-      Platforms: "Airecone Extention System",
-      Role: "Tenant",
-    },
-    {
-      Platforms: "Tenant Billing System",
-      Role: "Tenant Manager",
-    },
-    {
-      Platforms: "User Managemant System",
-      Role: "Admin",
-    },
-    {
-      Platforms: "Airecone Extention System",
-      Role: "Tenant Manager",
-    },
-  ];
+  tableData = [];
 }
