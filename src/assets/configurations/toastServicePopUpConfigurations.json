@@ -26,6 +26,7 @@
   "UserAddedSuccessSideAlertMessage": "User added successfully !",
   "UserAddedErrorSideAlertMessage": "Could not add a user.",
 
+  "GetUserPlatformsAndRolesErrorSideAlertMessage": "Cannot retrive platforms & roles",
   "GetPlatformComboboxListErrorSideAlertMessage": "Could not retrieve the platform list.",
 
   "GetUserListErrorSideAlertMessage": "Could not retrieve the data list.",

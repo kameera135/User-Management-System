@@ -83,9 +83,8 @@ export class UserViewModalComponent {
       error: (error) => {
         this.alertService.sideErrorAlert(
           "Error",
-          "Cannot retrive platforms roles"
-          // this.appService.popUpMessageConfig[0]
-          //   .GetUserListErrorSideAlertMessage
+          this.appService.popUpMessageConfig[0]
+            .GetUserPlatformsAndRolesErrorSideAlertMessage
         );
 
         this.tableData = [];
