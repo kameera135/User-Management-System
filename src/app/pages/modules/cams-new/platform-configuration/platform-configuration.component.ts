@@ -487,9 +487,8 @@ export class PlatformConfigurationComponent {
     let ids: number[] = [];
 
     items.forEach((element: any) => {
-      ids.push(element.id);
+      ids.push(element.PlatformId);
     });
-
     this.removeplatforms(ids);
   }
 
@@ -497,7 +496,6 @@ export class PlatformConfigurationComponent {
     this.shared.deletePlatform(ids).subscribe({
       next: (response: any) => {
         console.log(response);
-
         this.alertService.sideSuccessAlert(
           "Success",
           this.appService.popUpMessageConfig[0]
@@ -524,94 +522,94 @@ export class PlatformConfigurationComponent {
     });
   }
 
-  activatePlatforms(items: any): void {
-    let ids: number[] = [];
+  // activatePlatforms(items: any): void {
+  //   let ids: number[] = [];
 
-    items[0].forEach((element: any) => {
-      ids.push(element.id);
-    });
+  //   items[0].forEach((element: any) => {
+  //     ids.push(element.id);
+  //   });
 
-    console.log(ids);
+  //   console.log(ids);
 
-    this.activatePlatform(ids);
-  }
+  //   this.activatePlatform(ids);
+  // }
 
-  deactivatePlatforms(items: any): void {
-    let ids: number[] = [];
+  // deactivatePlatforms(items: any): void {
+  //   let ids: number[] = [];
 
-    items[0].forEach((element: any) => {
-      ids.push(element.id);
-    });
+  //   items[0].forEach((element: any) => {
+  //     ids.push(element.id);
+  //   });
 
-    console.log(ids);
+  //   console.log(ids);
 
-    this.deactivatePlatform(ids);
-  }
+  //   this.deactivatePlatform(ids);
+  // }
 
-  activatePlatform(ids: number[]): void {
-    this.shared.activatePlatform(ids).subscribe({
-      next: (response: any) => {
-        console.log("Activating a Platform: ");
-        console.log(response);
-        this.alertService.sideSuccessAlert(
-          "Success",
-          this.appService.popUpMessageConfig[0]
-            .PlatformActivatedSuccessSideAlertMessage
-        );
-        this.alertService.successSweetAlertMessage(
-          this.appService.popUpMessageConfig[0]
-            .PlatformActivateNotificationMessage,
-          "Actvated!",
-          4000
-        );
+  // activatePlatform(ids: number[]): void {
+  //   this.shared.activatePlatform(ids).subscribe({
+  //     next: (response: any) => {
+  //       console.log("Activating a Platform: ");
+  //       console.log(response);
+  //       this.alertService.sideSuccessAlert(
+  //         "Success",
+  //         this.appService.popUpMessageConfig[0]
+  //           .PlatformActivatedSuccessSideAlertMessage
+  //       );
+  //       this.alertService.successSweetAlertMessage(
+  //         this.appService.popUpMessageConfig[0]
+  //           .PlatformActivateNotificationMessage,
+  //         "Actvated!",
+  //         4000
+  //       );
 
-        this.loadData();
-      },
+  //       this.loadData();
+  //     },
 
-      error: (error: any) => {
-        console.log("Activating a Platform: error");
-        console.log(error);
-        this.alertService.sideErrorAlert(
-          "Error",
-          this.appService.popUpMessageConfig[0]
-            .PlatformActivatedErrorSideAlertMessage
-        );
-        //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
-      },
-    });
-  }
+  //     error: (error: any) => {
+  //       console.log("Activating a Platform: error");
+  //       console.log(error);
+  //       this.alertService.sideErrorAlert(
+  //         "Error",
+  //         this.appService.popUpMessageConfig[0]
+  //           .PlatformActivatedErrorSideAlertMessage
+  //       );
+  //       //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
+  //     },
+  //   });
+  // }
 
-  deactivatePlatform(ids: number[]): void {
-    this.shared.deactivatePlatform(ids).subscribe({
-      next: (response: any) => {
-        console.log("Deactivating a Platform: ");
-        console.log(response);
+  // deactivatePlatform(ids: number[]): void {
+  //   this.shared.deactivatePlatform(ids).subscribe({
+  //     next: (response: any) => {
+  //       console.log("Deactivating a Platform: ");
+  //       console.log(response);
 
-        this.alertService.sideSuccessAlert(
-          "Success",
-          this.appService.popUpMessageConfig[0]
-            .PlatformDeactivatedSuccessSideAlertMessage
-        );
-        this.alertService.successSweetAlertMessage(
-          this.appService.popUpMessageConfig[0]
-            .PlatformDeactivateNotificationMessage,
-          "Deactvated!",
-          4000
-        );
+  //       this.alertService.sideSuccessAlert(
+  //         "Success",
+  //         this.appService.popUpMessageConfig[0]
+  //           .PlatformDeactivatedSuccessSideAlertMessage
+  //       );
+  //       this.alertService.successSweetAlertMessage(
+  //         this.appService.popUpMessageConfig[0]
+  //           .PlatformDeactivateNotificationMessage,
+  //         "Deactvated!",
+  //         4000
+  //       );
 
-        this.loadData();
-      },
+  //       this.loadData();
+  //     },
 
-      error: (error: any) => {
-        console.log("Deactivating a Platform: error");
-        console.log(error);
-        this.alertService.sideErrorAlert(
-          "Error",
-          this.appService.popUpMessageConfig[0]
-            .PlatformDeactivatedErrorSideAlertMessage
-        );
-        //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
-      },
-    });
-  }
+  //     error: (error: any) => {
+  //       console.log("Deactivating a Platform: error");
+  //       console.log(error);
+  //       this.alertService.sideErrorAlert(
+  //         "Error",
+  //         this.appService.popUpMessageConfig[0]
+  //           .PlatformDeactivatedErrorSideAlertMessage
+  //       );
+  //       //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
+  //     },
+  //   });
+  // }
 }

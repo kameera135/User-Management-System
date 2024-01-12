@@ -78,26 +78,27 @@ export class PlatformConfigurationService {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("deletedBy", this.user.id);
 
-    return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
+    return this.httpClient.delete(`${this.apiUrl}/api/platforms`, {
       params: queryParams,
+      body: list,
     });
   }
 
-  activatePlatform(list: any[]) {
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append("activatedBy", this.user.id);
+  // activatePlatform(list: any[]) {
+  //   let queryParams = new HttpParams();
+  //   queryParams = queryParams.append("activatedBy", this.user.id);
 
-    return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
-      params: queryParams,
-    });
-  }
+  //   return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
+  //     params: queryParams,
+  //   });
+  // }
 
-  deactivatePlatform(list: any[]) {
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append("deactivatedBy", this.user.id);
+  // deactivatePlatform(list: any[]) {
+  //   let queryParams = new HttpParams();
+  //   queryParams = queryParams.append("deactivatedBy", this.user.id);
 
-    return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
-      params: queryParams,
-    });
-  }
+  //   return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
+  //     params: queryParams,
+  //   });
+  // }
 }
