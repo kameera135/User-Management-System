@@ -50,7 +50,7 @@ export class RoleConfigurationComponent {
     { Head: "Role Code", FieldName: "RoleCode", ColumnType: "Data" },
     {
       Head: "Role Name",
-      FieldName: "RoleName",
+      FieldName: "RoleName",  
       ColumnType: "Data",
     },
     // { Head: "Description", FieldName: "Description", ColumnType: "Data" },
