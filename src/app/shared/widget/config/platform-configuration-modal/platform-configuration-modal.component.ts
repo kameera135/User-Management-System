@@ -57,11 +57,7 @@ export class PlatformConfigurationModalComponent {
   }
 
   onFormSubmit() {
-    if (
-      this.platformId == null ||
-      this.platformName == "" ||
-      this.description == ""
-    ) {
+    if (this.platformName == "" || this.description == "") {
       this.notifierService.warning({
         detail: "Warning",
         summary: "Please fill required fields",
@@ -71,9 +67,9 @@ export class PlatformConfigurationModalComponent {
     }
 
     const platform = new Platform();
-    platform.platformId = this.platformId;
     platform.platformName = this.platformName;
     platform.description = this.description;
+    platform.platformUrl = this.url;
 
     this.activeModal.close(platform);
   }

@@ -96,10 +96,10 @@ export class PlatformConfigurationComponent {
     this.platformConfigTableOptions.allowDeleteButton = true;
     this.platformConfigTableOptions.allowUpdateButton = true;
     this.platformConfigTableOptions.allowViewButton = true;
-    this.platformConfigTableOptions.allowActivateButton = true;
-    this.platformConfigTableOptions.allowBulkActivateButton = true;
-    this.platformConfigTableOptions.allowDeactivateButton = true;
-    this.platformConfigTableOptions.allowBulkDeactivateButton = true;
+    // this.platformConfigTableOptions.allowActivateButton = true;
+    // this.platformConfigTableOptions.allowBulkActivateButton = true;
+    // this.platformConfigTableOptions.allowDeactivateButton = true;
+    // this.platformConfigTableOptions.allowBulkDeactivateButton = true;
 
     //for display paginations. It is not default.
     this.platformConfigTableOptions.displayPagination = true;
