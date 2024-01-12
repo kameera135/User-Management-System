@@ -74,9 +74,9 @@ export class SystemTokenModalComponent {
 
     const token = new SystemToken();
 
-    token.id = this.id;
+    token.tokenId = this.id;
     token.token = this.token;
-    token.createdDate = this.createdDate;
+    token.createdAt = this.createdDate;
     token.expireDate = this.expireDate
 
 

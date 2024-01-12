@@ -1,6 +1,6 @@
 export class SystemToken {
-  id!: string;
+  tokenId!: string;
   token!: string;
-  createdDate!: string;
+  createdAt!: string;
   expireDate!: string;
 }

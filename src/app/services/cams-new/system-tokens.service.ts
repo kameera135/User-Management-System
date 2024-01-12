@@ -16,11 +16,12 @@ export class SystemTokensService {
 
   getAllTokens(page: number, pageSize: number) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("viewedBy", this.user.id);
+    //queryParams = queryParams.append("viewedBy", this.user.id);
     queryParams = queryParams.append("page", page);
     queryParams = queryParams.append("pageSize", pageSize);
 
-    const url = `${this.apiUrl}/api/tokens`;
+    const url = `${this.apiUrl}/api/apiTokens/${page}/${pageSize}`;
+    //const url = "http://127.0.0.1:3000/api/tokens";
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 

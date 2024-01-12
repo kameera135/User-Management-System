@@ -220,9 +220,9 @@ export class SystemTokensComponent {
   updateTable() {
 
     this.tokenDetailsArray = this.tokenList.map((item) => ({
-      Id: item.id,
+      Id: item.tokenId,
       Token: item.token,
-      CreatedDate: item.createdDate,
+      CreatedDate: item.createdAt,
       ExpireDate: item.expireDate,
       isRejecteableOrApprovableRecord:true
 
