@@ -69,7 +69,7 @@ export class PlatformConfigurationService {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("updatedBy", this.user.id);
 
-    return this.httpClient.put(`${this.apiUrl}/end-point`, model, {
+    return this.httpClient.put(`${this.apiUrl}/api/platform`, model, {
       params: queryParams,
     });
   }

@@ -149,6 +149,7 @@ export class PlatformConfigurationComponent {
       PlatformId: item.platformId,
       PlatformName: item.platformName,
       Description: item.description,
+      PlatformUrl: item.platformUrl,
       isRejecteableOrApprovableRecord: true,
     }));
     this.tableData = this.platformDetailsArray;
@@ -164,16 +165,17 @@ export class PlatformConfigurationComponent {
   }
 
   onAddPlatformButtonClicked(): void {
-    this.openModal("Add", "New Platform", "", "", "");
+    this.openModal("Add", "New Platform", "", "", "", "");
   }
 
   onEditButtonClicked(row: any) {
     this.openModal(
       "Edit",
       "Edit Platform Details",
-      row.PlatformCode,
+      row.PlatformId,
       row.PlatformName,
-      row.Description
+      row.Description,
+      row.PlatformUrl
     );
   }
 
@@ -186,18 +188,20 @@ export class PlatformConfigurationComponent {
     this.openModal(
       "View",
       "Platform Details",
-      row.PlatformCode,
+      row.PlatformId,
       row.PlatformName,
-      row.Description
+      row.Description,
+      row.PlatformUrl
     );
   }
 
   openModal(
     type: string,
     modalTitle: string,
-    platformCode: string,
+    platformId: string,
     platformName: string,
-    description: string
+    description: string,
+    platformUrl: string
   ): void {
     const modalRef = this.modalService.open(
       PlatformConfigurationModalComponent,
@@ -208,14 +212,13 @@ export class PlatformConfigurationComponent {
         keyboard: false,
       }
     );
-
     modalRef.componentInstance.type = type;
     modalRef.componentInstance.modalTitle = modalTitle;
 
-    modalRef.componentInstance.platformCode = platformCode;
+    modalRef.componentInstance.platformId = platformId;
     modalRef.componentInstance.platformName = platformName;
     modalRef.componentInstance.description = description;
-    modalRef.componentInstance.status = status;
+    modalRef.componentInstance.platformUrl = platformUrl;
 
     modalRef.result
       .then((result) => {
@@ -247,18 +250,20 @@ export class PlatformConfigurationComponent {
                   this.openModal(
                     "Edit",
                     "Edit Platform Details",
-                    platformCode,
+                    platformId,
                     platformName,
-                    description
+                    description,
+                    platformUrl
                   );
                 } else {
                   console.log("Not confirmed to edit");
                   this.openModal(
                     "View",
                     "Platform",
-                    platformCode,
+                    platformId,
                     platformName,
-                    description
+                    description,
+                    platformUrl
                   );
                 }
               })

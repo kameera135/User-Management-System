@@ -19,8 +19,8 @@ export class PlatformConfigurationModalComponent {
   @Input() platformId!: number;
   @Input() platformName!: string;
   @Input() description!: string;
-  @Input() url!: string;
-  @Input() status!: string;
+  @Input() platformUrl!: string;
+  // @Input() status!: string;
 
   buttonName!: string;
   buttonIcon!: string;
@@ -67,9 +67,10 @@ export class PlatformConfigurationModalComponent {
     }
 
     const platform = new Platform();
+    platform.platformId = this.platformId;
     platform.platformName = this.platformName;
     platform.description = this.description;
-    platform.platformUrl = this.url;
+    platform.platformUrl = this.platformUrl;
 
     this.activeModal.close(platform);
   }
