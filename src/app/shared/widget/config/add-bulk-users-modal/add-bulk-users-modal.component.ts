@@ -119,30 +119,47 @@ export class AddBulkUsersModalComponent {
     }
   }
 
-  downloadCsv() {
-    const csvFilePath = "assets/csv/tags(bulk).csv";
+  // downloadCsv() {
+  //   const csvFilePath = "assets/csv/users(bulk).csv";
+
+  //   this.httpClient
+  //     .get(csvFilePath, { responseType: "text" })
+  //     .subscribe((data) => {
+  //       // Split the CSV data into lines
+  //       const lines = data.split("\n");
+
+  //       // Extract the headers from the first line
+  //       const headers = lines[0].split(",");
+
+  //       // Remove the first line (assumes it's the file path)
+  //       lines.shift();
+
+  //       // Reassemble the CSV data with the "tag" and "description" headers
+  //       const csvData = [headers.join(",")].concat(lines).join("\n");
+
+  //       const blob = new Blob([csvData], { type: "text/csv" });
+  //       const url = window.URL.createObjectURL(blob);
+
+  //       const a = document.createElement("a");
+  //       a.href = url;
+  //       a.download = "tags(bulk).csv";
+  //       a.click();
+
+  //       window.URL.revokeObjectURL(url);
+  //     });
+  // }
+
+  downloadXlsx() {
+    const xlsxFilePath = "assets/xl/users(bulk).xlsx";
 
     this.httpClient
-      .get(csvFilePath, { responseType: "text" })
-      .subscribe((data) => {
-        // Split the CSV data into lines
-        const lines = data.split("\n");
-
-        // Extract the headers from the first line
-        const headers = lines[0].split(",");
-
-        // Remove the first line (assumes it's the file path)
-        lines.shift();
-
-        // Reassemble the CSV data with the "tag" and "description" headers
-        const csvData = [headers.join(",")].concat(lines).join("\n");
-
-        const blob = new Blob([csvData], { type: "text/csv" });
+      .get(xlsxFilePath, { responseType: "blob" })
+      .subscribe((blob) => {
         const url = window.URL.createObjectURL(blob);
 
         const a = document.createElement("a");
         a.href = url;
-        a.download = "tags(bulk).csv";
+        a.download = "users(bulk).xlsx";
         a.click();
 
         window.URL.revokeObjectURL(url);

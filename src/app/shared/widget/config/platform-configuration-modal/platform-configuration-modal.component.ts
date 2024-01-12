@@ -16,7 +16,7 @@ export class PlatformConfigurationModalComponent {
   @Input() type!: string;
   @Input() modalTitle!: string;
 
-  @Input() platformCode!: string;
+  @Input() platformId!: number;
   @Input() platformName!: string;
   @Input() description!: string;
   @Input() url!: string;
@@ -58,10 +58,9 @@ export class PlatformConfigurationModalComponent {
 
   onFormSubmit() {
     if (
-      this.platformCode == "" ||
+      this.platformId == null ||
       this.platformName == "" ||
-      this.description == "" ||
-      this.status == ""
+      this.description == ""
     ) {
       this.notifierService.warning({
         detail: "Warning",
@@ -72,10 +71,9 @@ export class PlatformConfigurationModalComponent {
     }
 
     const platform = new Platform();
-    platform.platformCode = this.platformCode;
+    platform.platformId = this.platformId;
     platform.platformName = this.platformName;
     platform.description = this.description;
-    platform.status = this.status;
 
     this.activeModal.close(platform);
   }

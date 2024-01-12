@@ -17,52 +17,42 @@ export class PlatformConfigurationService {
   apiUrl = this.appService.appConfig[0].apiUrl;
   user = this.appService.user;
 
-  getAllPlatforms(page: number, pageSize: number) {
+  getAllPlatforms(page: number, page_size: number) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("viewedBy", this.user.id);
-    queryParams = queryParams.append("page", page);
-    queryParams = queryParams.append("pageSize", pageSize);
+    //queryParams = queryParams.append("viewedBy", this.user.id);
 
-    const url = `${this.apiUrl}/api/platforms`;
+    const url = `${this.apiUrl}/api/configuration/platforms/${page}/${page_size}`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
-  getPlatformsByRole(role: string, page: number, pageSize: number) {
+  // getPlatformsByRole(role: string, page: number, pageSize: number) {
+  //   let queryParams = new HttpParams();
+  //   queryParams = queryParams.append("viewedBy", this.user.id);
+  //   queryParams = queryParams.append("role", role);
+  //   queryParams = queryParams.append("page", page);
+  //   queryParams = queryParams.append("pageSize", pageSize);
+
+  //   const url = `${this.apiUrl}/end-point`;
+  //   return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
+  // }
+
+  // getSearchedPlatforms(searchedTerm: string, page: number, pageSize: number) {
+  //   let queryParams = new HttpParams();
+  //   queryParams = queryParams.append("viewedBy", this.user.id);
+  //   queryParams = queryParams.append("searchedTerm", searchedTerm);
+  //   queryParams = queryParams.append("page", page);
+  //   queryParams = queryParams.append("pageSize", pageSize);
+
+  //   const url = `${this.apiUrl}/end-point`;
+  //   return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
+  // }
+
+  getSearchedPlatforms(searchedTerm: string, page: number, page_size: number) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("viewedBy", this.user.id);
-    queryParams = queryParams.append("role", role);
-    queryParams = queryParams.append("page", page);
-    queryParams = queryParams.append("pageSize", pageSize);
+    //queryParams = queryParams.append("viewedBy", this.user.id);
+    queryParams = queryParams.append("searchedPlatformName", searchedTerm);
 
-    const url = `${this.apiUrl}/end-point`;
-    return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
-  }
-
-  getSearchedPlatforms(searchedTerm: string, page: number, pageSize: number) {
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append("viewedBy", this.user.id);
-    queryParams = queryParams.append("searchedTerm", searchedTerm);
-    queryParams = queryParams.append("page", page);
-    queryParams = queryParams.append("pageSize", pageSize);
-
-    const url = `${this.apiUrl}/end-point`;
-    return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
-  }
-
-  getSearchedPlatformsByRole(
-    searchedTerm: string,
-    role: string,
-    page: number,
-    pageSize: number
-  ) {
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append("viewedBy", this.user.id);
-    queryParams = queryParams.append("searchedTerm", searchedTerm);
-    queryParams = queryParams.append("role", role);
-    queryParams = queryParams.append("page", page);
-    queryParams = queryParams.append("pageSize", pageSize);
-
-    const url = `${this.apiUrl}/end-point`;
+    const url = `${this.apiUrl}/api/configuration/platforms/${page}/${page_size}`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 

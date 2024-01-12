@@ -28,12 +28,12 @@ export class PlatformConfigurationComponent {
 
   searchTerm!: string;
 
-  roleList: any[] = [{ value: "All", id: 1 }];
-  selectedRole: string = "All";
+  // roleList: any[] = [{ value: "All", id: 1 }];
+  //selectedRole: string = "All";
 
   platformUpdatedNotificationMessage!: string;
 
-  serchedTerm!: string;
+  //serchedTerm!: string;
 
   platformConfigTableOptions: tableOptions = new tableOptions();
 
@@ -41,14 +41,13 @@ export class PlatformConfigurationComponent {
 
   headArray = [
     { Head: "", FieldName: "", ColumnType: "CheckBox" },
-    { Head: "Platform Code", FieldName: "PlatformCode", ColumnType: "Data" },
+    { Head: "Platform ID", FieldName: "PlatformId", ColumnType: "Data" },
     {
       Head: "Platform Name",
       FieldName: "PlatformName",
       ColumnType: "Data",
     },
     { Head: "Description", FieldName: "Description", ColumnType: "Data" },
-    { Head: "Status", FieldName: "Status", ColumnType: "Data" },
     { Head: "", FieldName: "", ColumnType: "Action" },
   ];
 
@@ -87,10 +86,10 @@ export class PlatformConfigurationComponent {
   ) {}
 
   ngOnInit(): void {
-    var roles = this.appService.appConfig[0].roleList;
-    for (let i = 0; i < roles.length; i++) {
-      this.roleList.push(roles[i]);
-    }
+    // var roles = this.appService.appConfig[0].roleList;
+    // for (let i = 0; i < roles.length; i++) {
+    //   this.roleList.push(roles[i]);
+    // }
 
     this.platformConfigTableOptions.allowCheckbox = true;
     this.platformConfigTableOptions.allowBulkDeleteButton = true;
@@ -101,13 +100,12 @@ export class PlatformConfigurationComponent {
     this.platformConfigTableOptions.allowBulkActivateButton = true;
     this.platformConfigTableOptions.allowDeactivateButton = true;
     this.platformConfigTableOptions.allowBulkDeactivateButton = true;
-    
+
     //for display paginations. It is not default.
     this.platformConfigTableOptions.displayPagination = true;
 
     //for show users in respective platforms
     this.platformConfigTableOptions.allowToViewPlatformUsers = true;
-
 
     this.platformConfigTableOptions.rowEditConfirmationMessage =
       this.appService.popUpMessageConfig[0].UpdatePlatformConfirmationMessage;
@@ -129,45 +127,17 @@ export class PlatformConfigurationComponent {
   loadData() {
     this.loadingInProgress = true;
     if (
-      (this.serchedTerm == undefined ||
-        this.serchedTerm == null ||
-        this.serchedTerm == "") &&
-      (this.selectedRole == undefined ||
-        this.selectedRole == null ||
-        this.selectedRole == "All" ||
-        this.selectedRole == "")
+      this.searchTerm == undefined ||
+      this.searchTerm == null ||
+      this.searchTerm == ""
     ) {
       this.getAllPlatforms();
     } else if (
-      (this.serchedTerm != undefined ||
-        this.serchedTerm != null ||
-        this.serchedTerm != "") &&
-      (this.selectedRole == undefined ||
-        this.selectedRole == null ||
-        this.selectedRole == "All" ||
-        this.selectedRole == "")
+      this.searchTerm != undefined ||
+      this.searchTerm != null ||
+      this.searchTerm != ""
     ) {
-      this.searchPlatforms(this.serchedTerm);
-    } else if (
-      (this.serchedTerm == undefined ||
-        this.serchedTerm == null ||
-        this.serchedTerm == "") &&
-      (this.selectedRole != undefined ||
-        this.selectedRole != null ||
-        this.selectedRole != "All" ||
-        this.selectedRole != "")
-    ) {
-      this.getPlatformsByRole(this.serchedTerm);
-    } else if (
-      (this.serchedTerm != undefined ||
-        this.serchedTerm != null ||
-        this.serchedTerm != "") &&
-      (this.selectedRole != undefined ||
-        this.selectedRole != null ||
-        this.selectedRole != "All" ||
-        this.selectedRole != "")
-    ) {
-      this.searchPlatformsByRole(this.serchedTerm, this.selectedRole);
+      this.searchPlatforms(this.searchTerm);
     } else {
       this.getAllPlatforms();
       this.alertService.sideErrorAlert("Error", "Could not retrive data");
@@ -176,11 +146,10 @@ export class PlatformConfigurationComponent {
 
   updateTable() {
     this.platformDetailsArray = this.platformList.map((item) => ({
-      PlatformCode: item.platformCode,
+      PlatformId: item.platformId,
       PlatformName: item.platformName,
       Description: item.description,
-      Status: item.status,
-      isRejecteableOrApprovableRecord:true
+      isRejecteableOrApprovableRecord: true,
     }));
     this.tableData = this.platformDetailsArray;
   }
@@ -195,7 +164,7 @@ export class PlatformConfigurationComponent {
   }
 
   onAddPlatformButtonClicked(): void {
-    this.openModal("Add", "New Platform", "", "", "", "");
+    this.openModal("Add", "New Platform", "", "", "");
   }
 
   onEditButtonClicked(row: any) {
@@ -204,14 +173,13 @@ export class PlatformConfigurationComponent {
       "Edit Platform Details",
       row.PlatformCode,
       row.PlatformName,
-      row.Description,
-      row.Status
+      row.Description
     );
   }
 
   //pass platform detials to platform-user component
-  onViewPlatformUsers(row:any){
-    this.router.navigate(['/platform-users/:id', row.PlatformName]);
+  onViewPlatformUsers(row: any) {
+    this.router.navigate(["/platform-users/:id", row.PlatformName]);
   }
 
   onViewButtonClicked(row: any) {
@@ -220,19 +188,16 @@ export class PlatformConfigurationComponent {
       "Platform Details",
       row.PlatformCode,
       row.PlatformName,
-      row.Description,
-      row.Status
+      row.Description
     );
   }
 
-  
   openModal(
     type: string,
     modalTitle: string,
     platformCode: string,
     platformName: string,
-    description: string,
-    status: string
+    description: string
   ): void {
     const modalRef = this.modalService.open(
       PlatformConfigurationModalComponent,
@@ -284,8 +249,7 @@ export class PlatformConfigurationComponent {
                     "Edit Platform Details",
                     platformCode,
                     platformName,
-                    description,
-                    status
+                    description
                   );
                 } else {
                   console.log("Not confirmed to edit");
@@ -294,8 +258,7 @@ export class PlatformConfigurationComponent {
                     "Platform",
                     platformCode,
                     platformName,
-                    description,
-                    status
+                    description
                   );
                 }
               })
@@ -346,31 +309,31 @@ export class PlatformConfigurationComponent {
       });
   }
 
-  getPlatformsByRole(role: string) {
-    this.shared
-      .getPlatformsByRole(role, this.selectedPage, this.selectedPageSize)
-      .subscribe({
-        next: (response: any) => {
-          this.platformList = response.response;
-          this.totalDataCount = response.rowCount;
-          this.updateTable();
-          this.loadingInProgress = false;
-        },
-        error: (error: any) => {
-          this.alertService.sideErrorAlert(
-            "Error",
-            this.appService.popUpMessageConfig[0]
-              .GetPlatformListErrorSideAlertMessage
-          );
+  // getPlatformsByRole(role: string) {
+  //   this.shared
+  //     .getPlatformsByRole(role, this.selectedPage, this.selectedPageSize)
+  //     .subscribe({
+  //       next: (response: any) => {
+  //         this.platformList = response.response;
+  //         this.totalDataCount = response.rowCount;
+  //         this.updateTable();
+  //         this.loadingInProgress = false;
+  //       },
+  //       error: (error: any) => {
+  //         this.alertService.sideErrorAlert(
+  //           "Error",
+  //           this.appService.popUpMessageConfig[0]
+  //             .GetPlatformListErrorSideAlertMessage
+  //         );
 
-          this.platformList = [];
-          this.totalDataCount = 0;
+  //         this.platformList = [];
+  //         this.totalDataCount = 0;
 
-          this.updateTable();
-          this.loadingInProgress = false;
-        },
-      });
-  }
+  //         this.updateTable();
+  //         this.loadingInProgress = false;
+  //       },
+  //     });
+  // }
 
   searchPlatforms(serchedTerm: string) {
     this.shared
@@ -393,7 +356,9 @@ export class PlatformConfigurationComponent {
               "No Data!",
               4000
             );
-            this.getAllPlatforms();
+
+            this.searchTerm = "";
+            this.loadData();
           }
         },
         error: (error: any) => {
@@ -412,45 +377,44 @@ export class PlatformConfigurationComponent {
       });
   }
 
-  searchPlatformsByRole(serchedTerm: string, role: string) {
-    this.shared
-      .getSearchedPlatformsByRole(
-        serchedTerm,
-        role,
-        this.selectedPage,
-        this.selectedPageSize
-      )
-      .subscribe({
-        next: (response: any) => {
-          this.platformList = response.response;
-          this.totalDataCount = response.rowCount;
-          if (this.totalDataCount > 0) {
-            this.updateTable();
-            this.loadingInProgress = false;
-          } else {
-            this.alertService.warningSweetAlertMessage(
-              this.appService.popUpMessageConfig[0].NoDataNotificationMessage,
-              "No Data!",
-              4000
-            );
-            this.getAllPlatforms();
-          }
-        },
-        error: (error: any) => {
-          this.alertService.sideErrorAlert(
-            "Error",
-            this.appService.popUpMessageConfig[0]
-              .GetPlatformListErrorSideAlertMessage
-          );
+  // searchPlatformsByRole(serchedTerm: string, role: string) {
+  //   this.shared
+  //     .getSearchedPlatformsByRole(
+  //       serchedTerm,
+  //       this.selectedPage,
+  //       this.selectedPageSize
+  //     )
+  //     .subscribe({
+  //       next: (response: any) => {
+  //         this.platformList = response.response;
+  //         this.totalDataCount = response.rowCount;
+  //         if (this.totalDataCount > 0) {
+  //           this.updateTable();
+  //           this.loadingInProgress = false;
+  //         } else {
+  //           this.alertService.warningSweetAlertMessage(
+  //             this.appService.popUpMessageConfig[0].NoDataNotificationMessage,
+  //             "No Data!",
+  //             4000
+  //           );
+  //           this.getAllPlatforms();
+  //         }
+  //       },
+  //       error: (error: any) => {
+  //         this.alertService.sideErrorAlert(
+  //           "Error",
+  //           this.appService.popUpMessageConfig[0]
+  //             .GetPlatformListErrorSideAlertMessage
+  //         );
 
-          this.platformList = [];
-          this.totalDataCount = 0;
+  //         this.platformList = [];
+  //         this.totalDataCount = 0;
 
-          this.updateTable();
-          this.loadingInProgress = false;
-        },
-      });
-  }
+  //         this.updateTable();
+  //         this.loadingInProgress = false;
+  //       },
+  //     });
+  // }
 
   postPlatform(platform: any) {
     console.log("Add", platform);

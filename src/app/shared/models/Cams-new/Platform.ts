@@ -1,6 +1,5 @@
 export class Platform {
-  platformCode!: string;
+  platformId!: number;
   platformName!: string;
   description!: string;
-  status!: string;
 }

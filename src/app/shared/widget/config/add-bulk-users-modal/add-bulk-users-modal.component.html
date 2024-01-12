@@ -22,10 +22,7 @@
     <form #editForm="ngForm" (ngSubmit)="onFormSubmit()" name="editTagForm">
       <div class="m-2">
         <div>
-          <div
-            class="row py-1 m-0 px-0"
-            style="background-color: rgb(240, 240, 240)"
-          >
+          <div class="row py-1 m-0 px-0" style="background-color: #eff2f7">
             <label class="form-label col-sm-12 text-center"
               >Download the template here</label
             >
@@ -33,13 +30,13 @@
             <div class="d-flex justify-content-center col-sm-12">
               <button
                 type="button"
-                (click)="downloadCsv()"
-                class="btn btn-primary btn-warning btn-sm mb-1 float-center text-muted"
+                (click)="downloadXlsx()"
+                class="btn btn-warning btn-sm mb-1 float-center text-muted"
               >
                 <i
-                  class="bi bi-filetype-csv label-icon align-middle text-muted"
+                  class="bi bi-filetype-xlsx label-icon align-middle text-muted"
                 ></i>
-                csv
+                xlsx
               </button>
             </div>
           </div>
