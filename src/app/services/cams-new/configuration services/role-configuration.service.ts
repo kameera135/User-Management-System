@@ -18,11 +18,11 @@ export class RoleConfigurationService {
 
   getAllRoles(page: number, pageSize: number) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("viewedBy", this.user.id);
+    //queryParams = queryParams.append("viewedBy", this.user.id);
     queryParams = queryParams.append("page", page);
     queryParams = queryParams.append("pageSize", pageSize);
 
-    const url = `${this.apiUrl}/api/roles`;
+    const url = `${this.apiUrl}/api/configuration/roles/${page}/${pageSize}`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 

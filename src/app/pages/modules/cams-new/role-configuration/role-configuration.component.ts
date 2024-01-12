@@ -53,8 +53,8 @@ export class RoleConfigurationComponent {
       FieldName: "RoleName",
       ColumnType: "Data",
     },
-    { Head: "Description", FieldName: "Description", ColumnType: "Data" },
-    { Head: "Created Date", FieldName: "CreatedDate", ColumnType: "Data" },
+    // { Head: "Description", FieldName: "Description", ColumnType: "Data" },
+    // { Head: "Created Date", FieldName: "CreatedDate", ColumnType: "Data" },
     { Head: "Status", FieldName: "Status", ColumnType: "Data" },
     { Head: "", FieldName: "", ColumnType: "Action" },
   ];
@@ -255,10 +255,10 @@ export class RoleConfigurationComponent {
   updateTable() {
 
     this.roleDetailsArray = this.roleList.map((item) => ({
-      RoleCode: item.roleCode,
-      RoleName: item.roleName,
-      Description: item.description,
-      CreatedDate: item.createdDate,
+      RoleCode: item.roleId,
+      RoleName: item.role1,
+      // Description: item.description,
+      // CreatedDate: item.createdDate,
       Status: item.status,
       isRejecteableOrApprovableRecord:true
 

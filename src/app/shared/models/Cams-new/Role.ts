@@ -1,7 +1,7 @@
 export class Role {
-  roleCode!: string;
-  roleName!: string;
-  description!: string;
-  createdDate!: string;
+  roleId!: string;
+  role1!: string;
+  // description!: string;
+  // createdDate!: string;
   status!: string;
 }
