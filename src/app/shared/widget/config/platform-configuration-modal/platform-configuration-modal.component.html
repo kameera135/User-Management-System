@@ -66,8 +66,8 @@
         <input
           type="text"
           class="form-control"
-          [(ngModel)]="url"
-          name="url"
+          [(ngModel)]="platformUrl"
+          name="platformUrl"
           [disabled]="type == 'View'"
         />
       </div>
@@ -86,7 +86,7 @@
       </div>
     </div> -->
 
-    <div class="col-12" *ngIf="type != 'Add'">
+    <!-- <div class="col-12" *ngIf="type != 'Add'">
       <div class="mb-3">
         <label class="col-form-label">Status*</label>
         <select
@@ -100,7 +100,7 @@
           </option>
         </select>
       </div>
-    </div>
+    </div> -->
 
     <div class="col-12 mx-auto">
       <div class="d-flex justify-content-end">
