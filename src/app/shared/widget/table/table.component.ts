@@ -245,11 +245,13 @@ export class TableComponent {
       this.view_single_record_permission =
         this.dataTableOptions.view_single_Record_permission;
 
-      //assign in platform user showing button  
-      this.allowToViewPlatformUsers = this.dataTableOptions.allowToViewPlatformUsers;
+      //assign in platform user showing button
+      this.allowToViewPlatformUsers =
+        this.dataTableOptions.allowToViewPlatformUsers;
 
       //assign view permission button
-      this.allowToViewPermissions = this.dataTableOptions.allowToViewPermissions;
+      this.allowToViewPermissions =
+        this.dataTableOptions.allowToViewPermissions;
 
       this.approve_single_record_permission =
         this.dataTableOptions.approve_single_record_permission;
@@ -355,12 +357,12 @@ export class TableComponent {
   }
 
   //show users in respective platforms
-  showPlatformUserView(id:any){
-    this.onViewPlaformUsers.emit(id);
-    this.router.navigate(['/platform-users/:id',id]);
+  showPlatformUserView(item: any) {
+    this.onViewPlaformUsers.emit(item);
+    this.router.navigate(["/platform-users/:id", item]);
   }
 
-  loadPermissionData(id:any){
+  loadPermissionData(id: any) {
     this.onViewPermission.emit(id);
   }
 

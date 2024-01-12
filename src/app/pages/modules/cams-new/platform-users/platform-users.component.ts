@@ -14,14 +14,14 @@ import { PlatformUserModalComponent } from "src/app/shared/widget/config/platfor
 import { PlatformUser } from "src/app/shared/models/Cams-new/platform-user";
 import { ActivatedRoute } from "@angular/router";
 import { PlatformUsersService } from "src/app/services/cams-new/platform-users.service";
+import { EventService } from "src/app/core/services/event.service";
 
 @Component({
-  selector: 'app-platform-users',
-  templateUrl: './platform-users.component.html',
-  styleUrls: ['./platform-users.component.scss']
+  selector: "app-platform-users",
+  templateUrl: "./platform-users.component.html",
+  styleUrls: ["./platform-users.component.scss"],
 })
 export class PlatformUsersComponent {
-
   loadingInProgress: boolean = false;
 
   userModel!: PlatformUser;
@@ -35,7 +35,6 @@ export class PlatformUsersComponent {
   @Input() platform!: string;
 
   searchTerm!: string;
-  
 
   roleList: any[] = [{ value: "All", id: 1 }];
   platformList: any[] = [{ value: "All", id: 1 }];
@@ -60,7 +59,8 @@ export class PlatformUsersComponent {
   usersViewService: any;
   tableData: any;
 
-  @Input() platformName!: string
+  @Input() platformName!: string;
+  @Input() platformId!: string;
 
   //to remove
   // tableData = [
@@ -96,6 +96,8 @@ export class PlatformUsersComponent {
   //   },
   // ];
 
+  temp: any = null;
+
   constructor(
     private breadcrumbService: BreadcrumbService,
     private shared: PlatformUsersService,
@@ -104,16 +106,23 @@ export class PlatformUsersComponent {
     private appService: AppService,
     private alertService: MessageService,
     private http: HttpClient,
-    private route:ActivatedRoute
-    
+    private route: ActivatedRoute,
+    private eventService: EventService
   ) {}
 
   ngOnInit(): void {
+    this.eventService.subscribe("PlatformId", (val) => {
+      this.temp = val;
+      console.log(">>>temp", this.temp);
+    });
+
+    // console.log(">>>temp", this.temp);
+    console.log(">>>", this.platformId);
+    console.log(">>>", this.platformName);
     var platforms = this.appService.appConfig[0].platformList;
     for (let i = 0; i < platforms.length; i++) {
       this.platformList.push(platforms[i]);
     }
-
 
     this.usersViewTableOptions.allowCheckbox = true;
     this.usersViewTableOptions.allowBulkDeleteButton = true;
@@ -138,10 +147,9 @@ export class PlatformUsersComponent {
     ]);
 
     //get platform name from the platform configuration component
-    this.route.params.subscribe(params => {
-      this.platformName = params['PlatformName'];
+    this.route.params.subscribe((params) => {
+      this.platformName = params["PlatformName"];
     });
-
 
     this.loadData();
   }
@@ -202,7 +210,7 @@ export class PlatformUsersComponent {
       Platform: item.platform,
       Email: item.email,
       PhoneNumber: item.phoneNumber,
-      isRejecteableOrApprovableRecord:true
+      isRejecteableOrApprovableRecord: true,
     }));
     this.tableData = this.userDetailsArray;
   }
@@ -275,13 +283,12 @@ export class PlatformUsersComponent {
     phoneNumber: string,
     userProfileCode: string
   ): void {
-
-    // Check the 'type' parameter to determine the view 
+    // Check the 'type' parameter to determine the view
     let modalSize = "m";
-    if(type == "Add"){
-      modalSize = "xl"
+    if (type == "Add") {
+      modalSize = "xl";
     }
-    
+
     const modalRef = this.modalService.open(PlatformUserModalComponent, {
       size: modalSize,
       centered: true,
@@ -377,8 +384,7 @@ export class PlatformUsersComponent {
   getAllUsers() {
     this.shared
       .getAllPlatformUsers(this.selectedPage, this.selectedPageSize)
-     .subscribe({
-        
+      .subscribe({
         next: (response) => {
           this.userList = response.response;
           this.totalDataCount = response.rowCount;

@@ -9,6 +9,7 @@ import { MessageService } from "src/app/services/PopupMessages/message.service";
 import { PlatformConfigurationModalComponent } from "src/app/shared/widget/config/platform-configuration-modal/platform-configuration-modal.component";
 import { UpdateConfirmationModalComponent } from "src/app/shared/widget/config/update-confirmation-modal/update-confirmation-modal.component";
 import { Route, Router } from "@angular/router";
+import { EventService } from "src/app/core/services/event.service";
 
 @Component({
   selector: "app-platform-configuration",
@@ -82,7 +83,8 @@ export class PlatformConfigurationComponent {
     private modalService: NgbModal,
     private appService: AppService,
     private alertService: MessageService,
-    private router: Router
+    private router: Router,
+    private eventService: EventService
   ) {}
 
   ngOnInit(): void {
@@ -180,8 +182,18 @@ export class PlatformConfigurationComponent {
   }
 
   //pass platform detials to platform-user component
+  // onViewPlatformUsers(row: any) {
+  //   this.router.navigate([
+  //     "/platform-users/:id",
+  //     row.PlatformName,
+  //     row.PlatformId,
+  //   ]);
+  // }
   onViewPlatformUsers(row: any) {
+    console.log(">>>>>", row);
     this.router.navigate(["/platform-users/:id", row.PlatformName]);
+
+    var x = this.eventService.broadcast("PlatformId", row.PlatformId);
   }
 
   onViewButtonClicked(row: any) {
