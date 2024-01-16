@@ -13,13 +13,36 @@ export class ActivityLogsService {
   apiUrl = this.appService.appConfig[0].apiUrl;
   user = this.appService.user;
 
-  getAllUsers(page: number, pageSize: number) {
+  getPlatformList() {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("viewedBy", this.user.id);
-    queryParams = queryParams.append("page", page);
-    queryParams = queryParams.append("pageSize", pageSize);
+    //queryParams = queryParams.append("viewedBy", this.user.id);
 
-    const url = `${this.apiUrl}/end-point`;
+    const url = `${this.apiUrl}/api/configuration/platforms/combobox`;
+    return this.httpClient.get(url, { params: queryParams });
+  }
+
+  getRoleList(platformId: number) {
+    let queryParams = new HttpParams();
+    //queryParams = queryParams.append("viewedBy", this.user.id);
+
+    const url = `${this.apiUrl}/api/configuration/roles/combobox/${platformId}`;
+    return this.httpClient.get(url, { params: queryParams });
+  }
+
+  getActivityLogs(
+    year: string,
+    month: string,
+    page: number,
+    pageSize: number,
+    platformId: number,
+    roleId: number
+  ) {
+    let queryParams = new HttpParams();
+    // queryParams = queryParams.append("viewedBy", this.user.id);
+    queryParams = queryParams.append("platformId", platformId);
+    queryParams = queryParams.append("roleId", roleId);
+
+    const url = `${this.apiUrl}/api/activity_logs/${year}/${month}/${page}/${pageSize}`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 

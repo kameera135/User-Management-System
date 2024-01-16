@@ -1,10 +1,11 @@
 export class ActivityLogData {
-  id!: number;
-  username!: string;
-  platform!: string;
-  role!: string;
+  logId!: number;
+  userName!: string;
+  platformName!: string;
+  platformId!: number;
+  roleName!: string;
   activityType!: string;
   description!: string;
-  time!: string;
-  details!: any;
+  details!: string;
+  createdAt!: string;
 }

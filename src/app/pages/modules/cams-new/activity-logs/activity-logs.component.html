@@ -12,56 +12,69 @@
         <div class="col-6 col-lg-6 mt-1">
           <div class="row">
             <div class="col-3 col-lg-3">
-              <select
-                class="form-select"
-                aria-label="Year"
+              <ng-select
                 [(ngModel)]="selectedYear"
+                [multiple]="false"
                 (change)="loadData()"
+                [placeholder]="yearList[0].value"
+                name="year-comboBox"
+                [clearable]="false"
               >
-                <!-- <option selected value="">Select...</option> -->
-                <option *ngFor="let item of yearList" [value]="item.value">
+                <ng-option *ngFor="let item of yearList" [value]="item.value">
                   {{ item.value }}
-                </option>
-              </select>
+                </ng-option>
+              </ng-select>
             </div>
             <div class="col-3 col-lg-3">
-              <select
-                class="form-select"
-                aria-label="Month"
+              <ng-select
                 [(ngModel)]="selectedMonth"
+                [multiple]="false"
                 (change)="loadData()"
+                [placeholder]="monthList[0].value"
+                name="month-comboBox"
+                [clearable]="false"
               >
-                <!-- <option selected value="">Select...</option> -->
-                <option *ngFor="let item of monthList" [value]="item.id">
+                <ng-option *ngFor="let item of monthList" [value]="item.id">
                   {{ item.value }}
-                </option>
-              </select>
+                </ng-option>
+              </ng-select>
             </div>
             <div class="col-3 col-lg-3">
-              <select
-                class="form-select"
-                aria-label="Platform"
+              <ng-select
                 [(ngModel)]="selectedPlatform"
-                (change)="loadData()"
+                [multiple]="false"
+                (change)="onPlatformSelect()"
+                [placeholder]="platformListDefault[0].value"
+                name="platform-comboBox"
+                [clearable]="false"
               >
-                <!-- <option selected value="">Select...</option> -->
-                <option *ngFor="let item of platformList" [value]="item.value">
+                <ng-option
+                  *ngFor="let item of platformListDefault"
+                  [value]="item.id"
+                >
                   {{ item.value }}
-                </option>
-              </select>
+                </ng-option>
+              </ng-select>
             </div>
             <div class="col-3 col-lg-3">
-              <select
-                class="form-select"
-                aria-label="Role"
+              <ng-select
                 [(ngModel)]="selectedRole"
+                [multiple]="false"
                 (change)="loadData()"
-                [disabled]="selectedPlatform == 'All Platforms'"
+                [placeholder]="roleListDefault[0].value"
+                name="role-comboBox"
+                [clearable]="false"
+                [disabled]="
+                  selectedPlatform == 0 || selectedPlatform == undefined
+                "
               >
-                <option *ngFor="let item of roleList" [value]="item.value">
+                <ng-option
+                  *ngFor="let item of roleListDefault"
+                  [value]="item.id"
+                >
                   {{ item.value }}
-                </option>
-              </select>
+                </ng-option>
+              </ng-select>
             </div>
           </div>
         </div>
