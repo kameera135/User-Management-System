@@ -75,7 +75,7 @@ export class PermissionConfigurationComponent {
       FieldName: "PermissionName",
       ColumnType: "Data",
     },
-    { Head: "Created Date", FieldName: "CreatedDate", ColumnType: "Data" },
+    // { Head: "Created Date", FieldName: "CreatedDate", ColumnType: "Data" },
     { Head: "Status", FieldName: "Status", ColumnType: "Data" },
     { Head: "", FieldName: "", ColumnType: "Action" },
   ];
@@ -260,9 +260,9 @@ export class PermissionConfigurationComponent {
 
   updateTable() {
      this.permissionDetailsArray = this.permissionList.map((item) => ({
-      PermissionCode: item.permissionCode,
-      PermissionName: item.permissionName,
-      CreatedDate: item.createdDate,
+      PermissionCode: item.permissionId,
+      PermissionName: item.permission1,
+      //CreatedDate: item.createdDate,
       Status: item.status,
       isRejecteableOrApprovableRecord:true
 

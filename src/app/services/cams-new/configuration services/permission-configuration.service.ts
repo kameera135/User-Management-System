@@ -18,11 +18,11 @@ export class PermissionConfigurationService {
 
   getAllPermissions(page: number, pageSize: number) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("viewedBy", this.user.id);
+    //ueryParams = queryParams.append("viewedBy", this.user.id);
     queryParams = queryParams.append("page", page);
     queryParams = queryParams.append("pageSize", pageSize);
 
-    const url = `${this.apiUrl}/api/permissions`;
+    const url = `${this.apiUrl}/api/configuration/permissions/${page}/${pageSize}`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 

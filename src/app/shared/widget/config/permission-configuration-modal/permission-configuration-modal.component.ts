@@ -74,9 +74,9 @@ export class PermissionConfigurationModalComponent {
     }
 
     const feature = new Permission();
-    feature.permissionCode = this.permissionCode;
-    feature.permissionName = this.permissionName;
-    feature.createdDate = this.createdDate;
+    feature.permissionId = this.permissionCode;
+    feature.permission1 = this.permissionName;
+    //feature.createdDate = this.createdDate;
     feature.status = this.status;
 
     this.activeModal.close(feature);
