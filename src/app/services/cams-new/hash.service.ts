@@ -11,8 +11,9 @@ export class HashService {
     const encoder = new TextEncoder();
     const data = encoder.encode(value);
 
-    // Use the SubtleCrypto API to generate SHA-256 hash
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    // Use a new SubtleCrypto instance to generate SHA-256 hash
+    const subtleCrypto = crypto.subtle || (<any>crypto).webkitSubtle;
+    const hashBuffer = await subtleCrypto.digest('SHA-256', data);
 
     // Convert the hash buffer to a hexadecimal string
     const hashArray = Array.from(new Uint8Array(hashBuffer));

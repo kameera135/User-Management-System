@@ -99,6 +99,22 @@ export class SystemTokensComponent {
 
   loadData() {
     this.loadingInProgress = true;
+    if (
+      this.searchTerm == undefined ||
+      this.searchTerm == null ||
+      this.searchTerm == ""
+    ) {
+      this.getAllTokens();
+    } else if (
+      this.searchTerm != undefined ||
+      this.searchTerm != null ||
+      this.searchTerm != ""
+    ) {
+      this.searchTokens(this.searchTerm);
+    } else {
+      this.getAllTokens();
+      this.alertService.sideErrorAlert("Error", "Could not retrive data");
+    }
     // if (
     //   (this.serchedTerm == undefined ||
     //     this.serchedTerm == null ||
@@ -145,7 +161,7 @@ export class SystemTokensComponent {
     // ) {
     //   this.searchPlatformsByRole(this.serchedTerm, this.selectedRole);
     // } else {
-       this.getAllTokens();
+      //  this.getAllTokens();
     //   this.alertService.sideErrorAlert("Error", "Could not retrive data");
     // }
       
@@ -249,7 +265,7 @@ export class SystemTokensComponent {
   onEditButtonClicked(row: any) {
     this.openModal(
       "Edit",
-      "Edit Role Details",
+      "Edit Token",
       row.Id,
       row.Token,
       row.CreatedDate,
@@ -260,7 +276,7 @@ export class SystemTokensComponent {
   onViewButtonClicked(row: any) {
     this.openModal(
       "View",
-      "Role Details",
+      "Token Details",
       row.Id,
       row.Token,
       row.CreatedDate,
@@ -364,7 +380,7 @@ export class SystemTokensComponent {
 
   putToken(token: any) {
     console.log("Add", token);
-    this.shared.postToken(token).subscribe({
+    this.shared.putToken(token).subscribe({
       next: (response: any) => {
         console.log(response);
 
@@ -503,7 +519,7 @@ export class SystemTokensComponent {
     let ids: number[] = [];
 
     items.forEach((element: any) => {
-      ids.push(element.id);
+      ids.push(element.Id);
     });
 
     this.removeTokens(ids);

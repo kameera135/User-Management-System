@@ -25,25 +25,16 @@ export class SystemTokensService {
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
-  // getUsersByRole(role: string, page: number, pageSize: number) {
-  //   let queryParams = new HttpParams();
-  //   queryParams = queryParams.append("viewedBy", this.user.id);
-  //   queryParams = queryParams.append("role", role);
-  //   queryParams = queryParams.append("page", page);
-  //   queryParams = queryParams.append("pageSize", pageSize);
-
-  //   const url = `${this.apiUrl}/end-point`;
-  //   return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
-  // }
-
   getSearchedTokens(searchedTerm: string, page: number, pageSize: number) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("viewedBy", this.user.id);
-    queryParams = queryParams.append("searchedTerm", searchedTerm);
-    queryParams = queryParams.append("page", page);
-    queryParams = queryParams.append("pageSize", pageSize);
+    // queryParams = queryParams.append("viewedBy", this.user.id);
+    // queryParams = queryParams.append("searchedTerm", searchedTerm);
+    // queryParams = queryParams.append("page", page);
+    // queryParams = queryParams.append("pageSize", pageSize);
 
-    const url = `${this.apiUrl}/end-point`;
+    queryParams = queryParams.append("searchedTokens", searchedTerm);
+    
+    const url = `${this.apiUrl}/api/apiTokens/${page}/${pageSize}`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
@@ -77,7 +68,7 @@ export class SystemTokensService {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("updatedBy", this.user.id);
 
-    return this.httpClient.put(`${this.apiUrl}/end-point`, model, {
+    return this.httpClient.put(`${this.apiUrl}/api/token`, model, {
       params: queryParams,
     });
   }
@@ -87,8 +78,9 @@ export class SystemTokensService {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("deletedBy", this.user.id);
 
-    return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
+    return this.httpClient.delete(`${this.apiUrl}/api/tokens`, {
       params: queryParams,
+      body: list,
     });
   }
 }
