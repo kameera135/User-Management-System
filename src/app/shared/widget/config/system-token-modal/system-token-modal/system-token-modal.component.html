@@ -41,7 +41,7 @@
     <div class="col modal-body">
         <label class="col-form-label me-3">Token*</label>
         <div class="row">
-            <div class="col-8 float-left" [ngClass]="{'col-12': type === 'View', 'col-6': type !== 'View' }">
+            <div class="col-8 float-left" [ngClass]="{'col-12': type === 'View', 'col-9': type !== 'View' }">
                 <div class="mb-3 d-flex align-items-start">
                     <input
                         type="text"
@@ -53,9 +53,9 @@
                 </div>
             </div>
 
-            <div class="col">
+            <div class="col" >
                 <div *ngIf="type != 'View'">
-                    <button type="submit" class="btn btn-info btn-label">
+                    <button type="button" class="btn btn-info btn-label " (click)="generateToken()">
                         <i class="bi bi-key label-icon align-middle fs-16 me-2"></i>Generate
                     </button>
                 </div>

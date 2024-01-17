@@ -24,6 +24,7 @@ import { DEFAULT_TIMEOUT, TimeoutInterceptor } from './interceptors/timeout.inte
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AuthGuard } from './auth/auth.guard';
 import { AuthService } from './auth/auth.service';
+import { FormsModule } from '@angular/forms';
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -49,7 +50,8 @@ export function createTranslateLoader(http: HttpClient): any {
     LayoutsModule,
     PagesModule,
     NgbModule,
-    NgToastModule
+    NgToastModule,
+    FormsModule
   ],
   providers: [
     [{

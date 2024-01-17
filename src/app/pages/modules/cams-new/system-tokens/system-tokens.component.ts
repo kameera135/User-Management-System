@@ -14,6 +14,7 @@ import { UpdateConfirmationModalComponent } from 'src/app/shared/widget/config/u
   templateUrl: "./system-tokens.component.html",
   styleUrls: ["./system-tokens.component.scss"],
 })
+
 export class SystemTokensComponent {
 
   loadingInProgress: boolean = false;
@@ -276,10 +277,16 @@ export class SystemTokensComponent {
     createdDate: string,
     expireDate: string,
   ): void {
+
+    let modalSize = "s";
+    if (type === "Add" || type === 'Edit') {
+      modalSize = "lg";
+    }
+
     const modalRef = this.modalService.open(
       SystemTokenModalComponent,
       {
-        size: "s",
+        size:modalSize,
         centered: true,
         backdrop: "static",
         keyboard: false,

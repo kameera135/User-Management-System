@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgToastComponent, NgToastService } from 'ng-angular-popup';
 import { AppService } from 'src/app/app.service';
+import { HashService } from 'src/app/services/cams-new/hash.service';
 import { SystemToken } from 'src/app/shared/models/Cams-new/SystemToken';
 
 @Component({
@@ -26,10 +27,14 @@ export class SystemTokenModalComponent {
   cancelButtonName: string = "Cancel";
 
 
+
   constructor(
     public activeModal: NgbActiveModal,
     public notifierService: NgToastService,
-    public appService: AppService
+    public appService: AppService,
+    
+    //Import hashService
+    private hashService: HashService
 
   ){}
 
@@ -81,7 +86,17 @@ export class SystemTokenModalComponent {
 
 
     this.activeModal.close(token);
+
     
+  }
+
+  //to generate a token
+  generateToken(): void{
+
+    this.hashService.generateHash(this.token).then((hashValue) => {
+      this.token = hashValue;
+    });
+
   }
 
 }
