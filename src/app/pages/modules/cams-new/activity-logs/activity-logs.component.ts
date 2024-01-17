@@ -336,7 +336,7 @@ export class ActivityLogsComponent {
         this.alertService.sideErrorAlert(
           "Error",
           this.appService.popUpMessageConfig[0]
-            .GetPlatformComboboxListErrorSideAlertMessage
+            .GetRoleComboboxListErrorSideAlertMessage
         );
       },
     });
@@ -362,7 +362,9 @@ export class ActivityLogsComponent {
         error: (error: any) => {
           this.alertService.sideErrorAlert(
             "Error",
-            "Could not retrieve the data list."
+            //"Could not retrieve the data list."
+            this.appService.popUpMessageConfig[0]
+              .GetActivityLogsErrorSideAlertMessage
           );
 
           this.activityLogList = [];

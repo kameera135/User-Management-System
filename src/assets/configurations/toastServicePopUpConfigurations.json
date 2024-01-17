@@ -28,6 +28,7 @@
 
   "GetUserPlatformsAndRolesErrorSideAlertMessage": "Cannot retrive platforms & roles",
   "GetPlatformComboboxListErrorSideAlertMessage": "Could not retrieve the platform list.",
+  "GetRoleComboboxListErrorSideAlertMessage": "Could not retrieve the role list.",
 
   "GetUserListErrorSideAlertMessage": "Could not retrieve the data list.",
 
@@ -105,5 +106,8 @@
   "TokenUpdatedErrorSideAlertMessage": "Could not update Token.",
   "TokenDeletedSuccessSideAlertMessage": "Tokens deleted successfully !",
   "TokenDeletedNotificationMessage": "Token/s have been deleted",
-  "TokenDeletedErrorSideAlertMessage": "Could not delete Tokens."
+  "TokenDeletedErrorSideAlertMessage": "Could not delete Tokens.",
+
+  "GetPasswordPolicyErrorSideAlertMessage": "Could not retrieve the saved password policy.",
+  "GetActivityLogsErrorSideAlertMessage": "Could not retrieve activity logs."
 }

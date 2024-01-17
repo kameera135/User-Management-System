@@ -20,7 +20,6 @@ export class PasswordPolicyComponent {
   maxAttempts!: number;
   lockoutDuration!: number;
   lockoutDurationTimeUnit!: string;
-  retryAttempts!: number;
 
   canChangePasswordLengthMin: boolean = false;
   canChangePasswordLengthMax: boolean = false;
@@ -58,6 +57,53 @@ export class PasswordPolicyComponent {
       { label: "Password Policy", active: false },
       { label: "Password Policy", active: true },
     ]);
+
+    this.getPasswordPolicy();
+  }
+
+  getPasswordPolicy() {
+    this.shared.getPasswordPolicy().subscribe({
+      next: (response: any) => {
+        console.log(response);
+
+        this.passwordMinLength =
+          response.password_min_length.value || this.passwordMinLengthDefault;
+        this.passwordMaxLength =
+          response.password_max_length.value || this.passwordMaxLengthDefault;
+        this.passwordMinimumValidity = response.required.value || 0;
+        this.passwordMinimumValidityTimeUnit = response.required.unit || "";
+        this.passwordExpiry = response.password_expiry.value || 0;
+        this.passwordExpiryTimeUnit = response.password_expiry.unit || "";
+        this.passwordRepeatCheck = response.password_repeat_check.value || 0;
+        this.maxAttempts = response.max_attempts || 0;
+        this.lockoutDuration = response.lockout_duration.value || 0;
+        this.lockoutDurationTimeUnit = response.lockout_duration.unit || "";
+        this.canChangePasswordLengthMin =
+          response.password_min_length.isOn || false;
+        this.canChangePasswordLengthMax =
+          response.password_max_length.isOn || false;
+        this.canChangePasswordMinimumValidity = response.required.isOn || false;
+        this.canChangePasswordExpiry = response.password_expiry.isOn || false;
+        this.passwordExpiryWarning = response.password_expiry_warning || false;
+        this.canChangePasswordRepeatCheck =
+          response.password_repeat_check.isOn || false;
+        this.canChangeAccountLockout = response.account_lockout || false;
+        this.isAbleLetters = response.required.letters || false;
+        this.isAbleNumericCharacters =
+          response.required.numeric_characters || false;
+        this.isAbleSpecialCharacters =
+          response.required.special_characters || false;
+        this.isAbleMixedCaseLetters =
+          response.required.mixed_case_letters || false;
+      },
+      error: (error) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0]
+            .GetPasswordPolicyErrorSideAlertMessage
+        );
+      },
+    });
   }
 
   toggleChangePasswordLengthMin() {
@@ -119,4 +165,7 @@ export class PasswordPolicyComponent {
     }
     //have to develop this method
   }
+
+  //UMS_PP
+  //{"password_min_length":{"isOn":false,"value":1},"password_max_length":{"isOn":false,"value":50},"required":{"letters":false,"numeric_characters":false,"special_characters":false,"mixed_case_letters":false},"password_expiry":{"isOn":false,"value":50,"unit":"DY"},"password_expiry_warning":false,"password_repeat_check":{"isOn":false,"value":50},"account_lockout":false,"max_attempts":5,"lockout_duration":{"value":50,"unit":"DY"}}
 }

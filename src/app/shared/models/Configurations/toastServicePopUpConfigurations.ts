@@ -46,6 +46,7 @@ export interface toastServicePopUpConfigurations {
   GetUserPlatformsAndRolesErrorSideAlertMessage: string;
 
   GetPlatformComboboxListErrorSideAlertMessage: string;
+  GetRoleComboboxListErrorSideAlertMessage: string;
 
   NoDataNotificationMessage: string;
 
@@ -124,4 +125,8 @@ export interface toastServicePopUpConfigurations {
   TokenDeletedSuccessSideAlertMessage: string;
   TokenDeletedNotificationMessage: string;
   TokenDeletedErrorSideAlertMessage: string;
+
+  GetPasswordPolicyErrorSideAlertMessage: string;
+
+  GetActivityLogsErrorSideAlertMessage: string;
 }
