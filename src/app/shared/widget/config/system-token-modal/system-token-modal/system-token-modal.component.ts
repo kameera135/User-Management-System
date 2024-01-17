@@ -63,12 +63,7 @@ export class SystemTokenModalComponent {
   }
 
   onFormSubmit() {
-    if (
-      this.id == "" ||
-      this.token == "" ||
-      this.createdDate == "" ||
-      this.expireDate == "" 
-    ) {
+    if (this.token == "" ) {
       this.notifierService.warning({
         detail: "Warning",
         summary: "Please fill required fields",

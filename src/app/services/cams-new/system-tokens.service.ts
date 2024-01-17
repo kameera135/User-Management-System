@@ -68,7 +68,7 @@ export class SystemTokensService {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("createdBy", this.user.id);
 
-    return this.httpClient.post(`${this.apiUrl}/end-point`, model, {
+    return this.httpClient.post(`${this.apiUrl}/api/token`, model, {
       params: queryParams,
     });
   }
