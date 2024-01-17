@@ -106,6 +106,48 @@ export class PasswordPolicyComponent {
     });
   }
 
+  onSubmitClicked() {
+    var updatedSetting = `{"password_min_length":{"isOn":${this.canChangePasswordLengthMin},"value":${this.passwordMinLength}},
+    "password_max_length":{"isOn":${this.canChangePasswordLengthMax},"value":${this.passwordMaxLength}},
+    "required":{"letters":${this.isAbleLetters},"numeric_characters":${this.isAbleNumericCharacters},"special_characters":${this.passwordMaxLength},"mixed_case_letters":${this.isAbleMixedCaseLetters}},
+    "password_expiry":{"isOn":${this.canChangePasswordExpiry},"value":${this.passwordExpiry},"unit":"${this.passwordExpiryTimeUnit}"},
+    "password_expiry_warning":${this.passwordExpiryWarning},
+    "password_repeat_check":{"isOn":${this.canChangePasswordRepeatCheck},"value":${this.passwordRepeatCheck}},
+    "account_lockout":${this.canChangeAccountLockout},
+    "max_attempts":${this.maxAttempts}, 
+    "lockout_duration":{"value":${this.lockoutDuration},"unit":"${this.lockoutDurationTimeUnit}"}}`;
+
+    this.postPasswordPolicy(updatedSetting);
+  }
+
+  postPasswordPolicy(updatedSetting: string) {
+    debugger;
+    this.shared.putPasswordPolicy(updatedSetting).subscribe({
+      next: (response) => {
+        console.log(response);
+
+        this.alertService.sideSuccessAlert(
+          "Success",
+          this.appService.popUpMessageConfig[0]
+            .PasswordPolicyUpdatedSuccessSideAlertMessage
+        );
+        this.alertService.successSweetAlertMessage(
+          this.appService.popUpMessageConfig[0]
+            .PasswordPolicyUpdatedNotificationMessage,
+          "Updated!",
+          4000
+        );
+      },
+      error: (error) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0]
+            .PasswordPolicyUpdatedErrorSideAlertMessage
+        );
+      },
+    });
+  }
+
   toggleChangePasswordLengthMin() {
     this.canChangePasswordLengthMin = !this.canChangePasswordLengthMin;
   }

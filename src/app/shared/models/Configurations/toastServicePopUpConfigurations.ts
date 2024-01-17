@@ -127,6 +127,9 @@ export interface toastServicePopUpConfigurations {
   TokenDeletedErrorSideAlertMessage: string;
 
   GetPasswordPolicyErrorSideAlertMessage: string;
+  PasswordPolicyUpdatedNotificationMessage: string;
+  PasswordPolicyUpdatedSuccessSideAlertMessage: string;
+  PasswordPolicyUpdatedErrorSideAlertMessage: string;
 
   GetActivityLogsErrorSideAlertMessage: string;
 }
