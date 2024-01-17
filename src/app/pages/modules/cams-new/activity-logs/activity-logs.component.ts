@@ -34,7 +34,7 @@ export class ActivityLogsComponent {
   searchTerm!: string;
 
   roleList: any[] = [];
-  selectedRole!: number;
+  selectedRole!: any;
   platformList: any[] = [];
   selectedPlatform!: number;
 
@@ -95,31 +95,162 @@ export class ActivityLogsComponent {
   loadData() {
     this.loadingInProgress = true;
 
-    if (this.isInitialized == false) {
-      this.getActivityLogs(
-        this.thisYear,
-        this.thisMonth,
-        this.selectedPage,
-        this.selectedPageSize,
-        0,
-        0
-      );
-
-      this.selectedYear = this.thisYear;
-      this.selectedMonth = this.thisMonth;
-      this.selectedPlatform = 0;
-      this.selectedRole = 0;
-
-      this.isInitialized = true;
-    } else {
-      this.getActivityLogs(
-        this.selectedYear,
-        this.selectedMonth,
-        this.selectedPage,
-        this.selectedPageSize,
-        this.selectedPlatform,
-        this.selectedRole
-      );
+    if (this.selectedYear == undefined) {
+      if (this.selectedMonth == undefined) {
+        if (this.selectedPlatform == 0 || this.selectedPlatform == undefined) {
+          this.getActivityLogs(
+            this.thisYear,
+            this.thisMonth,
+            this.selectedPage,
+            this.selectedPageSize,
+            0,
+            0
+          );
+        } else if (
+          this.selectedPlatform != 0 &&
+          this.selectedPlatform != undefined &&
+          (this.selectedRole == 0 || this.selectedRole == undefined)
+        ) {
+          this.getActivityLogs(
+            this.thisYear,
+            this.thisMonth,
+            this.selectedPage,
+            this.selectedPageSize,
+            this.selectedPlatform,
+            0
+          );
+        } else if (
+          this.selectedPlatform != 0 &&
+          this.selectedPlatform != undefined &&
+          this.selectedRole != 0 &&
+          this.selectedRole != undefined
+        ) {
+          this.getActivityLogs(
+            this.thisYear,
+            this.thisMonth,
+            this.selectedPage,
+            this.selectedPageSize,
+            this.selectedPlatform,
+            this.selectedRole
+          );
+        }
+      } else if (this.selectedMonth != undefined) {
+        if (this.selectedPlatform == 0 || this.selectedPlatform == undefined) {
+          this.getActivityLogs(
+            this.thisYear,
+            this.selectedMonth,
+            this.selectedPage,
+            this.selectedPageSize,
+            0,
+            0
+          );
+        } else if (
+          this.selectedPlatform != 0 &&
+          this.selectedPlatform != undefined &&
+          (this.selectedRole == 0 || this.selectedRole == undefined)
+        ) {
+          this.getActivityLogs(
+            this.thisYear,
+            this.selectedMonth,
+            this.selectedPage,
+            this.selectedPageSize,
+            this.selectedPlatform,
+            0
+          );
+        } else if (
+          this.selectedPlatform != 0 &&
+          this.selectedPlatform != undefined &&
+          this.selectedRole != 0 &&
+          this.selectedRole != undefined
+        ) {
+          this.getActivityLogs(
+            this.thisYear,
+            this.selectedMonth,
+            this.selectedPage,
+            this.selectedPageSize,
+            this.selectedPlatform,
+            this.selectedRole
+          );
+        }
+      }
+    } else if (this.selectedYear != undefined) {
+      if (this.selectedMonth == undefined) {
+        if (this.selectedPlatform == 0 || this.selectedPlatform == undefined) {
+          this.getActivityLogs(
+            this.selectedYear,
+            this.thisMonth,
+            this.selectedPage,
+            this.selectedPageSize,
+            0,
+            0
+          );
+        } else if (
+          this.selectedPlatform != 0 &&
+          this.selectedPlatform != undefined &&
+          (this.selectedRole == 0 || this.selectedRole == undefined)
+        ) {
+          this.getActivityLogs(
+            this.selectedYear,
+            this.thisMonth,
+            this.selectedPage,
+            this.selectedPageSize,
+            this.selectedPlatform,
+            0
+          );
+        } else if (
+          this.selectedPlatform != 0 &&
+          this.selectedPlatform != undefined &&
+          this.selectedRole != 0 &&
+          this.selectedRole != undefined
+        ) {
+          this.getActivityLogs(
+            this.selectedYear,
+            this.thisMonth,
+            this.selectedPage,
+            this.selectedPageSize,
+            this.selectedPlatform,
+            this.selectedRole
+          );
+        }
+      } else if (this.selectedMonth != undefined) {
+        if (this.selectedPlatform == 0 || this.selectedPlatform == undefined) {
+          this.getActivityLogs(
+            this.selectedYear,
+            this.selectedMonth,
+            this.selectedPage,
+            this.selectedPageSize,
+            0,
+            0
+          );
+        } else if (
+          this.selectedPlatform != 0 &&
+          this.selectedPlatform != undefined &&
+          (this.selectedRole == 0 || this.selectedRole == undefined)
+        ) {
+          this.getActivityLogs(
+            this.selectedYear,
+            this.selectedMonth,
+            this.selectedPage,
+            this.selectedPageSize,
+            this.selectedPlatform,
+            0
+          );
+        } else if (
+          this.selectedPlatform != 0 &&
+          this.selectedPlatform != undefined &&
+          this.selectedRole != 0 &&
+          this.selectedRole != undefined
+        ) {
+          this.getActivityLogs(
+            this.selectedYear,
+            this.selectedMonth,
+            this.selectedPage,
+            this.selectedPageSize,
+            this.selectedPlatform,
+            this.selectedRole
+          );
+        }
+      }
     }
   }
 
@@ -164,8 +295,8 @@ export class ActivityLogsComponent {
 
   onPlatformSelect() {
     this.getRoleList();
+    this.selectedRole = undefined;
     this.loadData();
-    this.selectedRole = 0;
   }
 
   getPlatformList() {
