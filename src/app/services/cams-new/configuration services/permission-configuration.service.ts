@@ -37,14 +37,27 @@ export class PermissionConfigurationService {
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
-  getSearchedPermissions(searchedTerm: string, page: number, pageSize: number) {
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append("viewedBy", this.user.id);
-    queryParams = queryParams.append("searchedTerm", searchedTerm);
-    queryParams = queryParams.append("page", page);
-    queryParams = queryParams.append("pageSize", pageSize);
+  // getSearchedPermissions(searchedTerm: string, page: number, pageSize: number) {
+  //   let queryParams = new HttpParams();
+  //   queryParams = queryParams.append("viewedBy", this.user.id);
+  //   queryParams = queryParams.append("searchedTerm", searchedTerm);
+  //   queryParams = queryParams.append("page", page);
+  //   queryParams = queryParams.append("pageSize", pageSize);
 
-    const url = `${this.apiUrl}/end-point`;
+  //   const url = `${this.apiUrl}/end-point`;
+  //   return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
+  // }
+
+  getSearchedPermissions(
+    searchedTerm: string,
+    page: number,
+    page_size: number
+  ) {
+    let queryParams = new HttpParams();
+    //queryParams = queryParams.append("viewedBy", this.user.id);
+    queryParams = queryParams.append("searchedPermissionName", searchedTerm);
+
+    const url = `${this.apiUrl}/api/configuration/permissions/${page}/${page_size}`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 

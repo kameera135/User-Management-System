@@ -49,6 +49,7 @@ export interface toastServicePopUpConfigurations {
   GetRoleComboboxListErrorSideAlertMessage: string;
 
   NoDataNotificationMessage: string;
+  CouldNotRetriveDataErrorSideAlertMessage: string;
 
   UpdatePlatformConfirmationMessage: string;
   DeletePlatformConfirmationMessage: string;

@@ -12,6 +12,8 @@
 
   "NoDataNotificationMessage": "Did not find any data.",
 
+  "CouldNotRetriveDataErrorSideAlertMessage": "Could not retrive data",
+
   "UpdateUserConfirmationMessage": "You want to update user details?",
   "UserUpdatedNotificationMessage": "User has been updated",
   "UserUpdatedSuccessSideAlertMessage": "User updated successfully !",
