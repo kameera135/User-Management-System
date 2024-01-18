@@ -69,8 +69,8 @@ export class PermissionConfigurationComponent {
   headArray = [
     { Head: "", FieldName: "", ColumnType: "CheckBox" },
     {
-      Head: "Permission Code",
-      FieldName: "PermissionCode",
+      Head: "Permission Id",
+      FieldName: "PermissionId",
       ColumnType: "Data",
     },
     {
@@ -284,8 +284,8 @@ export class PermissionConfigurationComponent {
 
   updateTable() {
     this.permissionDetailsArray = this.permissionList.map((item) => ({
-      PermissionCode: item.permissionId,
-      PermissionName: item.permission1,
+      PermissionId: item.permissionId,
+      PermissionName: item.permission,
       //CreatedDate: item.createdDate,
       Status: item.status,
       isRejecteableOrApprovableRecord: true,
@@ -310,7 +310,7 @@ export class PermissionConfigurationComponent {
     this.openModal(
       "Edit",
       "Edit Permission Details",
-      row.PermissionCode,
+      row.permissionId,
       row.PermissionName,
       row.CreatedDate,
       row.Status
@@ -321,7 +321,7 @@ export class PermissionConfigurationComponent {
     this.openModal(
       "View",
       "Permission Details",
-      row.PermissionCode,
+      row.permissionId,
       row.PermissionName,
       row.CreatedDate,
       row.Status
@@ -331,7 +331,7 @@ export class PermissionConfigurationComponent {
   openModal(
     type: string,
     modalTitle: string,
-    permissionCode: string,
+    permissionId: string,
     permissionName: string,
     createdDate: string,
     status: string
@@ -349,7 +349,7 @@ export class PermissionConfigurationComponent {
     modalRef.componentInstance.type = type;
     modalRef.componentInstance.modalTitle = modalTitle;
 
-    modalRef.componentInstance.permissionCode = permissionCode;
+    modalRef.componentInstance.permissionId = permissionId;
     modalRef.componentInstance.permissionName = permissionName;
     modalRef.componentInstance.createdDate = createdDate;
     modalRef.componentInstance.status = status;
@@ -384,7 +384,7 @@ export class PermissionConfigurationComponent {
                   this.openModal(
                     "Edit",
                     "Edit Permission Details",
-                    permissionCode,
+                    permissionId,
                     permissionName,
                     createdDate,
                     status
@@ -394,7 +394,7 @@ export class PermissionConfigurationComponent {
                   this.openModal(
                     "View",
                     "Permission",
-                    permissionCode,
+                    permissionId,
                     permissionName,
                     createdDate,
                     status
@@ -486,9 +486,9 @@ export class PermissionConfigurationComponent {
 
   deletePermission(items: any): void {
     let ids: number[] = [];
-
+    console.log("items", items);
     items.forEach((element: any) => {
-      ids.push(element.id);
+      ids.push(element.PermissionId);
     });
 
     this.removePermissions(ids);

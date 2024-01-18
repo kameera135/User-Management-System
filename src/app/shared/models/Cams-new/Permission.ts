@@ -1,6 +1,7 @@
 export class Permission {
-  permissionId!: string;
-  permission1!: string;
+  permissionId!: number;
+  platformId!: number;
+  permission!: string;
   //createdDate!: string;
   status!: string;
 }

@@ -82,28 +82,39 @@ export class PermissionConfigurationService {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("createdBy", this.user.id);
 
-    return this.httpClient.post(`${this.apiUrl}/end-point`, model, {
-      params: queryParams,
-    });
+    return this.httpClient.post(
+      `${this.apiUrl}/api/configuration/permission`,
+      model,
+      {
+        params: queryParams,
+      }
+    );
   }
 
   putPermission(model: Permission) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("updatedBy", this.user.id);
 
-    return this.httpClient.put(`${this.apiUrl}/end-point`, model, {
-      params: queryParams,
-    });
+    return this.httpClient.put(
+      `${this.apiUrl}/api/configuration/permission`,
+      model,
+      {
+        params: queryParams,
+      }
+    );
   }
 
   deletePermission(list: number[]) {
-    //list is the id list oflPermissions which have to be deleted
     let queryParams = new HttpParams();
     queryParams = queryParams.append("deletedBy", this.user.id);
 
-    return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
-      params: queryParams,
-    });
+    return this.httpClient.delete(
+      `${this.apiUrl}/api/configuration/permissions`,
+      {
+        params: queryParams,
+        body: list,
+      }
+    );
   }
 
   activatePermissions(list: any[]) {

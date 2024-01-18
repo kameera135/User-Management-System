@@ -21,8 +21,8 @@
         <input
           type="text"
           class="form-control"
-          [(ngModel)]="permissionCode"
-          name="permissionCode"
+          [(ngModel)]="permissionId"
+          name="permissionId"
           [disabled]="type == 'View'"
         />
         <div class="input-group"></div>
@@ -65,7 +65,7 @@
         <select
           class="form-select"
           aria-label="Platform"
-          [(ngModel)]="selectedRole"
+          [(ngModel)]="selectedPlatform"
           [disabled]="type == 'View'"
         >
           <!-- <option selected value="">Select...</option> -->
