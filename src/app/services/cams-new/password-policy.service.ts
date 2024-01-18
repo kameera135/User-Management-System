@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
 import { AppService } from "src/app/app.service";
 
 @Injectable({
@@ -11,12 +12,12 @@ export class PasswordPolicyService {
   apiUrl = this.appService.appConfig[0].apiUrl;
   user = this.appService.user;
 
-  getPasswordPolicy() {
+  getPasswordPolicy(): Observable<any> {
     let queryParams = new HttpParams();
     //queryParams = queryParams.append("viewedBy", this.user.id);
 
     const url = `${this.apiUrl}/api/common/settings/system-data/UMS_PP`;
-    return this.httpClient.get(url, { params: queryParams });
+    return this.httpClient.get<any>(url);
   }
 
   putPasswordPolicy(setting: string) {
