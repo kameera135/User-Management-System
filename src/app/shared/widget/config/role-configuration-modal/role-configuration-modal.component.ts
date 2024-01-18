@@ -2,6 +2,8 @@ import { Component, Input } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgToastService } from "ng-angular-popup";
 import { AppService } from "src/app/app.service";
+import { MessageService } from "src/app/services/PopupMessages/message.service";
+import { RoleConfigurationService } from "src/app/services/cams-new/configuration services/role-configuration.service";
 import { Role as Role } from "src/app/shared/models/Cams-new/Role";
 
 interface ListItem {
@@ -24,11 +26,11 @@ export class RoleConfigurationModalComponent {
   @Input() type!: string;
   @Input() modalTitle!: string;
 
-  @Input() roleCode!: string;
+  @Input() roleCode!: number;
   @Input() roleName!: string;
   @Input() createdDate!: string;
   @Input() description!: string;
-  @Input() status!: string;
+  @Input() status!: boolean;
   @Input() permission!: string;
   @Input() platform!: string
 
@@ -37,11 +39,12 @@ export class RoleConfigurationModalComponent {
   cancelButtonIcon: string = "bi-x-circle-fill";
   cancelButtonName: string = "Cancel";
 
-  selectedRole: string = "User Managemant System";
-
   disablePlatforms: boolean = false; 
 
   isEditable: boolean = true;
+
+  platformListDefault: any[] = [{ value: "All Platforms", id: "0" }];
+  selectedPlatform!: number;
 
   // Array to hold the dropdown options
   statusOptions: { label: string, value: string }[] = [
@@ -52,7 +55,9 @@ export class RoleConfigurationModalComponent {
   constructor(
     public activeModal: NgbActiveModal,
     private notifierService: NgToastService,
-    private appService: AppService
+    private appService: AppService,
+    private shared: RoleConfigurationService,
+    private alertService: MessageService
   ) {}
 
   ngOnInit() {
@@ -77,15 +82,17 @@ export class RoleConfigurationModalComponent {
     } else {
       this.disablePlatforms = false;
     }
+
+    this.getPlatformList();
   }
 
   onFormSubmit() {
     if (
-      this.roleCode == "" ||
+      this.roleCode == null ||
       this.roleName == "" ||
       this.createdDate == "" ||
       this.description == "" ||
-      this.status == ""
+      this.status == null
     ) {
       this.notifierService.warning({
         detail: "Warning",
@@ -98,7 +105,7 @@ export class RoleConfigurationModalComponent {
     const role = new Role();
     role.roleId = this.roleCode;
     role.role = this.roleName;
-    // role.createdDate = this.createdDate;
+    role.createdAt = this.createdDate;
     // role.description = this.description;
     role.status = this.status;
 
@@ -128,5 +135,25 @@ export class RoleConfigurationModalComponent {
 
       // Hide the list items view after adding items to textarea
       this.showListItems = false;
+  }
+
+  getPlatformList() {
+    this.shared.getPlatformList().subscribe({
+      next: (response: any) => {
+        this.platformList = response;
+
+        var platforms = this.platformList;
+        for (let i = 0; i < platforms.length; i++) {
+          this.platformListDefault.push(platforms[i]);
+        }
+      },
+      error: (error) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0]
+            .GetPlatformComboboxListErrorSideAlertMessage
+        );
+      },
+    });
   }
 }

@@ -110,4 +110,12 @@ export class RoleConfigurationService {
       params: queryParams,
     });
   }
+
+  getPlatformList() {
+    let queryParams = new HttpParams();
+    //queryParams = queryParams.append("viewedBy", this.user.id);
+
+    const url = `${this.apiUrl}/api/configuration/platforms/combobox`;
+    return this.httpClient.get(url, { params: queryParams });
+  }
 }

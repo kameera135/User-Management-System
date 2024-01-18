@@ -55,7 +55,7 @@
       </div>
     </div> -->
 
-    <div class="col-12">
+    <!-- <div class="col-12">
       <div class="mb-3">
         <label class="col-form-label">Platforms</label>
         <select
@@ -63,12 +63,32 @@
           aria-label="Platform"
           [(ngModel)]="platform"
           [disabled]="!isEditable || type === 'View'"
-        >
+        > -->
           <!-- <option selected value="">Select...</option> -->
-          <option *ngFor="let item of platformList" [value]="item.value">
+          <!-- <option *ngFor="let item of platformList" [value]="item.value">
             {{ item.value }}
           </option>
         </select>
+      </div>
+    </div> -->
+
+    <div class="col-12" *ngIf="type != 'View'">
+      <div class="mb-3">
+        <label class="col-form-label">Platform</label>
+        <ng-select
+        [(ngModel)]="selectedPlatform"
+        [multiple]="false"
+        [placeholder]="platformListDefault[0].value"
+        name="platform-comboBox"
+        [clearable]="false"
+      >
+        <ng-option
+          *ngFor="let item of platformListDefault"
+          [value]="item.id"
+        >
+          {{ item.value }}
+        </ng-option>
+      </ng-select>
       </div>
     </div>
 

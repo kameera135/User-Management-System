@@ -284,7 +284,7 @@ export class PermissionConfigurationComponent {
 
   updateTable() {
     this.permissionDetailsArray = this.permissionList.map((item) => ({
-      PermissionId: item.permissionId,
+      PermissionId: 'PE '+item.permissionId,
       PermissionName: item.permission,
       //CreatedDate: item.createdDate,
       Status: item.status ? "Actived" : "Deactivated",

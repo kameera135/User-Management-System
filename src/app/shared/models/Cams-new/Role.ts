@@ -1,7 +1,7 @@
 export class Role {
-  roleId!: string;
+  roleId!: number;
   role!: string;
   // description!: string;
   createdAt!: string;
-  status!: string;
+  status!: boolean;
 }

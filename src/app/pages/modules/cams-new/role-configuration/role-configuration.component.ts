@@ -255,11 +255,11 @@ export class RoleConfigurationComponent {
   updateTable() {
 
     this.roleDetailsArray = this.roleList.map((item) => ({
-      RoleCode: item.roleId,
+      RoleCode: 'RL '+item.roleId,
       RoleName: item.role,
       // Description: item.description,
-      // CreatedDate: item.createdDate,
-      Status: item.status,
+      CreatedDate:  new Date(item.createdAt).toLocaleDateString(),
+      Status: item.status ? "Actived" : "Deactivated",
       isRejecteableOrApprovableRecord:true
 
     }));

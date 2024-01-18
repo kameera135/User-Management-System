@@ -152,7 +152,7 @@ export class PlatformConfigurationComponent {
 
   updateTable() {
     this.platformDetailsArray = this.platformList.map((item) => ({
-      PlatformId: item.platformId,
+      PlatformId: 'PL '+item.platformId,
       PlatformName: item.platformName,
       Description: item.description,
       PlatformUrl: item.platformUrl,
