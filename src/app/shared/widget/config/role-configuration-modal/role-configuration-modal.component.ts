@@ -97,7 +97,7 @@ export class RoleConfigurationModalComponent {
 
     const role = new Role();
     role.roleId = this.roleCode;
-    role.role1 = this.roleName;
+    role.role = this.roleName;
     // role.createdDate = this.createdDate;
     // role.description = this.description;
     role.status = this.status;

@@ -256,7 +256,7 @@ export class RoleConfigurationComponent {
 
     this.roleDetailsArray = this.roleList.map((item) => ({
       RoleCode: item.roleId,
-      RoleName: item.role1,
+      RoleName: item.role,
       // Description: item.description,
       // CreatedDate: item.createdDate,
       Status: item.status,
