@@ -97,7 +97,7 @@ export class RoleConfigurationService {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("activatedBy", this.user.id);
 
-    return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
+    return this.httpClient.put(`${this.apiUrl}/api/configuration/roles/deactivate`, list, {
       params: queryParams,
     });
   }
@@ -106,7 +106,7 @@ export class RoleConfigurationService {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("deactivatedBy", this.user.id);
 
-    return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
+    return this.httpClient.put(`${this.apiUrl}/api/configuration/roles/deactivate`, list, {
       params: queryParams,
     });
   }
