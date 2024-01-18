@@ -11,7 +11,7 @@ import { Permission } from "src/app/shared/models/Cams-new/Permission";
 })
 export class PermissionConfigurationModalComponent {
   roleList: any[] = this.appService.appConfig[0].roleList;
-  platformList : any[] = this.appService.appConfig[0].platformList;
+  platformList: any[] = this.appService.appConfig[0].platformList;
 
   selectedRole: string = "User Managemant System";
 
@@ -20,7 +20,7 @@ export class PermissionConfigurationModalComponent {
 
   @Input() permissionCode!: string;
   @Input() permissionName!: string;
-  @Input() description!: string;
+  // @Input() description!: string;
   @Input() createdDate!: string;
   @Input() status!: string;
 
@@ -31,9 +31,9 @@ export class PermissionConfigurationModalComponent {
 
   loadingInProgress: boolean = false;
 
-  statusOptions: { label: string, value: string }[] = [
-    { label: 'Active', value: 'Active' },
-    { label: 'Deactive', value: 'Deactive' }
+  statusOptions: { label: string; value: string }[] = [
+    { label: "Active", value: "Active" },
+    { label: "Deactive", value: "Deactive" },
   ];
 
   constructor(
@@ -54,8 +54,8 @@ export class PermissionConfigurationModalComponent {
       this.buttonIcon = "bi-pencil-fill";
     }
 
-      this.cancelButtonIcon;
-      this.cancelButtonName;
+    this.cancelButtonIcon;
+    this.cancelButtonName;
   }
 
   onFormSubmit() {
@@ -83,23 +83,22 @@ export class PermissionConfigurationModalComponent {
   }
 
   headArray = [
-  
     { Head: "Platforms", FieldName: "Platforms", ColumnType: "Data" },
     { Head: "Role", FieldName: "Role", ColumnType: "Data" },
   ];
 
   tableData = [
-      {
-        Platforms: "Airecone Extention System",
-        Role: "Facility Manager",
-      },
-      {
-        Platforms: "Tenant Billing System",
-        Role: "Tenant Manager",
-      },
-      {
-        Platforms: "Airecone Extention System",
-        Role: "Tenant Manager",
-      }
-    ];
+    {
+      Platforms: "Airecone Extention System",
+      Role: "Facility Manager",
+    },
+    {
+      Platforms: "Tenant Billing System",
+      Role: "Tenant Manager",
+    },
+    {
+      Platforms: "Airecone Extention System",
+      Role: "Tenant Manager",
+    },
+  ];
 }
