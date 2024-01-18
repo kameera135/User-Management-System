@@ -21,15 +21,20 @@
         <input
           type="text"
           class="form-control"
-          [(ngModel)]="permissionCode"
-          name="permissionCode"
+          [(ngModel)]="permissionId"
+          name="permissionId"
           [disabled]="type == 'View'"
         />
         <div class="input-group"></div>
       </div>
     </div>
 
-    <div [ngClass]="{'col-12': type === 'Add' || type === 'Edit', 'col-6': type !== 'Add' && type !== 'Edit'}">
+    <div
+      [ngClass]="{
+        'col-12': type === 'Add' || type === 'Edit',
+        'col-6': type !== 'Add' && type !== 'Edit'
+      }"
+    >
       <div class="mb-3">
         <label class="col-form-label">Permission*</label>
         <input
@@ -42,7 +47,7 @@
       </div>
     </div>
 
-    <div class="col-12">
+    <!-- <div class="col-12">
       <div class="mb-3">
         <label class="col-form-label">Description*</label>
         <textarea
@@ -52,7 +57,7 @@
           name="description"
           [disabled]="type == 'View'"></textarea>
       </div>
-    </div>
+    </div> -->
 
     <div class="col-12" *ngIf="type != 'View'">
       <div class="mb-3">
@@ -60,7 +65,7 @@
         <select
           class="form-select"
           aria-label="Platform"
-          [(ngModel)]="selectedRole"
+          [(ngModel)]="selectedPlatform"
           [disabled]="type == 'View'"
         >
           <!-- <option selected value="">Select...</option> -->
@@ -77,7 +82,8 @@
         <app-table
           *ngIf="!loadingInProgress"
           [headArray]="headArray"
-          [dataArray]="tableData">
+          [dataArray]="tableData"
+        >
         </app-table>
       </div>
     </div>
@@ -98,12 +104,12 @@
     <div class="col-6" *ngIf="type != 'Add'">
       <div class="mb-3">
         <label class="col-form-label">Status</label>
-        <select 
+        <select
           class="form-select"
           [(ngModel)]="status"
           name="status"
-          [disabled]="type === 'View'">
-
+          [disabled]="type === 'View'"
+        >
           <option *ngFor="let option of statusOptions" [value]="option.value">
             {{ option.label }}
           </option>
@@ -118,9 +124,16 @@
           >{{ buttonName }}
         </button>
 
-         <!--Cancel button-->
-         <button type="button" class="btn btn-danger btn-label mt-3 ms-2" (click)="activeModal.dismiss()">
-          <i class="bi {{ cancelButtonIcon }} label-icon align-middle fs-16 me-2"></i>{{ cancelButtonName }}
+        <!--Cancel button-->
+        <button
+          type="button"
+          class="btn btn-danger btn-label mt-3 ms-2"
+          (click)="activeModal.dismiss()"
+        >
+          <i
+            class="bi {{ cancelButtonIcon }} label-icon align-middle fs-16 me-2"
+          ></i
+          >{{ cancelButtonName }}
         </button>
       </div>
     </div>

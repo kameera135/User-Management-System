@@ -60,28 +60,39 @@ export class PlatformConfigurationService {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("createdBy", this.user.id);
 
-    return this.httpClient.post(`${this.apiUrl}/api/platform`, model, {
-      params: queryParams,
-    });
+    return this.httpClient.post(
+      `${this.apiUrl}/api/configuration/platform`,
+      model,
+      {
+        params: queryParams,
+      }
+    );
   }
 
   putPlatform(model: Platform) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("updatedBy", this.user.id);
 
-    return this.httpClient.put(`${this.apiUrl}/api/platform`, model, {
-      params: queryParams,
-    });
+    return this.httpClient.put(
+      `${this.apiUrl}/api/configuration/platform`,
+      model,
+      {
+        params: queryParams,
+      }
+    );
   }
 
   deletePlatform(list: number[]) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("deletedBy", this.user.id);
 
-    return this.httpClient.delete(`${this.apiUrl}/api/platforms`, {
-      params: queryParams,
-      body: list,
-    });
+    return this.httpClient.delete(
+      `${this.apiUrl}/api/configuration/platforms`,
+      {
+        params: queryParams,
+        body: list,
+      }
+    );
   }
 
   // activatePlatform(list: any[]) {

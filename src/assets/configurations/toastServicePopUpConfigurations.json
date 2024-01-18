@@ -12,6 +12,8 @@
 
   "NoDataNotificationMessage": "Did not find any data.",
 
+  "CouldNotRetriveDataErrorSideAlertMessage": "Could not retrive data",
+
   "UpdateUserConfirmationMessage": "You want to update user details?",
   "UserUpdatedNotificationMessage": "User has been updated",
   "UserUpdatedSuccessSideAlertMessage": "User updated successfully !",
@@ -108,6 +110,10 @@
   "TokenDeletedNotificationMessage": "Token/s have been deleted",
   "TokenDeletedErrorSideAlertMessage": "Could not delete Tokens.",
 
+  "GetActivityLogsErrorSideAlertMessage": "Could not retrieve activity logs.",
+
   "GetPasswordPolicyErrorSideAlertMessage": "Could not retrieve the saved password policy.",
-  "GetActivityLogsErrorSideAlertMessage": "Could not retrieve activity logs."
+  "PasswordPolicyUpdatedNotificationMessage": "Password policy has been updated",
+  "PasswordPolicyUpdatedSuccessSideAlertMessage": "Password policy updated successfully !",
+  "PasswordPolicyUpdatedErrorSideAlertMessage": "Could not update password policy."
 }

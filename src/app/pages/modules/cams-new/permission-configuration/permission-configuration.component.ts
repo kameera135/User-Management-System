@@ -62,14 +62,17 @@ export class PermissionConfigurationComponent {
   selectedPage: number = 1;
 
   platformList: any[] = [{ value: "All", id: 1 }];
-  permissionDetailsArray: any = []
-
+  permissionDetailsArray: any = [];
 
   permissionConfigTableOptions: tableOptions = new tableOptions();
 
   headArray = [
     { Head: "", FieldName: "", ColumnType: "CheckBox" },
-    { Head: "Permission Code", FieldName: "PermissionCode", ColumnType: "Data" },
+    {
+      Head: "Permission Id",
+      FieldName: "PermissionId",
+      ColumnType: "Data",
+    },
     {
       Head: "Permission Name",
       FieldName: "PermissionName",
@@ -83,7 +86,6 @@ export class PermissionConfigurationComponent {
   dataArray: any[] = [];
 
   tableData: any = [];
-  
 
   // yearList = [
   //   { value: '', id: 0 }
@@ -116,7 +118,7 @@ export class PermissionConfigurationComponent {
     private reportService: ReportService,
     private modalService: NgbModal,
     private alertService: MessageService,
-    private shared: PermissionConfigurationService,
+    private shared: PermissionConfigurationService
   ) {}
 
   ngOnInit(): void {
@@ -162,34 +164,57 @@ export class PermissionConfigurationComponent {
   //   window.alert(selectedItems.map(x => x.unitName).join(", ") + " selected")
   // }
 
+  // loadData() {
+  //   this.loadingInProgress = true;
+  //   if (
+  //     (this.serchedTerm == undefined ||
+  //       this.serchedTerm == null ||
+  //       this.serchedTerm == "") &&
+  //     (this.selectedPermission == undefined ||
+  //       this.selectedPermission == null ||
+  //       this.selectedPermission == "All" ||
+  //       this.selectedPermission == "")
+  //   ) {
+  //     this.getAllPermissions();
+  //   } else if (
+  //     (this.serchedTerm != undefined ||
+  //       this.serchedTerm != null ||
+  //       this.serchedTerm != "") &&
+  //     (this.selectedPermission == undefined ||
+  //       this.selectedPermission == null ||
+  //       this.selectedPermission == "All" ||
+  //       this.selectedPermission == "")
+  //   ) {
+  //     this.searchPermissions(this.serchedTerm);
+  //   } else {
+  //     this.getAllPermissions();
+  //     this.alertService.sideErrorAlert("Error", "Could not retrive data");
+  //   }
+  // }
+
   loadData() {
     this.loadingInProgress = true;
     if (
-      (this.serchedTerm == undefined ||
-        this.serchedTerm == null ||
-        this.serchedTerm == "") &&
-      (this.selectedPermission == undefined ||
-        this.selectedPermission == null ||
-        this.selectedPermission == "All" ||
-        this.selectedPermission == "")
+      this.searchTerm == undefined ||
+      this.searchTerm == null ||
+      this.searchTerm == ""
     ) {
       this.getAllPermissions();
     } else if (
-      (this.serchedTerm != undefined ||
-        this.serchedTerm != null ||
-        this.serchedTerm != "") &&
-      (this.selectedPermission == undefined ||
-        this.selectedPermission == null ||
-        this.selectedPermission == "All" ||
-        this.selectedPermission == "")
+      this.searchTerm != undefined ||
+      this.searchTerm != null ||
+      this.searchTerm != ""
     ) {
-      this.searchPermissions(this.serchedTerm);
+      this.searchPermissions(this.searchTerm);
     } else {
       this.getAllPermissions();
-      this.alertService.sideErrorAlert("Error", "Could not retrive data");
-    } 
+      this.alertService.sideErrorAlert(
+        "Error",
+        this.appService.popUpMessageConfig[0]
+          .CouldNotRetriveDataErrorSideAlertMessage
+      );
+    }
   }
-
 
   searchPermissions(serchedTerm: string) {
     this.shared
@@ -222,7 +247,7 @@ export class PermissionConfigurationComponent {
               .GetPermissionListErrorSideAlertMessage
           );
 
-          this.platformList = [];
+          this.permissionList = [];
           this.totalDataCount = 0;
 
           this.updateTable();
@@ -233,39 +258,37 @@ export class PermissionConfigurationComponent {
 
   getAllPermissions() {
     this.shared
-    .getAllPermissions(this.selectedPage, this.selectedPageSize)
-    .subscribe({
-      next: (response) => {
-        this.permissionList = response.response;
-        this.totalDataCount = response.rowCount;
-        this.updateTable();
-        this.loadingInProgress = false;
-      },
-      error: (error) => {
-        this.alertService.sideErrorAlert(
-          "Error",
-          this.appService.popUpMessageConfig[0]
-            .GetPermissionListErrorSideAlertMessage
-        );
+      .getAllPermissions(this.selectedPage, this.selectedPageSize)
+      .subscribe({
+        next: (response) => {
+          this.permissionList = response.response;
+          this.totalDataCount = response.rowCount;
+          this.updateTable();
+          this.loadingInProgress = false;
+        },
+        error: (error) => {
+          this.alertService.sideErrorAlert(
+            "Error",
+            this.appService.popUpMessageConfig[0]
+              .GetPermissionListErrorSideAlertMessage
+          );
 
-        this.permissionList = [];
-        this.totalDataCount = 0;
+          this.permissionList = [];
+          this.totalDataCount = 0;
 
-        this.updateTable();
-        this.loadingInProgress = false;
-      },
-    });
+          this.updateTable();
+          this.loadingInProgress = false;
+        },
+      });
   }
 
-
   updateTable() {
-     this.permissionDetailsArray = this.permissionList.map((item) => ({
-      PermissionCode: item.permissionId,
-      PermissionName: item.permission1,
+    this.permissionDetailsArray = this.permissionList.map((item) => ({
+      PermissionId: item.permissionId,
+      PermissionName: item.permission,
       //CreatedDate: item.createdDate,
-      Status: item.status,
-      isRejecteableOrApprovableRecord:true
-
+      Status: item.status ? "Actived" : "Deactivated",
+      isRejecteableOrApprovableRecord: true,
     }));
     this.tableData = this.permissionDetailsArray;
   }
@@ -287,7 +310,7 @@ export class PermissionConfigurationComponent {
     this.openModal(
       "Edit",
       "Edit Permission Details",
-      row.PermissionCode,
+      row.permissionId,
       row.PermissionName,
       row.CreatedDate,
       row.Status
@@ -298,7 +321,7 @@ export class PermissionConfigurationComponent {
     this.openModal(
       "View",
       "Permission Details",
-      row.PermissionCode,
+      row.permissionId,
       row.PermissionName,
       row.CreatedDate,
       row.Status
@@ -308,7 +331,7 @@ export class PermissionConfigurationComponent {
   openModal(
     type: string,
     modalTitle: string,
-    permissionCode: string,
+    permissionId: string,
     permissionName: string,
     createdDate: string,
     status: string
@@ -326,9 +349,9 @@ export class PermissionConfigurationComponent {
     modalRef.componentInstance.type = type;
     modalRef.componentInstance.modalTitle = modalTitle;
 
-    modalRef.componentInstance.permissionCode = permissionCode;
+    modalRef.componentInstance.permissionId = permissionId;
     modalRef.componentInstance.permissionName = permissionName;
-    modalRef.componentInstance.createdDate = createdDate
+    modalRef.componentInstance.createdDate = createdDate;
     modalRef.componentInstance.status = status;
 
     modalRef.result
@@ -361,7 +384,7 @@ export class PermissionConfigurationComponent {
                   this.openModal(
                     "Edit",
                     "Edit Permission Details",
-                    permissionCode,
+                    permissionId,
                     permissionName,
                     createdDate,
                     status
@@ -371,7 +394,7 @@ export class PermissionConfigurationComponent {
                   this.openModal(
                     "View",
                     "Permission",
-                    permissionCode,
+                    permissionId,
                     permissionName,
                     createdDate,
                     status
@@ -463,9 +486,9 @@ export class PermissionConfigurationComponent {
 
   deletePermission(items: any): void {
     let ids: number[] = [];
-
+    console.log("items", items);
     items.forEach((element: any) => {
-      ids.push(element.id);
+      ids.push(element.PermissionId);
     });
 
     this.removePermissions(ids);
@@ -537,8 +560,7 @@ export class PermissionConfigurationComponent {
             .RoleActivatedSuccessSideAlertMessage
         );
         this.alertService.successSweetAlertMessage(
-          this.appService.popUpMessageConfig[0]
-            .RoleActivateNotificationMessage,
+          this.appService.popUpMessageConfig[0].RoleActivateNotificationMessage,
           "Actvated!",
           4000
         );

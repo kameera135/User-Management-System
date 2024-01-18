@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { Component } from "@angular/core";
 import { AppService } from "src/app/app.service";
 import { MessageService } from "src/app/services/PopupMessages/message.service";
@@ -36,14 +37,7 @@ export class PasswordPolicyComponent {
   passwordMinLengthDefault: number = 1;
   passwordMaxLengthDefault: number = 50;
 
-  timeUnitsList = [
-    { id: "SC", value: "Seconds" },
-    { id: "MI", value: "Minutes" },
-    { id: "HO", value: "Hours" },
-    { id: "DY", value: "Days" },
-    { id: "WK", value: "Weeks" },
-    { id: "YR", value: "Years" },
-  ];
+  timeUnitsList = this.appService.appConfig[0].passwordPolicyTimeUnitList;
 
   constructor(
     private breadcrumbService: BreadcrumbService,
@@ -58,14 +52,13 @@ export class PasswordPolicyComponent {
       { label: "Password Policy", active: true },
     ]);
 
-    this.getPasswordPolicy();
+    this.fetchPasswordPolicy();
   }
 
-  getPasswordPolicy() {
+  fetchPasswordPolicy() {
     this.shared.getPasswordPolicy().subscribe({
       next: (response: any) => {
         console.log(response);
-
         this.passwordMinLength =
           response.password_min_length.value || this.passwordMinLengthDefault;
         this.passwordMaxLength =
@@ -101,6 +94,76 @@ export class PasswordPolicyComponent {
           "Error",
           this.appService.popUpMessageConfig[0]
             .GetPasswordPolicyErrorSideAlertMessage
+        );
+      },
+    });
+  }
+
+  onSubmitClicked() {
+    debugger;
+    var updatedSetting = `{"password_min_length":{"isOn":${this.canChangePasswordLengthMin},"value":${this.passwordMinLength}},
+    "password_max_length":{"isOn":${this.canChangePasswordLengthMax},"value":${this.passwordMaxLength}},
+    "required":{"letters":${this.isAbleLetters},"numeric_characters":${this.isAbleNumericCharacters},"special_characters":${this.isAbleSpecialCharacters},"mixed_case_letters":${this.isAbleMixedCaseLetters}},
+    "password_expiry":{"isOn":${this.canChangePasswordExpiry},"value":${this.passwordExpiry},"unit":"${this.passwordExpiryTimeUnit}"},
+    "password_expiry_warning":${this.passwordExpiryWarning},
+    "password_repeat_check":{"isOn":${this.canChangePasswordRepeatCheck},"value":${this.passwordRepeatCheck}},
+    "account_lockout":${this.canChangeAccountLockout},
+    "max_attempts":${this.maxAttempts}, 
+    "lockout_duration":{"value":${this.lockoutDuration},"unit":"${this.lockoutDurationTimeUnit}"}}`;
+
+    if (
+      this.canChangePasswordLengthMin != undefined &&
+      this.passwordMinLength != undefined &&
+      this.canChangePasswordLengthMax != undefined &&
+      this.passwordMaxLength != undefined &&
+      this.isAbleLetters != undefined &&
+      this.isAbleNumericCharacters != undefined &&
+      this.isAbleSpecialCharacters != undefined &&
+      this.isAbleMixedCaseLetters != undefined &&
+      this.canChangePasswordExpiry != undefined &&
+      this.passwordExpiry != undefined &&
+      this.passwordExpiryTimeUnit != undefined &&
+      this.passwordExpiryWarning != undefined &&
+      this.canChangePasswordRepeatCheck != undefined &&
+      this.passwordRepeatCheck != undefined &&
+      this.canChangeAccountLockout != undefined &&
+      this.maxAttempts != undefined &&
+      this.lockoutDuration != undefined &&
+      this.lockoutDurationTimeUnit != undefined
+    ) {
+      this.postPasswordPolicy(updatedSetting);
+    } else {
+      this.alertService.sideErrorAlert(
+        "Error",
+        this.appService.popUpMessageConfig[0]
+          .PasswordPolicyUpdatedErrorSideAlertMessage
+      );
+    }
+  }
+
+  postPasswordPolicy(updatedSetting: string) {
+    debugger;
+    this.shared.putPasswordPolicy(updatedSetting).subscribe({
+      next: (response) => {
+        console.log(response);
+
+        this.alertService.sideSuccessAlert(
+          "Success",
+          this.appService.popUpMessageConfig[0]
+            .PasswordPolicyUpdatedSuccessSideAlertMessage
+        );
+        this.alertService.successSweetAlertMessage(
+          this.appService.popUpMessageConfig[0]
+            .PasswordPolicyUpdatedNotificationMessage,
+          "Updated!",
+          4000
+        );
+      },
+      error: (error) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0]
+            .PasswordPolicyUpdatedErrorSideAlertMessage
         );
       },
     });

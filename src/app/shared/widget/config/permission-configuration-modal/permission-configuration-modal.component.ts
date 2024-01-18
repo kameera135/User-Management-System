@@ -11,16 +11,16 @@ import { Permission } from "src/app/shared/models/Cams-new/Permission";
 })
 export class PermissionConfigurationModalComponent {
   roleList: any[] = this.appService.appConfig[0].roleList;
-  platformList : any[] = this.appService.appConfig[0].platformList;
+  platformList: any[] = this.appService.appConfig[0].platformList;
 
-  selectedRole: string = "User Managemant System";
+  selectedPlatform: number = 1;
 
   @Input() type!: string;
   @Input() modalTitle!: string;
 
-  @Input() permissionCode!: string;
+  @Input() permissionId!: string;
   @Input() permissionName!: string;
-  @Input() description!: string;
+  // @Input() description!: string;
   @Input() createdDate!: string;
   @Input() status!: string;
 
@@ -31,9 +31,9 @@ export class PermissionConfigurationModalComponent {
 
   loadingInProgress: boolean = false;
 
-  statusOptions: { label: string, value: string }[] = [
-    { label: 'Active', value: 'Active' },
-    { label: 'Deactive', value: 'Deactive' }
+  statusOptions: { label: string; value: string }[] = [
+    { label: "Active", value: "Active" },
+    { label: "Deactive", value: "Deactive" },
   ];
 
   constructor(
@@ -54,17 +54,12 @@ export class PermissionConfigurationModalComponent {
       this.buttonIcon = "bi-pencil-fill";
     }
 
-      this.cancelButtonIcon;
-      this.cancelButtonName;
+    this.cancelButtonIcon;
+    this.cancelButtonName;
   }
 
   onFormSubmit() {
-    if (
-      this.permissionCode == "" ||
-      this.permissionName == "" ||
-      this.createdDate == "" ||
-      this.status == ""
-    ) {
+    if (this.permissionName == "" || this.selectedPlatform == null) {
       this.notifierService.warning({
         detail: "Warning",
         summary: "Please fill required fields",
@@ -74,32 +69,31 @@ export class PermissionConfigurationModalComponent {
     }
 
     const feature = new Permission();
-    feature.permissionId = this.permissionCode;
-    feature.permission1 = this.permissionName;
+    feature.permission = this.permissionName;
+    feature.platformId = this.selectedPlatform;
     //feature.createdDate = this.createdDate;
-    feature.status = this.status;
+    // feature.status = this.status;
 
     this.activeModal.close(feature);
   }
 
   headArray = [
-  
     { Head: "Platforms", FieldName: "Platforms", ColumnType: "Data" },
     { Head: "Role", FieldName: "Role", ColumnType: "Data" },
   ];
 
   tableData = [
-      {
-        Platforms: "Airecone Extention System",
-        Role: "Facility Manager",
-      },
-      {
-        Platforms: "Tenant Billing System",
-        Role: "Tenant Manager",
-      },
-      {
-        Platforms: "Airecone Extention System",
-        Role: "Tenant Manager",
-      }
-    ];
+    {
+      Platforms: "Airecone Extention System",
+      Role: "Facility Manager",
+    },
+    {
+      Platforms: "Tenant Billing System",
+      Role: "Tenant Manager",
+    },
+    {
+      Platforms: "Airecone Extention System",
+      Role: "Tenant Manager",
+    },
+  ];
 }

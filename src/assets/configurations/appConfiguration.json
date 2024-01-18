@@ -76,5 +76,14 @@
   "status": [
     { "value": "Active", "id": 2 },
     { "value": "Diactivate", "id": 3 }
+  ],
+
+  "passwordPolicyTimeUnitList": [
+    { "id": "SC", "value": "Seconds" },
+    { "id": "MI", "value": "Minutes" },
+    { "id": "HO", "value": "Hours" },
+    { "id": "DY", "value": "Days" },
+    { "id": "WK", "value": "Weeks" },
+    { "id": "YR", "value": "Years" }
   ]
 }

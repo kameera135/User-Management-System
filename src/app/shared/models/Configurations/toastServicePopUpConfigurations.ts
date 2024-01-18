@@ -49,6 +49,7 @@ export interface toastServicePopUpConfigurations {
   GetRoleComboboxListErrorSideAlertMessage: string;
 
   NoDataNotificationMessage: string;
+  CouldNotRetriveDataErrorSideAlertMessage: string;
 
   UpdatePlatformConfirmationMessage: string;
   DeletePlatformConfirmationMessage: string;
@@ -127,6 +128,9 @@ export interface toastServicePopUpConfigurations {
   TokenDeletedErrorSideAlertMessage: string;
 
   GetPasswordPolicyErrorSideAlertMessage: string;
+  PasswordPolicyUpdatedNotificationMessage: string;
+  PasswordPolicyUpdatedSuccessSideAlertMessage: string;
+  PasswordPolicyUpdatedErrorSideAlertMessage: string;
 
   GetActivityLogsErrorSideAlertMessage: string;
 }

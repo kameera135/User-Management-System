@@ -26,71 +26,95 @@ export class PermissionConfigurationService {
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
-  getPermissionsByRole(role: string, page: number, pageSize: number) {
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append("viewedBy", this.user.id);
-    queryParams = queryParams.append("role", role);
-    queryParams = queryParams.append("page", page);
-    queryParams = queryParams.append("pageSize", pageSize);
+  // getPermissionsByRole(role: string, page: number, pageSize: number) {
+  //   let queryParams = new HttpParams();
+  //   queryParams = queryParams.append("viewedBy", this.user.id);
+  //   queryParams = queryParams.append("role", role);
+  //   queryParams = queryParams.append("page", page);
+  //   queryParams = queryParams.append("pageSize", pageSize);
 
-    const url = `${this.apiUrl}/end-point`;
-    return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
-  }
+  //   const url = `${this.apiUrl}/end-point`;
+  //   return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
+  // }
 
-  getSearchedPermissions(searchedTerm: string, page: number, pageSize: number) {
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append("viewedBy", this.user.id);
-    queryParams = queryParams.append("searchedTerm", searchedTerm);
-    queryParams = queryParams.append("page", page);
-    queryParams = queryParams.append("pageSize", pageSize);
+  // getSearchedPermissions(searchedTerm: string, page: number, pageSize: number) {
+  //   let queryParams = new HttpParams();
+  //   queryParams = queryParams.append("viewedBy", this.user.id);
+  //   queryParams = queryParams.append("searchedTerm", searchedTerm);
+  //   queryParams = queryParams.append("page", page);
+  //   queryParams = queryParams.append("pageSize", pageSize);
 
-    const url = `${this.apiUrl}/end-point`;
-    return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
-  }
+  //   const url = `${this.apiUrl}/end-point`;
+  //   return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
+  // }
 
-  getSearchelPermissionsByRole(
+  getSearchedPermissions(
     searchedTerm: string,
-    role: string,
     page: number,
-    pageSize: number
+    page_size: number
   ) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("viewedBy", this.user.id);
-    queryParams = queryParams.append("searchedTerm", searchedTerm);
-    queryParams = queryParams.append("role", role);
-    queryParams = queryParams.append("page", page);
-    queryParams = queryParams.append("pageSize", pageSize);
+    //queryParams = queryParams.append("viewedBy", this.user.id);
+    queryParams = queryParams.append("searchedPermissionName", searchedTerm);
 
-    const url = `${this.apiUrl}/end-point`;
+    const url = `${this.apiUrl}/api/configuration/permissions/${page}/${page_size}`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
+
+  // getSearchelPermissionsByRole(
+  //   searchedTerm: string,
+  //   role: string,
+  //   page: number,
+  //   pageSize: number
+  // ) {
+  //   let queryParams = new HttpParams();
+  //   queryParams = queryParams.append("viewedBy", this.user.id);
+  //   queryParams = queryParams.append("searchedTerm", searchedTerm);
+  //   queryParams = queryParams.append("role", role);
+  //   queryParams = queryParams.append("page", page);
+  //   queryParams = queryParams.append("pageSize", pageSize);
+
+  //   const url = `${this.apiUrl}/end-point`;
+  //   return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
+  // }
 
   postPermission(model: Permission) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("createdBy", this.user.id);
 
-    return this.httpClient.post(`${this.apiUrl}/end-point`, model, {
-      params: queryParams,
-    });
+    return this.httpClient.post(
+      `${this.apiUrl}/api/configuration/permission`,
+      model,
+      {
+        params: queryParams,
+      }
+    );
   }
 
   putPermission(model: Permission) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("updatedBy", this.user.id);
 
-    return this.httpClient.put(`${this.apiUrl}/end-point`, model, {
-      params: queryParams,
-    });
+    return this.httpClient.put(
+      `${this.apiUrl}/api/configuration/permission`,
+      model,
+      {
+        params: queryParams,
+      }
+    );
   }
 
   deletePermission(list: number[]) {
-    //list is the id list oflPermissions which have to be deleted
     let queryParams = new HttpParams();
     queryParams = queryParams.append("deletedBy", this.user.id);
 
-    return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
-      params: queryParams,
-    });
+    return this.httpClient.delete(
+      `${this.apiUrl}/api/configuration/permissions`,
+      {
+        params: queryParams,
+        body: list,
+      }
+    );
   }
 
   activatePermissions(list: any[]) {

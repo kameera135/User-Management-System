@@ -142,7 +142,11 @@ export class PlatformConfigurationComponent {
       this.searchPlatforms(this.searchTerm);
     } else {
       this.getAllPlatforms();
-      this.alertService.sideErrorAlert("Error", "Could not retrive data");
+      this.alertService.sideErrorAlert(
+        "Error",
+        this.appService.popUpMessageConfig[0]
+          .CouldNotRetriveDataErrorSideAlertMessage
+      );
     }
   }
 
