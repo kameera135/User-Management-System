@@ -69,7 +69,7 @@ export class PermissionConfigurationComponent {
   headArray = [
     { Head: "", FieldName: "", ColumnType: "CheckBox" },
     {
-      Head: "Permission Id",
+      Head: "Permission ID",
       FieldName: "PermissionId",
       ColumnType: "Data",
     },
@@ -286,8 +286,9 @@ export class PermissionConfigurationComponent {
     this.permissionDetailsArray = this.permissionList.map((item) => ({
       PermissionId: 'PE '+item.permissionId,
       PermissionName: item.permission,
-      //CreatedDate: item.createdDate,
-      Status: item.status ? "Actived" : "Deactivated",
+      CreatedDate: item.createdAt ? item.createdAt.slice(0, 10) : null,
+      Status: item.status ? "Activated" : "Deactivated",
+      DigitalStatus: item.status,
       isRejecteableOrApprovableRecord: true,
     }));
     this.tableData = this.permissionDetailsArray;
@@ -310,7 +311,7 @@ export class PermissionConfigurationComponent {
     this.openModal(
       "Edit",
       "Edit Permission Details",
-      row.permissionId,
+      row.PermissionId,
       row.PermissionName,
       row.CreatedDate,
       row.Status
@@ -321,7 +322,7 @@ export class PermissionConfigurationComponent {
     this.openModal(
       "View",
       "Permission Details",
-      row.permissionId,
+      row.PermissionId,
       row.PermissionName,
       row.CreatedDate,
       row.Status

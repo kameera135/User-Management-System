@@ -8,7 +8,7 @@ import { Permission } from "src/app/shared/models/Cams-new/Permission";
   selector: "app-permission-configuration-modal",
   templateUrl: "./permission-configuration-modal.component.html",
   styleUrls: ["./permission-configuration-modal.component.scss"],
-})
+}) //
 export class PermissionConfigurationModalComponent {
   roleList: any[] = this.appService.appConfig[0].roleList;
   platformList: any[] = this.appService.appConfig[0].platformList;
@@ -43,6 +43,8 @@ export class PermissionConfigurationModalComponent {
   ) {}
 
   ngOnInit() {
+    this.status = this.status.slice(0, -4) + "e";
+    console.log("permissionId", this.status);
     if (this.type == "Add") {
       this.buttonName = "Add";
       this.buttonIcon = "bi-person-plus-fill";

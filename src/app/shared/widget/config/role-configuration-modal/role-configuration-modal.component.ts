@@ -16,12 +16,9 @@ interface ListItem {
   templateUrl: "./role-configuration-modal.component.html",
   styleUrls: ["./role-configuration-modal.component.scss"],
 })
-
-
 export class RoleConfigurationModalComponent {
   roleList: any[] = this.appService.appConfig[0].roleList;
-  platformList : any[] = this.appService.appConfig[0].platformList;
-
+  platformList: any[] = this.appService.appConfig[0].platformList;
 
   @Input() type!: string;
   @Input() modalTitle!: string;
@@ -32,14 +29,16 @@ export class RoleConfigurationModalComponent {
   @Input() description!: string;
   @Input() status!: boolean;
   @Input() permission!: string;
-  @Input() platform!: string
+  @Input() platform!: string;
 
   buttonName!: string;
   buttonIcon!: string;
   cancelButtonIcon: string = "bi-x-circle-fill";
   cancelButtonName: string = "Cancel";
 
-  disablePlatforms: boolean = false; 
+  selectedRole: string = "User Managemant System";
+
+  disablePlatforms: boolean = false;
 
   isEditable: boolean = true;
 
@@ -47,9 +46,9 @@ export class RoleConfigurationModalComponent {
   selectedPlatform!: number;
 
   // Array to hold the dropdown options
-  statusOptions: { label: string, value: string }[] = [
-    { label: 'Active', value: 'Active' },
-    { label: 'Deactive', value: 'Deactive' }
+  statusOptions: { label: string; value: string }[] = [
+    { label: "Active", value: "Active" },
+    { label: "Deactive", value: "Deactive" },
   ];
 
   constructor(
@@ -77,7 +76,7 @@ export class RoleConfigurationModalComponent {
     this.cancelButtonName;
 
     //disable the input feild
-    if (this.type === 'View') {
+    if (this.type === "View") {
       this.disablePlatforms = true;
     } else {
       this.disablePlatforms = false;
@@ -110,31 +109,30 @@ export class RoleConfigurationModalComponent {
     role.status = this.status;
 
     this.activeModal.close(role);
-    
   }
 
   showListItems: boolean = false;
-  
+
   listItems: ListItem[] = [
-      { name: 'Item 1', selected: false },
-      { name: 'Item 2', selected: false },
-      { name: 'Item 3', selected: false }
+    { name: "Item 1", selected: false },
+    { name: "Item 2", selected: false },
+    { name: "Item 3", selected: false },
   ]; // Replace with your list items
 
   toggleListItems() {
-      // Toggle the visibility of list items view
-      if (this.type !== 'View') {
-          this.showListItems = !this.showListItems;
-      }
+    // Toggle the visibility of list items view
+    if (this.type !== "View") {
+      this.showListItems = !this.showListItems;
+    }
   }
 
   addSelectedItems() {
-      // Get selected items and add them to the textarea
-      const selectedItems = this.listItems.filter(item => item.selected);
-      this.permission = selectedItems.map(item => item.name).join('\n');
+    // Get selected items and add them to the textarea
+    const selectedItems = this.listItems.filter((item) => item.selected);
+    this.permission = selectedItems.map((item) => item.name).join("\n");
 
-      // Hide the list items view after adding items to textarea
-      this.showListItems = false;
+    // Hide the list items view after adding items to textarea
+    this.showListItems = false;
   }
 
   getPlatformList() {

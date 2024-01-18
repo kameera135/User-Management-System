@@ -68,7 +68,7 @@
   "PermissionDeletedNotificationMessage": "Permission/s have been deleted",
   "PermissionDeletedErrorSideAlertMessage": "Could not delete Permissions.",
   "ActivatePermissionConfirmationMessage": "You want to activate permissions?",
-  "DeactivatePermissionConfirmationMessage": "You want to deactivate permission details?",
+  "DeactivatePermissionConfirmationMessage": "You want to deactivate permissions?",
   "PermissionActivatedSuccessSideAlertMessage": "Permissions activated successfully !",
   "PermissionActivateNotificationMessage": "Permissions have been activated.",
   "PermissionActivatedErrorSideAlertMessage": "Activation failed.",
