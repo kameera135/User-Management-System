@@ -287,7 +287,7 @@ export class PermissionConfigurationComponent {
       PermissionId: item.permissionId,
       PermissionName: item.permission,
       //CreatedDate: item.createdDate,
-      Status: item.status,
+      Status: item.status ? "Actived" : "Deactivated",
       isRejecteableOrApprovableRecord: true,
     }));
     this.tableData = this.permissionDetailsArray;
