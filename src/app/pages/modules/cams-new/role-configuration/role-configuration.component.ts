@@ -259,7 +259,7 @@ export class RoleConfigurationComponent {
       RoleName: item.role,
       // Description: item.description,
       CreatedDate:  new Date(item.createdAt).toLocaleDateString(),
-      Status: item.status ? "Actived" : "Deactivated",
+      Status: item.status ? "Activated" : "Deactivated",
       isRejecteableOrApprovableRecord:true
 
     }));
