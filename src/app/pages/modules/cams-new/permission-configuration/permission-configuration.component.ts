@@ -529,7 +529,7 @@ export class PermissionConfigurationComponent {
     let ids: number[] = [];
 
     items[0].forEach((element: any) => {
-      ids.push(element.id);
+      ids.push(element.PermissionId);
     });
 
     console.log(ids);
@@ -541,7 +541,7 @@ export class PermissionConfigurationComponent {
     let ids: number[] = [];
 
     items[0].forEach((element: any) => {
-      ids.push(element.id);
+      ids.push(element.PermissionId);
     });
 
     console.log(ids);
@@ -582,6 +582,7 @@ export class PermissionConfigurationComponent {
   }
 
   deactivatePermission(ids: number[]): void {
+    console.log("ids", ids);
     this.shared.deactivatePermissions(ids).subscribe({
       next: (response: any) => {
         console.log("Deactivating a Platform: ");

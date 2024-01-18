@@ -119,19 +119,27 @@ export class PermissionConfigurationService {
 
   activatePermissions(list: any[]) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("activatedBy", this.user.id);
+    queryParams = queryParams.append("updatedBy", this.user.id);
 
-    return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
-      params: queryParams,
-    });
+    return this.httpClient.put(
+      `${this.apiUrl}/api/configuration/permissions/activate`,
+      list,
+      {
+        params: queryParams,
+      }
+    );
   }
 
   deactivatePermissions(list: any[]) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("deactivatedBy", this.user.id);
+    queryParams = queryParams.append("updatedBy", this.user.id);
 
-    return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
-      params: queryParams,
-    });
+    return this.httpClient.put(
+      `${this.apiUrl}/api/configuration/permissions/deactivate`,
+      list,
+      {
+        params: queryParams,
+      }
+    );
   }
 }

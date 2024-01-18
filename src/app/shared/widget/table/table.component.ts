@@ -377,14 +377,34 @@ export class TableComponent {
   acknowledgeConfirm(id: any) {
     this.modalService.dismissAll("close click"); //Hide update confirmation modal
 
-    this.onAcknowledge.emit(id);
+    if (id == -1) {
+      //Bulk selection
+      this.onRemove.emit(this.selectedItemArray);
+    } //Single item selection
+    else {
+      let tempSelectedItemArray = [];
+
+      tempSelectedItemArray.push(id);
+
+      this.onRemove.emit(tempSelectedItemArray);
+    }
   }
 
   //Method handles remove buttton click on the grid
   removeConfirm(id: any) {
     this.modalService.dismissAll("close click"); //Hide update confirmation modal
 
-    this.onRemove.emit(id);
+    if (id == -1) {
+      //Bulk selection
+      this.onRemove.emit(this.selectedItemArray);
+    } //Single item selection
+    else {
+      let tempSelectedItemArray = [];
+
+      tempSelectedItemArray.push(id);
+
+      this.onRemove.emit(tempSelectedItemArray);
+    }
   }
 
   //Load and Display delete confirmation modal
@@ -497,36 +517,6 @@ export class TableComponent {
 
       this.onDelete.emit(tempSelectedItemArray);
     }
-
-    // this.notifierService.success({
-    //   type: "success",
-    //   detail: "Deleted",
-    //   summary: "Successfully deleted",
-    //   duration: 2000,
-    // });
-
-    // this.sweetAlert.successSweetAlertMessage(
-    //   this.recordDeletedNotificationMessage,
-    //   "Deleted!",
-    //   timerInterval
-    // );
-    // Swal.fire({
-    //   title: "Deleted!",
-
-    //   text: this.recordDeletedNotificationMessage,
-
-    //   icon: "success",
-
-    //   confirmButtonColor: "#299cdb",
-
-    //   timer: this.appService.popUpMessageConfig[0].messageDurationInMiliSeconds,
-
-    //   timerProgressBar: true,
-
-    //   willClose: () => {
-    //     clearInterval(timerInterval);
-    //   },
-    // });
   }
 
   //Approve Record
