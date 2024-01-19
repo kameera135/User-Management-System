@@ -2,7 +2,9 @@ import { Component, Input } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgToastService } from "ng-angular-popup";
 import { AppService } from "src/app/app.service";
+import { PermissionConfigurationService } from "src/app/services/cams-new/configuration services/permission-configuration.service";
 import { Permission } from "src/app/shared/models/Cams-new/Permission";
+import { RolesAndPlatforms } from "src/app/shared/models/Cams-new/RolesAndPlatforms";
 
 @Component({
   selector: "app-permission-configuration-modal",
@@ -18,7 +20,7 @@ export class PermissionConfigurationModalComponent {
   @Input() type!: string;
   @Input() modalTitle!: string;
 
-  @Input() permissionId!: string;
+  @Input() permissionId!: number;
   @Input() permissionName!: string;
   // @Input() description!: string;
   @Input() createdDate!: string;
@@ -28,6 +30,9 @@ export class PermissionConfigurationModalComponent {
   buttonIcon!: string;
   cancelButtonIcon: string = "bi-x-circle-fill";
   cancelButtonName: string = "Cancel";
+
+  rolesAndPlatformList!: RolesAndPlatforms[];
+  rolesAndPlatformsDataArray: any = [];
 
   loadingInProgress: boolean = false;
 
@@ -39,10 +44,12 @@ export class PermissionConfigurationModalComponent {
   constructor(
     public activeModal: NgbActiveModal,
     private notifierService: NgToastService,
-    private appService: AppService
+    private appService: AppService,
+    private shared: PermissionConfigurationService
   ) {}
 
   ngOnInit() {
+    this.getRolesAndPlatforms();
     this.status = this.status.slice(0, -4) + "e";
     console.log("permissionId", this.status);
     if (this.type == "Add") {
@@ -58,6 +65,36 @@ export class PermissionConfigurationModalComponent {
 
     this.cancelButtonIcon;
     this.cancelButtonName;
+  }
+
+  getRolesAndPlatforms() {
+    this.loadingInProgress = true;
+    this.shared.getRolesAndPlatforms(this.permissionId).subscribe({
+      next: (response: any) => {
+        this.rolesAndPlatformList = response;
+        this.updateTable();
+        this.loadingInProgress = false;
+      },
+      error: (error) => {
+        // this.alertService.sideErrorAlert(
+        //   "Error",
+        //   this.appService.popUpMessageConfig[0]
+        //     .GetPermissionListErrorSideAlertMessage
+        // );
+
+        this.rolesAndPlatformList = [];
+        this.updateTable();
+        this.loadingInProgress = false;
+      },
+    });
+  }
+
+  updateTable() {
+    this.rolesAndPlatformsDataArray = this.rolesAndPlatformList.map((item) => ({
+      Role: item.role,
+      Platform: item.platform,
+    }));
+    this.tableData = this.rolesAndPlatformsDataArray;
   }
 
   onFormSubmit() {
@@ -80,22 +117,9 @@ export class PermissionConfigurationModalComponent {
   }
 
   headArray = [
-    { Head: "Platforms", FieldName: "Platforms", ColumnType: "Data" },
+    { Head: "Platforms", FieldName: "Platform", ColumnType: "Data" },
     { Head: "Role", FieldName: "Role", ColumnType: "Data" },
   ];
 
-  tableData = [
-    {
-      Platforms: "Airecone Extention System",
-      Role: "Facility Manager",
-    },
-    {
-      Platforms: "Tenant Billing System",
-      Role: "Tenant Manager",
-    },
-    {
-      Platforms: "Airecone Extention System",
-      Role: "Tenant Manager",
-    },
-  ];
+  tableData: any = [];
 }
