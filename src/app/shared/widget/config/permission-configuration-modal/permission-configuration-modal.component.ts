@@ -28,6 +28,7 @@ export class PermissionConfigurationModalComponent {
   // @Input() description!: string;
   @Input() createdDate!: string;
   @Input() status!: string;
+  @Input() statusBool!: boolean;
 
   buttonName!: string;
   buttonIcon!: string;
@@ -162,8 +163,14 @@ export class PermissionConfigurationModalComponent {
     }
 
     const feature = new Permission();
-    feature.permission = this.permissionName;
-    feature.platformId = this.platformId;
+    if (this.type == "Add") {
+      feature.permission = this.permissionName;
+      feature.platformId = this.platformId;
+    } else if (this.type == "Edit") {
+      feature.permission = this.permissionName;
+      feature.permissionId = this.permissionId;
+    }
+
     //feature.createdDate = this.createdDate;
     // feature.status = this.status;
 
