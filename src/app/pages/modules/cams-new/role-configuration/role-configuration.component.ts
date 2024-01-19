@@ -53,6 +53,11 @@ export class RoleConfigurationComponent {
       FieldName: "RoleName",  
       ColumnType: "Data",
     },
+    {
+      Head: "Platform Name",
+      FieldName: "PlatformName",
+      ColumnType: "Data",
+    },
     // { Head: "Description", FieldName: "Description", ColumnType: "Data" },
     // { Head: "Created Date", FieldName: "CreatedDate", ColumnType: "Data" },
     { Head: "Status", FieldName: "Status", ColumnType: "Data" },
@@ -257,6 +262,7 @@ export class RoleConfigurationComponent {
     this.roleDetailsArray = this.roleList.map((item) => ({
       RoleCode: item.roleId,
       RoleName: item.role,
+      PlatformName: item.platform,
       // Description: item.description,
       CreatedDate:  new Date(item.createdAt).toLocaleDateString(),
       Status: item.status ? "Activated" : "Deactivated",

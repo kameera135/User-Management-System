@@ -40,9 +40,9 @@ export class RoleConfigurationModalComponent {
 
   disablePlatforms: boolean = false;
 
-  isEditable: boolean = true;
+  loadingInProgress: boolean = false;
 
-  platformListDefault: any[] = [{ value: "All Platforms", id: "0" }];
+  platformListDefault: any[] = [{ value: "Select Platforms", id: "0" }];
   selectedPlatform!: number;
 
   // Array to hold the dropdown options
@@ -112,6 +112,13 @@ export class RoleConfigurationModalComponent {
 
     this.activeModal.close(role);
   }
+
+  headArray = [
+    { Head: "Platforms", FieldName: "Platform", ColumnType: "Data" },
+    { Head: "Permission", FieldName: "Permission", ColumnType: "Data" },
+  ];
+
+  tableData: any = [];
 
   showListItems: boolean = false;
 

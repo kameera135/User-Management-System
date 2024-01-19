@@ -55,22 +55,17 @@
       </div>
     </div> -->
 
-    <!-- <div class="col-12">
-      <div class="mb-3">
-        <label class="col-form-label">Platforms</label>
-        <select
-          class="form-select"
-          aria-label="Platform"
-          [(ngModel)]="platform"
-          [disabled]="!isEditable || type === 'View'"
-        > -->
-          <!-- <option selected value="">Select...</option> -->
-          <!-- <option *ngFor="let item of platformList" [value]="item.value">
-            {{ item.value }}
-          </option>
-        </select>
+    <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
+      <div class="mb-0">
+        <label class="col-form-label">Permissions</label>
+        <app-table
+          *ngIf="!loadingInProgress"
+          [headArray]="headArray"
+          [dataArray]="tableData"
+        >
+        </app-table>
       </div>
-    </div> -->
+    </div>
 
     <div class="col-12" *ngIf="type != 'View'">
       <div class="mb-3">
@@ -80,7 +75,7 @@
         [multiple]="true"
         [placeholder]="platformListDefault[0].value"
         name="platform-comboBox"
-        [clearable]="false"
+        [clearable]="true"
       >
         <ng-option
           *ngFor="let item of platformListDefault"
@@ -92,7 +87,7 @@
       </div>
     </div>
 
-    <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
+    <div class="col-12" *ngIf="type != 'Add' && type != 'Edit' && type != 'View'">
       <div class="mb-3">
           <label class="col-form-label">Permissions</label>
           <div class="input-group">
@@ -100,7 +95,7 @@
                   class="form-control" 
                   name="permission"
                   [ngModel]="permission"
-                  [disabled]="!isEditable || type === 'View' || type == 'Permission'" 
+                  [disabled]="type === 'View' || type == 'Permission'" 
                   cols="30" 
                   rows="15">
               </textarea>
