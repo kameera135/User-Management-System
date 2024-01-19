@@ -14,6 +14,7 @@ import { MessageService } from "src/app/services/PopupMessages/message.service";
 import { Permission } from "src/app/shared/models/Cams-new/Permission";
 import { PermissionConfigurationModalComponent } from "src/app/shared/widget/config/permission-configuration-modal/permission-configuration-modal.component";
 import { UpdateConfirmationModalComponent } from "src/app/shared/widget/config/update-confirmation-modal/update-confirmation-modal.component";
+import { ActivityLogsService } from "src/app/services/cams-new/activity-logs.service";
 
 @Component({
   selector: "app-permission-configuration",
@@ -57,32 +58,33 @@ export class PermissionConfigurationComponent {
   totalDataCount!: number;
   serchedTerm!: string;
   searchTerm!: string;
+  selectedPlatform!: number;
 
   selectedPermission: string = "All";
   selectedPage: number = 1;
 
-  platformList: any[] = [{ value: "All", id: 1 }];
+  platformList: any[] = [];
   permissionDetailsArray: any = [];
 
   permissionConfigTableOptions: tableOptions = new tableOptions();
 
   headArray = [
     { Head: "", FieldName: "", ColumnType: "CheckBox" },
-    {
-      Head: "Permission ID",
-      FieldName: "PermissionId",
-      ColumnType: "Data",
-    },
+    // {
+    //   Head: "Permission ID",
+    //   FieldName: "PermissionId",
+    //   ColumnType: "Data",
+    // },
     {
       Head: "Permission Name",
       FieldName: "PermissionName",
       ColumnType: "Data",
     },
-    {
-      Head: "Platform",
-      FieldName: "PlatformName",
-      ColumnType: "Data",
-    },
+    // {
+    //   Head: "Platform",
+    //   FieldName: "PlatformName",
+    //   ColumnType: "Data",
+    // },
     // { Head: "Created Date", FieldName: "CreatedDate", ColumnType: "Data" },
     { Head: "Status", FieldName: "Status", ColumnType: "Data" },
     { Head: "", FieldName: "", ColumnType: "Action" },
@@ -123,7 +125,8 @@ export class PermissionConfigurationComponent {
     private reportService: ReportService,
     private modalService: NgbModal,
     private alertService: MessageService,
-    private shared: PermissionConfigurationService
+    private shared: PermissionConfigurationService,
+    private activityLogsService: ActivityLogsService
   ) {}
 
   ngOnInit(): void {
@@ -132,10 +135,11 @@ export class PermissionConfigurationComponent {
 
     // this.nameOfOrganization = this.appService.appConfig[0].nameOfOrganization;
     // this.moduleName = this.appService.appConfig[0].moduleName;
-    var platforms = this.appService.appConfig[0].roleList;
-    for (let i = 0; i < platforms.length; i++) {
-      this.platformList.push(platforms[i]);
-    }
+    // var platforms = this.appService.appConfig[0].roleList;
+    // for (let i = 0; i < platforms.length; i++) {
+    //   this.platformList.push(platforms[i]);
+    // }
+    this.getPlatformList();
 
     this.permissionConfigTableOptions.allowCheckbox = true;
     this.permissionConfigTableOptions.allowBulkDeleteButton = true;
@@ -163,6 +167,22 @@ export class PermissionConfigurationComponent {
     ]);
 
     this.loadData();
+  }
+
+  getPlatformList() {
+    this.activityLogsService.getPlatformList().subscribe({
+      next: (response: any) => {
+        // this.platformList = response;
+        this.platformList = response;
+      },
+      error: (error: any) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0]
+            .GetPlatformComboboxListErrorSideAlertMessage
+        );
+      },
+    });
   }
 
   // onAsseteTreeChanged(selectedItems: any[]): void {
@@ -221,12 +241,18 @@ export class PermissionConfigurationComponent {
     }
   }
 
+  // onPlatformSelect() {
+  //   this.searchTerm = "";
+  //   this.loadData();
+  // }
+
   searchPermissions(serchedTerm: string) {
     this.shared
       .getSearchedPermissions(
         serchedTerm,
         this.selectedPage,
-        this.selectedPageSize
+        this.selectedPageSize,
+        this.selectedPlatform || 0
       )
       .subscribe({
         next: (response: any) => {
@@ -263,7 +289,11 @@ export class PermissionConfigurationComponent {
 
   getAllPermissions() {
     this.shared
-      .getAllPermissions(this.selectedPage, this.selectedPageSize)
+      .getAllPermissions(
+        this.selectedPage,
+        this.selectedPageSize,
+        this.selectedPlatform || 0
+      )
       .subscribe({
         next: (response) => {
           this.permissionList = response.response;
@@ -357,6 +387,7 @@ export class PermissionConfigurationComponent {
     modalRef.componentInstance.modalTitle = modalTitle;
 
     modalRef.componentInstance.permissionId = permissionId;
+    modalRef.componentInstance.platformId = this.selectedPlatform;
     modalRef.componentInstance.permissionName = permissionName;
     modalRef.componentInstance.createdDate = createdDate;
     modalRef.componentInstance.status = status;
@@ -454,7 +485,6 @@ export class PermissionConfigurationComponent {
   }
 
   postPermission(permission: any) {
-    debugger;
     console.log("Add", permission);
     this.shared.postPermission(permission).subscribe({
       next: (response: any) => {
@@ -475,6 +505,17 @@ export class PermissionConfigurationComponent {
         this.loadData();
       },
       error: (error: any) => {
+        console.log(">>>>>>>>>>>>>>>>>", error.error);
+        if (
+          error.error ==
+          "Unable to create new permission. The specified permission name is already in use."
+        ) {
+          this.alertService.warningSweetAlertMessage(
+            error.error,
+            "Error!",
+            4000
+          );
+        }
         this.alertService.sideErrorAlert(
           "Error",
           this.appService.popUpMessageConfig[0]

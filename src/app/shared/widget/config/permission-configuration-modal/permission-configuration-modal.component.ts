@@ -23,6 +23,7 @@ export class PermissionConfigurationModalComponent {
   @Input() modalTitle!: string;
 
   @Input() permissionId!: number;
+  @Input() platformId!: number;
   @Input() permissionName!: string;
   // @Input() description!: string;
   @Input() createdDate!: string;
@@ -151,7 +152,7 @@ export class PermissionConfigurationModalComponent {
   }
 
   onFormSubmit() {
-    if (this.permissionName == "" || this.selectedPlatformIds == null) {
+    if (this.permissionName == "") {
       this.notifierService.warning({
         detail: "Warning",
         summary: "Please fill required fields",
@@ -162,7 +163,7 @@ export class PermissionConfigurationModalComponent {
 
     const feature = new Permission();
     feature.permission = this.permissionName;
-    feature.platformIds = this.selectedPlatformIds;
+    feature.platformId = this.platformId;
     //feature.createdDate = this.createdDate;
     // feature.status = this.status;
 
