@@ -142,4 +142,12 @@ export class PermissionConfigurationService {
       }
     );
   }
+
+  getRolesAndPlatforms(permissionId: number) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("permissionId", permissionId);
+
+    const url = `${this.apiUrl}/api/configuration/permission/platforms-roles`;
+    return this.httpClient.get(url, { params: queryParams });
+  }
 }
