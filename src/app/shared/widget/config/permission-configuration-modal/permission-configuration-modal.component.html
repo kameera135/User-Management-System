@@ -59,10 +59,10 @@
       </div>
     </div> -->
 
-    <div class="col-12" *ngIf="type != 'View'">
+    <!-- <div class="col-12" *ngIf="type != 'View'">
       <div class="mb-3">
-        <label class="col-form-label">Platforms</label>
-        <!-- <select
+        <label class="col-form-label">Platforms</label> -->
+    <!-- <select
           class="form-select"
           aria-label="Platform"
           [(ngModel)]="selectedPlatform"
@@ -73,7 +73,7 @@
             {{ item.value }}
           </option>
         </select> -->
-        <!-- <ng-select
+    <!-- <ng-select
           [(ngModel)]="selectedPlatform"
           [multiple]="true"
           name="platform-comboBox"
@@ -84,7 +84,7 @@
             {{ item.value }}
           </ng-option>
         </ng-select> -->
-        <ng-select
+    <!-- <ng-select
           [items]="platforms"
           bindLabel="value"
           bindValue="id"
@@ -109,9 +109,9 @@
             />
             Select All
           </ng-template>
-        </ng-select>
-      </div>
-    </div>
+        </ng-select> -->
+    <!-- </div>
+    </div> -->
 
     <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
       <div class="mb-0">
@@ -138,7 +138,7 @@
       </div>
     </div>
 
-    <div class="col-12" *ngIf="type != 'Add'">
+    <div class="col-12" *ngIf="type == 'View'">
       <div class="mb-3">
         <label class="col-form-label">Status</label>
         <ng-select

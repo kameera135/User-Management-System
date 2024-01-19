@@ -16,11 +16,11 @@ export class PermissionConfigurationService {
   apiUrl = this.appService.appConfig[0].apiUrl;
   user = this.appService.user;
 
-  getAllPermissions(page: number, pageSize: number) {
+  getAllPermissions(page: number, pageSize: number, platformId: number) {
     let queryParams = new HttpParams();
     //ueryParams = queryParams.append("viewedBy", this.user.id);
     // queryParams = queryParams.append("page", page);
-    // queryParams = queryParams.append("pageSize", pageSize);
+    queryParams = queryParams.append("platformId", platformId);
 
     const url = `${this.apiUrl}/api/configuration/permissions/${page}/${pageSize}`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
@@ -51,11 +51,13 @@ export class PermissionConfigurationService {
   getSearchedPermissions(
     searchedTerm: string,
     page: number,
-    page_size: number
+    page_size: number,
+    platformId: number
   ) {
     let queryParams = new HttpParams();
     //queryParams = queryParams.append("viewedBy", this.user.id);
     queryParams = queryParams.append("searchedPermissionName", searchedTerm);
+    queryParams = queryParams.append("platformId", platformId);
 
     const url = `${this.apiUrl}/api/configuration/permissions/${page}/${page_size}`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
