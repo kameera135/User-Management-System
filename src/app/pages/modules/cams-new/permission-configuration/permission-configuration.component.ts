@@ -78,6 +78,11 @@ export class PermissionConfigurationComponent {
       FieldName: "PermissionName",
       ColumnType: "Data",
     },
+    {
+      Head: "Platform",
+      FieldName: "PlatformName",
+      ColumnType: "Data",
+    },
     // { Head: "Created Date", FieldName: "CreatedDate", ColumnType: "Data" },
     { Head: "Status", FieldName: "Status", ColumnType: "Data" },
     { Head: "", FieldName: "", ColumnType: "Action" },
@@ -286,6 +291,7 @@ export class PermissionConfigurationComponent {
     this.permissionDetailsArray = this.permissionList.map((item) => ({
       PermissionId: item.permissionId,
       PermissionName: item.permission,
+      PlatformName: item.platformName,
       CreatedDate: item.createdAt ? item.createdAt.slice(0, 10) : null,
       Status: item.status ? "Activated" : "Deactivated",
       DigitalStatus: item.status,
@@ -448,6 +454,7 @@ export class PermissionConfigurationComponent {
   }
 
   postPermission(permission: any) {
+    debugger;
     console.log("Add", permission);
     this.shared.postPermission(permission).subscribe({
       next: (response: any) => {
