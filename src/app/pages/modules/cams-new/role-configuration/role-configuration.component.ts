@@ -255,7 +255,7 @@ export class RoleConfigurationComponent {
   updateTable() {
 
     this.roleDetailsArray = this.roleList.map((item) => ({
-      RoleCode: 'RL '+item.roleId,
+      RoleCode: item.roleId,
       RoleName: item.role,
       // Description: item.description,
       CreatedDate:  new Date(item.createdAt).toLocaleDateString(),

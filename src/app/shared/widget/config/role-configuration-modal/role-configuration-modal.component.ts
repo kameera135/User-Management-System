@@ -27,7 +27,7 @@ export class RoleConfigurationModalComponent {
   @Input() roleName!: string;
   @Input() createdDate!: string;
   @Input() description!: string;
-  @Input() status!: boolean;
+  @Input() status!: string;
   @Input() permission!: string;
   @Input() platform!: string;
 
@@ -60,6 +60,8 @@ export class RoleConfigurationModalComponent {
   ) {}
 
   ngOnInit() {
+    this.status = this.status.slice(0, -4) + "e";
+
     if (this.type == "Add") {
       this.buttonName = "Add";
       this.buttonIcon = "bi-person-plus-fill";
@@ -106,7 +108,7 @@ export class RoleConfigurationModalComponent {
     role.role = this.roleName;
     role.createdAt = this.createdDate;
     // role.description = this.description;
-    role.status = this.status;
+    //role.status = this.status;
 
     this.activeModal.close(role);
   }
