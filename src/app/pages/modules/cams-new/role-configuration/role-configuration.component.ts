@@ -317,7 +317,7 @@ export class RoleConfigurationComponent {
       "Role Details",
       row.RoleCode,
       row.RoleName,
-      row.Description,
+      row.platformId,
       row.CreatedDate,
       row.Status
     );

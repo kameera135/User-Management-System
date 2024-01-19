@@ -118,4 +118,14 @@ export class RoleConfigurationService {
     const url = `${this.apiUrl}/api/configuration/platforms/combobox`;
     return this.httpClient.get(url, { params: queryParams });
   }
+
+  getPermissionsForRoles(roleId: number, platformId: number){
+
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("roleId",roleId);
+    queryParams = queryParams.append("platformId",platformId);
+
+    const url = `${this.apiUrl}/api/configuration/roles/platform-permission/${roleId}/${platformId}`;
+    return this.httpClient.get(url, { params: queryParams });
+  }
 }

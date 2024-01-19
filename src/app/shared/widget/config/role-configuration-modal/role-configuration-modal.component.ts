@@ -5,6 +5,7 @@ import { AppService } from "src/app/app.service";
 import { MessageService } from "src/app/services/PopupMessages/message.service";
 import { RoleConfigurationService } from "src/app/services/cams-new/configuration services/role-configuration.service";
 import { Role as Role } from "src/app/shared/models/Cams-new/Role";
+import { PermissionsForRole } from "src/app/shared/models/Cams-new/permissionsForRole";
 
 interface ListItem {
   name: string;
@@ -24,6 +25,8 @@ export class RoleConfigurationModalComponent {
   @Input() modalTitle!: string;
 
   @Input() roleCode!: number;
+  @Input() roleId!: number;
+  @Input() platformId!: number;
   @Input() roleName!: string;
   @Input() createdDate!: string;
   @Input() description!: string;
@@ -44,6 +47,9 @@ export class RoleConfigurationModalComponent {
 
   platformListDefault: any[] = [{ value: "Select Platforms", id: "0" }];
   selectedPlatform!: number;
+
+  permissionsForRoleArray: any = [];
+  permissionsForRoleList!: PermissionsForRole[];  
 
   // Array to hold the dropdown options
   statusOptions: { label: string; value: string }[] = [
@@ -85,6 +91,10 @@ export class RoleConfigurationModalComponent {
     }
 
     this.getPlatformList();
+
+    if(this.type == "View"){
+      this.getPermissionsForRoles();
+    }
   }
 
   onFormSubmit() {
@@ -113,9 +123,38 @@ export class RoleConfigurationModalComponent {
     this.activeModal.close(role);
   }
 
+  updateTable() {
+    this.permissionsForRoleArray = this.permissionsForRoleList.map((item) => ({
+      Platform: item.platform,
+      Permission: item.permission,
+    }));
+    this.tableData = this.permissionsForRoleArray;
+  }
+
+  getPermissionsForRoles() {
+    this.loadingInProgress = true;
+    this.shared.getPermissionsForRoles(this.roleId, this.platformId ).subscribe({
+      next: (response: any) => {
+        this.permissionsForRoleList = response;
+        this.updateTable();
+        this.loadingInProgress = false;
+      },
+      error: (error) => {
+        // this.alertService.sideErrorAlert(
+        //   "Error",
+        //   this.appService.popUpMessageConfig[0]
+        //     .GetPermissionListErrorSideAlertMessage
+        // );
+
+        this.permissionsForRoleList = [];
+        this.updateTable();
+        this.loadingInProgress = false;
+      },
+    });
+  }
+
   headArray = [
-    { Head: "Platforms", FieldName: "Platform", ColumnType: "Data" },
-    { Head: "Permission", FieldName: "Permission", ColumnType: "Data" },
+    { Head: "Permissions", FieldName: "Permission", ColumnType: "Data" },
   ];
 
   tableData: any = [];
