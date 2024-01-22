@@ -1,6 +1,7 @@
 import { Component, inject } from "@angular/core";
 import {
   NgbCalendar,
+  NgbDate,
   NgbDateStruct,
   NgbModal,
 } from "@ng-bootstrap/ng-bootstrap";
@@ -70,7 +71,9 @@ export class ActivityLogsComponent {
     private modalService: NgbModal,
     private appService: AppService,
     private alertService: MessageService
-  ) {}
+  ) {
+    const today = new Date();
+  }
 
   model_from!: NgbDateStruct;
   model_to!: NgbDateStruct;
@@ -157,164 +160,6 @@ export class ActivityLogsComponent {
         this.lastDate
       );
     }
-
-    // if (this.selectedYear == undefined) {
-    //   if (this.selectedMonth == undefined) {
-    //     if (this.selectedPlatform == 0 || this.selectedPlatform == undefined) {
-    //       this.getActivityLogs(
-    //         this.selectedPage,
-    //         this.selectedPageSize,
-    //         0,
-    //         0,
-    //         this.firstDate,
-    //         this.lastDate
-    //       );
-    //     } else if (
-    //       this.selectedPlatform != 0 &&
-    //       this.selectedPlatform != undefined &&
-    //       (this.selectedRole == 0 || this.selectedRole == undefined)
-    //     ) {
-    //       this.getActivityLogs(
-    //         this.selectedPage,
-    //         this.selectedPageSize,
-    //         this.selectedPlatform,
-    //         0,
-    //         this.firstDate,
-    //         this.lastDate
-    //       );
-    //     } else if (
-    //       this.selectedPlatform != 0 &&
-    //       this.selectedPlatform != undefined &&
-    //       this.selectedRole != 0 &&
-    //       this.selectedRole != undefined
-    //     ) {
-    //       this.getActivityLogs(
-    //         this.selectedPage,
-    //         this.selectedPageSize,
-    //         this.selectedPlatform,
-    //         this.selectedRole,
-    //         this.firstDate,
-    //         this.lastDate
-    //       );
-    //     }
-    //   } else if (this.selectedMonth != undefined) {
-    //     if (this.selectedPlatform == 0 || this.selectedPlatform == undefined) {
-    //       this.getActivityLogs(
-    //         this.selectedPage,
-    //         this.selectedPageSize,
-    //         0,
-    //         0,
-    //         this.firstDate,
-    //         this.lastDate
-    //       );
-    //     } else if (
-    //       this.selectedPlatform != 0 &&
-    //       this.selectedPlatform != undefined &&
-    //       (this.selectedRole == 0 || this.selectedRole == undefined)
-    //     ) {
-    //       this.getActivityLogs(
-    //         this.selectedPage,
-    //         this.selectedPageSize,
-    //         this.selectedPlatform,
-    //         0,
-    //         this.firstDate,
-    //         this.lastDate
-    //       );
-    //     } else if (
-    //       this.selectedPlatform != 0 &&
-    //       this.selectedPlatform != undefined &&
-    //       this.selectedRole != 0 &&
-    //       this.selectedRole != undefined
-    //     ) {
-    //       this.getActivityLogs(
-    //         this.selectedPage,
-    //         this.selectedPageSize,
-    //         this.selectedPlatform,
-    //         this.selectedRole,
-    //         this.firstDate,
-    //         this.lastDate
-    //       );
-    //     }
-    //   }
-    // } else if (this.selectedYear != undefined) {
-    //   if (this.selectedMonth == undefined) {
-    //     if (this.selectedPlatform == 0 || this.selectedPlatform == undefined) {
-    //       this.getActivityLogs(
-    //         this.selectedPage,
-    //         this.selectedPageSize,
-    //         0,
-    //         0,
-    //         this.firstDate,
-    //         this.lastDate
-    //       );
-    //     } else if (
-    //       this.selectedPlatform != 0 &&
-    //       this.selectedPlatform != undefined &&
-    //       (this.selectedRole == 0 || this.selectedRole == undefined)
-    //     ) {
-    //       this.getActivityLogs(
-    //         this.selectedPage,
-    //         this.selectedPageSize,
-    //         this.selectedPlatform,
-    //         0,
-    //         this.firstDate,
-    //         this.lastDate
-    //       );
-    //     } else if (
-    //       this.selectedPlatform != 0 &&
-    //       this.selectedPlatform != undefined &&
-    //       this.selectedRole != 0 &&
-    //       this.selectedRole != undefined
-    //     ) {
-    //       this.getActivityLogs(
-    //         this.selectedPage,
-    //         this.selectedPageSize,
-    //         this.selectedPlatform,
-    //         this.selectedRole,
-    //         this.firstDate,
-    //         this.lastDate
-    //       );
-    //     }
-    //   } else if (this.selectedMonth != undefined) {
-    //     if (this.selectedPlatform == 0 || this.selectedPlatform == undefined) {
-    //       this.getActivityLogs(
-    //         this.selectedPage,
-    //         this.selectedPageSize,
-    //         0,
-    //         0,
-    //         this.firstDate,
-    //         this.lastDate
-    //       );
-    //     } else if (
-    //       this.selectedPlatform != 0 &&
-    //       this.selectedPlatform != undefined &&
-    //       (this.selectedRole == 0 || this.selectedRole == undefined)
-    //     ) {
-    //       this.getActivityLogs(
-    //         this.selectedPage,
-    //         this.selectedPageSize,
-    //         this.selectedPlatform,
-    //         0,
-    //         this.firstDate,
-    //         this.lastDate
-    //       );
-    //     } else if (
-    //       this.selectedPlatform != 0 &&
-    //       this.selectedPlatform != undefined &&
-    //       this.selectedRole != 0 &&
-    //       this.selectedRole != undefined
-    //     ) {
-    //       this.getActivityLogs(
-    //         this.selectedPage,
-    //         this.selectedPageSize,
-    //         this.selectedPlatform,
-    //         this.selectedRole,
-    //         this.firstDate,
-    //         this.lastDate
-    //       );
-    //     }
-    //   }
-    // }
   }
 
   updateTable() {
