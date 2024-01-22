@@ -117,8 +117,6 @@ export class PlatformUsersComponent {
     });
 
     // console.log(">>>temp", this.temp);
-    console.log(">>>", this.platformId);
-    console.log(">>>", this.platformName);
     var platforms = this.appService.appConfig[0].platformList;
     for (let i = 0; i < platforms.length; i++) {
       this.platformList.push(platforms[i]);
@@ -146,9 +144,10 @@ export class PlatformUsersComponent {
       { label: "Users", active: true },
     ]);
 
-    //get platform name from the platform configuration component
+    //get platform name and platformId from the platform configuration component
     this.route.params.subscribe((params) => {
       this.platformName = params["PlatformName"];
+      this.platformId = params['PlatformId'];
     });
 
     this.loadData();

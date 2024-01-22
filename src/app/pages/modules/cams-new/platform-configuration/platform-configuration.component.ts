@@ -195,9 +195,9 @@ export class PlatformConfigurationComponent {
   // }
   onViewPlatformUsers(row: any) {
     console.log(">>>>>", row);
-    this.router.navigate(["/platform-users/:id", row.PlatformName]);
+    this.router.navigate(["/platform-users/:id", row.PlatformName, row.PlatformId]);
 
-    var x = this.eventService.broadcast("PlatformId", row.PlatformId);
+    //var x = this.eventService.broadcast("PlatformId", row.PlatformId);
   }
 
   onViewButtonClicked(row: any) {
