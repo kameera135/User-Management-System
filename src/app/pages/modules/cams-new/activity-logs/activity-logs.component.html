@@ -8,11 +8,11 @@
   <div class="card">
     <div class="card-header">
       <div class="row">
-        <div class="col-6 col-lg-6 mt-1"><h2>Activity Logs</h2></div>
+        <div class="col-3 col-lg-3 mt-1"><h2>Activity Logs</h2></div>
 
-        <div class="col-6 col-lg-6 mt-1">
+        <div class="col-9 col-lg-9 mt-1">
           <div class="row">
-            <div class="col-3 col-lg-3">
+            <div class="col-2 col-lg-2">
               <div class="col-12">
                 <div class="input-group">
                   <input
@@ -40,7 +40,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-3 col-lg-3">
+            <div class="col-2 col-lg-2">
               <div class="col-12">
                 <div class="input-group">
                   <input
@@ -70,6 +70,23 @@
             </div>
             <div class="col-3 col-lg-3">
               <ng-select
+                [(ngModel)]="selectedUser"
+                [multiple]="false"
+                (change)="loadData()"
+                [placeholder]="userListDefault[0].value"
+                name="users-comboBox"
+                [clearable]="false"
+              >
+                <ng-option
+                  *ngFor="let item of userListDefault"
+                  [value]="item.id"
+                >
+                  {{ item.value }}
+                </ng-option>
+              </ng-select>
+            </div>
+            <div class="col-3 col-lg-3">
+              <ng-select
                 [(ngModel)]="selectedPlatform"
                 [multiple]="false"
                 (change)="onPlatformSelect()"
@@ -85,7 +102,7 @@
                 </ng-option>
               </ng-select>
             </div>
-            <div class="col-3 col-lg-3">
+            <div class="col-2 col-lg-2">
               <ng-select
                 [(ngModel)]="selectedRole"
                 [multiple]="false"

@@ -29,6 +29,7 @@
   "UserAddedErrorSideAlertMessage": "Could not add a user.",
 
   "GetUserPlatformsAndRolesErrorSideAlertMessage": "Cannot retrive platforms & roles",
+  "GetUserComboboxListErrorSideAlertMessage": "Could not retrieve the user list.",
   "GetPlatformComboboxListErrorSideAlertMessage": "Could not retrieve the platform list.",
   "GetRoleComboboxListErrorSideAlertMessage": "Could not retrieve the role list.",
 

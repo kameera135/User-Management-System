@@ -41,10 +41,13 @@ export class ActivityLogsComponent {
   roleList: any[] = [];
   selectedRole!: any;
   platformList: any[] = [];
+  userList: any[] = [];
   selectedPlatform!: number;
+  selectedUser!: number;
 
   UserUpdatedNotificationMessage!: string;
 
+  userListDefault: any[] = [{ value: "All Users", id: "0" }];
   platformListDefault: any[] = [{ value: "All Platforms", id: "0" }];
   roleListDefault: any[] = [{ value: "All Roles", id: "0" }];
 
@@ -98,6 +101,7 @@ export class ActivityLogsComponent {
     this.model_to = this.initialToDate;
 
     this.getPlatformList();
+    this.getUserList();
 
     const currentYear = new Date().getFullYear();
     this.yearList = Array.from(
@@ -123,42 +127,88 @@ export class ActivityLogsComponent {
   loadData() {
     this.loadingInProgress = true;
 
-    if (this.selectedPlatform == 0 || this.selectedPlatform == undefined) {
-      this.getActivityLogs(
-        this.selectedPage,
-        this.selectedPageSize,
-        0,
-        0,
-        this.firstDate,
-        this.lastDate
-      );
-    } else if (
-      this.selectedPlatform != 0 &&
-      this.selectedPlatform != undefined &&
-      (this.selectedRole == 0 || this.selectedRole == undefined)
-    ) {
-      this.getActivityLogs(
-        this.selectedPage,
-        this.selectedPageSize,
-        this.selectedPlatform,
-        0,
-        this.firstDate,
-        this.lastDate
-      );
-    } else if (
-      this.selectedPlatform != 0 &&
-      this.selectedPlatform != undefined &&
-      this.selectedRole != 0 &&
-      this.selectedRole != undefined
-    ) {
-      this.getActivityLogs(
-        this.selectedPage,
-        this.selectedPageSize,
-        this.selectedPlatform,
-        this.selectedRole,
-        this.firstDate,
-        this.lastDate
-      );
+    if (this.selectedUser == 0 || this.selectedUser == undefined) {
+      if (this.selectedPlatform == 0 || this.selectedPlatform == undefined) {
+        this.getActivityLogs(
+          this.selectedPage,
+          this.selectedPageSize,
+          0,
+          0,
+          this.firstDate,
+          this.lastDate,
+          0
+        );
+      } else if (
+        this.selectedPlatform != 0 &&
+        this.selectedPlatform != undefined &&
+        (this.selectedRole == 0 || this.selectedRole == undefined)
+      ) {
+        this.getActivityLogs(
+          this.selectedPage,
+          this.selectedPageSize,
+          this.selectedPlatform,
+          0,
+          this.firstDate,
+          this.lastDate,
+          0
+        );
+      } else if (
+        this.selectedPlatform != 0 &&
+        this.selectedPlatform != undefined &&
+        this.selectedRole != 0 &&
+        this.selectedRole != undefined
+      ) {
+        this.getActivityLogs(
+          this.selectedPage,
+          this.selectedPageSize,
+          this.selectedPlatform,
+          this.selectedRole,
+          this.firstDate,
+          this.lastDate,
+          0
+        );
+      }
+    } else {
+      if (this.selectedPlatform == 0 || this.selectedPlatform == undefined) {
+        this.getActivityLogs(
+          this.selectedPage,
+          this.selectedPageSize,
+          0,
+          0,
+          this.firstDate,
+          this.lastDate,
+          this.selectedUser
+        );
+      } else if (
+        this.selectedPlatform != 0 &&
+        this.selectedPlatform != undefined &&
+        (this.selectedRole == 0 || this.selectedRole == undefined)
+      ) {
+        this.getActivityLogs(
+          this.selectedPage,
+          this.selectedPageSize,
+          this.selectedPlatform,
+          0,
+          this.firstDate,
+          this.lastDate,
+          this.selectedUser
+        );
+      } else if (
+        this.selectedPlatform != 0 &&
+        this.selectedPlatform != undefined &&
+        this.selectedRole != 0 &&
+        this.selectedRole != undefined
+      ) {
+        this.getActivityLogs(
+          this.selectedPage,
+          this.selectedPageSize,
+          this.selectedPlatform,
+          this.selectedRole,
+          this.firstDate,
+          this.lastDate,
+          this.selectedUser
+        );
+      }
     }
   }
 
@@ -238,6 +288,28 @@ export class ActivityLogsComponent {
     this.loadData();
   }
 
+  getUserList() {
+    this.userListDefault = [{ value: "All Users", id: "0" }];
+
+    this.shared.getUserList().subscribe({
+      next: (response: any) => {
+        this.userList = response;
+
+        var users = this.userList;
+        for (let i = 0; i < users.length; i++) {
+          this.userListDefault.push(users[i]);
+        }
+      },
+      error: (error) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0]
+            .GetUserComboboxListErrorSideAlertMessage
+        );
+      },
+    });
+  }
+
   getPlatformList() {
     this.roleListDefault = [{ value: "All Roles", id: "0" }];
 
@@ -287,10 +359,19 @@ export class ActivityLogsComponent {
     platformId: number,
     roleId: number,
     firstDate: Date,
-    lastDate: Date
+    lastDate: Date,
+    userId: number
   ) {
     this.shared
-      .getActivityLogs(page, pageSize, platformId, roleId, firstDate, lastDate)
+      .getActivityLogs(
+        page,
+        pageSize,
+        platformId,
+        roleId,
+        firstDate,
+        lastDate,
+        userId
+      )
       .subscribe({
         next: (response: any) => {
           this.activityLogList = response.response;
