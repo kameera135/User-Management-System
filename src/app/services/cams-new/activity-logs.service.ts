@@ -13,6 +13,14 @@ export class ActivityLogsService {
   apiUrl = this.appService.appConfig[0].apiUrl;
   user = this.appService.user;
 
+  getUserList() {
+    let queryParams = new HttpParams();
+    //queryParams = queryParams.append("viewedBy", this.user.id);
+
+    const url = `${this.apiUrl}/api/users/combobox`;
+    return this.httpClient.get(url, { params: queryParams });
+  }
+
   getPlatformList() {
     let queryParams = new HttpParams();
     //queryParams = queryParams.append("viewedBy", this.user.id);
@@ -30,19 +38,27 @@ export class ActivityLogsService {
   }
 
   getActivityLogs(
-    year: string,
-    month: string,
     page: number,
     pageSize: number,
     platformId: number,
-    roleId: number
+    roleId: number,
+    firstDate: Date,
+    lastDate: Date,
+    userId: number
   ) {
     let queryParams = new HttpParams();
     // queryParams = queryParams.append("viewedBy", this.user.id);
     queryParams = queryParams.append("platformId", platformId);
     queryParams = queryParams.append("roleId", roleId);
+    queryParams = queryParams.append("userId", userId);
+    queryParams = queryParams.append(
+      "firstDateString",
+      firstDate.toISOString()
+    );
+    queryParams = queryParams.append("lastDateString", lastDate.toISOString());
 
-    const url = `${this.apiUrl}/api/activity_logs/${year}/${month}/${page}/${pageSize}`;
+    // const url = `${this.apiUrl}/api/activity_logs/${year}/${month}/${page}/${pageSize}`;
+    const url = `${this.apiUrl}/api/activity_logs/${page}/${pageSize}`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 }

@@ -1,5 +1,10 @@
-import { Component } from "@angular/core";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Component, inject } from "@angular/core";
+import {
+  NgbCalendar,
+  NgbDate,
+  NgbDateStruct,
+  NgbModal,
+} from "@ng-bootstrap/ng-bootstrap";
 import { AppService } from "src/app/app.service";
 import { MessageService } from "src/app/services/PopupMessages/message.service";
 import { BreadcrumbService } from "src/app/services/breadcrumb/breadcrumb.service";
@@ -36,10 +41,13 @@ export class ActivityLogsComponent {
   roleList: any[] = [];
   selectedRole!: any;
   platformList: any[] = [];
+  userList: any[] = [];
   selectedPlatform!: number;
+  selectedUser!: number;
 
   UserUpdatedNotificationMessage!: string;
 
+  userListDefault: any[] = [{ value: "All Users", id: "0" }];
   platformListDefault: any[] = [{ value: "All Platforms", id: "0" }];
   roleListDefault: any[] = [{ value: "All Roles", id: "0" }];
 
@@ -66,10 +74,34 @@ export class ActivityLogsComponent {
     private modalService: NgbModal,
     private appService: AppService,
     private alertService: MessageService
-  ) {}
+  ) {
+    const today = new Date();
+  }
+
+  model_from!: NgbDateStruct;
+  model_to!: NgbDateStruct;
+  placement = "bottom";
+  firstDate: Date = new Date();
+  lastDate: Date = new Date(new Date().getTime() - 86400000);
+
+  initialFromDate: any = {
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() + 1,
+    day: new Date().getDate() - 1,
+  };
+  initialToDate: any = {
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() + 1,
+    day: new Date().getDate(),
+  };
 
   ngOnInit(): void {
+    this.model_from = this.initialFromDate;
+
+    this.model_to = this.initialToDate;
+
     this.getPlatformList();
+    this.getUserList();
 
     const currentYear = new Date().getFullYear();
     this.yearList = Array.from(
@@ -95,161 +127,87 @@ export class ActivityLogsComponent {
   loadData() {
     this.loadingInProgress = true;
 
-    if (this.selectedYear == undefined) {
-      if (this.selectedMonth == undefined) {
-        if (this.selectedPlatform == 0 || this.selectedPlatform == undefined) {
-          this.getActivityLogs(
-            this.thisYear,
-            this.thisMonth,
-            this.selectedPage,
-            this.selectedPageSize,
-            0,
-            0
-          );
-        } else if (
-          this.selectedPlatform != 0 &&
-          this.selectedPlatform != undefined &&
-          (this.selectedRole == 0 || this.selectedRole == undefined)
-        ) {
-          this.getActivityLogs(
-            this.thisYear,
-            this.thisMonth,
-            this.selectedPage,
-            this.selectedPageSize,
-            this.selectedPlatform,
-            0
-          );
-        } else if (
-          this.selectedPlatform != 0 &&
-          this.selectedPlatform != undefined &&
-          this.selectedRole != 0 &&
-          this.selectedRole != undefined
-        ) {
-          this.getActivityLogs(
-            this.thisYear,
-            this.thisMonth,
-            this.selectedPage,
-            this.selectedPageSize,
-            this.selectedPlatform,
-            this.selectedRole
-          );
-        }
-      } else if (this.selectedMonth != undefined) {
-        if (this.selectedPlatform == 0 || this.selectedPlatform == undefined) {
-          this.getActivityLogs(
-            this.thisYear,
-            this.selectedMonth,
-            this.selectedPage,
-            this.selectedPageSize,
-            0,
-            0
-          );
-        } else if (
-          this.selectedPlatform != 0 &&
-          this.selectedPlatform != undefined &&
-          (this.selectedRole == 0 || this.selectedRole == undefined)
-        ) {
-          this.getActivityLogs(
-            this.thisYear,
-            this.selectedMonth,
-            this.selectedPage,
-            this.selectedPageSize,
-            this.selectedPlatform,
-            0
-          );
-        } else if (
-          this.selectedPlatform != 0 &&
-          this.selectedPlatform != undefined &&
-          this.selectedRole != 0 &&
-          this.selectedRole != undefined
-        ) {
-          this.getActivityLogs(
-            this.thisYear,
-            this.selectedMonth,
-            this.selectedPage,
-            this.selectedPageSize,
-            this.selectedPlatform,
-            this.selectedRole
-          );
-        }
+    if (this.selectedUser == 0 || this.selectedUser == undefined) {
+      if (this.selectedPlatform == 0 || this.selectedPlatform == undefined) {
+        this.getActivityLogs(
+          this.selectedPage,
+          this.selectedPageSize,
+          0,
+          0,
+          this.firstDate,
+          this.lastDate,
+          0
+        );
+      } else if (
+        this.selectedPlatform != 0 &&
+        this.selectedPlatform != undefined &&
+        (this.selectedRole == 0 || this.selectedRole == undefined)
+      ) {
+        this.getActivityLogs(
+          this.selectedPage,
+          this.selectedPageSize,
+          this.selectedPlatform,
+          0,
+          this.firstDate,
+          this.lastDate,
+          0
+        );
+      } else if (
+        this.selectedPlatform != 0 &&
+        this.selectedPlatform != undefined &&
+        this.selectedRole != 0 &&
+        this.selectedRole != undefined
+      ) {
+        this.getActivityLogs(
+          this.selectedPage,
+          this.selectedPageSize,
+          this.selectedPlatform,
+          this.selectedRole,
+          this.firstDate,
+          this.lastDate,
+          0
+        );
       }
-    } else if (this.selectedYear != undefined) {
-      if (this.selectedMonth == undefined) {
-        if (this.selectedPlatform == 0 || this.selectedPlatform == undefined) {
-          this.getActivityLogs(
-            this.selectedYear,
-            this.thisMonth,
-            this.selectedPage,
-            this.selectedPageSize,
-            0,
-            0
-          );
-        } else if (
-          this.selectedPlatform != 0 &&
-          this.selectedPlatform != undefined &&
-          (this.selectedRole == 0 || this.selectedRole == undefined)
-        ) {
-          this.getActivityLogs(
-            this.selectedYear,
-            this.thisMonth,
-            this.selectedPage,
-            this.selectedPageSize,
-            this.selectedPlatform,
-            0
-          );
-        } else if (
-          this.selectedPlatform != 0 &&
-          this.selectedPlatform != undefined &&
-          this.selectedRole != 0 &&
-          this.selectedRole != undefined
-        ) {
-          this.getActivityLogs(
-            this.selectedYear,
-            this.thisMonth,
-            this.selectedPage,
-            this.selectedPageSize,
-            this.selectedPlatform,
-            this.selectedRole
-          );
-        }
-      } else if (this.selectedMonth != undefined) {
-        if (this.selectedPlatform == 0 || this.selectedPlatform == undefined) {
-          this.getActivityLogs(
-            this.selectedYear,
-            this.selectedMonth,
-            this.selectedPage,
-            this.selectedPageSize,
-            0,
-            0
-          );
-        } else if (
-          this.selectedPlatform != 0 &&
-          this.selectedPlatform != undefined &&
-          (this.selectedRole == 0 || this.selectedRole == undefined)
-        ) {
-          this.getActivityLogs(
-            this.selectedYear,
-            this.selectedMonth,
-            this.selectedPage,
-            this.selectedPageSize,
-            this.selectedPlatform,
-            0
-          );
-        } else if (
-          this.selectedPlatform != 0 &&
-          this.selectedPlatform != undefined &&
-          this.selectedRole != 0 &&
-          this.selectedRole != undefined
-        ) {
-          this.getActivityLogs(
-            this.selectedYear,
-            this.selectedMonth,
-            this.selectedPage,
-            this.selectedPageSize,
-            this.selectedPlatform,
-            this.selectedRole
-          );
-        }
+    } else {
+      if (this.selectedPlatform == 0 || this.selectedPlatform == undefined) {
+        this.getActivityLogs(
+          this.selectedPage,
+          this.selectedPageSize,
+          0,
+          0,
+          this.firstDate,
+          this.lastDate,
+          this.selectedUser
+        );
+      } else if (
+        this.selectedPlatform != 0 &&
+        this.selectedPlatform != undefined &&
+        (this.selectedRole == 0 || this.selectedRole == undefined)
+      ) {
+        this.getActivityLogs(
+          this.selectedPage,
+          this.selectedPageSize,
+          this.selectedPlatform,
+          0,
+          this.firstDate,
+          this.lastDate,
+          this.selectedUser
+        );
+      } else if (
+        this.selectedPlatform != 0 &&
+        this.selectedPlatform != undefined &&
+        this.selectedRole != 0 &&
+        this.selectedRole != undefined
+      ) {
+        this.getActivityLogs(
+          this.selectedPage,
+          this.selectedPageSize,
+          this.selectedPlatform,
+          this.selectedRole,
+          this.firstDate,
+          this.lastDate,
+          this.selectedUser
+        );
       }
     }
   }
@@ -299,6 +257,59 @@ export class ActivityLogsComponent {
     this.loadData();
   }
 
+  onFromDateClicked() {
+    this.firstDate = this.convertToObjectToDate(this.model_from);
+    this.lastDate = this.convertToObjectToDate(this.model_to);
+
+    if (this.firstDate >= this.lastDate) {
+      this.model_from = this.initialFromDate;
+      this.model_to = this.initialToDate;
+      this.firstDate = this.convertToObjectToDate(this.model_from);
+      this.lastDate = this.convertToObjectToDate(this.model_to);
+
+      this.alertService.sideErrorAlert("Error", "Select a valid date");
+    }
+
+    this.loadData();
+  }
+
+  onToDateClicked() {
+    this.firstDate = this.convertToObjectToDate(this.model_from);
+    this.lastDate = this.convertToObjectToDate(this.model_to);
+    if (this.firstDate >= this.lastDate) {
+      this.model_from = this.initialFromDate;
+      this.model_to = this.initialToDate;
+      this.firstDate = this.convertToObjectToDate(this.model_from);
+      this.lastDate = this.convertToObjectToDate(this.model_to);
+
+      this.alertService.sideErrorAlert("Error", "Select a valid date range");
+    }
+
+    this.loadData();
+  }
+
+  getUserList() {
+    this.userListDefault = [{ value: "All Users", id: "0" }];
+
+    this.shared.getUserList().subscribe({
+      next: (response: any) => {
+        this.userList = response;
+
+        var users = this.userList;
+        for (let i = 0; i < users.length; i++) {
+          this.userListDefault.push(users[i]);
+        }
+      },
+      error: (error) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0]
+            .GetUserComboboxListErrorSideAlertMessage
+        );
+      },
+    });
+  }
+
   getPlatformList() {
     this.roleListDefault = [{ value: "All Roles", id: "0" }];
 
@@ -343,15 +354,24 @@ export class ActivityLogsComponent {
   }
 
   getActivityLogs(
-    year: string,
-    month: string,
     page: number,
     pageSize: number,
     platformId: number,
-    roleId: number
+    roleId: number,
+    firstDate: Date,
+    lastDate: Date,
+    userId: number
   ) {
     this.shared
-      .getActivityLogs(year, month, page, pageSize, platformId, roleId)
+      .getActivityLogs(
+        page,
+        pageSize,
+        platformId,
+        roleId,
+        firstDate,
+        lastDate,
+        userId
+      )
       .subscribe({
         next: (response: any) => {
           this.activityLogList = response.response;
@@ -411,5 +431,19 @@ export class ActivityLogsComponent {
     )} ${ampm}`;
 
     return formattedDate;
+  }
+
+  convertToObjectToDate(dateObject: {
+    year: number;
+    month: number;
+    day: number;
+  }): Date {
+    // Destructure the properties from the input object
+    const { year, month, day } = dateObject;
+
+    // Month in JavaScript's Date object is zero-based, so we subtract 1 from the month
+    const jsDate = new Date(year, month - 1, day);
+
+    return jsDate;
   }
 }
