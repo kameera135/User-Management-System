@@ -71,10 +71,10 @@
       <div class="mb-3">
         <label class="col-form-label">Platform</label>
         <ng-select
-        [(ngModel)]="selectedPlatform"
+        [(ngModel)]="platformName"
         [multiple]="true"
-        [placeholder]="platformListDefault[0].value"
-        name="platform-comboBox"
+        [placeholder]="platformName"
+        name="platformName"
         [clearable]="true"
       >
         <ng-option

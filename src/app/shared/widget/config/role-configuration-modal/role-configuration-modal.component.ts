@@ -5,7 +5,7 @@ import { AppService } from "src/app/app.service";
 import { MessageService } from "src/app/services/PopupMessages/message.service";
 import { RoleConfigurationService } from "src/app/services/cams-new/configuration services/role-configuration.service";
 import { Role as Role } from "src/app/shared/models/Cams-new/Role";
-import { PermissionsForRole } from "src/app/shared/models/Cams-new/permissionsForRole";
+import { PermissionsForRole } from "src/app/shared/models/Cams-new/PermissionsForRole";
 
 interface ListItem {
   name: string;
@@ -32,14 +32,15 @@ export class RoleConfigurationModalComponent {
   @Input() description!: string;
   @Input() status!: string;
   @Input() permission!: string;
-  @Input() platform!: string;
+  
+  @Input() platformName: any = [];
 
   buttonName!: string;
   buttonIcon!: string;
   cancelButtonIcon: string = "bi-x-circle-fill";
   cancelButtonName: string = "Cancel";
 
-  selectedRole: string = "User Managemant System";
+  // selectedRole: string = "User Managemant System";
 
   disablePlatforms: boolean = false;
 
@@ -92,9 +93,10 @@ export class RoleConfigurationModalComponent {
 
     this.getPlatformList();
 
-    if(this.type == "View"){
+    if(this.type == "View" || this.type == 'permission'){
       this.getPermissionsForRoles();
     }
+
   }
 
   onFormSubmit() {
@@ -117,6 +119,7 @@ export class RoleConfigurationModalComponent {
     role.roleId = this.roleCode;
     role.role = this.roleName;
     role.createdAt = this.createdDate;
+    role.platform = this.platformName;
     // role.description = this.description;
     //role.status = this.status;
 
@@ -125,6 +128,7 @@ export class RoleConfigurationModalComponent {
 
   updateTable() {
     this.permissionsForRoleArray = this.permissionsForRoleList.map((item) => ({
+      PlatformId: item.platformId,
       Platform: item.platform,
       Permission: item.permission,
     }));
@@ -133,7 +137,7 @@ export class RoleConfigurationModalComponent {
 
   getPermissionsForRoles() {
     this.loadingInProgress = true;
-    this.shared.getPermissionsForRoles(this.roleId, this.platformId ).subscribe({
+    this.shared.getPermissionsForRoles(this.roleCode, this.platformId).subscribe({
       next: (response: any) => {
         this.permissionsForRoleList = response;
         this.updateTable();

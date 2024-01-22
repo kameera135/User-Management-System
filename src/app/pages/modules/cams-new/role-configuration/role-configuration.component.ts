@@ -258,11 +258,11 @@ export class RoleConfigurationComponent {
   }
 
   updateTable() {
-
     this.roleDetailsArray = this.roleList.map((item) => ({
       RoleCode: item.roleId,
       RoleName: item.role,
       PlatformName: item.platform,
+      PlatformId: item.platformId,
       // Description: item.description,
       CreatedDate:  new Date(item.createdAt).toLocaleDateString(),
       Status: item.status ? "Activated" : "Deactivated",
@@ -283,7 +283,7 @@ export class RoleConfigurationComponent {
   }
 
   onAddRoleButtonClicked(): void {
-    this.openModal("Add", "New Role", "", "", "", "","");
+    this.openModal("Add", "New Role", "", "", 0, "","","");
   }
 
   onViewPermissionButtonClicked(row: any) {
@@ -292,6 +292,7 @@ export class RoleConfigurationComponent {
       "Add Permissions",
       row.RoleCode,
       row.RoleName,
+      0,
       "",
       "",
       ""
@@ -305,7 +306,8 @@ export class RoleConfigurationComponent {
       "Edit Role Details",
       row.RoleCode,
       row.RoleName,
-      row.Description,
+      row.PlatformId,
+      row.PlatformName,
       row.CreatedDate,
       row.Status
     );
@@ -317,7 +319,8 @@ export class RoleConfigurationComponent {
       "Role Details",
       row.RoleCode,
       row.RoleName,
-      row.platformId,
+      row.PlatformId,
+      "",
       row.CreatedDate,
       row.Status
     );
@@ -329,7 +332,9 @@ export class RoleConfigurationComponent {
     modalTitle: string,
     roleCode: string,
     roleName: string,
-    description: string,
+    platformId: number,
+    platformName:string,
+    //description: string,
     createdDate: string,
     status: string
   ): void {
@@ -348,7 +353,8 @@ export class RoleConfigurationComponent {
 
     modalRef.componentInstance.roleCode = roleCode;
     modalRef.componentInstance.roleName = roleName;
-    modalRef.componentInstance.description = description;
+    modalRef.componentInstance.platformId = platformId;
+    modalRef.componentInstance.platformName = platformName;
     modalRef.componentInstance.createdDate = createdDate
     modalRef.componentInstance.status = status;
 
@@ -384,7 +390,8 @@ export class RoleConfigurationComponent {
                     "Edit Role Details",
                     roleCode,
                     roleName,
-                    description,
+                    platformId,
+                    platformName,
                     createdDate,
                     status
                   );
@@ -395,7 +402,8 @@ export class RoleConfigurationComponent {
                     "Role",
                     roleCode,
                     roleName,
-                    description,
+                    platformId,
+                    platformName,
                     createdDate,
                     status
                   );
