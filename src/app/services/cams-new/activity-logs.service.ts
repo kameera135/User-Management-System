@@ -30,19 +30,25 @@ export class ActivityLogsService {
   }
 
   getActivityLogs(
-    year: string,
-    month: string,
     page: number,
     pageSize: number,
     platformId: number,
-    roleId: number
+    roleId: number,
+    firstDate: Date,
+    lastDate: Date
   ) {
     let queryParams = new HttpParams();
     // queryParams = queryParams.append("viewedBy", this.user.id);
     queryParams = queryParams.append("platformId", platformId);
     queryParams = queryParams.append("roleId", roleId);
+    queryParams = queryParams.append(
+      "firstDateString",
+      firstDate.toISOString()
+    );
+    queryParams = queryParams.append("lastDateString", lastDate.toISOString());
 
-    const url = `${this.apiUrl}/api/activity_logs/${year}/${month}/${page}/${pageSize}`;
+    // const url = `${this.apiUrl}/api/activity_logs/${year}/${month}/${page}/${pageSize}`;
+    const url = `${this.apiUrl}/api/activity_logs/${page}/${pageSize}`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 }

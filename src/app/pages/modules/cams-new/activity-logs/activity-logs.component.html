@@ -13,7 +13,7 @@
         <div class="col-6 col-lg-6 mt-1">
           <div class="row">
             <div class="col-3 col-lg-3">
-              <ng-select
+              <!-- <ng-select
                 [(ngModel)]="selectedYear"
                 [multiple]="false"
                 (change)="loadData()"
@@ -24,10 +24,33 @@
                 <ng-option *ngFor="let item of yearList" [value]="item.value">
                   {{ item.value }}
                 </ng-option>
-              </ng-select>
+              </ng-select> -->
+              <!-- <form class="row row-cols-sm-auto"> -->
+              <div class="col-12">
+                <div class="input-group">
+                  <input
+                    class="form-control"
+                    placeholder="From"
+                    name="dp_from"
+                    [(ngModel)]="model_from"
+                    ngbDatepicker
+                    #dFrom="ngbDatepicker"
+                    [placement]="placement"
+                    [positionTarget]="buttonElFrom"
+                    (dateSelect)="onFromDateClicked()"
+                  />
+                  <button
+                    #buttonElFrom
+                    class="btn btn-outline-secondary bi bi-calendar3"
+                    (click)="dFrom.toggle()"
+                    type="button"
+                  ></button>
+                </div>
+              </div>
+              <!-- </form> -->
             </div>
             <div class="col-3 col-lg-3">
-              <ng-select
+              <!-- <ng-select
                 [(ngModel)]="selectedMonth"
                 [multiple]="false"
                 (change)="loadData()"
@@ -38,7 +61,28 @@
                 <ng-option *ngFor="let item of monthList" [value]="item.id">
                   {{ item.value }}
                 </ng-option>
-              </ng-select>
+              </ng-select> -->
+              <div class="col-12">
+                <div class="input-group">
+                  <input
+                    class="form-control"
+                    placeholder="To"
+                    name="dp_to"
+                    [(ngModel)]="model_to"
+                    ngbDatepicker
+                    #dTo="ngbDatepicker"
+                    [placement]="placement"
+                    [positionTarget]="buttonElTo"
+                    (dateSelect)="onToDateClicked()"
+                  />
+                  <button
+                    #buttonElTo
+                    class="btn btn-outline-secondary bi bi-calendar3"
+                    (click)="dTo.toggle()"
+                    type="button"
+                  ></button>
+                </div>
+              </div>
             </div>
             <div class="col-3 col-lg-3">
               <ng-select
