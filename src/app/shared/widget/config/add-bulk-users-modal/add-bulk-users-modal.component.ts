@@ -3,6 +3,9 @@ import { Component, Input, ViewChild } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgToastService } from "ng-angular-popup";
 import { AppService } from "src/app/app.service";
+import { User } from "src/app/shared/models/Cams-new/User";
+
+import * as XLSX from "xlsx";
 
 @Component({
   selector: "app-add-bulk-users-modal",
@@ -19,6 +22,10 @@ export class AddBulkUsersModalComponent {
   @Input() file!: any;
 
   tagName!: string;
+
+  excelData: any;
+
+  mappedDataArrayToPost!: User[];
 
   singleTagOptions = [
     { name: "singleTag", label: "Add a Single Tag", value: true },
@@ -47,11 +54,32 @@ export class AddBulkUsersModalComponent {
   //csv file
 
   onFileChange(event: any) {
-    const file = event.target.files[0];
-    if (file && file.name.endsWith(".csv")) {
-      this.file = file;
-      this.parseCSVFile();
-    }
+    let file = event.target.files[0];
+
+    let fileReader = new FileReader();
+    fileReader.readAsBinaryString(file);
+
+    fileReader.onload = (e) => {
+      var workBook = XLSX.read(fileReader.result, { type: "binary" });
+      var sheetNames = workBook.SheetNames;
+      this.excelData = XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]]);
+      console.log(this.excelData);
+
+      this.userMapping();
+    };
+  }
+
+  userMapping() {
+    this.mappedDataArrayToPost = this.excelData.map((item: any) => ({
+      userName: item.Username,
+      firstName: item.FirstName,
+      lastName: item.LastName,
+      email: item.Email,
+      phone: item.PhoneNumber,
+      password: item.Password,
+    }));
+
+    console.log(">>>>", this.mappedDataArrayToPost);
   }
 
   parseCSVFile() {

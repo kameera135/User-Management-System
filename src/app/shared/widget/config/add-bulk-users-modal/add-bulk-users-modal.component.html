@@ -44,13 +44,14 @@
 
         <div class="m-0 my-4">
           <!-- <label class="form-label">Upload File</label> -->
+
           <input
             type="file"
             class="form-control"
             #fileInput
             name="csvFile"
             id="csvFile"
-            accept=".csv"
+            accept=".xlsx"
             (change)="onFileChange($event)"
             placeholder="Upload the file here..."
           />
