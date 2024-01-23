@@ -1,9 +1,10 @@
 export class PlatformUser {
-    empId!: string
+    empId!: number
     userName!: string;
     firstName!: string;
     lastName!: string;
-    platform!: string;
+    platformId!: number
+    platformName!: string;
     email!: string;
     phoneNumber!: string;
     role!: string

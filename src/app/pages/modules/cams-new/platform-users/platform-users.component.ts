@@ -60,7 +60,7 @@ export class PlatformUsersComponent {
   tableData: any;
 
   @Input() platformName!: string;
-  @Input() platformId!: string;
+  @Input() platformId!: number;
 
   //to remove
   // tableData = [
@@ -206,7 +206,8 @@ export class PlatformUsersComponent {
       UserName: item.userName,
       FirstName: item.firstName,
       LastName: item.lastName,
-      Platform: item.platform,
+      Platform: item.platformName,
+      PlatformId: item.platformId,
       Email: item.email,
       PhoneNumber: item.phoneNumber,
       isRejecteableOrApprovableRecord: true,
@@ -382,7 +383,7 @@ export class PlatformUsersComponent {
 
   getAllUsers() {
     this.shared
-      .getAllPlatformUsers(this.selectedPage, this.selectedPageSize)
+      .getAllPlatformUsers(this.platformId,this.selectedPage, this.selectedPageSize)
       .subscribe({
         next: (response) => {
           this.userList = response.response;

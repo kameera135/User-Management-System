@@ -35,7 +35,8 @@ export class PlatformUserModalComponent {
   @Input() confirmPassword!: string;
   @Input() userProfileCode!: string;
   @Input() role!: string;
-  empId!: string;
+  @Input() platformId!: number;
+  empId!: number;
 
   buttonName!: string;
   buttonIcon!: string;
@@ -119,7 +120,7 @@ export class PlatformUserModalComponent {
 
   getAllPlatformUsers() {
     this.shared
-      .getAllPlatformUsers(this.selectedPage, this.selectedPageSize)
+      .getAllPlatformUsers(this.platformId,this.selectedPage, this.selectedPageSize)
      .subscribe({
         
         next: (response) => {
@@ -193,7 +194,7 @@ export class PlatformUserModalComponent {
     user.userName = this.userName;
     user.firstName = this.firstName;
     user.lastName = this.lastName;
-    user.platform = this.platform;
+    user.platformName = this.platform;
     user.email = this.email;
     user.phoneNumber = this.phoneNumber;
 

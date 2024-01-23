@@ -13,13 +13,13 @@ export class PlatformUsersService {
   apiUrl = this.appService.appConfig[0].apiUrl;
   user = this.appService.user;
 
-  getAllPlatformUsers(page: number, pageSize: number) {
+  getAllPlatformUsers(platformId: number,page: number, page_size: number) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("viewedBy", this.user.id);
+    queryParams = queryParams.append("platformId", platformId);
     queryParams = queryParams.append("page", page);
-    queryParams = queryParams.append("pageSize", pageSize);
+    queryParams = queryParams.append("pageSize", page_size);
 
-    const url = `${this.apiUrl}/api/user/platform`;
+    const url = `${this.apiUrl}/api/configuration/platforms/users/${page}/${page_size}`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
