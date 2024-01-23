@@ -95,14 +95,15 @@ export class PlatformUserModalComponent {
 
     this.platformUserModelViewTableOption.allowCheckbox = true;
 
-    this.loaddata();
+    this.loadData();
     
   }
 
-  loaddata(){
+  loadData(){
     this.loadingInProgress = true;
     this.getAllPlatformUsers();
     this.getAllPlatformUsersRoles();
+    //this.getAllUsers();
   }
 
   updateTable() {
@@ -121,6 +122,33 @@ export class PlatformUserModalComponent {
   getAllPlatformUsers() {
     this.shared
       .getAllPlatformUsers(this.platformId,this.selectedPage, this.selectedPageSize)
+     .subscribe({
+        
+        next: (response) => {
+          this.userList = response.response;
+          this.totalDataCount = response.rowCount;
+          this.updateTable();
+          this.loadingInProgress = false;
+        },
+        error: (error) => {
+          this.alertService.sideErrorAlert(
+            "Error",
+            this.appService.popUpMessageConfig[0]
+              .GetUserListErrorSideAlertMessage
+          );
+
+          this.userList = [];
+          this.totalDataCount = 0;
+
+          this.updateTable();
+          this.loadingInProgress = false;
+        },
+      });
+  }
+
+  getAllUsers() {
+    this.shared
+      .getAllUsers(this.platformId)
      .subscribe({
         
         next: (response) => {

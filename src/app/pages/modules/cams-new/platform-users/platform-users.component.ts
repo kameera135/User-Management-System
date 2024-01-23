@@ -266,9 +266,10 @@ export class PlatformUsersComponent {
       row.FirstName,
       row.LastName,
       row.Platform,
+      row.PlatformId,
       row.Email,
       row.PhoneNumber,
-      row.UserProfileCode
+      //row.UserProfileCode
     );
   }
 

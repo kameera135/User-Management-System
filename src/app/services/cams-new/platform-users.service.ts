@@ -23,6 +23,18 @@ export class PlatformUsersService {
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
+  getAllUsers(platformId: number) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("platformId", platformId);
+    // queryParams = queryParams.append("page", page);
+    // queryParams = queryParams.append("pageSize", page_size);
+
+    const url = `${this.apiUrl}api/users/notInPlatform`;
+    //const url = `http://127.0.0.1:3000/api/user/platform`
+    return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
+  }
+
+
   getAllPlatformUsersRoles(page: number, pageSize: number) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("viewedBy", this.user.id);
