@@ -563,16 +563,16 @@ export class ActivityLogsComponent {
     const platform = this.platformListDefault.find(
       (item) => item.id === selectedPlatform
     );
-    return platform.value;
+    return platform ? platform.value : this.platformListDefault[0].value;
   }
 
   getSelectedRoleName(selectedRole: number): string {
     const role = this.roleListDefault.find((item) => item.id === selectedRole);
-    return role.value;
+    return role ? role.value : this.roleListDefault[0].value;
   }
 
   getSelectedUserName(selectedUser: number): string {
     const user = this.userListDefault.find((item) => item.id === selectedUser);
-    return user.value;
+    return user ? user.value : this.userListDefault[0].value;
   }
 }
