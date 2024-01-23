@@ -91,6 +91,11 @@ export class UsersViewComponent {
     this.loadData();
   }
 
+  onPlatformSelect() {
+    this.selectedPage = 1;
+    this.loadData();
+  }
+
   loadData() {
     this.loadingInProgress = true;
     if (

@@ -37,6 +37,7 @@
   "GetRoleComboboxListErrorSideAlertMessage": "Could not retrieve the role list.",
 
   "GetUserListErrorSideAlertMessage": "Could not retrieve the data list.",
+  "BulkAddWarningSideAlertMessage": "Please select the Excel file.",
 
   "UpdatePlatformConfirmationMessage": "You want to update platform details?",
   "DeletePlatformConfirmationMessage": "You want to delete platforms?",

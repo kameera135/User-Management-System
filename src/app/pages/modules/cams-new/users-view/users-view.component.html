@@ -37,7 +37,7 @@
             <ng-select
               [(ngModel)]="selectedPlatform"
               [multiple]="false"
-              (change)="loadData()"
+              (change)="onPlatformSelect()"
               [placeholder]="platformListDefault[0].value"
               name="comboBox"
               [clearable]="false"

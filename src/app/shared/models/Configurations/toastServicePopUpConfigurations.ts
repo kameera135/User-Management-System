@@ -49,6 +49,8 @@ export interface toastServicePopUpConfigurations {
 
   GetUserListErrorSideAlertMessage: string;
 
+  BulkAddWarningSideAlertMessage: string;
+
   GetUserPlatformsAndRolesErrorSideAlertMessage: string;
 
   GetUserComboboxListErrorSideAlertMessage: string;

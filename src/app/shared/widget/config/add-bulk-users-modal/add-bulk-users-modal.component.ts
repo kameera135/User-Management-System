@@ -3,6 +3,7 @@ import { Component, Input, ViewChild } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgToastService } from "ng-angular-popup";
 import { AppService } from "src/app/app.service";
+import { MessageService } from "src/app/services/PopupMessages/message.service";
 import { User } from "src/app/shared/models/Cams-new/User";
 import { UserBulk } from "src/app/shared/models/Cams-new/UserBulk";
 import { UserRoleBulk } from "src/app/shared/models/Cams-new/UserRoleBulk";
@@ -42,13 +43,21 @@ export class AddBulkUsersModalComponent {
     private httpClient: HttpClient,
     private appService: AppService,
     private notifierService: NgToastService,
-    public activeModal: NgbActiveModal
+    public activeModal: NgbActiveModal,
+    private alertService: MessageService
   ) {}
 
   ngOnInit() {}
 
   onFormSubmit() {
-    this.activeModal.close(this.mappedBulkPost);
+    if (this.mappedBulkPost == null || this.mappedBulkPost == undefined) {
+      this.alertService.sideWarningAlert(
+        "Error",
+        this.appService.popUpMessageConfig[0].BulkAddWarningSideAlertMessage
+      );
+    } else {
+      this.activeModal.close(this.mappedBulkPost);
+    }
   }
 
   fileSubmit() {}
@@ -70,12 +79,10 @@ export class AddBulkUsersModalComponent {
       var sheetNames = workBook.SheetNames;
 
       this.userData = XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]]);
-      console.log(">>userData", this.userData);
 
       this.userRoleData = XLSX.utils.sheet_to_json(
         workBook.Sheets[sheetNames[1]]
       );
-      console.log(">>userRoleData", this.userRoleData);
 
       this.userMapping();
       this.userRoleMapping();
@@ -84,8 +91,6 @@ export class AddBulkUsersModalComponent {
         users: this.mappedUserDataArrayToPost,
         userRoles: this.mappedUserRoleDataArrayToPost,
       };
-
-      console.log(">>>>mappedBulkPost", this.mappedBulkPost);
     };
   }
 
@@ -100,10 +105,7 @@ export class AddBulkUsersModalComponent {
       createdBy: this.userId,
     }));
 
-    console.log(
-      ">>>>mappedUserDataArrayToPost",
-      this.mappedUserDataArrayToPost
-    );
+    console.log(this.mappedUserDataArrayToPost);
   }
 
   userRoleMapping() {
@@ -112,10 +114,7 @@ export class AddBulkUsersModalComponent {
       roleId: item.Role,
     }));
 
-    console.log(
-      ">>>>mappedUserRoleDataArrayToPost",
-      this.mappedUserRoleDataArrayToPost
-    );
+    console.log(this.mappedUserRoleDataArrayToPost);
   }
 
   downloadXlsx() {
