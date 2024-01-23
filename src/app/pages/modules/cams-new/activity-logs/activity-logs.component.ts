@@ -7,6 +7,7 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { AppService } from "src/app/app.service";
 import { MessageService } from "src/app/services/PopupMessages/message.service";
+import { ReportService } from "src/app/services/ReportServices/report.service";
 import { BreadcrumbService } from "src/app/services/breadcrumb/breadcrumb.service";
 import { ActivityLogsService } from "src/app/services/cams-new/activity-logs.service";
 import { ActivityLogData } from "src/app/shared/models/Cams-new/ActivityLogData";
@@ -53,6 +54,8 @@ export class ActivityLogsComponent {
 
   isInitialized: boolean = false;
 
+  exportDateTime!: string;
+
   usersViewTableOptions: tableOptions = new tableOptions();
 
   headArray = [
@@ -66,14 +69,15 @@ export class ActivityLogsComponent {
     { Head: "Actions", FieldName: "", ColumnType: "Action" },
   ];
 
-  tableData = [];
+  tableData: any = [];
 
   constructor(
     private breadcrumbService: BreadcrumbService,
     private shared: ActivityLogsService,
     private modalService: NgbModal,
     private appService: AppService,
-    private alertService: MessageService
+    private alertService: MessageService,
+    private reportService: ReportService
   ) {
     const today = new Date();
   }
@@ -96,6 +100,8 @@ export class ActivityLogsComponent {
   };
 
   ngOnInit(): void {
+    this.usersViewTableOptions.allowExportButton = true;
+
     this.model_from = this.initialFromDate;
 
     this.model_to = this.initialToDate;
@@ -438,12 +444,135 @@ export class ActivityLogsComponent {
     month: number;
     day: number;
   }): Date {
-    // Destructure the properties from the input object
     const { year, month, day } = dateObject;
 
-    // Month in JavaScript's Date object is zero-based, so we subtract 1 from the month
     const jsDate = new Date(year, month - 1, day);
 
     return jsDate;
+  }
+
+  //Handle the download button clicking
+  downloadExcel() {
+    var reportName = `Activity Logs (${this.formatDate(
+      this.firstDate
+    )} - ${this.formatDate(this.lastDate)})`;
+    var sheetName = `Activity Logs`;
+
+    var arrayOfArrayData = [
+      ["Activity Logs"],
+      [],
+      [`From`, `${this.formatDate(this.firstDate)}`],
+      [`To`, `${this.formatDate(this.lastDate)}`],
+      [
+        `User`,
+        `${
+          this.getSelectedUserName(this.selectedUser) ||
+          this.userListDefault[0].value
+        }`,
+      ],
+      [
+        `Platform`,
+        `${
+          this.getSelectedPlatformName(this.selectedPlatform) ||
+          this.platformListDefault[0].value
+        }`,
+      ],
+      [
+        `Role`,
+        `${
+          this.getSelectedRoleName(this.selectedRole) ||
+          this.roleListDefault[0].value
+        }`,
+      ],
+      [],
+      [
+        "Log Id",
+        "Username",
+        "Platform",
+        "Role",
+        "Activity Type",
+        "Description",
+        "Time",
+      ],
+    ];
+
+    for (var i = 0; i < this.tableData.length; i++) {
+      var rowData: any = [
+        this.tableData[i].LogId,
+        this.tableData[i].UserName,
+        this.tableData[i].PlatformName,
+        this.tableData[i].RoleName,
+        this.tableData[i].ActivityType,
+        this.tableData[i].Description,
+        this.tableData[i].CreatedAt,
+      ];
+      arrayOfArrayData.push(rowData);
+    }
+
+    this.getDateTime();
+    arrayOfArrayData.push([], ["Generated On : ", `${this.exportDateTime}`]);
+
+    this.reportService.generateExcelFile(
+      arrayOfArrayData,
+      sheetName,
+      reportName
+    );
+  }
+
+  getDateTime() {
+    var today = new Date();
+    var date =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1).toString().padStart(2, "0") +
+      "-" +
+      today.getDate().toString().padStart(2, "0");
+    var time =
+      today.getHours().toString().padStart(2, "0") +
+      ":" +
+      today.getMinutes().toString().padStart(2, "0") +
+      ":" +
+      today.getSeconds().toString().padStart(2, "0");
+    this.exportDateTime = date + " " + time;
+  }
+
+  formatDate(inputDate: Date): string {
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    const day = inputDate.getDate();
+    const month = months[inputDate.getMonth()];
+    const year = inputDate.getFullYear();
+
+    return `${month} ${day}, ${year}`;
+  }
+
+  getSelectedPlatformName(selectedPlatform: number): string {
+    const platform = this.platformListDefault.find(
+      (item) => item.id === selectedPlatform
+    );
+    return platform.value;
+  }
+
+  getSelectedRoleName(selectedRole: number): string {
+    const role = this.roleListDefault.find((item) => item.id === selectedRole);
+    return role.value;
+  }
+
+  getSelectedUserName(selectedUser: number): string {
+    const user = this.userListDefault.find((item) => item.id === selectedUser);
+    return user.value;
   }
 }
