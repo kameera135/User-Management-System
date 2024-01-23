@@ -4,6 +4,7 @@ import { AppService } from "src/app/app.service";
 import { PaginatedResponse } from "src/app/shared/models/Cams-new/PaginatedResponse";
 import { PlatformRole } from "src/app/shared/models/Cams-new/PlatformRole";
 import { User } from "src/app/shared/models/Cams-new/User";
+import { UserRoleBulk } from "src/app/shared/models/Cams-new/UserRoleBulk";
 import { environment } from "src/environments/environment";
 
 @Injectable({
@@ -63,6 +64,15 @@ export class UsersViewService {
     queryParams = queryParams.append("createdBy", this.user.id);
 
     return this.httpClient.post(`${this.apiUrl}/api/user`, model, {
+      params: queryParams,
+    });
+  }
+
+  postBulkUsers(model: UserRoleBulk) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("createdBy", this.user.id);
+
+    return this.httpClient.post(`${this.apiUrl}/api/users/bulk`, model, {
       params: queryParams,
     });
   }

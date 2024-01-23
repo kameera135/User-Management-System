@@ -37,9 +37,15 @@ export interface toastServicePopUpConfigurations {
 
   UserAddedNotificationMessage: string;
 
+  BulkUsersAddedNotificationMessage: string;
+
   UserAddedSuccessSideAlertMessage: string;
 
+  BulkUsersAddedSuccessSideAlertMessage: string;
+
   UserAddedErrorSideAlertMessage: string;
+
+  BulkUsersAddedErrorSideAlertMessage: string;
 
   GetUserListErrorSideAlertMessage: string;
 

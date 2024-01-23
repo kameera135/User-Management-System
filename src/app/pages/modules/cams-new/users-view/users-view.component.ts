@@ -11,6 +11,7 @@ import { UpdateConfirmationModalComponent } from "src/app/shared/widget/config/u
 import { MessageService } from "src/app/services/PopupMessages/message.service";
 import { HttpClient } from "@angular/common/http";
 import { AddBulkUsersModalComponent } from "src/app/shared/widget/config/add-bulk-users-modal/add-bulk-users-modal.component";
+import { UserRoleBulk } from "src/app/shared/models/Cams-new/UserRoleBulk";
 
 @Component({
   selector: "app-users-view",
@@ -305,6 +306,21 @@ export class UsersViewComponent {
       backdrop: "static",
       keyboard: false,
     });
+
+    modalRef.result
+      .then((result) => {
+        if (result) {
+          console.log("Getting data from Add Bulk Users Modal");
+          console.log(result);
+
+          this.postBulkUsers(result);
+        } else {
+          console.log("Data not submitted from Add Bulk Users Modal");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   getAllUsers() {
@@ -449,7 +465,7 @@ export class UsersViewComponent {
         );
         this.alertService.successSweetAlertMessage(
           this.appService.popUpMessageConfig[0].UserAddedNotificationMessage,
-          "Updated!",
+          "Added!",
           4000
         );
 
@@ -461,6 +477,35 @@ export class UsersViewComponent {
           this.appService.popUpMessageConfig[0].UserAddedErrorSideAlertMessage
         );
         //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
+      },
+    });
+  }
+
+  postBulkUsers(userData: UserRoleBulk) {
+    this.shared.postBulkUsers(userData).subscribe({
+      next: (response) => {
+        console.log(response);
+
+        this.alertService.sideSuccessAlert(
+          "Success",
+          this.appService.popUpMessageConfig[0]
+            .BulkUsersAddedSuccessSideAlertMessage
+        );
+        this.alertService.successSweetAlertMessage(
+          this.appService.popUpMessageConfig[0].UserAddedNotificationMessage,
+          "Added!",
+          4000
+        );
+
+        this.loadData();
+      },
+      error: (error) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0]
+            .BulkUsersAddedErrorSideAlertMessage
+        );
+        this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
       },
     });
   }

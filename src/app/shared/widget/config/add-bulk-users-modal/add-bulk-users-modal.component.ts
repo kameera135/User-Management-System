@@ -4,6 +4,8 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgToastService } from "ng-angular-popup";
 import { AppService } from "src/app/app.service";
 import { User } from "src/app/shared/models/Cams-new/User";
+import { UserBulk } from "src/app/shared/models/Cams-new/UserBulk";
+import { UserRoleBulk } from "src/app/shared/models/Cams-new/UserRoleBulk";
 
 import * as XLSX from "xlsx";
 
@@ -14,6 +16,7 @@ import * as XLSX from "xlsx";
 })
 export class AddBulkUsersModalComponent {
   url: string = this.appService.appConfig[0].apiUrl;
+  userId = this.appService.user.id;
 
   excelFile: File | null = null;
   csvData: any[] = [];
@@ -23,9 +26,12 @@ export class AddBulkUsersModalComponent {
 
   tagName!: string;
 
-  excelData: any;
+  userData: any;
+  userRoleData: any;
 
-  mappedDataArrayToPost!: User[];
+  mappedUserDataArrayToPost!: User[];
+  mappedUserRoleDataArrayToPost!: UserRoleBulk[];
+  mappedBulkPost!: UserBulk;
 
   singleTagOptions = [
     { name: "singleTag", label: "Add a Single Tag", value: true },
@@ -42,7 +48,7 @@ export class AddBulkUsersModalComponent {
   ngOnInit() {}
 
   onFormSubmit() {
-    this.sendBulkTagsToApi();
+    this.activeModal.close(this.mappedBulkPost);
   }
 
   fileSubmit() {}
@@ -62,120 +68,55 @@ export class AddBulkUsersModalComponent {
     fileReader.onload = (e) => {
       var workBook = XLSX.read(fileReader.result, { type: "binary" });
       var sheetNames = workBook.SheetNames;
-      this.excelData = XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]]);
-      console.log(this.excelData);
+
+      this.userData = XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]]);
+      console.log(">>userData", this.userData);
+
+      this.userRoleData = XLSX.utils.sheet_to_json(
+        workBook.Sheets[sheetNames[1]]
+      );
+      console.log(">>userRoleData", this.userRoleData);
 
       this.userMapping();
+      this.userRoleMapping();
+
+      this.mappedBulkPost = {
+        users: this.mappedUserDataArrayToPost,
+        userRoles: this.mappedUserRoleDataArrayToPost,
+      };
+
+      console.log(">>>>mappedBulkPost", this.mappedBulkPost);
     };
   }
 
   userMapping() {
-    this.mappedDataArrayToPost = this.excelData.map((item: any) => ({
+    this.mappedUserDataArrayToPost = this.userData.map((item: any) => ({
       userName: item.Username,
       firstName: item.FirstName,
       lastName: item.LastName,
       email: item.Email,
       phone: item.PhoneNumber,
       password: item.Password,
+      createdBy: this.userId,
     }));
 
-    console.log(">>>>", this.mappedDataArrayToPost);
-  }
-
-  parseCSVFile() {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const data = e.target?.result as string;
-      this.csvData = this.parseCSVString(data);
-    };
-    reader.readAsText(this.file!);
-  }
-
-  parseCSVString(data: string): any[] {
-    // Split the CSV string by lines and extract the data.
-    const lines = data.split("\n");
-    const header = lines[0].split(","); // Assuming comma (',') is the delimiter.
-    const csvData = [];
-
-    for (let i = 1; i < lines.length; i++) {
-      const line = lines[i].split(","); // Assuming comma (',') is the delimiter.
-      const rowData: any = {};
-
-      for (let j = 0; j < header.length; j++) {
-        const columnName = header[j].trim();
-        const columnValue = line[j] ? line[j].trim() : ""; // Handle empty values.
-        rowData[columnName] = columnValue;
-      }
-
-      csvData.push(rowData);
-    }
-
-    return csvData;
-  }
-
-  //posting
-
-  sendBulkTagsToApi() {
-    if (this.csvData.length === 0) {
-      console.error("No data to send");
-      return;
-    }
-
-    // Filter out entries with empty tags or descriptions
-    const filteredData = this.csvData.filter(
-      (entry) => entry.tag.trim() !== "" && entry.description.trim() !== ""
+    console.log(
+      ">>>>mappedUserDataArrayToPost",
+      this.mappedUserDataArrayToPost
     );
+  }
 
-    if (filteredData.length === 0) {
-      console.error("No valid data to send");
-      return;
-    }
-
-    // Add the "createdBy" key with the value "0" to each object in the array
-    const dataWithCreatedBy = filteredData.map((entry) => ({
-      ...entry,
-      createdBy: "",
+  userRoleMapping() {
+    this.mappedUserRoleDataArrayToPost = this.userRoleData.map((item: any) => ({
+      userName: item.Username,
+      roleId: item.Role,
     }));
 
-    console.log(dataWithCreatedBy);
-    this.activeModal.close(dataWithCreatedBy);
+    console.log(
+      ">>>>mappedUserRoleDataArrayToPost",
+      this.mappedUserRoleDataArrayToPost
+    );
   }
-
-  resetFileInput() {
-    if (this.fileInput) {
-      this.fileInput.nativeElement.value = "";
-    }
-  }
-
-  // downloadCsv() {
-  //   const csvFilePath = "assets/csv/users(bulk).csv";
-
-  //   this.httpClient
-  //     .get(csvFilePath, { responseType: "text" })
-  //     .subscribe((data) => {
-  //       // Split the CSV data into lines
-  //       const lines = data.split("\n");
-
-  //       // Extract the headers from the first line
-  //       const headers = lines[0].split(",");
-
-  //       // Remove the first line (assumes it's the file path)
-  //       lines.shift();
-
-  //       // Reassemble the CSV data with the "tag" and "description" headers
-  //       const csvData = [headers.join(",")].concat(lines).join("\n");
-
-  //       const blob = new Blob([csvData], { type: "text/csv" });
-  //       const url = window.URL.createObjectURL(blob);
-
-  //       const a = document.createElement("a");
-  //       a.href = url;
-  //       a.download = "tags(bulk).csv";
-  //       a.click();
-
-  //       window.URL.revokeObjectURL(url);
-  //     });
-  // }
 
   downloadXlsx() {
     const xlsxFilePath = "assets/xl/users(bulk).xlsx";
