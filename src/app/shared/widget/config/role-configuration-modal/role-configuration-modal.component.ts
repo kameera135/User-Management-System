@@ -46,6 +46,8 @@ export class RoleConfigurationModalComponent {
 
   loadingInProgress: boolean = false;
 
+  permissionsAsString!: string;
+
   platformListDefault: any[] = [{ value: "Select Platforms", id: "0" }];
   selectedPlatform!: number;
 
@@ -141,6 +143,7 @@ export class RoleConfigurationModalComponent {
       next: (response: any) => {
         this.permissionsForRoleList = response;
         this.updateTable();
+        this.permissionsAsString = this.permissionsForRoleList.join('\n');
         this.loadingInProgress = false;
       },
       error: (error) => {
@@ -152,6 +155,7 @@ export class RoleConfigurationModalComponent {
 
         this.permissionsForRoleList = [];
         this.updateTable();
+        this.permissionsAsString = '';
         this.loadingInProgress = false;
       },
     });
