@@ -63,6 +63,8 @@
         (onPagesizeChanged)="onPagesizeChange($event)"
         (onEdit)="onEditButtonClicked($event)"
         (onDelete)="deleteRoles($event)"
+        (onApproval)="activateRoles($event)"
+        (onReject)="deactivateRoles($event)"
         (onRowDoubleClick)="onViewButtonClicked($event)"
         (dblClick)="onViewButtonClicked($event)"
         (onViewPermission)="onViewPermissionButtonClicked($event)">

@@ -111,12 +111,6 @@ export class PlatformUsersComponent {
   ) {}
 
   ngOnInit(): void {
-    this.eventService.subscribe("PlatformId", (val) => {
-      this.temp = val;
-      console.log(">>>temp", this.temp);
-    });
-
-    // console.log(">>>temp", this.temp);
     var platforms = this.appService.appConfig[0].platformList;
     for (let i = 0; i < platforms.length; i++) {
       this.platformList.push(platforms[i]);
@@ -241,7 +235,7 @@ export class PlatformUsersComponent {
   }
 
   onAddUserButtonClicked(): void {
-    this.openModal("Add", "Assign New Users ", "", "", "", "", "", "", "");
+    this.openModal("Add", "Assign New Users ", "", "", "", "", this.platformId, "", "");
   }
 
   onEditButtonClicked(row: any) {
@@ -252,9 +246,9 @@ export class PlatformUsersComponent {
       row.FirstName,
       row.LastName,
       row.Platform,
+      row.PlatformId,
       row.Email,
-      row.PhoneNumber,
-      row.UserProfileCode
+      row.PhoneNumber
     );
   }
 
@@ -280,9 +274,10 @@ export class PlatformUsersComponent {
     firstName: string,
     lastName: string,
     platform: string,
+    platformId: number,
     email: string,
     phoneNumber: string,
-    userProfileCode: string
+    //userProfileCode: string
   ): void {
     // Check the 'type' parameter to determine the view
     let modalSize = "m";
@@ -306,7 +301,7 @@ export class PlatformUsersComponent {
     modalRef.componentInstance.platform = platform;
     modalRef.componentInstance.email = email;
     modalRef.componentInstance.phoneNumber = phoneNumber;
-    modalRef.componentInstance.userProfileCode = userProfileCode;
+    modalRef.componentInstance.platformId = platformId;
 
     modalRef.result
       .then((result) => {
@@ -342,9 +337,9 @@ export class PlatformUsersComponent {
                     firstName,
                     lastName,
                     platform,
+                    platformId,
                     email,
-                    phoneNumber,
-                    userProfileCode
+                    phoneNumber
                   );
                 } else {
                   console.log("Not confirmed to edit");
@@ -355,9 +350,9 @@ export class PlatformUsersComponent {
                     firstName,
                     lastName,
                     platform,
+                    platformId,
                     email,
                     phoneNumber,
-                    userProfileCode
                   );
                 }
               })

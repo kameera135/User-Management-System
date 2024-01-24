@@ -29,7 +29,7 @@ export class PlatformUsersService {
     // queryParams = queryParams.append("page", page);
     // queryParams = queryParams.append("pageSize", page_size);
 
-    const url = `${this.apiUrl}api/users/notInPlatform`;
+    const url = `${this.apiUrl}/api/users/platform/un-assigned`;
     //const url = `http://127.0.0.1:3000/api/user/platform`
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }

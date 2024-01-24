@@ -50,6 +50,8 @@ export class PlatformUserModalComponent {
   selectedPageSize: number = 20;
   totalDataCount!: number;
 
+  searchTerm!: string;
+
   loadingInProgress: boolean = false;
 
   rolesViewTableOptions: tableOptions = new tableOptions();
@@ -101,9 +103,9 @@ export class PlatformUserModalComponent {
 
   loadData(){
     this.loadingInProgress = true;
-    this.getAllPlatformUsers();
-    this.getAllPlatformUsersRoles();
-    //this.getAllUsers();
+   // this.getAllPlatformUsers();
+    //this.getAllPlatformUsersRoles();
+    this.getAllUsers();
   }
 
   updateTable() {
@@ -117,6 +119,13 @@ export class PlatformUserModalComponent {
 
     }));
     this.tableData = this.userDetailsArray;
+  }
+
+  getSearchTerm($event: KeyboardEvent) {
+    this.selectedPage = 1;
+    if ($event.key === "Enter") {
+      this.loadData();
+    }
   }
 
   getAllPlatformUsers() {
