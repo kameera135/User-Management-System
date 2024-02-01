@@ -302,6 +302,8 @@ export class PlatformConfigurationComponent {
     if ($event.key === "Enter") {
       this.loadData();
     }
+    // const inputValue = ($event.target as HTMLInputElement).value;
+    // this.loadData();
   }
 
   getAllPlatforms() {

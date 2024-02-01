@@ -32,6 +32,7 @@ export class RoleConfigurationModalComponent {
   @Input() description!: string;
   @Input() status!: string;
   @Input() permission!: string;
+  @Input() platfromIds: any = [];
   
   @Input() platformName: any = [];
 
@@ -77,7 +78,12 @@ export class RoleConfigurationModalComponent {
     } else if (this.type == "Edit") {
       this.buttonName = "Save";
       this.buttonIcon = "bi-floppy2-fill";
-    } else {
+    } else if(this.type == "Permission")
+    {
+      this.buttonName = "Assign";
+      this.buttonIcon = "bi-floppy2-fill";
+    }
+     else {
       this.buttonName = "Edit";
       this.buttonIcon = "bi-pencil-fill";
     }
@@ -105,9 +111,7 @@ export class RoleConfigurationModalComponent {
     if (
       this.roleCode == null ||
       this.roleName == "" ||
-      this.createdDate == "" ||
-      this.description == "" ||
-      this.status == null
+      this.platfromIds == 0
     ) {
       this.notifierService.warning({
         detail: "Warning",
@@ -122,6 +126,7 @@ export class RoleConfigurationModalComponent {
     role.role = this.roleName;
     role.createdAt = this.createdDate;
     role.platform = this.platformName;
+    role.platformIds = this.platfromIds;
     // role.description = this.description;
     //role.status = this.status;
 

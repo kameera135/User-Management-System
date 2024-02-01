@@ -42,18 +42,18 @@
       </div>
     </div>
 
-    <!-- <div class="col-12" *ngIf="type!= 'Permission'">
-      <div class="mb-3">
-        <label class="col-form-label">Description*</label>
-        <textarea
+    <div class="col-12" *ngIf="type == 'Permission'">
+      <div class="mb-3"> 
+        <label class="col-form-label">Platform</label>
+        <input
           type="text"
           class="form-control"
-          [(ngModel)]="description"
-          name="createdBy"
-          [disabled]="type == 'View'">
-        </textarea> 
+          [(ngModel)]="platformName"
+          name="platformName"
+          [disabled]="type == 'Permission'"
+          />
       </div>
-    </div> -->
+    </div>
 
     <div class="col-12" *ngIf="type != 'Add' && type != 'Edit' && type != 'Permission'">
       <div class="mb-0">
@@ -67,11 +67,11 @@
       </div>
     </div>
 
-    <div class="col-12" *ngIf="type != 'View'">
+    <div class="col-12" *ngIf="type != 'View' && type != 'Permission'">
       <div class="mb-3">
         <label class="col-form-label">Platform</label>
         <ng-select
-        [(ngModel)]="platformName"
+        [(ngModel)]="platfromIds"
         [multiple]="true"
         *ngIf="type === 'Edit'"
         [placeholder]="platformName"
@@ -87,7 +87,7 @@
       </ng-select>
 
       <ng-select
-      [(ngModel)]="platformName"
+      [(ngModel)]="platfromIds"
       [multiple]="true"
       *ngIf="type !== 'Edit'"
       [placeholder]="platformListDefault.length > 0 ? platformListDefault[0].value : 'No Platforms'"

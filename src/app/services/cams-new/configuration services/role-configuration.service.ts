@@ -37,14 +37,12 @@ export class RoleConfigurationService {
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
-  getSearchedRoles(searchedTerm: string, page: number, pageSize: number) {
+  getSearchedRoles(searchedTerm: string, page: number, page_size: number) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("viewedBy", this.user.id);
-    queryParams = queryParams.append("searchedTerm", searchedTerm);
-    queryParams = queryParams.append("page", page);
-    queryParams = queryParams.append("pageSize", pageSize);
+    //queryParams = queryParams.append("viewedBy", this.user.id);
+    queryParams = queryParams.append("searchedRoleName", searchedTerm);
 
-    const url = `${this.apiUrl}/end-point`;
+    const url = `${this.apiUrl}/  api/configuration/roles/${page}/${page_size}`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
@@ -69,9 +67,13 @@ export class RoleConfigurationService {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("createdBy", this.user.id);
 
-    return this.httpClient.post(`${this.apiUrl}/end-point`, model, {
-      params: queryParams,
-    });
+    return this.httpClient.post(
+      `${this.apiUrl}/api/configuration/role`,
+      model,
+      {
+        params: queryParams,
+      }
+    );
   }
 
   putRole(model: Role) {
@@ -88,9 +90,13 @@ export class RoleConfigurationService {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("deletedBy", this.user.id);
 
-    return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
-      params: queryParams,
-    });
+    return this.httpClient.delete(
+      `${this.apiUrl}/api/configuration/roles`,
+      {
+        params: queryParams,
+        body: list,
+      }
+    );
   }
 
   activateRoles(list: any[]) {

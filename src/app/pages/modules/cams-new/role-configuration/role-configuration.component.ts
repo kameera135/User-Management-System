@@ -100,11 +100,6 @@ export class RoleConfigurationComponent {
   ) {}
 
   ngOnInit(): void {
-    var platforms = this.appService.appConfig[0].roleList;
-    for (let i = 0; i < platforms.length; i++) {
-      this.platformList.push(platforms[i]);
-    }
-
     this.roleConfigTableOptions.allowCheckbox = true;
     this.roleConfigTableOptions.allowBulkDeleteButton = true;
     this.roleConfigTableOptions.allowDeleteButton = true;
@@ -141,21 +136,13 @@ export class RoleConfigurationComponent {
     if (
       (this.serchedTerm == undefined ||
         this.serchedTerm == null ||
-        this.serchedTerm == "") &&
-      (this.selectedRole == undefined ||
-        this.selectedRole == null ||
-        this.selectedRole == "All" ||
-        this.selectedRole == "")
+        this.serchedTerm == "")
     ) {
       this.getAllRoles();
     } else if (
       (this.serchedTerm != undefined ||
         this.serchedTerm != null ||
-        this.serchedTerm != "") &&
-      (this.selectedRole == undefined ||
-        this.selectedRole == null ||
-        this.selectedRole == "All" ||
-        this.selectedRole == "")
+        this.serchedTerm != "") 
     ) {
       this.searchRoles(this.serchedTerm);
     } else {
@@ -211,7 +198,8 @@ export class RoleConfigurationComponent {
               "No Data!",
               4000
             );
-            this.getAllRoles();
+            this.searchTerm = "";
+            this.loadData();
           }
         },
         error: (error: any) => {
@@ -292,8 +280,8 @@ export class RoleConfigurationComponent {
       "Add Permissions",
       row.RoleCode,
       row.RoleName,
-      0,
-      "",
+      row.PlatformId,
+      row.PlatformName,
       "",
       ""
     );
@@ -320,7 +308,7 @@ export class RoleConfigurationComponent {
       row.RoleCode,
       row.RoleName,
       row.PlatformId,
-      "",
+      row.PlatformName,
       row.CreatedDate,
       row.Status
     );
@@ -497,7 +485,7 @@ export class RoleConfigurationComponent {
     let ids: number[] = [];
 
     items.forEach((element: any) => {
-      ids.push(element.id);
+      ids.push(element.RoleCode);
     });
 
     this.removeRoles(ids);
