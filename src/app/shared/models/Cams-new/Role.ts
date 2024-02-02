@@ -7,4 +7,5 @@ export class Role {
   // description!: string;
   createdAt!: string;
   status!: boolean;
+  statusName!: string;
 }

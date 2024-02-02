@@ -525,7 +525,7 @@ export class PlatformConfigurationComponent {
           "Deleted!",
           4000
         );
-
+          
         this.loadData();
       },
 

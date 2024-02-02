@@ -150,11 +150,11 @@
       </div>
     </div>
 
-    <div class="col-6" *ngIf="type != 'Add' && type != 'Permission'">
+    <div class="col-6" *ngIf="type != 'Add' && type != 'Permission' && type != 'Edit'">
       <div class="mb-3">
         <label class="col-form-label">Status</label>
         <ng-select
-        [(ngModel)]="status"
+        [(ngModel)]="statusName"
         [multiple]="false"
         name="status"
         [clearable]="false"

@@ -60,7 +60,7 @@ export class RoleConfigurationComponent {
     },
     // { Head: "Description", FieldName: "Description", ColumnType: "Data" },
     // { Head: "Created Date", FieldName: "CreatedDate", ColumnType: "Data" },
-    { Head: "Status", FieldName: "Status", ColumnType: "Data" },
+    { Head: "Status", FieldName: "StatusName", ColumnType: "Data" },
     { Head: "", FieldName: "", ColumnType: "Action" },
   ];
 
@@ -283,8 +283,9 @@ export class RoleConfigurationComponent {
       PlatformName: item.platform,
       PlatformId: item.platformId,
       // Description: item.description,
-      CreatedDate:  new Date(item.createdAt).toLocaleDateString(),
-      Status: item.status ? "Activated" : "Deactivated",
+      CreatedDate:  item.createdAt ? item.createdAt.slice(0, 10) : null,
+      StatusName: item.status ? "Activated" : "Deactivated",
+      Status: item.status,
       isRejecteableOrApprovableRecord:true
 
     }));
@@ -302,7 +303,7 @@ export class RoleConfigurationComponent {
   }
 
   onAddRoleButtonClicked(): void {
-    this.openModal("Add", "New Role", "", "", 0, "","","");
+    this.openModal("Add", "New Role", "", "", 0, "","","",true);
   }
 
   onViewPermissionButtonClicked(row: any) {
@@ -314,7 +315,8 @@ export class RoleConfigurationComponent {
       row.PlatformId,
       row.PlatformName,
       "",
-      ""
+      "",
+      row.Status
     );
   }
 
@@ -328,6 +330,7 @@ export class RoleConfigurationComponent {
       row.PlatformId,
       row.PlatformName,
       row.CreatedDate,
+      row.StatusName,
       row.Status
     );
   }
@@ -341,6 +344,7 @@ export class RoleConfigurationComponent {
       row.PlatformId,
       row.PlatformName,
       row.CreatedDate,
+      row.StatusName,
       row.Status
     );
   }
@@ -355,7 +359,8 @@ export class RoleConfigurationComponent {
     platformName:string,
     //description: string,
     createdDate: string,
-    status: string
+    statusName: string,
+    status:boolean
   ): void {
     const modalRef = this.modalService.open(
       RoleConfigurationModalComponent,
@@ -376,6 +381,7 @@ export class RoleConfigurationComponent {
     modalRef.componentInstance.platformName = platformName;
     modalRef.componentInstance.createdDate = createdDate
     modalRef.componentInstance.status = status;
+    modalRef.componentInstance.statusName = statusName;
 
     modalRef.result
       .then((result) => {
@@ -412,6 +418,7 @@ export class RoleConfigurationComponent {
                     platformId,
                     platformName,
                     createdDate,
+                    statusName,
                     status
                   );
                 } else {
@@ -424,7 +431,8 @@ export class RoleConfigurationComponent {
                     platformId,
                     platformName,
                     createdDate,
-                    status
+                    statusName,
+                    status,
                   );
                 }
               })
@@ -442,20 +450,20 @@ export class RoleConfigurationComponent {
       });
   }
 
-  putRole(role: any) {
+  putRole(role: Role) {
     console.log("Add", role);
-    this.shared.postRole(role).subscribe({
+    this.shared.putRole(role).subscribe({
       next: (response: any) => {
         console.log(response);
 
         this.alertService.sideSuccessAlert(
           "Success",
           this.appService.popUpMessageConfig[0]
-            .PlatformAddedSuccessSideAlertMessage
+            .RoleUpdatedSuccessSideAlertMessage
         );
         this.alertService.successSweetAlertMessage(
           this.appService.popUpMessageConfig[0]
-            .PlatformAddedNotificationMessage,
+            .RoleUpdatedNotificationMessage,
           "Updated!",
           4000
         );
@@ -466,7 +474,7 @@ export class RoleConfigurationComponent {
         this.alertService.sideErrorAlert(
           "Error",
           this.appService.popUpMessageConfig[0]
-            .PlatformAddedErrorSideAlertMessage
+            .RoleUpdatedErrorSideAlertMessage
         );
         //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
       },

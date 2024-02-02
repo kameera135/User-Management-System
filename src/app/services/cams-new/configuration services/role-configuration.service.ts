@@ -80,9 +80,13 @@ export class RoleConfigurationService {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("updatedBy", this.user.id);
 
-    return this.httpClient.put(`${this.apiUrl}/end-point`, model, {
-      params: queryParams,
-    });
+    return this.httpClient.put(
+      `${this.apiUrl}/api/configuration/role`,
+      model,
+      {
+        params: queryParams,
+      }
+    );
   }
 
   deleteRoles(list: number[]) {
@@ -132,6 +136,16 @@ export class RoleConfigurationService {
     queryParams = queryParams.append("platformId",platformId);
 
     const url = `${this.apiUrl}/api/configuration/roles/platform-permission/${roleId}/${platformId}`;
+    return this.httpClient.get(url, { params: queryParams });
+  }
+
+  getPermissionsNotInRole(platformId: number, roleId: number){
+
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("roleId",roleId);
+    queryParams = queryParams.append("platformId", platformId);
+
+    const url = `${this.apiUrl}/api/configuration/permissions/platform/not_in_role`;
     return this.httpClient.get(url, { params: queryParams });
   }
 }

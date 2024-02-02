@@ -239,8 +239,8 @@ export class SystemTokensComponent {
     this.tokenDetailsArray = this.tokenList.map((item) => ({
       Id: item.tokenId,
       Token: item.token,
-      CreatedDate: item.createdAt,
-      ExpireDate: item.expireDate,
+      CreatedDate: item.createdAt ? item.createdAt.slice(0, 10) : null,
+      ExpireDate: item.expireDate ? item.expireDate.slice(0,10) : null,
       isRejecteableOrApprovableRecord:true
 
     }));

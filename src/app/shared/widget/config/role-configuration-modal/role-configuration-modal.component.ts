@@ -30,7 +30,8 @@ export class RoleConfigurationModalComponent {
   @Input() roleName!: string;
   @Input() createdDate!: string;
   @Input() description!: string;
-  @Input() status!: string;
+  @Input() status!: boolean;
+  @Input() statusName!: string;
   @Input() permission!: string;
   @Input() platfromIds: any = [];
   
@@ -48,6 +49,8 @@ export class RoleConfigurationModalComponent {
   loadingInProgress: boolean = false;
 
   permissionsAsString!: string;
+
+  listItems: ListItem[] = [];
 
   platformListDefault: any[] = [{ value: "Select Platforms", id: "0" }];
   selectedPlatform!: number;
@@ -70,7 +73,7 @@ export class RoleConfigurationModalComponent {
   ) {}
 
   ngOnInit() {
-    this.status = this.status.slice(0, -4) + "e";
+    this.statusName = this.statusName.slice(0, -4) + "e";
 
     if (this.type == "Add") {
       this.buttonName = "Add";
@@ -101,18 +104,24 @@ export class RoleConfigurationModalComponent {
 
     this.getPlatformList();
 
-    if(this.type == "View" || this.type == 'permission'){
+    if(this.type == "View" || this.type == 'Permission'){
       this.getPermissionsForRoles();
     }
-
   }
 
   onFormSubmit() {
     if (
       this.roleCode == null ||
-      this.roleName == "" ||
-      this.platfromIds == 0
+      this.roleName == "" 
     ) {
+      this.notifierService.warning({
+        detail: "Warning",
+        summary: "Please fill required fields",
+        duration: 2000,
+      });
+      return;
+    }
+    else if(this.type == "Add" && this.roleName == "" || this.platformId == 0){
       this.notifierService.warning({
         detail: "Warning",
         summary: "Please fill required fields",
@@ -128,7 +137,8 @@ export class RoleConfigurationModalComponent {
     role.platform = this.platformName;
     role.platformIds = this.platfromIds;
     // role.description = this.description;
-    //role.status = this.status;
+    role.status = this.status;
+    role.statusName = this.statusName;
 
     this.activeModal.close(role);
   }
@@ -146,9 +156,11 @@ export class RoleConfigurationModalComponent {
     this.loadingInProgress = true;
     this.shared.getPermissionsForRoles(this.roleCode, this.platformId).subscribe({
       next: (response: any) => {
+       // console.log("Response from permissions for roles : ", response);
         this.permissionsForRoleList = response;
+        console.log(this.permissionsForRoleList);
         this.updateTable();
-        this.permissionsAsString = this.permissionsForRoleList.join('\n');
+        this.permissionsAsString = this.getPermissionsAsString(response);
         this.loadingInProgress = false;
       },
       error: (error) => {
@@ -166,6 +178,10 @@ export class RoleConfigurationModalComponent {
     });
   }
 
+  getPermissionsAsString(permissions: any[]): string {
+    return permissions.map(permission => `${permission.permission}`).join('\n');
+  }
+
   headArray = [
     { Head: "Permissions", FieldName: "Permission", ColumnType: "Data" },
   ];
@@ -174,26 +190,40 @@ export class RoleConfigurationModalComponent {
 
   showListItems: boolean = false;
 
-  listItems: ListItem[] = [
-    { name: "Item 1", selected: false },
-    { name: "Item 2", selected: false },
-    { name: "Item 3", selected: false },
-  ]; // Replace with your list items
+  // listItems: ListItem[] = [
+  //   { name: "Item 1", selected: false },
+  //   { name: "Item 2", selected: false },
+  //   { name: "Item 3", selected: false },
+  // ]; // Replace with your list items
 
   toggleListItems() {
     // Toggle the visibility of list items view
     if (this.type !== "View") {
+      this.getListItemsFromAPI();
       this.showListItems = !this.showListItems;
     }
   }
 
   addSelectedItems() {
-    // Get selected items and add them to the textarea
     const selectedItems = this.listItems.filter((item) => item.selected);
     this.permission = selectedItems.map((item) => item.name).join("\n");
 
-    // Hide the list items view after adding items to textarea
+    // Hide the list items view after adding items to the textarea
     this.showListItems = false;
+  }
+
+  //get permissions that not assign to roles
+  getListItemsFromAPI() {
+    // Make an API request to fetch the list items
+    this.shared.getPermissionsNotInRole(this.platformId,this.roleCode).subscribe(
+      (response: any) => {
+        // Assuming your API response has a structure like [{ name: string, selected: boolean }, ...]
+        this.listItems = response.map((item: { permissionId: any; permission: any; }) => ({ permissionId: item.permissionId, permission: item.permission }));
+      },
+      (error) => {
+        console.error('Error fetching list items from API:', error);
+      }
+    );
   }
 
   getPlatformList() {
