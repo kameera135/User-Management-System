@@ -42,7 +42,7 @@ export class RoleConfigurationService {
     //queryParams = queryParams.append("viewedBy", this.user.id);
     queryParams = queryParams.append("searchedRoleName", searchedTerm);
 
-    const url = `${this.apiUrl}/  api/configuration/roles/${page}/${page_size}`;
+    const url = `${this.apiUrl}/api/configuration/roles/${page}/${page_size}`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 

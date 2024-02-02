@@ -134,47 +134,78 @@ export class RoleConfigurationComponent {
   loadData() {
     this.loadingInProgress = true;
     if (
-      (this.serchedTerm == undefined ||
-        this.serchedTerm == null ||
-        this.serchedTerm == "")
+      this.searchTerm == undefined ||
+      this.searchTerm == null ||
+      this.searchTerm == ""
     ) {
       this.getAllRoles();
     } else if (
-      (this.serchedTerm != undefined ||
-        this.serchedTerm != null ||
-        this.serchedTerm != "") 
+      this.searchTerm != undefined ||
+      this.searchTerm != null ||
+      this.searchTerm != ""
     ) {
-      this.searchRoles(this.serchedTerm);
+      this.searchRoles(this.searchTerm);
     } else {
       this.getAllRoles();
-      this.alertService.sideErrorAlert("Error", "Could not retrive data");
-    } 
-    // else if (
-    //   (this.serchedTerm == undefined ||
-    //     this.serchedTerm == null ||
-    //     this.serchedTerm == "") &&
-    //   (this.selectedRole != undefined ||
-    //     this.selectedRole != null ||
-    //     this.selectedRole != "All" ||
-    //     this.selectedRole != "")
-    // ){}
-    // ) {
-    //   this.getPlatformsByRole(this.serchedTerm);
-    // } else if (
-    //   (this.serchedTerm != undefined ||
-    //     this.serchedTerm != null ||
-    //     this.serchedTerm != "") &&
-    //   (this.selectedRole != undefined ||
-    //     this.selectedRole != null ||
-    //     this.selectedRole != "All" ||
-    //     this.selectedRole != "")
-    // ) {
-    //   this.searchPlatformsByRole(this.serchedTerm, this.selectedRole);
-    // } else {
-    //   this.getAllPlatforms();
-    //   this.alertService.sideErrorAlert("Error", "Could not retrive data");
-    // }
+      this.alertService.sideErrorAlert(
+        "Error",
+        this.appService.popUpMessageConfig[0]
+          .CouldNotRetriveDataErrorSideAlertMessage
+      );
+    }
+  }
+
+  // loadData() {
+  //   this.loadingInProgress = true;
+  //   if (
+  //     (this.serchedTerm == undefined ||
+  //       this.serchedTerm == null ||
+  //       this.serchedTerm == "")
+  //   ) {
+  //     this.getAllRoles();
+  //   }  else if (
+  //     this.searchTerm != undefined ||
+  //     this.searchTerm != null ||
+  //     this.searchTerm != ""
+  //   ){
+  //     this.searchRoles(this.searchTerm);
+  //   } else {
+  //     this.getAllRoles();
+  //     this.alertService.sideErrorAlert("Error", "Could not retrive data");
+  //   } 
+  //   else if (
+  //     (this.serchedTerm == undefined ||
+  //       this.serchedTerm == null ||
+  //       this.serchedTerm == "") &&
+  //     (this.selectedRole != undefined ||
+  //       this.selectedRole != null ||
+  //       this.selectedRole != "All" ||
+  //       this.selectedRole != "")
+  //   ){}
+  //   ) {
+  //     this.getPlatformsByRole(this.serchedTerm);
+  //   } else if (
+  //     (this.serchedTerm != undefined ||
+  //       this.serchedTerm != null ||
+  //       this.serchedTerm != "") &&
+  //     (this.selectedRole != undefined ||
+  //       this.selectedRole != null ||
+  //       this.selectedRole != "All" ||
+  //       this.selectedRole != "")
+  //   ) {
+  //     this.searchPlatformsByRole(this.serchedTerm, this.selectedRole);
+  //   } else {
+  //     this.getAllPlatforms();
+  //     this.alertService.sideErrorAlert("Error", "Could not retrive data");
+  //   }
       
+  // }
+
+  getSearchTerm($event: KeyboardEvent) {
+    this.selectedPage = 1;
+    if ($event.key === "Enter") {
+      this.loadData();
+    }
   }
   
   searchRoles(serchedTerm: string) {
@@ -474,20 +505,12 @@ export class RoleConfigurationComponent {
     });
   }
 
-  getSearchTerm($event: KeyboardEvent) {
-    this.selectedPage = 1;
-    if ($event.key === "Enter") {
-      this.loadData();
-    }
-  }
-
   deleteRoles(items: any): void {
     let ids: number[] = [];
 
     items.forEach((element: any) => {
       ids.push(element.RoleCode);
     });
-
     this.removeRoles(ids);
   }
 
@@ -495,7 +518,6 @@ export class RoleConfigurationComponent {
     this.shared.deleteRoles(ids).subscribe({
       next: (response: any) => {
         console.log(response);
-
         this.alertService.sideSuccessAlert(
           "Success",
           this.appService.popUpMessageConfig[0]
