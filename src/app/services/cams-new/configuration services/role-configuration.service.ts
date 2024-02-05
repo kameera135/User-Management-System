@@ -148,4 +148,18 @@ export class RoleConfigurationService {
     const url = `${this.apiUrl}/api/configuration/permissions/platform/not_in_role`;
     return this.httpClient.get(url, { params: queryParams });
   }
+
+  assignPermissionsToRole(model: Role){
+
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("createdBy", this.user.id);
+
+    return this.httpClient.put(
+      `${this.apiUrl}/api/configuration/permissions/role`,
+      model,
+      {
+        params: queryParams,
+      }
+    );
+  }
 }

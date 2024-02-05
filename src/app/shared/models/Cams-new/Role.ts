@@ -8,4 +8,7 @@ export class Role {
   createdAt!: string;
   status!: boolean;
   statusName!: string;
+  permission!: string;
+  permissionId!: number;
+  permissionIds!: [];
 }

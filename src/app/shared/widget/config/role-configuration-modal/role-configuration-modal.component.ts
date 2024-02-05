@@ -6,6 +6,7 @@ import { MessageService } from "src/app/services/PopupMessages/message.service";
 import { RoleConfigurationService } from "src/app/services/cams-new/configuration services/role-configuration.service";
 import { Role as Role } from "src/app/shared/models/Cams-new/Role";
 import { PermissionsForRole } from "src/app/shared/models/Cams-new/PermissionsForRole";
+import { error } from "console";
 
 interface ListItem {
   name: string;
@@ -51,6 +52,8 @@ export class RoleConfigurationModalComponent {
   permissionsAsString!: string;
 
   listItems: ListItem[] = [];
+
+  isEditable: boolean = true;
 
   platformListDefault: any[] = [{ value: "Select Platforms", id: "0" }];
   selectedPlatform!: number;
@@ -107,6 +110,7 @@ export class RoleConfigurationModalComponent {
     if(this.type == "View" || this.type == 'Permission'){
       this.getPermissionsForRoles();
     }
+
   }
 
   onFormSubmit() {
@@ -190,12 +194,6 @@ export class RoleConfigurationModalComponent {
 
   showListItems: boolean = false;
 
-  // listItems: ListItem[] = [
-  //   { name: "Item 1", selected: false },
-  //   { name: "Item 2", selected: false },
-  //   { name: "Item 3", selected: false },
-  // ]; // Replace with your list items
-
   toggleListItems() {
     // Toggle the visibility of list items view
     if (this.type !== "View") {
@@ -205,8 +203,19 @@ export class RoleConfigurationModalComponent {
   }
 
   addSelectedItems() {
-    const selectedItems = this.listItems.filter((item) => item.selected);
-    this.permission = selectedItems.map((item) => item.name).join("\n");
+    const existing = this.permissionsAsString;
+
+    // Filter out items that are already present in the existing string
+    const selectedItems = this.listItems
+        .filter(item => item.selected && existing.indexOf(item.name) === -1)
+        .map(item => item.name)
+        .join('\n');
+
+    // Check if any items are selected
+    if (selectedItems) {
+        // Only append a newline character if there are existing items
+        this.permissionsAsString = existing + (existing ? '\n' : '') + selectedItems;
+    }
 
     // Hide the list items view after adding items to the textarea
     this.showListItems = false;
@@ -214,16 +223,24 @@ export class RoleConfigurationModalComponent {
 
   //get permissions that not assign to roles
   getListItemsFromAPI() {
+    
     // Make an API request to fetch the list items
-    this.shared.getPermissionsNotInRole(this.platformId,this.roleCode).subscribe(
-      (response: any) => {
-        // Assuming your API response has a structure like [{ name: string, selected: boolean }, ...]
-        this.listItems = response.map((item: { permissionId: any; permission: any; }) => ({ permissionId: item.permissionId, permission: item.permission }));
+    this.shared.getPermissionsNotInRole(this.platformId,this.roleCode).subscribe({
+      next: (response: any) => {
+        
+        // Check if the response is an array before mapping
+        if (Array.isArray(response)) {
+          
+          // Assuming your API response has a structure like [{ permissionId: number, permission: string }, ...]
+          this.listItems = response.map(item => ({ name: item.permission, selected: false }));
+        } else {
+          console.error('Invalid API response format:', response);
+        }
       },
-      (error) => {
+      error: (error) => {
         console.error('Error fetching list items from API:', error);
       }
-    );
+    });
   }
 
   getPlatformList() {
