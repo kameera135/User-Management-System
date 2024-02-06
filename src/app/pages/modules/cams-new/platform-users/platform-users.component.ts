@@ -43,7 +43,7 @@ export class PlatformUsersComponent {
 
   UserUpdatedNotificationMessage!: string;
 
-  serchedTerm!: string;
+  searchedTerm!: string;
 
   usersViewTableOptions: tableOptions = new tableOptions();
 
@@ -61,6 +61,7 @@ export class PlatformUsersComponent {
 
   @Input() platformName!: string;
   @Input() platformId!: number;
+  @Input() userId!: number
 
   //to remove
   // tableData = [
@@ -150,53 +151,30 @@ export class PlatformUsersComponent {
   loadData() {
     this.loadingInProgress = true;
     if (
-      (this.serchedTerm == undefined ||
-        this.serchedTerm == null ||
-        this.serchedTerm == "") &&
-      (this.selectedRole == undefined ||
-        this.selectedRole == null ||
-        this.selectedRole == "All" ||
-        this.selectedRole == "")
+      this.searchTerm == undefined ||
+      this.searchTerm == null ||
+      this.searchTerm == ""
     ) {
       this.getAllUsers();
     } else if (
-      (this.serchedTerm != undefined ||
-        this.serchedTerm != null ||
-        this.serchedTerm != "") &&
-      (this.selectedRole == undefined ||
-        this.selectedRole == null ||
-        this.selectedRole == "All" ||
-        this.selectedRole == "")
+      this.searchTerm != undefined ||
+      this.searchTerm != null ||
+      this.searchTerm != ""
     ) {
-      this.searchUsers(this.serchedTerm);
-    } else if (
-      (this.serchedTerm == undefined ||
-        this.serchedTerm == null ||
-        this.serchedTerm == "") &&
-      (this.selectedRole != undefined ||
-        this.selectedRole != null ||
-        this.selectedRole != "All" ||
-        this.selectedRole != "")
-    ) {
-      // this.getUsersByRole(this.serchedTerm);
-    } else if (
-      (this.serchedTerm != undefined ||
-        this.serchedTerm != null ||
-        this.serchedTerm != "") &&
-      (this.selectedRole != undefined ||
-        this.selectedRole != null ||
-        this.selectedRole != "All" ||
-        this.selectedRole != "")
-    ) {
-      this.searchUsersByRole(this.serchedTerm, this.selectedRole);
+      this.searchUsers(this.searchTerm);
     } else {
       this.getAllUsers();
-      this.alertService.sideErrorAlert("Error", "Could not retrive data");
+      this.alertService.sideErrorAlert(
+        "Error",
+        this.appService.popUpMessageConfig[0]
+          .CouldNotRetriveDataErrorSideAlertMessage
+      );
     }
   }
 
   updateTable() {
     this.userDetailsArray = this.userList.map((item) => ({
+      UserId: item.userId,
       UserName: item.userName,
       FirstName: item.firstName,
       LastName: item.lastName,
@@ -248,7 +226,8 @@ export class PlatformUsersComponent {
       row.Platform,
       row.PlatformId,
       row.Email,
-      row.PhoneNumber
+      row.PhoneNumber,
+
     );
   }
 
@@ -263,7 +242,7 @@ export class PlatformUsersComponent {
       row.PlatformId,
       row.Email,
       row.PhoneNumber,
-      //row.UserProfileCode
+
     );
   }
 
@@ -277,6 +256,7 @@ export class PlatformUsersComponent {
     platformId: number,
     email: string,
     phoneNumber: string,
+
     //userProfileCode: string
   ): void {
     // Check the 'type' parameter to determine the view
@@ -311,7 +291,7 @@ export class PlatformUsersComponent {
 
           this.userModel = result;
           if (type == "Add") {
-            this.postUser(this.userModel);
+            this.assignUsers(this.userModel);
           } else if (type == "Edit") {
             this.putUser(this.userModel);
           } else if (type == "View") {
@@ -339,7 +319,7 @@ export class PlatformUsersComponent {
                     platform,
                     platformId,
                     email,
-                    phoneNumber
+                    phoneNumber,
                   );
                 } else {
                   console.log("Not confirmed to edit");
@@ -431,9 +411,14 @@ export class PlatformUsersComponent {
 
   searchUsers(serchedTerm: string) {
     this.shared
-      .getSearchedUsers(serchedTerm, this.selectedPage, this.selectedPageSize)
+      .getSearchedUsers(
+        this.platformId,
+        serchedTerm,
+        this.selectedPage,
+        this.selectedPageSize
+      )
       .subscribe({
-        next: (response) => {
+        next: (response: any) => {
           this.userList = response.response;
           this.totalDataCount = response.rowCount;
 
@@ -446,10 +431,11 @@ export class PlatformUsersComponent {
               "No Data!",
               4000
             );
-            this.getAllUsers();
+            this.searchTerm = "";
+            this.loadData();
           }
         },
-        error: (error) => {
+        error: (error: any) => {
           this.alertService.sideErrorAlert(
             "Error",
             this.appService.popUpMessageConfig[0]
@@ -533,6 +519,45 @@ export class PlatformUsersComponent {
     });
   }
 
+  assignUser(items: any){
+    let ids: number[] = []
+    
+    items.forEach((element: any) => {
+      ids.push(element.UserId);
+    });
+    return ids;
+  }
+
+  assignUsers(user: any){
+
+    const selectedUser = this.assignUser(user.userIds)
+    //console.log("Add", user);
+    this.shared.assignUsers(user.platformId,selectedUser).subscribe({
+      next: (response) => {
+        console.log(response);
+
+        this.alertService.sideSuccessAlert(
+          "Success",
+          this.appService.popUpMessageConfig[0].UserAddedSuccessSideAlertMessage
+        );
+        this.alertService.successSweetAlertMessage(
+          this.appService.popUpMessageConfig[0].UserAddedNotificationMessage,
+          "Updated!",
+          4000
+        );
+
+        this.loadData();
+      },
+      error: (error) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0].UserAddedErrorSideAlertMessage
+        );
+        //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
+      },
+    });
+  }
+
   putUser(user: PlatformUser): void {
     console.log("Edit", user);
     this.shared.putUser(user).subscribe({
@@ -566,7 +591,7 @@ export class PlatformUsersComponent {
     let ids: number[] = [];
 
     items.forEach((element: any) => {
-      ids.push(element.id);
+      ids.push(element.UserId);
     });
 
     this.removeUsers(ids);

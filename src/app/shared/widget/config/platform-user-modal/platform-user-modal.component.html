@@ -1,6 +1,17 @@
 <div class="modal-header">
     <h5 class="modal-title fs-4" id="addReadingsModal">{{ modalTitle }}</h5>
 
+    <div class="form-outline col-lg-3 mr-10" *ngIf="type != 'View' && type != 'Edit'">
+        <input
+          (keyup)="getSearchTerm($event)"
+          [(ngModel)]="searchTerm"
+          type="text"
+          id="searchKey"
+          class="form-control input-sm"
+          placeholder="Search User"
+        />
+    </div>
+
     <button
       id="btnCommonModalClose"
       type="button"
@@ -14,27 +25,17 @@
     </button>
 </div>
 
-<!-- <div class="form-outline col-3 col-lg-3 " *ngIf="type != 'view' && type != 'Edit'">
-    <input
-      (keyup)="getSearchTerm($event)"
-      [(ngModel)]="searchTerm"
-      type="text"
-      id="searchKey"
-      class="form-control input-sm"
-      placeholder="Search User"
-    />
-</div> -->
 
 <div class="card-body pb-3" *ngIf="type !== 'View' && type !=='Edit'">
     <div class="mx-4">
-    <app-table
-      *ngIf="!loadingInProgress"
-      [headArray]="headArray"
-      [dataArray]="tableData"
-      [dataTableOptions]="platformUserModelViewTableOption"
-    >
-    </app-table>
-</div>
+        <app-table
+        *ngIf="!loadingInProgress"
+        [headArray]="headArray"
+        [dataArray]="tableData"
+        [dataTableOptions]="platformUserModelViewTableOption"
+        >
+        </app-table>
+    </div>
 </div>
   
 <form #form="ngForm" (ngSubmit)="onFormSubmit()">
@@ -53,7 +54,19 @@
             </div>
         </div>
 
-        <div class="col-12" *ngIf="type !== 'Add'">
+        <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
+            <div class="mb-3">
+              <label class="col-form-label">Roles & Permissions</label>
+              <app-table
+                *ngIf="!loadingInProgress"
+                [headArray]="headArrayRolePermission"
+                [dataArray]="rolePermissionTableData"
+              >
+              </app-table>
+            </div>
+          </div>
+
+        <div class="col-12" *ngIf="type !== 'Add' && type != 'View'">
             <div class="mb-3">
                 <label class="col-form-label">Roles</label>
                 <div class="input-group">

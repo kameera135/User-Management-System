@@ -5,6 +5,7 @@ import { AppService } from 'src/app/app.service';
 import { MessageService } from 'src/app/services/PopupMessages/message.service';
 import { PlatformUsersService } from 'src/app/services/cams-new/platform-users.service';
 import { User } from 'src/app/shared/models/Cams-new/User';
+import { UserRolePermissions } from 'src/app/shared/models/Cams-new/UserRolePermissions';
 import { PlatformUser } from 'src/app/shared/models/Cams-new/platform-user';
 import { tableOptions } from 'src/app/shared/models/tableOptions';
 
@@ -45,6 +46,7 @@ export class PlatformUserModalComponent {
 
   userList!: PlatformUser[];
   userModal!: PlatformUser;
+  rolePermission!: UserRolePermissions[];
 
   selectedPage: number = 1;
   selectedPageSize: number = 20;
@@ -59,7 +61,9 @@ export class PlatformUserModalComponent {
 
   platformUserModelViewTableOption: tableOptions = new tableOptions();
   userDetailsArray: any;
+  rolePermissionArray: any = [];
   tableData: any;
+  rolePermissionTableData: any;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -69,6 +73,7 @@ export class PlatformUserModalComponent {
     private alertService: MessageService,
   ) {}
 
+  //FOR UNASSIGN USER TABLE
   headArray = [
   
     { Head: "", FieldName: "", ColumnType: "CheckBox" },
@@ -77,6 +82,13 @@ export class PlatformUserModalComponent {
     { Head: "First Name", FieldName: "FirstName", ColumnType: "Data" },
     { Head: "Last Name", FieldName: "LastName", ColumnType: "Data" },
     { Head: "Email", FieldName: "Email", ColumnType: "Data" },
+  ];
+
+  //FOR ROLE PERMISSION TABLE
+  headArrayRolePermission = [
+
+    { Head: "Role", FieldName: "RoleId", ColumnType: "Data" },
+    { Head: "Permissions", FieldName: "Permissions", ColumnType: "Data"}
   ];
 
   ngOnInit() {
@@ -119,6 +131,18 @@ export class PlatformUserModalComponent {
 
     }));
     this.tableData = this.userDetailsArray;
+  }
+
+  //FOR ROLE PERMISSION TABLE
+  updateRolePermissionTable(){
+    this.rolePermissionArray = this.rolePermission.map((item) =>({
+      RoleId: item.roleId,
+      RoleName : item.roleName,
+      PermissionId: item.permissionsId,
+      Permission: item.permission
+    }));
+
+    this.rolePermissionTableData = this.rolePermissionArray
   }
 
   getSearchTerm($event: KeyboardEvent) {
@@ -182,6 +206,29 @@ export class PlatformUserModalComponent {
       });
   }
 
+  getUserRolesPermissions(userId: number,platformId: number){
+    this.loadingInProgress = true;
+    this.shared.getUserRolesPermissions(userId,platformId).subscribe({
+      next: (response: any) => {
+        this.rolePermission = response;
+        this.updateRolePermissionTable();
+        this.loadingInProgress = false;
+      },
+      error: (error) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0]
+            .GetUserPlatformsAndRolesErrorSideAlertMessage
+        );
+
+        this.rolePermissionTableData = [];
+
+        this.updateRolePermissionTable();
+        this.loadingInProgress = false;
+      },
+    });
+  }
+
   getAllPlatformUsersRoles() {
     this.shared
       .getAllPlatformUsersRoles(this.selectedPage, this.selectedPageSize)
@@ -210,21 +257,21 @@ export class PlatformUserModalComponent {
   }
 
   onFormSubmit() {
-    if (
-      this.userName == "" ||
-      this.firstName == "" ||
-      this.lastName == "" ||
-      this.platform == "" ||
-      this.userProfileCode == "" ||
-      this.email == ""
-    ) {
-      this.notifierService.warning({
-        detail: "Warning",
-        summary: "Please fill required fields",
-        duration: 2000,
-      });
-      return;
-    }
+    // if (
+    //   this.userName == "" ||
+    //   this.firstName == "" ||
+    //   this.lastName == "" ||
+    //   this.platform == "" ||
+    //   this.userProfileCode == "" ||
+    //   this.email == ""
+    // ) {
+    //   this.notifierService.warning({
+    //     detail: "Warning",
+    //     summary: "Please fill required fields",
+    //     duration: 2000,
+    //   });
+    //   return;
+    // }
 
     const user = new PlatformUser();
     user.empId = this.empId;

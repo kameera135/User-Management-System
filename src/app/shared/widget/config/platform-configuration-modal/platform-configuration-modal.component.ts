@@ -57,7 +57,7 @@ export class PlatformConfigurationModalComponent {
   }
 
   onFormSubmit() {
-    if (this.platformName == "" || this.description == "") {
+    if (this.type == 'Add' && (this.platformName == "" || this.description == "" || this.platformUrl == "")) {
       this.notifierService.warning({
         detail: "Warning",
         summary: "Please fill required fields",

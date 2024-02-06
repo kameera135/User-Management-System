@@ -8,4 +8,7 @@ export class PlatformUser {
     email!: string;
     phoneNumber!: string;
     role!: string
+    userIds!: []
+    userId!: number
+    
 }
