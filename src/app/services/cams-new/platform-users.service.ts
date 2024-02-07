@@ -118,7 +118,7 @@ export class PlatformUsersService {
     });
   }
 
-  getUserRoles(userId: number, platformId:number){
+  getPlatformUserRoles(userId: number, platformId:number){
     let queryParams = new HttpParams();
 
     queryParams = queryParams.append( "userId" , userId );
@@ -135,6 +135,16 @@ export class PlatformUsersService {
     queryParams = queryParams.append( "platformId" , platformId );
 
     const url = `${this.apiUrl}/api/users/roles_and_permissions`;
+    return this.httpClient.get(url, { params: queryParams });
+  }
+
+  getRolesNotAssignUsers(userId: number, platformId: number){
+    
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('userId', userId);
+    queryParams = queryParams.append('platformId',platformId);
+
+    const url = `${this.apiUrl}/api/configuration/roles/platform/not_for_users`;
     return this.httpClient.get(url, { params: queryParams });
   }
 }

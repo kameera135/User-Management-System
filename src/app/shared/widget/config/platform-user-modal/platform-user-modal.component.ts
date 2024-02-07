@@ -23,7 +23,7 @@ interface ListItem {
 
 export class PlatformUserModalComponent {
 
-  roleList: any[] = this.appService.appConfig[0].roleList;
+  //roleList: any[] = this.appService.appConfig[0].roleList;
 
   @Input() type!: string;
   @Input() modalTitle!: string;
@@ -50,11 +50,18 @@ export class PlatformUserModalComponent {
   userModal!: PlatformUser;
   rolePermission!: UserRolePermissions[];
 
+  
+  showListItems: boolean = false;
+  
+  listItems: ListItem[] = []; 
+
   selectedPage: number = 1;
   selectedPageSize: number = 20;
   totalDataCount!: number;
 
   searchTerm!: string;
+
+  rolesAsString!: string;
 
   loadingInProgress: boolean = false;
 
@@ -114,6 +121,9 @@ export class PlatformUserModalComponent {
 
     if(this.type == 'View'){
       this.getUserRolesPermissions();
+    }
+    else if(this.type == 'Edit'){
+      this.getPlatformUserRoles();
     }
     else{
       this.loadData();
@@ -294,28 +304,69 @@ export class PlatformUserModalComponent {
     this.activeModal.close(user);
   }
 
+  getPlatformUserRoles(){
+    this.loadingInProgress = true;
+    this.shared.getPlatformUserRoles(this.userId, this.platformId).subscribe({
+      next: (response: any) => {
+       // console.log("Response from permissions for roles : ", response);
+        this.userList = response;
+        this.rolesAsString = this.getRolesAsString(response);
+        this.loadingInProgress = false;
+      },
+      error: (error) => {
+        // this.alertService.sideErrorAlert(
+        //   "Error",
+        //   this.appService.popUpMessageConfig[0]
+        //     .GetPermissionListErrorSideAlertMessage
+        // );
 
-  showListItems: boolean = false;
-  
-  listItems: ListItem[] = [
-      { name: 'Tenenat Manager', selected: false },
-      { name: 'Tenant', selected: false },
-      { name: 'Admin', selected: false },
-  ]; // Replace with your list items
+        this.userList = [];
+        this.rolesAsString = '';
+        this.loadingInProgress = false;
+      },
+    });
+  }
+
+  getRolesNotAssignUsers(){
+
+    this.shared.getRolesNotAssignUsers(this.userId,this.platformId).subscribe({
+      next: (response: any) => {
+        if (Array.isArray(response)) {
+          
+          this.listItems = response.map(item => ({ name: item.role, selected: false }));
+        } else {
+          console.error('Invalid API response format:', response);
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching list items from API:', error);
+      }
+    });
+  }
+
+  getRolesAsString(roles: any[]): string{
+    return roles.map(role => `${role.role}`).join('\n');
+  }
 
   toggleListItems() {
       // Toggle the visibility of list items view
       if (this.type !== 'View') {
-          this.showListItems = !this.showListItems;
+        this.getRolesNotAssignUsers();
+        this.showListItems = !this.showListItems;
       }
   }
 
   addSelectedItems() {
       // Get selected items and add them to the textarea
-      const existing = this.platform
-      const selectedItems = this.listItems.filter(item => item.selected).map(item => item.name).join('\n');
-      const set = new Set([...existing, ...selectedItems]);
-      this.platform = existing + '\n' + selectedItems;
+     const existing = this.rolesAsString;
+
+     const selectedItems = this.listItems.filter(item => item.selected && existing.indexOf(item.name) === -1)
+                                          .map(item => item.name)
+                                          .join('\n');
+
+     if(selectedItems){
+      this.rolesAsString = existing + (existing ? '\n' : '') + selectedItems;
+     }
 
       // Hide the list items view after adding items to textarea
       this.showListItems = false;
