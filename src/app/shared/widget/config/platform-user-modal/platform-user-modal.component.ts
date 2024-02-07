@@ -8,6 +8,7 @@ import { User } from 'src/app/shared/models/Cams-new/User';
 import { UserRolePermissions } from 'src/app/shared/models/Cams-new/UserRolePermissions';
 import { PlatformUser } from 'src/app/shared/models/Cams-new/platform-user';
 import { tableOptions } from 'src/app/shared/models/tableOptions';
+import { threadId } from 'worker_threads';
 
 interface ListItem {
   name: string;
@@ -27,6 +28,7 @@ export class PlatformUserModalComponent {
   @Input() type!: string;
   @Input() modalTitle!: string;
   @Input() userName!: string;
+  @Input() userId!: number;
   @Input() firstName!: string;
   @Input() lastName!: string;
   @Input() platform!: any;
@@ -87,8 +89,8 @@ export class PlatformUserModalComponent {
   //FOR ROLE PERMISSION TABLE
   headArrayRolePermission = [
 
-    { Head: "Role", FieldName: "RoleId", ColumnType: "Data" },
-    { Head: "Permissions", FieldName: "Permissions", ColumnType: "Data"}
+    { Head: "Role", FieldName: "RoleName", ColumnType: "Data" },
+    { Head: "Permissions", FieldName: "Permission", ColumnType: "Data"}
   ];
 
   ngOnInit() {
@@ -109,7 +111,13 @@ export class PlatformUserModalComponent {
 
     this.platformUserModelViewTableOption.allowCheckbox = true;
 
-    this.loadData();
+
+    if(this.type == 'View'){
+      this.getUserRolesPermissions();
+    }
+    else{
+      this.loadData();
+    }
     
   }
 
@@ -118,6 +126,7 @@ export class PlatformUserModalComponent {
    // this.getAllPlatformUsers();
     //this.getAllPlatformUsersRoles();
     this.getAllUsers();
+    
   }
 
   updateTable() {
@@ -138,7 +147,7 @@ export class PlatformUserModalComponent {
     this.rolePermissionArray = this.rolePermission.map((item) =>({
       RoleId: item.roleId,
       RoleName : item.roleName,
-      PermissionId: item.permissionsId,
+      PermissionId: item.permissionId,
       Permission: item.permission
     }));
 
@@ -206,10 +215,10 @@ export class PlatformUserModalComponent {
       });
   }
 
-  getUserRolesPermissions(userId: number,platformId: number){
+  getUserRolesPermissions(){
     this.loadingInProgress = true;
-    this.shared.getUserRolesPermissions(userId,platformId).subscribe({
-      next: (response: any) => {
+    this.shared.getUserRolesPermissions(this.userId,this.platformId).subscribe({
+      next: (response:any) => {
         this.rolePermission = response;
         this.updateRolePermissionTable();
         this.loadingInProgress = false;
@@ -221,7 +230,7 @@ export class PlatformUserModalComponent {
             .GetUserPlatformsAndRolesErrorSideAlertMessage
         );
 
-        this.rolePermissionTableData = [];
+        this.rolePermission = [];
 
         this.updateRolePermissionTable();
         this.loadingInProgress = false;

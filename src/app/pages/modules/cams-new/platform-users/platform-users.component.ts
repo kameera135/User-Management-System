@@ -213,13 +213,14 @@ export class PlatformUsersComponent {
   }
 
   onAddUserButtonClicked(): void {
-    this.openModal("Add", "Assign New Users ", "", "", "", "", this.platformId, "", "");
+    this.openModal("Add", "Assign New Users ", 0, "", "", "","", this.platformId, "", "");
   }
 
   onEditButtonClicked(row: any) {
     this.openModal(
       "Edit",
       "Assign Roles",
+      row.UserId,
       row.UserName,
       row.FirstName,
       row.LastName,
@@ -235,6 +236,7 @@ export class PlatformUsersComponent {
     this.openModal(
       "View",
       "User Account Details",
+      row.UserId,
       row.UserName,
       row.FirstName,
       row.LastName,
@@ -249,6 +251,7 @@ export class PlatformUsersComponent {
   openModal(
     type: string,
     modalTitle: string,
+    userId:number,
     userName: string,
     firstName: string,
     lastName: string,
@@ -276,6 +279,7 @@ export class PlatformUsersComponent {
     modalRef.componentInstance.modalTitle = modalTitle;
 
     modalRef.componentInstance.userName = userName;
+    modalRef.componentInstance.userId = userId;
     modalRef.componentInstance.firstName = firstName;
     modalRef.componentInstance.lastName = lastName;
     modalRef.componentInstance.platform = platform;
@@ -313,6 +317,7 @@ export class PlatformUsersComponent {
                   this.openModal(
                     "Edit",
                     "Edit User Account Details",
+                    userId,
                     userName,
                     firstName,
                     lastName,
@@ -326,6 +331,7 @@ export class PlatformUsersComponent {
                   this.openModal(
                     "View",
                     "User",
+                    userId,
                     userName,
                     firstName,
                     lastName,

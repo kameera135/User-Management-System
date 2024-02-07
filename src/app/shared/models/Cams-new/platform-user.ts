@@ -10,5 +10,10 @@ export class PlatformUser {
     role!: string
     userIds!: []
     userId!: number
+
+    roleId!: number;
+    roleName!: string;
+    permissionId!: number;
+    permission!: string;
     
 }

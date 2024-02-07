@@ -162,7 +162,6 @@ export class RoleConfigurationModalComponent {
       next: (response: any) => {
        // console.log("Response from permissions for roles : ", response);
         this.permissionsForRoleList = response;
-        console.log(this.permissionsForRoleList);
         this.updateTable();
         this.permissionsAsString = this.getPermissionsAsString(response);
         this.loadingInProgress = false;

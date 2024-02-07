@@ -1,6 +1,6 @@
 export class UserRolePermissions{
     roleId!: number;
     roleName!: string;
-    permissionsId!: number;
+    permissionId!: number;
     permission!: string;
 }
