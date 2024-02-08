@@ -26,14 +26,12 @@ export class RoleConfigurationService {
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
-  getUsersByRole(role: string, page: number, pageSize: number) {
+  getUsersByPlatform(platformId: number, page: number, pageSize: number) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("viewedBy", this.user.id);
-    queryParams = queryParams.append("role", role);
-    queryParams = queryParams.append("page", page);
-    queryParams = queryParams.append("pageSize", pageSize);
+    //queryParams = queryParams.append("viewedBy", this.user.id);
+    queryParams = queryParams.append("platformId", platformId);
 
-    const url = `${this.apiUrl}/end-point`;
+    const url = `${this.apiUrl}/api/configuration/roles/${page}/${pageSize}`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
@@ -46,20 +44,18 @@ export class RoleConfigurationService {
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
-  getSearchedUsersByRole(
+  getSearchedUsersByPlatform(
     searchedTerm: string,
-    role: string,
+    platformId: number,
     page: number,
     pageSize: number
   ) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("viewedBy", this.user.id);
-    queryParams = queryParams.append("searchedTerm", searchedTerm);
-    queryParams = queryParams.append("role", role);
-    queryParams = queryParams.append("page", page);
-    queryParams = queryParams.append("pageSize", pageSize);
+    //queryParams = queryParams.append("viewedBy", this.user.id);
+    queryParams = queryParams.append("platformId", platformId);
+    queryParams = queryParams.append("userName", searchedTerm);
 
-    const url = `${this.apiUrl}/end-point`;
+    const url = `${this.apiUrl}/api/configuration/roles/${page}/${pageSize}`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
@@ -162,4 +158,5 @@ export class RoleConfigurationService {
       }
     );
   }
+
 }

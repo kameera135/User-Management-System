@@ -36,10 +36,13 @@ export class RoleConfigurationComponent {
   totalDataCount!: number;
   roleDetailsArray: any = []
   
-  platformList: any[] = [{ value: "All", id: 1 }];
+  platformListDefault: any[] = [{ value: "All Platforms", id: "0" }];
+  platformList: any[] = [];
+
   selectedRole: string = "All";
 
   selectedPage: number = 1;
+  selectedPlatform!: number;
 
   tableData: any;
   
@@ -128,6 +131,8 @@ export class RoleConfigurationComponent {
       { label: "Roles", active: true },
     ]);
 
+    this.getPlatformList();
+
     this.loadData();
   }
 
@@ -136,16 +141,40 @@ export class RoleConfigurationComponent {
     if (
       this.searchTerm == undefined ||
       this.searchTerm == null ||
-      this.searchTerm == ""
+      this.searchTerm == "" &&
+      (this.selectedPlatform == undefined ||
+        this.selectedPlatform == null ||
+        this.selectedPlatform == 0)
     ) {
       this.getAllRoles();
     } else if (
       this.searchTerm != undefined ||
       this.searchTerm != null ||
-      this.searchTerm != ""
+      this.searchTerm != "" &&
+      (this.selectedPlatform == undefined ||
+        this.selectedPlatform == null ||
+        this.selectedPlatform == 0)
     ) {
       this.searchRoles(this.searchTerm);
-    } else {
+    } else if (
+      (this.searchTerm == undefined ||
+        this.searchTerm == null ||
+        this.searchTerm == "") &&
+      (this.selectedPlatform != undefined ||
+        this.selectedPlatform != null ||
+        this.selectedPlatform != 0)
+    ) {
+      this.getUsersByPlatform(this.selectedPlatform);
+    } else if (
+      (this.searchTerm != undefined ||
+        this.searchTerm != null ||
+        this.searchTerm != "") &&
+      (this.selectedPlatform != undefined ||
+        this.selectedPlatform != null ||
+        this.selectedPlatform != 0)
+    ) {
+      this.searchUsersByPlatform(this.searchTerm, this.selectedPlatform);
+     } else {
       this.getAllRoles();
       this.alertService.sideErrorAlert(
         "Error",
@@ -155,51 +184,79 @@ export class RoleConfigurationComponent {
     }
   }
 
-  // loadData() {
-  //   this.loadingInProgress = true;
-  //   if (
-  //     (this.serchedTerm == undefined ||
-  //       this.serchedTerm == null ||
-  //       this.serchedTerm == "")
-  //   ) {
-  //     this.getAllRoles();
-  //   }  else if (
-  //     this.searchTerm != undefined ||
-  //     this.searchTerm != null ||
-  //     this.searchTerm != ""
-  //   ){
-  //     this.searchRoles(this.searchTerm);
-  //   } else {
-  //     this.getAllRoles();
-  //     this.alertService.sideErrorAlert("Error", "Could not retrive data");
-  //   } 
-  //   else if (
-  //     (this.serchedTerm == undefined ||
-  //       this.serchedTerm == null ||
-  //       this.serchedTerm == "") &&
-  //     (this.selectedRole != undefined ||
-  //       this.selectedRole != null ||
-  //       this.selectedRole != "All" ||
-  //       this.selectedRole != "")
-  //   ){}
-  //   ) {
-  //     this.getPlatformsByRole(this.serchedTerm);
-  //   } else if (
-  //     (this.serchedTerm != undefined ||
-  //       this.serchedTerm != null ||
-  //       this.serchedTerm != "") &&
-  //     (this.selectedRole != undefined ||
-  //       this.selectedRole != null ||
-  //       this.selectedRole != "All" ||
-  //       this.selectedRole != "")
-  //   ) {
-  //     this.searchPlatformsByRole(this.serchedTerm, this.selectedRole);
-  //   } else {
-  //     this.getAllPlatforms();
-  //     this.alertService.sideErrorAlert("Error", "Could not retrive data");
-  //   }
-      
-  // }
+  onPlatformSelect() {
+    this.selectedPage = 1;
+    this.loadData();
+  }
+
+
+  searchUsersByPlatform(searchedTerm: string, platformId: number) {
+    this.shared
+      .getSearchedUsersByPlatform(
+        searchedTerm,
+        platformId,
+        this.selectedPage,
+        this.selectedPageSize
+      )
+      .subscribe({
+        next: (response) => {
+          this.roleList = response.response;
+          this.totalDataCount = response.rowCount;
+          if (this.totalDataCount > 0) {
+            this.updateTable();
+            this.loadingInProgress = false;
+          } else {
+            this.alertService.warningSweetAlertMessage(
+              this.appService.popUpMessageConfig[0].NoDataNotificationMessage,
+              "No Data!",
+              4000
+            );
+            this.searchTerm = "";
+            this.loadData();
+          }
+        },
+        error: (error) => {
+          this.alertService.sideErrorAlert(
+            "Error",
+            this.appService.popUpMessageConfig[0]
+              .GetUserListErrorSideAlertMessage
+          );
+
+          this.roleList = [];
+          this.totalDataCount = 0;
+
+          this.updateTable();
+          this.loadingInProgress = false;
+        },
+      });
+  }
+
+
+  getUsersByPlatform(platformId: number) {
+    this.shared
+      .getUsersByPlatform(platformId, this.selectedPage, this.selectedPageSize)
+      .subscribe({
+        next: (response) => {
+          this.roleList = response.response;
+          this.totalDataCount = response.rowCount;
+          this.updateTable();
+          this.loadingInProgress = false;
+        },
+        error: (error) => {
+          this.alertService.sideErrorAlert(
+            "Error",
+            this.appService.popUpMessageConfig[0]
+              .GetUserListErrorSideAlertMessage
+          );
+
+          this.roleList = [];
+          this.totalDataCount = 0;
+
+          this.updateTable();
+          this.loadingInProgress = false;
+        },
+      });
+  }
 
   getSearchTerm($event: KeyboardEvent) {
     this.selectedPage = 1;
@@ -668,6 +725,26 @@ export class RoleConfigurationComponent {
           "Error",
           this.appService.popUpMessageConfig[0]
             .PermissionAddedErrorSideAlertMessage
+        );
+      },
+    });
+  }
+
+  getPlatformList() {
+    this.shared.getPlatformList().subscribe({
+      next: (response: any) => {
+        this.platformList = response;
+
+        var platforms = this.platformList;
+        for (let i = 0; i < platforms.length; i++) {
+          this.platformListDefault.push(platforms[i]);
+        }
+      },
+      error: (error) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0]
+            .GetPlatformComboboxListErrorSideAlertMessage
         );
       },
     });
