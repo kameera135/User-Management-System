@@ -102,7 +102,7 @@ export class PlatformUserModalComponent {
 
   ngOnInit() {
     if (this.type == "Add") {
-      this.buttonName = "Add";
+      this.buttonName = "Assign";
       this.buttonIcon = "bi-person-plus-fill";
       
     } else if (this.type == "Edit") {
@@ -117,7 +117,7 @@ export class PlatformUserModalComponent {
     this.cancelButtonName;
 
     this.platformUserModelViewTableOption.allowCheckbox = true;
-
+    this.platformUserModelViewTableOption.displayPagination = true;
 
     if(this.type == 'View'){
       this.getUserRolesPermissions();
@@ -133,9 +133,26 @@ export class PlatformUserModalComponent {
 
   loadData(){
     this.loadingInProgress = true;
-   // this.getAllPlatformUsers();
-    //this.getAllPlatformUsersRoles();
-    this.getAllUsers();
+    if (
+      this.searchTerm == undefined ||
+      this.searchTerm == null ||
+      this.searchTerm == ""
+    ) {
+      this.getAllUsers();
+    } else if (
+      this.searchTerm != undefined ||
+      this.searchTerm != null ||
+      this.searchTerm != ""
+    ) {
+      this.getSearchedUsers(this.searchTerm);
+    } else {
+      this.getAllUsers();
+      this.alertService.sideErrorAlert(
+        "Error",
+        this.appService.popUpMessageConfig[0]
+          .CouldNotRetriveDataErrorSideAlertMessage
+      );
+    }
     
   }
 
@@ -171,9 +188,38 @@ export class PlatformUserModalComponent {
     }
   }
 
-  getAllPlatformUsers() {
+  // getAllPlatformUsers() {
+  //   this.shared
+  //     .getAllPlatformUsers(this.platformId,this.selectedPage, this.selectedPageSize)
+  //    .subscribe({
+        
+  //       next: (response) => {
+  //         this.userList = response.response;
+  //         this.totalDataCount = response.rowCount;
+  //         this.updateTable();
+  //         this.loadingInProgress = false;
+  //       },
+  //       error: (error) => {
+  //         this.alertService.sideErrorAlert(
+  //           "Error",
+  //           this.appService.popUpMessageConfig[0]
+  //             .GetUserListErrorSideAlertMessage
+  //         );
+
+  //         this.userList = [];
+  //         this.totalDataCount = 0;
+
+  //         this.updateTable();
+  //         this.loadingInProgress = false;
+  //       },
+  //     });
+  // }
+
+
+  //Get un assigned platform users for selected platform
+  getAllUsers() {
     this.shared
-      .getAllPlatformUsers(this.platformId,this.selectedPage, this.selectedPageSize)
+      .getAllUsers(this.platformId)
      .subscribe({
         
         next: (response) => {
@@ -198,9 +244,9 @@ export class PlatformUserModalComponent {
       });
   }
 
-  getAllUsers() {
+  getSearchedUsers(searchedTerm:string){
     this.shared
-      .getAllUsers(this.platformId)
+      .getSearchedUnassignUsers(searchedTerm,this.platformId)
      .subscribe({
         
         next: (response) => {

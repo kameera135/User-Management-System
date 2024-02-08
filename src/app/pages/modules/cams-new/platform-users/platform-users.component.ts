@@ -296,7 +296,7 @@ export class PlatformUsersComponent {
 
           this.userModel = result;
           if (type == "Add") {
-            this.assignUsers(this.userModel);
+            this.assignUser(this.userModel);
           } else if (type == "Edit") {
             this.putUser(this.userModel);
           } else if (type == "View") {
@@ -532,14 +532,12 @@ export class PlatformUsersComponent {
     items.forEach((element: any) => {
       ids.push(element.UserId);
     });
-    return ids;
+    this.assignUsers(ids);
   }
 
-  assignUsers(user: any){
+  assignUsers(id:number[]){
 
-    const selectedUser = this.assignUser(user.userIds)
-    //console.log("Add", user);
-    this.shared.assignUsers(user.platformId,selectedUser).subscribe({
+    this.shared.assignUsers(this.platformId, id).subscribe({
       next: (response) => {
         console.log(response);
 
@@ -575,9 +573,7 @@ export class PlatformUsersComponent {
   }
 
   unassignUsers(id:number[]){
-    
-    //const selectedUser = this.assignUser(user.userIds)
-    //console.log("Add", user);
+
     this.shared.unassignUsers(this.platformId,id).subscribe({
       next: (response) => {
         console.log(response);

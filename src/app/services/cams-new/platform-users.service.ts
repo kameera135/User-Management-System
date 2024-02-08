@@ -57,6 +57,16 @@ export class PlatformUsersService {
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
+  getSearchedUnassignUsers(searchedTerm: string, platformId: number) {
+    let queryParams = new HttpParams();
+
+    queryParams = queryParams.append('platforomId',platformId);
+    queryParams = queryParams.append('searchedUserName', searchedTerm);
+
+    const url = `${this.apiUrl}/api/users/platform/un-assigned`;
+    return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
+  }
+
   getSearchedUsersByRole(
     searchedTerm: string,
     role: string,
