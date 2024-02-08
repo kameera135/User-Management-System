@@ -115,6 +115,8 @@ export class TableComponent {
 
   allowtoDelete: boolean = false;
 
+  unAssignUser: boolean = false;
+
   allowExportAsExcel: boolean = false;
 
   allowtoView: boolean = false;
@@ -273,6 +275,8 @@ export class TableComponent {
       this.allowtoViewActions = this.dataTableOptions.allowViewActionsButton;
 
       this.allowtoDelete = this.dataTableOptions.allowDeleteButton;
+
+      this.unAssignUser = this.dataTableOptions.unAssignUserButton;
 
       this.allowtoApprove = this.dataTableOptions.allowApproveButton;
 

@@ -51,6 +51,8 @@ export class tableOptions {
 
   allowBulkDeleteButton: boolean = false;
 
+  unAssignUserButton: boolean = false;
+
   tableTitle: string = ""; //Display the title of the table above the table
 
   rowDeleteConfirmationMessage: string = "";

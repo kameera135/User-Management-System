@@ -118,6 +118,23 @@ export class PlatformUsersService {
     });
   }
 
+  unassignUsers(platformId: number, list: number[]){
+    let queryParams = new HttpParams();
+
+    const requestBody = {
+      platformId: platformId,
+      userIds: list
+    }
+
+    queryParams = queryParams.append("createdBy", this.user.id);
+
+    return this.httpClient.delete(`${this.apiUrl}/api/configuration/platforms/users/unassign_users`,
+    {
+      params: queryParams,
+      body: requestBody
+    });
+  }
+
   getPlatformUserRoles(userId: number, platformId:number){
     let queryParams = new HttpParams();
 

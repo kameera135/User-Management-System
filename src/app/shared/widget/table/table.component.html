@@ -470,6 +470,19 @@
                 <i class="bi bi-trash label-icon align-middle fs-16 me-2"></i>
                 Delete
               </button>
+
+              <!--- Un assign user button ---->
+              <button
+                type="button"
+                [disabled]="!bulkDeleteAllowed"
+                *ngIf="unAssignUser"
+                (click)="confirm(deleteModal, -1, 'Delete')"
+                class="btn btn-danger btn-label"
+                Generate="Bulk Delete"
+              >
+                <i class="bi bi-trash label-icon align-middle fs-16 me-2"></i>
+                Un_Assign
+              </button>
             </div>
           </div>
         </div>

@@ -119,7 +119,8 @@ export class PlatformUsersComponent {
 
     this.usersViewTableOptions.allowCheckbox = true;
     this.usersViewTableOptions.allowBulkDeleteButton = true;
-    this.usersViewTableOptions.allowDeleteButton = true;
+    //this.usersViewTableOptions.allowDeleteButton = true;
+    this.usersViewTableOptions.unAssignUserButton = true;
     this.usersViewTableOptions.allowUpdateButton = true;
     this.usersViewTableOptions.allowViewButton = true;
     this.usersViewTableOptions.displayPagination = true;
@@ -558,6 +559,45 @@ export class PlatformUsersComponent {
         this.alertService.sideErrorAlert(
           "Error",
           this.appService.popUpMessageConfig[0].UserAddedErrorSideAlertMessage
+        );
+        //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
+      },
+    });
+  }
+
+  unassignUser(items: any){
+    let ids: number[] = []
+    
+    items.forEach((element: any) => {
+      ids.push(element.UserId);
+    });
+    this.unassignUsers(ids);
+  }
+
+  unassignUsers(id:number[]){
+    
+    //const selectedUser = this.assignUser(user.userIds)
+    //console.log("Add", user);
+    this.shared.unassignUsers(this.platformId,id).subscribe({
+      next: (response) => {
+        console.log(response);
+
+        this.alertService.sideSuccessAlert(
+          "Success",
+          this.appService.popUpMessageConfig[0].UserDeletedSuccessSideAlertMessage
+        );
+        this.alertService.successSweetAlertMessage(
+          this.appService.popUpMessageConfig[0].UserDeletedNotificationMessage,
+          "Updated!",
+          4000
+        );
+
+        this.loadData();
+      },
+      error: (error) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0].UserDeletedErrorSideAlertMessage
         );
         //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
       },
