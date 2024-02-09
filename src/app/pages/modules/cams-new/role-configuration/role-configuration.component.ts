@@ -131,26 +131,27 @@ export class RoleConfigurationComponent {
       { label: "Roles", active: true },
     ]);
 
+    this.loadData();
+
     this.getPlatformList();
 
-    this.loadData();
   }
 
   loadData() {
     this.loadingInProgress = true;
     if (
-      this.searchTerm == undefined ||
+      (this.searchTerm == undefined ||
       this.searchTerm == null ||
-      this.searchTerm == "" &&
+      this.searchTerm == "") &&
       (this.selectedPlatform == undefined ||
         this.selectedPlatform == null ||
         this.selectedPlatform == 0)
     ) {
       this.getAllRoles();
     } else if (
-      this.searchTerm != undefined ||
+      (this.searchTerm != undefined ||
       this.searchTerm != null ||
-      this.searchTerm != "" &&
+      this.searchTerm != "") &&
       (this.selectedPlatform == undefined ||
         this.selectedPlatform == null ||
         this.selectedPlatform == 0)
@@ -192,7 +193,7 @@ export class RoleConfigurationComponent {
 
   searchUsersByPlatform(searchedTerm: string, platformId: number) {
     this.shared
-      .getSearchedUsersByPlatform(
+      .getSearchedRolesByPlatform(
         searchedTerm,
         platformId,
         this.selectedPage,

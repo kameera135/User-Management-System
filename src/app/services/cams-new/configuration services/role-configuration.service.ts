@@ -44,7 +44,7 @@ export class RoleConfigurationService {
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
-  getSearchedUsersByPlatform(
+  getSearchedRolesByPlatform(
     searchedTerm: string,
     platformId: number,
     page: number,
@@ -53,7 +53,7 @@ export class RoleConfigurationService {
     let queryParams = new HttpParams();
     //queryParams = queryParams.append("viewedBy", this.user.id);
     queryParams = queryParams.append("platformId", platformId);
-    queryParams = queryParams.append("userName", searchedTerm);
+    queryParams = queryParams.append("searchedRoleName", searchedTerm);
 
     const url = `${this.apiUrl}/api/configuration/roles/${page}/${pageSize}`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
