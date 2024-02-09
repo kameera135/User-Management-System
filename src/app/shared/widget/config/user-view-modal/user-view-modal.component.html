@@ -13,152 +13,210 @@
   </button>
 </div>
 
+<div *ngIf="type != 'View'" class="d-flex justify-content-center align-items-center">
+  <button type="button" class="btn btn-link btn-lg" (click)="showUserDetailsPage()">
+    <i class="bi bi-person-vcard-fill"></i>
+  </button>
+
+  <span class="mx-3">&#8594;</span>
+
+  <!-- <div style="flex: 1;"></div> -->
+  <button type="button" class="btn btn-link btn-lg" (click)="showPasswordPage()">
+    <i class="bi bi-lock-fill"></i>
+  </button>
+</div>
+
 <form #form="ngForm" (ngSubmit)="onFormSubmit()">
   <div class="col modal-body col-12">
     <div class="row">
-      <div class="col-12">
-        <div class="mb-3">
-          <label class="col-form-label">User Name*</label>
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="userName"
-            name="userName"
-            [disabled]="type == 'View'"
-          />
-          <div class="input-group"></div>
+      <div class="row" *ngIf="!showPasswordFields">
+        <div class="col-12">
+          <div class="mb-3">
+            <label class="col-form-label">User Name*</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="userName"
+              name="userName"
+              [disabled]="type == 'View'"
+            />
+            <div class="input-group"></div>
+          </div>
+        </div>
+  
+        <div class="col-6">
+          <div class="mb-3">
+            <label class="col-form-label">First Name*</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="firstName"
+              name="firstName"
+              [disabled]="type == 'View'"
+            />
+          </div>
+        </div>
+  
+        <div class="col-6">
+          <div class="mb-3">
+            <label class="col-form-label">Last Name*</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="lastName"
+              name="lastName"
+              [disabled]="type == 'View'"
+            />
+          </div>
+        </div>
+  
+        <div class="col-12">
+          <div class="mb-3">
+            <label class="col-form-label">Phone Number</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="phoneNumber"
+              name="phoneNumber"
+              [disabled]="type == 'View'"
+            />
+          </div>
+        </div>
+  
+        <div class="col-12">
+          <div class="mb-3">
+            <label class="col-form-label">Email*</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="email"
+              name="email"
+              [disabled]="type == 'View'"
+            />
+          </div>
+        </div>
+  
+          <!-- <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
+          <div class="mb-3">
+            <label class="col-form-label">Platform*</label>
+            <ng-select
+              [(ngModel)]="platform"
+              [multiple]="false"
+              [placeholder]="platform ? platform : 'Select'"
+              name="selectRole"
+              style="width: auto"
+              [clearable]="false"
+              [disabled]="type == 'View'"
+            >
+              <ng-option *ngFor="let role of roleList" [value]="role.value">
+                {{ role.value }}
+              </ng-option>
+            </ng-select>
+          </div>
+        </div> -->
+  
+        <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
+          <div class="mb-3">
+            <label class="col-form-label">Platforms and Roles</label>
+            <app-table
+              *ngIf="!loadingInProgress"
+              [headArray]="headArray"
+              [dataArray]="tableData"
+            >
+            </app-table>
+          </div>
+        </div>
+
+        <div class="col-12 mx-auto" *ngIf="type != 'View'">
+          <div class="d-flex justify-content-end">
+            <!--Next button-->
+            <button
+              type="button"
+              class="btn btn-secondary btn-label mt-3 ms-2"
+              (click)="showPasswordPage()"
+            >
+              <i
+                class="bi bi-arrow-up-right-circle-fill label-icon align-middle fs-16 me-2"
+              ></i
+              >Next
+            </button>
+          </div>
+        </div>
+
+        <div class="col-12 mx-auto" *ngIf="type == 'View'">
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-success btn-label mt-3">
+              <i
+                class="bi {{ buttonIcon }} label-icon align-middle fs-16 me-2"
+              ></i
+              >{{ buttonName }}
+            </button>
+  
+            <!--Cancel button-->
+            <button
+              type="button"
+              class="btn btn-danger btn-label mt-3 ms-2"
+              (click)="activeModal.dismiss()"
+            >
+              <i
+                class="bi {{
+                  cancelButtonIcon
+                }} label-icon align-middle fs-16 me-2"
+              ></i
+              >{{ cancelButtonName }}
+            </button>
+          </div>
         </div>
       </div>
 
-      <div class="col-6">
-        <div class="mb-3">
-          <label class="col-form-label">First Name*</label>
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="firstName"
-            name="firstName"
-            [disabled]="type == 'View'"
-          />
+      <div *ngIf="showPasswordFields">
+        <div class="col-12" *ngIf="type !== 'View'">
+          <div class="mb-3">
+            <label class="col-form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              [(ngModel)]="password"
+              name="password"
+            />
+          </div>
         </div>
-      </div>
-
-      <div class="col-6">
-        <div class="mb-3">
-          <label class="col-form-label">Last Name*</label>
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="lastName"
-            name="lastName"
-            [disabled]="type == 'View'"
-          />
+  
+        <div class="col-12" *ngIf="type !== 'View'">
+          <div class="mb-3">
+            <label class="col-form-label">Confirm Password</label>
+            <input
+              type="password"
+              class="form-control"
+              [(ngModel)]="confirmPassword"
+              name="confirmPassword"
+            />
+          </div>
         </div>
-      </div>
 
-      <div class="col-12">
-        <div class="mb-3">
-          <label class="col-form-label">Phone Number</label>
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="phoneNumber"
-            name="phoneNumber"
-            [disabled]="type == 'View'"
-          />
-        </div>
-      </div>
-
-      <div class="col-12">
-        <div class="mb-3">
-          <label class="col-form-label">Email*</label>
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="email"
-            name="email"
-            [disabled]="type == 'View'"
-          />
-        </div>
-      </div>
-
-      <!-- <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
-      <div class="mb-3">
-        <label class="col-form-label">Platform*</label>
-        <ng-select
-          [(ngModel)]="platform"
-          [multiple]="false"
-          [placeholder]="platform ? platform : 'Select'"
-          name="selectRole"
-          style="width: auto"
-          [clearable]="false"
-          [disabled]="type == 'View'"
-        >
-          <ng-option *ngFor="let role of roleList" [value]="role.value">
-            {{ role.value }}
-          </ng-option>
-        </ng-select>
-      </div>
-    </div> -->
-
-      <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
-        <div class="mb-3">
-          <label class="col-form-label">Platforms and Roles</label>
-          <app-table
-            *ngIf="!loadingInProgress"
-            [headArray]="headArray"
-            [dataArray]="tableData"
-          >
-          </app-table>
-        </div>
-      </div>
-
-      <div class="col-12" *ngIf="type !== 'View'">
-        <div class="mb-3">
-          <label class="col-form-label">Password</label>
-          <input
-            type="password"
-            class="form-control"
-            [(ngModel)]="password"
-            name="password"
-          />
-        </div>
-      </div>
-
-      <div class="col-12" *ngIf="type !== 'View'">
-        <div class="mb-3">
-          <label class="col-form-label">Confirm Password</label>
-          <input
-            type="password"
-            class="form-control"
-            [(ngModel)]="confirmPassword"
-            name="confirmPassword"
-          />
-        </div>
-      </div>
-
-      <div class="col-12 mx-auto">
-        <div class="d-flex justify-content-end">
-          <button type="submit" class="btn btn-success btn-label mt-3">
-            <i
-              class="bi {{ buttonIcon }} label-icon align-middle fs-16 me-2"
-            ></i
-            >{{ buttonName }}
-          </button>
-
-          <!--Cancel button-->
-          <button
-            type="button"
-            class="btn btn-danger btn-label mt-3 ms-2"
-            (click)="activeModal.dismiss()"
-          >
-            <i
-              class="bi {{
-                cancelButtonIcon
-              }} label-icon align-middle fs-16 me-2"
-            ></i
-            >{{ cancelButtonName }}
-          </button>
+        <div class="col-12 mx-auto">
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-success btn-label mt-3">
+              <i
+                class="bi {{ buttonIcon }} label-icon align-middle fs-16 me-2"
+              ></i
+              >{{ buttonName }}
+            </button>
+  
+            <!--Cancel button-->
+            <button
+              type="button"
+              class="btn btn-danger btn-label mt-3 ms-2"
+              (click)="activeModal.dismiss()"
+            >
+              <i
+                class="bi {{
+                  cancelButtonIcon
+                }} label-icon align-middle fs-16 me-2"
+              ></i
+              >{{ cancelButtonName }}
+            </button>
+          </div>
         </div>
       </div>
     </div>

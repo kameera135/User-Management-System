@@ -49,6 +49,17 @@ export class UserViewModalComponent {
     private alertService: MessageService
   ) {}
 
+  showPasswordFields: boolean = false;
+
+  // Methods to toggle between pages
+  showPasswordPage() {
+    this.showPasswordFields = true;
+  }
+
+  showUserDetailsPage() {
+    this.showPasswordFields = false;
+  }
+
   ngOnInit() {
     if (this.type == "Add") {
       this.buttonName = "Add";
