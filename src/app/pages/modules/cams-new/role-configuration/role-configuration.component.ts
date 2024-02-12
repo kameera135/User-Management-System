@@ -344,6 +344,7 @@ export class RoleConfigurationComponent {
       CreatedDate:  item.createdAt ? item.createdAt.slice(0, 10) : null,
       StatusName: item.status ? "Activated" : "Deactivated",
       Status: item.status,
+      PermissionIds: item.permissionIds,
       isRejecteableOrApprovableRecord:true
 
     }));
@@ -361,7 +362,7 @@ export class RoleConfigurationComponent {
   }
 
   onAddRoleButtonClicked(): void {
-    this.openModal("Add", "New Role", "", "", 0, "","","",true);
+    this.openModal("Add", "New Role", "", "", 0, "","","",true,0);
   }
 
   onViewPermissionButtonClicked(row: any) {
@@ -374,7 +375,8 @@ export class RoleConfigurationComponent {
       row.PlatformName,
       "",
       "",
-      row.Status
+      row.Status,
+      row.permissionIds
     );
   }
 
@@ -389,7 +391,8 @@ export class RoleConfigurationComponent {
       row.PlatformName,
       row.CreatedDate,
       row.StatusName,
-      row.Status
+      row.Status,
+      0
     );
   }
 
@@ -404,6 +407,7 @@ export class RoleConfigurationComponent {
       row.CreatedDate,
       row.StatusName,
       row.Status,
+      0
     );
   }
 
@@ -418,7 +422,8 @@ export class RoleConfigurationComponent {
     //description: string,
     createdDate: string,
     statusName: string,
-    status:boolean
+    status:boolean,
+    permissionIds:number,
   ): void {
     const modalRef = this.modalService.open(
       RoleConfigurationModalComponent,
@@ -440,6 +445,7 @@ export class RoleConfigurationComponent {
     modalRef.componentInstance.createdDate = createdDate
     modalRef.componentInstance.status = status;
     modalRef.componentInstance.statusName = statusName;
+    modalRef.componentInstance.permissionIds = permissionIds;
 
     modalRef.result
       .then((result) => {
@@ -480,7 +486,8 @@ export class RoleConfigurationComponent {
                     platformName,
                     createdDate,
                     statusName,
-                    status
+                    status,
+                    0
                   );
                 } else {
                   console.log("Not confirmed to edit");
@@ -494,6 +501,7 @@ export class RoleConfigurationComponent {
                     createdDate,
                     statusName,
                     status,
+                    0
                   );
                 }
               })

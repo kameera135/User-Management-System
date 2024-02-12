@@ -7,6 +7,7 @@ import { RoleConfigurationService } from "src/app/services/cams-new/configuratio
 import { Role as Role } from "src/app/shared/models/Cams-new/Role";
 import { PermissionsForRole } from "src/app/shared/models/Cams-new/PermissionsForRole";
 import { error } from "console";
+import { tableOptions } from "src/app/shared/models/tableOptions";
 
 interface ListItem {
   name: string;
@@ -59,7 +60,17 @@ export class RoleConfigurationModalComponent {
   selectedPlatform!: number;
 
   permissionsForRoleArray: any = [];
-  permissionsForRoleList!: PermissionsForRole[];  
+  permissionsForRoleList!: PermissionsForRole[];
+  
+  permissionsNotInRoleArray: any = [];
+  permissionsNotInRoleList!: PermissionsForRole[];
+
+  tableData: any = [];
+  tableData2: any = [];
+
+  showListItems: boolean = false;
+  
+  roleConfigModalTableOptions: tableOptions = new tableOptions();
 
   // Array to hold the dropdown options
   statusOptions: { label: string; value: string }[] = [
@@ -75,8 +86,17 @@ export class RoleConfigurationModalComponent {
     private alertService: MessageService
   ) {}
 
+  values: string[] = ['Value1', 'Value2', 'Value3'];
+  newRoleName: string = '';
+
   ngOnInit() {
+
     this.statusName = this.statusName.slice(0, -4) + "e";
+    //this.roleConfigModalTableOptions.displayPagination = false;
+
+    //cancel button
+    this.cancelButtonIcon;
+    this.cancelButtonName;
 
     if (this.type == "Add") {
       this.buttonName = "Add";
@@ -88,32 +108,26 @@ export class RoleConfigurationModalComponent {
     {
       this.buttonName = "Assign";
       this.buttonIcon = "bi-floppy2-fill";
+      this.roleConfigModalTableOptions.allowCheckbox = true;
+      this.roleConfigModalTableOptions.displayPagination = false;
+      this.getPermissionsForRoles(); 
     }
      else {
       this.buttonName = "Edit";
       this.buttonIcon = "bi-pencil-fill";
-    }
-
-    //cancel button
-    this.cancelButtonIcon;
-    this.cancelButtonName;
-
-    //disable the input feild
-    if (this.type === "View") {
-      this.disablePlatforms = true;
-    } else {
-      this.disablePlatforms = false;
+      this.getPermissionsForRoles();
     }
 
     this.getPlatformList();
 
-    if(this.type == "View" || this.type == 'Permission'){
-      this.getPermissionsForRoles();
+    if(this.type == "Permission"){
+      this.getUnassignPermissionsForRoles();
     }
 
   }
 
   onFormSubmit() {
+
     if (
       this.roleCode == null ||
       this.roleName == "" 
@@ -147,100 +161,136 @@ export class RoleConfigurationModalComponent {
     this.activeModal.close(role);
   }
 
+  headArray = [
+    { Head: "", FieldName: "", ColumnType: "CheckBox" },
+    { Head: "Permissions", FieldName: "Permission", ColumnType: "Data" },
+  ];
+
+  //FOR SHOW PERMISSIONS THAT NOT ASSIGN TO ROLE IN TABLE
+  headArray2 = [
+    { Head: "", FieldName: "", ColumnType: "CheckBox" },
+    { Head: "Permissions", FieldName: "Permission", ColumnType: "Data" },
+  ];
+
   updateTable() {
+
     this.permissionsForRoleArray = this.permissionsForRoleList.map((item) => ({
       PlatformId: item.platformId,
       Platform: item.platform,
+      PermssionId: item.permissionId,
       Permission: item.permission,
+      isRejecteableOrApprovableRecord:true
     }));
     this.tableData = this.permissionsForRoleArray;
+
+  }
+
+  //FOR SHOW PERMISSIONS THAT NOT ASSIGN TO ROLE IN TABLE
+  updateTable2() {
+
+    this.permissionsNotInRoleArray = this.permissionsNotInRoleList.map((item) => ({
+      // PlatformId: item.platformId,
+      // Platform: item.platform,
+      PermssionId: item.permissionId,
+      Permission: item.permission,
+      isRejecteableOrApprovableRecord:true
+    }));
+    this.tableData2 = this.permissionsNotInRoleArray;
+
   }
 
   getPermissionsForRoles() {
     this.loadingInProgress = true;
     this.shared.getPermissionsForRoles(this.roleCode, this.platformId).subscribe({
       next: (response: any) => {
-       // console.log("Response from permissions for roles : ", response);
+       console.log("Response from permissions for roles : ", response);
         this.permissionsForRoleList = response;
         this.updateTable();
-        this.permissionsAsString = this.getPermissionsAsString(response);
+       // this.permissionsAsString = this.getPermissionsAsString(response);
         this.loadingInProgress = false;
       },
       error: (error) => {
-        // this.alertService.sideErrorAlert(
-        //   "Error",
-        //   this.appService.popUpMessageConfig[0]
-        //     .GetPermissionListErrorSideAlertMessage
-        // );
 
         this.permissionsForRoleList = [];
         this.updateTable();
-        this.permissionsAsString = '';
+        //this.permissionsAsString = '';
         this.loadingInProgress = false;
       },
     });
   }
 
-  getPermissionsAsString(permissions: any[]): string {
-    return permissions.map(permission => `${permission.permission}`).join('\n');
-  }
-
-  headArray = [
-    { Head: "Permissions", FieldName: "Permission", ColumnType: "Data" },
-  ];
-
-  tableData: any = [];
-
-  showListItems: boolean = false;
-
-  toggleListItems() {
-    // Toggle the visibility of list items view
-    if (this.type !== "View") {
-      this.getListItemsFromAPI();
-      this.showListItems = !this.showListItems;
-    }
-  }
-
-  addSelectedItems() {
-    const existing = this.permissionsAsString;
-
-    // Filter out items that are already present in the existing string
-    const selectedItems = this.listItems
-        .filter(item => item.selected && existing.indexOf(item.name) === -1)
-        .map(item => item.name)
-        .join('\n');
-
-    // Check if any items are selected
-    if (selectedItems) {
-        // Only append a newline character if there are existing items
-        this.permissionsAsString = existing + (existing ? '\n' : '') + selectedItems;
-    }
-
-    // Hide the list items view after adding items to the textarea
-    this.showListItems = false;
-  }
-
-  //get permissions that not assign to roles
-  getListItemsFromAPI() {
-    
-    // Make an API request to fetch the list items
+  getUnassignPermissionsForRoles() {
+    this.loadingInProgress = true;
     this.shared.getPermissionsNotInRole(this.platformId,this.roleCode).subscribe({
       next: (response: any) => {
-        
-        // Check if the response is an array before mapping
-        if (Array.isArray(response)) {
-          
-          // Assuming your API response has a structure like [{ permissionId: number, permission: string }, ...]
-          this.listItems = response.map(item => ({ name: item.permission, selected: false }));
-        } else {
-          console.error('Invalid API response format:', response);
-        }
+        console.log("Response from permissions not for roles : ", response);
+        this.permissionsNotInRoleList = response;
+        this.updateTable2();
+        //this.permissionsAsString = this.getPermissionsAsString(response);
+        this.loadingInProgress = false;
       },
       error: (error) => {
-        console.error('Error fetching list items from API:', error);
-      }
+
+        this.permissionsNotInRoleList = [];
+        this.updateTable2();
+        //this.permissionsAsString = '';
+        this.loadingInProgress = false;
+      },
     });
   }
+
+  // getPermissionsAsString(permissions: any[]): string {
+  //   return permissions.map(permission => `${permission.permission}`).join('\n');
+  // }
+
+  // toggleListItems() {
+  //   // Toggle the visibility of list items view
+  //   if (this.type !== "View") {
+  //     this.getListItemsFromAPI();
+  //     this.showListItems = !this.showListItems;
+  //   }
+  // }
+
+  // addSelectedItems() {
+  //   const existing = this.permissionsAsString;
+
+  //   // Filter out items that are already present in the existing string
+  //   const selectedItems = this.listItems
+  //       .filter(item => item.selected && existing.indexOf(item.name) === -1)
+  //       .map(item => item.name)
+  //       .join('\n');
+
+  //   // Check if any items are selected
+  //   if (selectedItems) {
+  //       // Only append a newline character if there are existing items
+  //       this.permissionsAsString = existing + (existing ? '\n' : '') + selectedItems;
+  //   }
+
+  //   // Hide the list items view after adding items to the textarea
+  //   this.showListItems = false;
+  // }
+
+  // //get permissions that not assign to roles
+  // getListItemsFromAPI() {
+    
+  //   // Make an API request to fetch the list items
+  //   this.shared.getPermissionsNotInRole(this.platformId,this.roleCode).subscribe({
+  //     next: (response: any) => {
+        
+  //       // Check if the response is an array before mapping
+  //       if (Array.isArray(response)) {
+          
+  //         // Assuming your API response has a structure like [{ permissionId: number, permission: string }, ...]
+  //         this.listItems = response.map(item => ({ name: item.permission, selected: false }));
+  //       } else {
+  //         console.error('Invalid API response format:', response);
+  //       }
+  //     },
+  //     error: (error) => {
+  //       console.error('Error fetching list items from API:', error);
+  //     }
+  //   });
+  // }
 
   getPlatformList() {
     this.shared.getPlatformList().subscribe({

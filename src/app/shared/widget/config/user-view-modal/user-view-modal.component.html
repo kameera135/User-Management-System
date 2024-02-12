@@ -32,7 +32,9 @@
       <div class="row" *ngIf="!showPasswordFields">
         <div class="col-12">
           <div class="mb-3">
-            <label class="col-form-label">User Name*</label>
+            <label class="col-form-label">User Name
+              <span class="required-star">*</span>
+            </label>
             <input
               type="text"
               class="form-control"
@@ -46,7 +48,9 @@
   
         <div class="col-6">
           <div class="mb-3">
-            <label class="col-form-label">First Name*</label>
+            <label class="col-form-label">First Name
+              <span class="required-star">*</span>
+            </label>
             <input
               type="text"
               class="form-control"
@@ -59,7 +63,9 @@
   
         <div class="col-6">
           <div class="mb-3">
-            <label class="col-form-label">Last Name*</label>
+            <label class="col-form-label">Last Name
+              <span class="required-star">*</span>
+            </label>
             <input
               type="text"
               class="form-control"
@@ -72,20 +78,31 @@
   
         <div class="col-12">
           <div class="mb-3">
-            <label class="col-form-label">Phone Number</label>
+            <label class="col-form-label">Phone Number
+              <span class="required-star">*</span>
+            </label>
             <input
               type="text"
               class="form-control"
               [(ngModel)]="phoneNumber"
               name="phoneNumber"
               [disabled]="type == 'View'"
+              [class.error]="phoneNumberForm.get('phoneNumber')?.invalid && phoneNumberForm.get('phoneNumber')?.touched"
             />
+            <div *ngIf="phoneNumberForm.get('phoneNumber')?.hasError('required')">
+              <span class="error-text">Phone number is required.</span>
+            </div>
+            <div *ngIf="phoneNumberForm.get('phoneNumber')?.hasError('invalidPhoneNumber')">
+              Invalid phone number.
+            </div>
           </div>
         </div>
   
         <div class="col-12">
           <div class="mb-3">
-            <label class="col-form-label">Email*</label>
+            <label class="col-form-label">Email
+              <span class="required-star">*</span>
+            </label>
             <input
               type="text"
               class="form-control"

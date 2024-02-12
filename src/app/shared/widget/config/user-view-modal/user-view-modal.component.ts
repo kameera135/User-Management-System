@@ -1,4 +1,5 @@
 import { Component, Input } from "@angular/core";
+import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgToastService } from "ng-angular-popup";
 import { AppService } from "src/app/app.service";
@@ -39,6 +40,8 @@ export class UserViewModalComponent {
 
   loadingInProgress: boolean = false;
 
+  phoneNumberForm!: FormGroup;
+
   rolesViewTableOptions: tableOptions = new tableOptions();
 
   constructor(
@@ -46,8 +49,23 @@ export class UserViewModalComponent {
     private notifierService: NgToastService,
     private appService: AppService,
     private shared: UsersViewService,
-    private alertService: MessageService
-  ) {}
+    private alertService: MessageService,
+    private fb: FormBuilder
+  ) {
+    this.phoneNumberForm = this.fb.group({
+      phoneNumber: ['', [Validators.required, this.phoneNumberValidator]]
+    });
+  }
+
+  phoneNumberValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    const phoneNumberRegex = /^[6|8|9]\d{7}$/; // Adjust the regex based on your requirements
+
+    if (control.value && !phoneNumberRegex.test(control.value)) {
+      return { 'invalidPhoneNumber': true };
+    }
+
+    return null;
+  }
 
   showPasswordFields: boolean = false;
 
@@ -159,4 +177,6 @@ export class UserViewModalComponent {
   ];
 
   tableData = [];
+
+
 }
