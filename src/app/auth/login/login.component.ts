@@ -49,26 +49,26 @@ export class LoginComponent {
         let loggedUser = this.auth.getUser();
 
         this.router.navigate([this.auth.lastUrl]);
-        // this.userInforService.basicUserInfo(loggedUser.id, loggedUser.fName, loggedUser.lName, loggedUser.role, loggedUser.email).subscribe({
+        this.userInforService.basicUserInfo(loggedUser.id, loggedUser.fName, loggedUser.lName, loggedUser.role, loggedUser.email).subscribe({
 
-        //   next: (response: any) => {
+          next: (response: any) => {
 
-        //     if (response != null) {
+            if (response != null) {
 
-        //       const configurations = JSON.parse(JSON.stringify(response));
+              const configurations = JSON.parse(JSON.stringify(response));
 
-        //       this.asseteTreeService.setTree(configurations.lstAsseteTree);
+              //this.asseteTreeService.setTree(configurations.lstAsseteTree);
 
-        //       this.mapper.setApprovalRequirements(configurations.fmApprovalRequired, configurations.tmApprovalRequired);
+              //this.mapper.setApprovalRequirements(configurations.fmApprovalRequired, configurations.tmApprovalRequired);
 
-        //       this.router.navigate([this.auth.lastUrl]);
+              this.router.navigate([this.auth.lastUrl]);
 
-        //     }
+            }
 
-        //   },
-        //   error: (error: any) => { },
-        //   complete() { }
-        // });
+          },
+          error: (error: any) => { },
+          complete() { }
+        });
 
       }
       else {
