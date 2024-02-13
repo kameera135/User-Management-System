@@ -86,7 +86,7 @@ export class ActivityLogsComponent {
   model_to!: NgbDateStruct;
   placement = "bottom";
   firstDate: Date = new Date();
-  lastDate: Date = new Date(new Date().getTime() - 86400000);
+  lastDate: Date = new Date(new Date().getTime() + 86400000);
 
   initialFromDate: any = {
     year: new Date().getFullYear(),

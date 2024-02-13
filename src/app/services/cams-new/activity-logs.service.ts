@@ -53,12 +53,21 @@ export class ActivityLogsService {
     queryParams = queryParams.append("userId", userId);
     queryParams = queryParams.append(
       "firstDateString",
-      firstDate.toISOString()
+      this.convertToStartOfDay(firstDate.toISOString())
     );
-    queryParams = queryParams.append("lastDateString", lastDate.toISOString());
+    queryParams = queryParams.append(
+      "lastDateString",
+      this.convertToStartOfDay(lastDate.toISOString())
+    );
 
     // const url = `${this.apiUrl}/api/activity_logs/${year}/${month}/${page}/${pageSize}`;
     const url = `${this.apiUrl}/api/activity_logs/${page}/${pageSize}`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
+  }
+
+  convertToStartOfDay(dateTimeString: string): string {
+    const date = new Date(dateTimeString);
+    date.setUTCHours(0, 0, 0, 0);
+    return date.toISOString();
   }
 }
