@@ -3,6 +3,8 @@ import { AuthService } from '../auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { UserInformationService } from '../user-information.service';
+import { HorizontalComponent } from 'src/app/layouts/theme/theme.component';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 // import { AsseteTreeService } from 'src/app/services/Modules/aes/assete-tree.service';
 // import { MapperService } from 'src/app/services/Modules/aes/mapper.service';
 
@@ -16,12 +18,20 @@ export class LoginComponent {
   error!: string;
   loading!: boolean;
   submitted!: boolean;
+  loginForm!: FormGroup;
 
   isDarkMode: boolean = true;
+
+  
+  type: string = 'password';
+  isText: boolean = false;
+  eyeIcon: string = 'fa-eye-slash';
 
   constructor(
     private auth: AuthService, private router: Router,
     private actRoute: ActivatedRoute,
+    private horizontalComponent: HorizontalComponent,
+    private fb: FormBuilder,
     // private asseteTreeService: AsseteTreeService,
     // private mapper: MapperService,
     private userInforService: UserInformationService) { }
@@ -43,43 +53,82 @@ export class LoginComponent {
   ngOnInit(): void {
 
     this.loading = true;
-    this.auth.checkSingleSignOn('/').subscribe(res => {
-      if (res) {
+    // this.auth.checkSingleSignOn('/').subscribe(res => {
+    //   if (res) {
 
-        let loggedUser = this.auth.getUser();
+    //     let loggedUser = this.auth.getUser();
 
-        this.router.navigate([this.auth.lastUrl]);
-        this.userInforService.basicUserInfo(loggedUser.id, loggedUser.fName, loggedUser.lName, loggedUser.role, loggedUser.email).subscribe({
+    //     this.router.navigate([this.auth.lastUrl]);
+    //     this.userInforService.basicUserInfo(loggedUser.id, loggedUser.fName, loggedUser.lName, loggedUser.role, loggedUser.email).subscribe({
 
-          next: (response: any) => {
+    //       next: (response: any) => {
 
-            if (response != null) {
+    //         if (response != null) {
 
-              const configurations = JSON.parse(JSON.stringify(response));
+    //           const configurations = JSON.parse(JSON.stringify(response));
 
-              //this.asseteTreeService.setTree(configurations.lstAsseteTree);
+    //           //this.asseteTreeService.setTree(configurations.lstAsseteTree);
 
-              //this.mapper.setApprovalRequirements(configurations.fmApprovalRequired, configurations.tmApprovalRequired);
+    //           //this.mapper.setApprovalRequirements(configurations.fmApprovalRequired, configurations.tmApprovalRequired);
 
-              this.router.navigate([this.auth.lastUrl]);
+    //           this.router.navigate([this.auth.lastUrl]);
 
-            }
+    //         }
 
-          },
-          error: (error: any) => { },
-          complete() { }
-        });
+    //       },
+    //       error: (error: any) => { },
+    //       complete() { }
+    //     });
 
-      }
-      else {
-        this.loading = false;
-        window.location.href = environment.signOn;
-      }
+    //   }
+    //   else {
+    //     this.loading = false;
+    //     window.location.href = environment.signOn;
+    //   }
+    // });
+
+    this.loginForm = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
     });
 
     this.isDarkMode = this.getCookie('aes-app-theme') == 'dark' ? true : false;
 
   }
 
+  hideShowPass() {
+    this.isText = !this.isText;
+    this.isText ? (this.eyeIcon = 'fa-eye') : (this.eyeIcon = 'fa-eye-slash');
+    this.isText ? (this.type = 'text') : (this.type = 'password');
+  }
+
+  // onSubmit() {
+  //   if (this.loginForm.valid) {
+  //     console.log(this.loginForm.value);
+  //     this.auth.login(this.loginForm.value).subscribe({
+  //       next: (res) => {
+  //         console.log(res.message);
+  //         this.loginForm.reset();
+  //         this.auth.storeToken(res.accessToken);
+  //         this.auth.storeRefreshToken(res.refreshToken);
+  //         const tokenPayload = this.auth.decodedToken();
+  //         this.userStore.setFullNameForStore(tokenPayload.name);
+  //         this.userStore.setRoleForStore(tokenPayload.role);
+  //         this.toast.success({detail:"SUCCESS", summary:res.message, duration: 5000});
+  //         this.router.navigate(['dashboard'])
+  //       },
+  //       error: (err) => {
+  //         this.toast.error({detail:"ERROR", summary:"Something when wrong!", duration: 5000});
+  //         console.log(err);
+  //       },
+  //     });
+  //   } else {
+  //     ValidateForm.validateAllFormFields(this.loginForm);
+  //   }
+  // }
+
+  onSubmit() {
+    throw new Error('Method not implemented.');
+    }
 
 }
