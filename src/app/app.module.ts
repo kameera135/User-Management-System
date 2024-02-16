@@ -32,6 +32,7 @@ import { AuthInterceptor } from "./interceptors/auth.interceptor";
 import { AuthGuard } from "./auth/auth.guard";
 import { AuthService } from "./auth/auth.service";
 import { FormsModule } from "@angular/forms";
+import { AuthModule } from "./auth/auth.module";
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, "assets/i18n/", ".json");

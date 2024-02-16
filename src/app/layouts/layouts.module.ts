@@ -15,6 +15,7 @@ import { NavbarComponent } from "./navbar/navbar.component";
 import { SharedModule } from "../shared/shared.module";
 import { TopbarComponent } from "./topbar/topbar.component";
 import { WidgetModule } from "../shared/widget/widget.module";
+import { AuthModule } from "../auth/auth.module";
 
 @NgModule({
     declarations: [
@@ -33,7 +34,8 @@ import { WidgetModule } from "../shared/widget/widget.module";
         SimplebarAngularModule,
         TranslateModule,
         SharedModule,
-        WidgetModule
+        WidgetModule,
+        AuthModule
     ]
 })
 export class LayoutsModule { }

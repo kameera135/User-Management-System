@@ -31,6 +31,8 @@ export class AuthService {
     this.getUser();
   }
 
+  
+
   // public checkSingleSignOn(url: string): Observable<boolean> {
   //   return new Observable<boolean>((ob) => {
   //     if (!this.user) {

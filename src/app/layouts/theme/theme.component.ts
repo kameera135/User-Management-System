@@ -14,6 +14,7 @@ import { AppService } from 'src/app/app.service';
 export class HorizontalComponent implements OnInit {
 
   // colorTheme:string="light";
+  showTopbar: boolean = true;
 
   constructor(private appService: AppService) { }
 

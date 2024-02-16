@@ -13,6 +13,7 @@ import { SystemTokensComponent } from "./modules/cams-new/system-tokens/system-t
 import { PasswordPolicyComponent } from "./modules/cams-new/password-policy/password-policy.component";
 import { PlatformUsersComponent } from "./modules/cams-new/platform-users/platform-users.component";
 import { LoginComponent } from "../auth/login/login.component";
+import { AuthGuard } from "../auth/auth.guard";
 
 const routes: Routes = [
   {
@@ -22,15 +23,20 @@ const routes: Routes = [
   },
   {
     path:"login",
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: "dashboard",
     component: DashboardComponent,
   },
+  { path: '', 
+    redirectTo: '/login', 
+    pathMatch: 'full' 
+  }, // Redirect to login by default
   {
     path: "user-account",
     component: UserAccountComponent,
+    canActivate:[AuthGuard]
   },
   {
     path: "platform-configuration",
@@ -67,7 +73,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(routes),],
   exports: [RouterModule],
 })
 export class PagesRoutingModule {}
