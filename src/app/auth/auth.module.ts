@@ -7,6 +7,7 @@ import { LayoutsModule } from '../layouts/layouts.module';
 import { ReactiveFormsModule } from '@angular/forms';
 
 
+
 @NgModule({
     declarations: [LoginComponent],
     imports: [
@@ -14,7 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
         AuthRoutingModule,
         WidgetModule,
         LayoutsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule   
     ]
 })
 export class AuthModule { }
