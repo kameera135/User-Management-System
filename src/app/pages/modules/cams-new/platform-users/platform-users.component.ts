@@ -63,40 +63,6 @@ export class PlatformUsersComponent {
   @Input() platformId!: number;
   @Input() userId!: number
 
-  //to remove
-  // tableData = [
-  //   {
-  //     UserName: "Harper.Bennett",
-  //     FirstName: "Harper",
-  //     LastName: "Bennett",
-  //     Platform: "AES",
-  //     Email: "harperbennett@yoyo.com",
-  //     phoneNumber: "0221513654",
-  //     userProfileCode: "UPC12345",
-  //     isRejecteableOrApprovableRecord: true,
-  //   },
-  //   {
-  //     UserName: "Mia.Rodriguez",
-  //     FirstName: "Mia",
-  //     LastName: "Rodriguez",
-  //     Platform: "TBS",
-  //     Email: "miarodriguez@yoyo.com",
-  //     phoneNumber: "0663251985",
-  //     userProfileCode: "USR789ABC",
-  //     isRejecteableOrApprovableRecord: true,
-  //   },
-  //   {
-  //     UserName: "Nolan.Sullivan",
-  //     FirstName: "Nolan",
-  //     LastName: "Sullivan",
-  //     Platform: "Energy Management System",
-  //     Email: "nolansullivan@yoyo.com",
-  //     phoneNumber: "0784562354",
-  //     userProfileCode: "PROFILE_XYZ987",
-  //     isRejecteableOrApprovableRecord: true,
-  //   },
-  // ];
-
   temp: any = null;
 
   constructor(
@@ -295,9 +261,7 @@ export class PlatformUsersComponent {
           console.log(result);
 
           this.userModel = result;
-          if (type == "Add") {
-            this.assignUser(this.userModel);
-          } else if (type == "Edit") {
+          if (type == "Edit") {
             this.putUser(this.userModel);
           } else if (type == "View") {
             //confirmation modal open

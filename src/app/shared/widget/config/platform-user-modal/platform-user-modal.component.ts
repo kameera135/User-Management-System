@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ItemsList } from '@ng-select/ng-select/lib/items-list';
 import { NgToastService } from 'ng-angular-popup';
 import { AppService } from 'src/app/app.service';
 import { MessageService } from 'src/app/services/PopupMessages/message.service';
@@ -29,6 +30,7 @@ export class PlatformUserModalComponent {
   @Input() modalTitle!: string;
   @Input() userName!: string;
   @Input() userId!: number;
+  @Input() userIds!: [];
   @Input() firstName!: string;
   @Input() lastName!: string;
   @Input() platform!: any;
@@ -36,7 +38,6 @@ export class PlatformUserModalComponent {
   @Input() phoneNumber!: string;
   @Input() password!: string;
   @Input() confirmPassword!: string;
-  @Input() userProfileCode!: string;
   @Input() role!: string;
   @Input() platformId!: number;
   empId!: number;
@@ -49,6 +50,8 @@ export class PlatformUserModalComponent {
   userList!: PlatformUser[];
   userModal!: PlatformUser;
   rolePermission!: UserRolePermissions[];
+
+  selectedUsers: PlatformUser[] = [];
 
   
   showListItems: boolean = false;
@@ -158,6 +161,7 @@ export class PlatformUserModalComponent {
 
   updateTable() {
     this.userDetailsArray = this.userList.map((item) => ({
+      UserId: item.userId,
       EmpId: item.empId,
       UserName: item.userName,
       Email: item.email,
@@ -322,23 +326,9 @@ export class PlatformUserModalComponent {
   }
 
   onFormSubmit() {
-    // if (
-    //   this.userName == "" ||
-    //   this.firstName == "" ||
-    //   this.lastName == "" ||
-    //   this.platform == "" ||
-    //   this.userProfileCode == "" ||
-    //   this.email == ""
-    // ) {
-    //   this.notifierService.warning({
-    //     detail: "Warning",
-    //     summary: "Please fill required fields",
-    //     duration: 2000,
-    //   });
-    //   return;
-    // }
 
     const user = new PlatformUser();
+    user.userIds = this.userIds;
     user.empId = this.empId;
     user.userName = this.userName;
     user.firstName = this.firstName;
@@ -348,6 +338,47 @@ export class PlatformUserModalComponent {
     user.phoneNumber = this.phoneNumber;
 
     this.activeModal.close(user);
+
+    // if(this.type == "Add"){
+    //   this.assignUser(this.selectedUsers);
+    // }
+  }
+
+  assignUser(items: any){
+    let ids: number[] = []
+    
+    items.forEach((element: any) => {
+      ids.push(element.UserId);
+    });
+    this.assignUsers(ids);
+  }
+
+  assignUsers(id:number[]){
+
+      this.shared.assignUsers(this.platformId, id).subscribe({
+      next: (response) => {
+        console.log(response);
+
+        this.alertService.sideSuccessAlert(
+          "Success",
+          this.appService.popUpMessageConfig[0].UserAddedSuccessSideAlertMessage
+        );
+        this.alertService.successSweetAlertMessage(
+          this.appService.popUpMessageConfig[0].UserAddedNotificationMessage,
+          "Updated!",
+          4000
+        );
+
+        this.loadData();
+      },
+      error: (error) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0].UserAddedErrorSideAlertMessage
+        );
+        //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
+      },
+    });
   }
 
   getPlatformUserRoles(){
