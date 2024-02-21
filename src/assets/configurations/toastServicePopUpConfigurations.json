@@ -120,5 +120,15 @@
   "GetPasswordPolicyErrorSideAlertMessage": "Could not retrieve the saved password policy.",
   "PasswordPolicyUpdatedNotificationMessage": "Password policy has been updated",
   "PasswordPolicyUpdatedSuccessSideAlertMessage": "Password policy updated successfully !",
-  "PasswordPolicyUpdatedErrorSideAlertMessage": "Could not update password policy."
+  "PasswordPolicyUpdatedErrorSideAlertMessage": "Could not update password policy.",
+
+
+  "UserAssigndNotificationMessage": "User/s assigened successfully! ",
+  "UserAssignedSuccessSideAlertMessage": "User/s assigned successfully !",
+  "UserAssignedErrorSideAlertMessage"  : "Users could not be assigned. Please check your input values and try again.",
+  "UserUnassignedNotificationMessage": "User/s Unassigned succesfully!",
+  "UnassignUserConfirmationMessage": "You want to unassign user/s?",
+  "UserUnassignedSuccessSideAlertMessage": "User/s unassigned successfully !",
+  "UserUnassignedErrorSideAlertMessage": "Could not unassign user/s."
 }
+

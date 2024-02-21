@@ -22,6 +22,7 @@ import { EventService } from "src/app/core/services/event.service";
   styleUrls: ["./platform-users.component.scss"],
 })
 export class PlatformUsersComponent {
+
   loadingInProgress: boolean = false;
 
   userModel!: PlatformUser;
@@ -94,11 +95,8 @@ export class PlatformUsersComponent {
     this.usersViewTableOptions.rowEditConfirmationMessage =
       this.appService.popUpMessageConfig[0].UpdateUserConfirmationMessage;
     this.usersViewTableOptions.rowDeleteConfirmationMessage =
-      this.appService.popUpMessageConfig[0].DeleteUserConfirmationMessage;
-    // this.usersViewTableOptions.recordDeletedNotificationMessage =
-    //   this.appService.popUpMessageConfig[0].UserDeletedNotificationMessage;
-    // this.UserUpdatedNotificationMessage =
-    //   this.appService.popUpMessageConfig[0].UserUpdatedNotificationMessage;
+      this.appService.popUpMessageConfig[0].UnassignUserConfirmationMessage;
+
 
     this.breadcrumbService.loadBreadcrumbValue([
       { label: "Configuration", active: false },
@@ -110,6 +108,11 @@ export class PlatformUsersComponent {
     this.route.params.subscribe((params) => {
       this.platformName = params["PlatformName"];
       this.platformId = params['PlatformId'];
+    });
+
+    //For call loadData() in platformUserModalComponent
+    this.shared.userDataAssigned$.subscribe(() =>{
+      this.loadData();
     });
 
     this.loadData();
@@ -137,6 +140,10 @@ export class PlatformUsersComponent {
           .CouldNotRetriveDataErrorSideAlertMessage
       );
     }
+  }
+
+  static loadData() {
+    this.loadData();
   }
 
   updateTable() {
@@ -490,43 +497,6 @@ export class PlatformUsersComponent {
     });
   }
 
-  assignUser(items: any){
-    let ids: number[] = []
-    
-    items.forEach((element: any) => {
-      ids.push(element.UserId);
-    });
-    this.assignUsers(ids);
-  }
-
-  assignUsers(id:number[]){
-
-    this.shared.assignUsers(this.platformId, id).subscribe({
-      next: (response) => {
-        console.log(response);
-
-        this.alertService.sideSuccessAlert(
-          "Success",
-          this.appService.popUpMessageConfig[0].UserAddedSuccessSideAlertMessage
-        );
-        this.alertService.successSweetAlertMessage(
-          this.appService.popUpMessageConfig[0].UserAddedNotificationMessage,
-          "Updated!",
-          4000
-        );
-
-        this.loadData();
-      },
-      error: (error) => {
-        this.alertService.sideErrorAlert(
-          "Error",
-          this.appService.popUpMessageConfig[0].UserAddedErrorSideAlertMessage
-        );
-        //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
-      },
-    });
-  }
-
   unassignUser(items: any){
     let ids: number[] = []
     
@@ -544,10 +514,10 @@ export class PlatformUsersComponent {
 
         this.alertService.sideSuccessAlert(
           "Success",
-          this.appService.popUpMessageConfig[0].UserDeletedSuccessSideAlertMessage
+          this.appService.popUpMessageConfig[0].UserUnassignedSuccessSideAlertMessage
         );
         this.alertService.successSweetAlertMessage(
-          this.appService.popUpMessageConfig[0].UserDeletedNotificationMessage,
+          this.appService.popUpMessageConfig[0].UserUnassignedNotificationMessage,
           "Updated!",
           4000
         );
@@ -557,7 +527,7 @@ export class PlatformUsersComponent {
       error: (error) => {
         this.alertService.sideErrorAlert(
           "Error",
-          this.appService.popUpMessageConfig[0].UserDeletedErrorSideAlertMessage
+          this.appService.popUpMessageConfig[0].UserUnassignedErrorSideAlertMessage
         );
         //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
       },

@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Subject } from "rxjs";
 import { AppService } from "src/app/app.service";
 import { PaginatedResponse } from "src/app/shared/models/Cams-new/PaginatedResponse";
 import { PlatformUser } from "src/app/shared/models/Cams-new/platform-user";
@@ -8,6 +9,9 @@ import { PlatformUser } from "src/app/shared/models/Cams-new/platform-user";
   providedIn: "root",
 })
 export class PlatformUsersService {
+
+  private userDataAssignedSource = new Subject<void>();
+
   constructor(private appService: AppService, private httpClient: HttpClient) {}
 
   apiUrl = this.appService.appConfig[0].apiUrl;
@@ -173,5 +177,13 @@ export class PlatformUsersService {
 
     const url = `${this.apiUrl}/api/configuration/roles/platform/not_for_users`;
     return this.httpClient.get(url, { params: queryParams });
+  }
+
+
+  //For call loadData() function in platformUserModalComponent
+  userDataAssigned$ = this.userDataAssignedSource.asObservable();
+
+  announceUserDataAssigned() {
+    this.userDataAssignedSource.next();
   }
 }

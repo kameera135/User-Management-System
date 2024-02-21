@@ -19,7 +19,7 @@ import {
 
 import { TableComponent } from "./table/table.component";
 import { FlatpickrModule } from "angularx-flatpickr";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTreeModule } from "@angular/material/tree";
@@ -109,7 +109,9 @@ import { AddBulkUsersModalComponent } from "./config/add-bulk-users-modal/add-bu
     NgxPaginationModule,
     MatRadioModule,
     MatButtonModule,
+    ReactiveFormsModule,
   ],
+
   exports: [
     TableComponent,
     TreeviewCheckboxComponent,

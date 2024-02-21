@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgToastService } from "ng-angular-popup";
 import { AppService } from "src/app/app.service";
@@ -40,7 +40,9 @@ export class UserViewModalComponent {
 
   loadingInProgress: boolean = false;
 
-  phoneNumberForm!: FormGroup;
+  form!: FormGroup;
+
+  showRequiredMessage = false;
 
   rolesViewTableOptions: tableOptions = new tableOptions();
 
@@ -52,7 +54,7 @@ export class UserViewModalComponent {
     private alertService: MessageService,
     private fb: FormBuilder
   ) {
-    this.phoneNumberForm = this.fb.group({
+    this.form = this.fb.group({
       phoneNumber: ['', [Validators.required, this.phoneNumberValidator]]
     });
   }
@@ -99,6 +101,40 @@ export class UserViewModalComponent {
     this.cancelButtonName;
 
     this.rolesViewTableOptions;
+
+    // Initialize the form group and controls
+    this.form = new FormGroup({
+      userName: new FormControl('', Validators.required),
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      phoneNumber: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^\d+$/), // Only allow numeric input
+        this.sgPhoneNumberValidator(), // Custom validator for Singapore phone number
+      ],
+      ),
+      email: new FormControl('', Validators.required),
+    });
+  }
+
+   // Define a custom validator for Singapore phone number
+   sgPhoneNumberValidator(): (control: AbstractControl) => ValidationErrors | null {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      // Use a regular expression to check if it's a Singapore phone number
+      const singaporePhoneNumberPattern = /^\+65\d{8}$/; // Customize the pattern as needed
+
+      if (value && !singaporePhoneNumberPattern.test(value)) {
+        return { invalidPhoneNumber: true };
+      }
+
+      return null;
+    };
+  }
+
+  isControlInvalid(controlName: string): boolean | null{
+    const control = this.form?.get(controlName);
+    return !!control && control.touched && control.invalid;
   }
 
   getRolesAndPlatforms(userId: number) {

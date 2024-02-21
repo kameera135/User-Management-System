@@ -3,6 +3,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ItemsList } from '@ng-select/ng-select/lib/items-list';
 import { NgToastService } from 'ng-angular-popup';
 import { AppService } from 'src/app/app.service';
+import { PlatformUsersComponent } from 'src/app/pages/modules/cams-new/platform-users/platform-users.component';
 import { MessageService } from 'src/app/services/PopupMessages/message.service';
 import { PlatformUsersService } from 'src/app/services/cams-new/platform-users.service';
 import { User } from 'src/app/shared/models/Cams-new/User';
@@ -76,6 +77,7 @@ export class PlatformUserModalComponent {
   rolePermissionArray: any = [];
   tableData: any;
   rolePermissionTableData: any;
+  selectedItemArray: any = [];
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -339,9 +341,22 @@ export class PlatformUserModalComponent {
 
     this.activeModal.close(user);
 
-    // if(this.type == "Add"){
-    //   this.assignUser(this.selectedUsers);
-    // }
+    //FOR ASSIGN USER BUTTON CLICK FUNCTION
+    if(this.type == "Add"){
+      this.loadSelectedRecords();
+    }
+  }
+
+  //FOR GET SELECTED USERS TO ASSIGN PLATFORM
+  loadSelectedRecords() {
+    this.selectedItemArray = [];
+
+    for (let entry of this.userDetailsArray) {
+      if (entry.selectedRec) {
+        this.selectedItemArray.push(entry);
+      }
+    }
+    this.assignUser(this.selectedItemArray);
   }
 
   assignUser(items: any){
@@ -364,17 +379,18 @@ export class PlatformUserModalComponent {
           this.appService.popUpMessageConfig[0].UserAddedSuccessSideAlertMessage
         );
         this.alertService.successSweetAlertMessage(
-          this.appService.popUpMessageConfig[0].UserAddedNotificationMessage,
+          this.appService.popUpMessageConfig[0].UserAssigndNotificationMessage,
           "Updated!",
           4000
         );
 
         this.loadData();
+        this.shared.announceUserDataAssigned(); //For call loadData() in platformUser component
       },
       error: (error) => {
         this.alertService.sideErrorAlert(
           "Error",
-          this.appService.popUpMessageConfig[0].UserAddedErrorSideAlertMessage
+          this.appService.popUpMessageConfig[0].UserAssignedErrorSideAlertMessage
         );
         //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
       },

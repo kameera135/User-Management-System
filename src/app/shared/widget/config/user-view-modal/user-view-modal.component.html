@@ -26,14 +26,14 @@
   </button>
 </div>
 
-<form #form="ngForm" (ngSubmit)="onFormSubmit()">
+<form (ngSubmit)="onFormSubmit()" [formGroup]="form">
   <div class="col modal-body col-12">
     <div class="row">
       <div class="row" *ngIf="!showPasswordFields">
         <div class="col-12">
           <div class="mb-3">
             <label class="col-form-label">User Name
-              <span class="required-star">*</span>
+              <span class="required-star" *ngIf="type == 'Add'  || type == 'Edit'">*</span>
             </label>
             <input
               type="text"
@@ -41,7 +41,11 @@
               [(ngModel)]="userName"
               name="userName"
               [disabled]="type == 'View'"
+              formControlName="userName"
             />
+            <div *ngIf="isControlInvalid('userName')">
+              <span class="error-text">User name is required.</span>
+            </div>
             <div class="input-group"></div>
           </div>
         </div>
@@ -49,7 +53,7 @@
         <div class="col-6">
           <div class="mb-3">
             <label class="col-form-label">First Name
-              <span class="required-star">*</span>
+              <span class="required-star" *ngIf="type == 'Add'  || type == 'Edit'">*</span>
             </label>
             <input
               type="text"
@@ -57,14 +61,18 @@
               [(ngModel)]="firstName"
               name="firstName"
               [disabled]="type == 'View'"
+              formControlName="firstName"
             />
+            <div *ngIf="isControlInvalid('firstName')">
+              <span class="error-text">First name is required.</span>
+            </div>
           </div>
         </div>
   
         <div class="col-6">
           <div class="mb-3">
             <label class="col-form-label">Last Name
-              <span class="required-star">*</span>
+              <span class="required-star" *ngIf="type == 'Add'  || type == 'Edit'">*</span>
             </label>
             <input
               type="text"
@@ -72,14 +80,18 @@
               [(ngModel)]="lastName"
               name="lastName"
               [disabled]="type == 'View'"
+              formControlName="lastName"
             />
+            <div *ngIf="isControlInvalid('lastName')">
+              <span class="error-text">Last name is required.</span>
+            </div>
           </div>
         </div>
   
         <div class="col-12">
           <div class="mb-3">
             <label class="col-form-label">Phone Number
-              <span class="required-star">*</span>
+              <span class="required-star" *ngIf="type == 'Add'  || type == 'Edit'">*</span>
             </label>
             <input
               type="text"
@@ -87,21 +99,25 @@
               [(ngModel)]="phoneNumber"
               name="phoneNumber"
               [disabled]="type == 'View'"
-              [class.error]="phoneNumberForm.get('phoneNumber')?.invalid && phoneNumberForm.get('phoneNumber')?.touched"
+              formControlName="phoneNumber"
             />
-            <div *ngIf="phoneNumberForm.get('phoneNumber')?.hasError('required')">
-              <span class="error-text">Phone number is required.</span>
+            <div *ngIf="isControlInvalid('phoneNumber')">
+              <span class="error-text">Phone Number is required.</span>
             </div>
-            <div *ngIf="phoneNumberForm.get('phoneNumber')?.hasError('invalidPhoneNumber')">
+            <!-- <div *ngIf="form.controls['phoneNumber'].hasError('invalidPhoneNumber')">
               Invalid phone number.
-            </div>
+            </div> -->
           </div>
         </div>
+        
+        
+        
+        
   
         <div class="col-12">
           <div class="mb-3">
             <label class="col-form-label">Email
-              <span class="required-star">*</span>
+              <span class="required-star" *ngIf="type == 'Add'  || type == 'Edit'">*</span>
             </label>
             <input
               type="text"
@@ -109,7 +125,11 @@
               [(ngModel)]="email"
               name="email"
               [disabled]="type == 'View'"
+              formControlName="email"
             />
+            <div *ngIf="isControlInvalid('email')">
+              <span class="error-text">Email is required.</span>
+            </div>
           </div>
         </div>
   

@@ -4,7 +4,7 @@ import { NgbNavModule, NgbAccordionModule, NgbDropdownModule } from '@ng-bootstr
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { ScrollspyDirective } from './scrollspy.directive';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { WidgetModule } from "./widget/widget.module";
@@ -29,7 +29,8 @@ import { WidgetModule } from "./widget/widget.module";
         FormsModule,
         MatRadioModule,
         MatButtonModule,
-        WidgetModule
+        WidgetModule,
+        ReactiveFormsModule
     ]
 })
 export class SharedModule { }

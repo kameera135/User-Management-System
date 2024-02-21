@@ -142,4 +142,12 @@ export interface toastServicePopUpConfigurations {
   PasswordPolicyUpdatedErrorSideAlertMessage: string;
 
   GetActivityLogsErrorSideAlertMessage: string;
+
+  UserAssigndNotificationMessage: string;
+  UserAssignedSuccessSideAlertMessage: string;
+  UserAssignedErrorSideAlertMessage:string;
+  UserUnassignedNotificationMessage: string;
+  UnassignUserConfirmationMessage: string;
+  UserUnassignedSuccessSideAlertMessage: string;
+  UserUnassignedErrorSideAlertMessage:string;
 }

@@ -31,7 +31,7 @@ import {
 import { AuthInterceptor } from "./interceptors/auth.interceptor";
 import { AuthGuard } from "./auth/auth.guard";
 import { AuthService } from "./auth/auth.service";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AuthModule } from "./auth/auth.module";
 
 export function createTranslateLoader(http: HttpClient): any {
@@ -58,6 +58,7 @@ export function createTranslateLoader(http: HttpClient): any {
     NgbModule,
     NgToastModule,
     FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     [

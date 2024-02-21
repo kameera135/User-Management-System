@@ -32,7 +32,7 @@
         *ngIf="!loadingInProgress"
         [headArray]="headArray"
         [dataArray]="tableData"
-        [dataTableOptions]="platformUserModelViewTableOption"
+        [dataTableOptions]="platformUserModelViewTableOption" 
         >
         </app-table>
     </div>
@@ -76,7 +76,7 @@
                         [ngModel]="rolesAsString"
                         [disabled]="!isEditable || type === 'View' || type == 'Edit'" 
                         cols="30" 
-                        rows="15">
+                        rows="15">   
                     </textarea>
                     <div class="input-group-append" *ngIf="type !== 'View'">
                         <button class="btn btn-outline-secondary edit-button" type="button" (click)="toggleListItems()">
