@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppService } from 'src/app/app.service';
 import { MessageService } from 'src/app/services/PopupMessages/message.service';
 import { BreadcrumbService } from 'src/app/services/breadcrumb/breadcrumb.service';
@@ -20,7 +20,7 @@ export class SystemTokensComponent {
   loadingInProgress: boolean = false;
   loading: boolean = false;
   consumptionHistoryData: any[] = [];
-  pageSize: any[] = [50];
+
   selectedPageSize: number = 20;
 
   searchTerm!: string;
@@ -29,7 +29,6 @@ export class SystemTokensComponent {
   tokenList!: SystemToken[];
   tokenDetailsArray: any = []
 
-  serchedTerm!: string;
   totalDataCount!: number;
   roleDetailsArray: any = []
   
@@ -40,6 +39,28 @@ export class SystemTokensComponent {
 
   tableData: any;
   dataArray: any = [];
+
+  //For date time picker
+  firstDate: Date = new Date();
+  lastDate: Date = new Date(new Date().getTime() + 86400000);
+  model_from!: NgbDateStruct;
+  model_to!: NgbDateStruct;
+  initialFromDate: any = {
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() + 1,
+    day: new Date().getDate() - 1,
+  };
+  initialToDate: any = {
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() + 1,
+    day: new Date().getDate(),
+  };
+  placement = "bottom";
+
+  thisMonth: string = (new Date().getMonth() + 1).toString();
+  thisYear: string = new Date().getFullYear().toString();
+  yearList: any[] = [];
+  monthList: any[] = [];
   
   tokenConfigTableOptions: tableOptions = new tableOptions();
 
@@ -72,6 +93,9 @@ export class SystemTokensComponent {
     //   this.platformList.push(platforms[i]);
     // }
 
+    this.model_from = this.initialFromDate;
+    this.model_to = this.initialToDate;
+
     this.tokenConfigTableOptions.allowCheckbox = true;
     this.tokenConfigTableOptions.allowBulkDeleteButton = true;
     this.tokenConfigTableOptions.allowDeleteButton = true;
@@ -87,6 +111,17 @@ export class SystemTokensComponent {
       this.appService.popUpMessageConfig[0].UpdateTokenConfirmationMessage;
     this.tokenConfigTableOptions.rowDeleteConfirmationMessage =
       this.appService.popUpMessageConfig[0].DeleteTokenConfirmationMessage;
+
+      const currentYear = new Date().getFullYear();
+      this.yearList = Array.from(
+        { length: this.appService.appConfig[0].maximumYearRange },
+        (_, index) => {
+          const year = currentYear - index;
+          return { value: year.toString(), id: index + 1 };
+        }
+      );
+  
+      this.monthList = this.appService.appConfig[0].months;
     
 
     this.breadcrumbService.loadBreadcrumbValue([
@@ -100,17 +135,19 @@ export class SystemTokensComponent {
   loadData() {
     this.loadingInProgress = true;
     if (
-      this.searchTerm == undefined ||
-      this.searchTerm == null ||
-      this.searchTerm == ""
+      this.firstDate == undefined ||
+      this.firstDate == null &&
+      this.lastDate == undefined ||
+      this.lastDate == null
     ) {
       this.getAllTokens();
     } else if (
-      this.searchTerm != undefined ||
-      this.searchTerm != null ||
-      this.searchTerm != ""
+      this.firstDate != undefined ||
+      this.firstDate != null &&
+      this.lastDate != undefined ||
+      this.lastDate != null
     ) {
-      this.searchTokens(this.searchTerm);
+      this.searchTokens(this.firstDate, this.lastDate);
     } else {
       this.getAllTokens();
       this.alertService.sideErrorAlert("Error", "Could not retrive data");
@@ -167,10 +204,11 @@ export class SystemTokensComponent {
       
   }
   
-  searchTokens(serchedTerm: string) {
+  searchTokens(firstDate: Date, lastDate: Date) {
     this.shared
       .getSearchedTokens(
-        serchedTerm,
+        firstDate,
+        lastDate,
         this.selectedPage,
         this.selectedPageSize
       )
@@ -446,6 +484,86 @@ export class SystemTokensComponent {
     if ($event.key === "Enter") {
       this.loadData();
     }
+  }
+
+  onFromDateClicked() {
+    this.firstDate = this.convertToObjectToDate(this.model_from);
+    this.lastDate = this.convertToObjectToDate(this.model_to);
+
+    if (this.firstDate >= this.lastDate) {
+      this.model_from = this.initialFromDate;
+      this.model_to = this.initialToDate;
+      this.firstDate = this.convertToObjectToDate(this.model_from);
+      this.lastDate = this.convertToObjectToDate(this.model_to);
+
+      this.alertService.sideErrorAlert("Error", "Select a valid date");
+    }
+
+    this.loadData();
+  }
+
+  onToDateClicked() {
+    this.firstDate = this.convertToObjectToDate(this.model_from);
+    this.lastDate = this.convertToObjectToDate(this.model_to);
+    if (this.firstDate >= this.lastDate) {
+      this.model_from = this.initialFromDate;
+      this.model_to = this.initialToDate;
+      this.firstDate = this.convertToObjectToDate(this.model_from);
+      this.lastDate = this.convertToObjectToDate(this.model_to);
+
+      this.alertService.sideErrorAlert("Error", "Select a valid date range");
+    }
+
+    this.loadData();
+  }
+
+  //"2024-01-17T02:56:10.733 -> Jan 17, 2024, 2:56:10 AM
+  convertDateFormat(inputDate: string): string {
+    const inputDateTime = new Date(inputDate);
+
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    const year = inputDateTime.getFullYear();
+    const month = monthNames[inputDateTime.getMonth()];
+    const day = inputDateTime.getDate();
+    const hours = inputDateTime.getHours();
+    const minutes = inputDateTime.getMinutes();
+    const seconds = inputDateTime.getSeconds();
+    const ampm = hours >= 12 ? "PM" : "AM";
+
+    const formattedDate = `${month} ${day}, ${year}, ${
+      hours % 12 || 12
+    }:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+      2,
+      "0"
+    )} ${ampm}`;
+
+    return formattedDate;
+  }
+
+  convertToObjectToDate(dateObject: {
+    year: number;
+    month: number;
+    day: number;
+  }): Date {
+    const { year, month, day } = dateObject;
+
+    const jsDate = new Date(year, month - 1, day);
+
+    return jsDate;
   }
 
   // getDateTime() {

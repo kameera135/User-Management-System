@@ -25,17 +25,26 @@ export class SystemTokensService {
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
-  getSearchedTokens(searchedTerm: string, page: number, pageSize: number) {
+  getSearchedTokens(firstDate: Date, lastDate: Date, page: number, pageSize: number) {
     let queryParams = new HttpParams();
-    // queryParams = queryParams.append("viewedBy", this.user.id);
-    // queryParams = queryParams.append("searchedTerm", searchedTerm);
-    // queryParams = queryParams.append("page", page);
-    // queryParams = queryParams.append("pageSize", pageSize);
 
-    queryParams = queryParams.append("searchedTokens", searchedTerm);
+    queryParams = queryParams.append(
+      "firstDateString",
+      this.convertToStartOfDay(firstDate.toISOString())
+    );
+    queryParams = queryParams.append(
+      "lastDateString",
+      this.convertToStartOfDay(lastDate.toISOString())
+    );
     
     const url = `${this.apiUrl}/api/apiTokens/${page}/${pageSize}`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
+  }
+
+  convertToStartOfDay(dateTimeString: string): string {
+    const date = new Date(dateTimeString);
+    date.setUTCHours(0, 0, 0, 0);
+    return date.toISOString();
   }
 
   // getSearchedUsersByRole(

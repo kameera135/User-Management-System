@@ -7,7 +7,7 @@
         <div class="card">
           <div class="card-header">
             <div class="row">
-              <div class="col-5 col-lg-5 mt-1"><h2>API Tokens</h2></div>
+              <div class="col-2 col-lg-4 mt-1"><h2>API Tokens</h2></div>
       
               <div class="col-4 col-lg-4 mt-1">
                 <a
@@ -20,6 +20,63 @@
                   ></i>
                   Add Token</a
                 >
+              </div>
+
+              <div class="col-2 col-lg-2 mt-1">
+                <div class="col-12">
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      placeholder="From"
+                      name="dp_from"
+                      [(ngModel)]="model_from"
+                      ngbDatepicker
+                      #dFrom="ngbDatepicker"
+                      [placement]="placement"
+                      [positionTarget]="buttonElFrom"
+                      (dateSelect)="onFromDateClicked()"
+                      [maxDate]="{
+                        year: model_to.year,
+                        month: model_to.month,
+                        day: model_to.day - 1
+                      }"
+                    />
+                    <button
+                      #buttonElFrom
+                      class="btn btn-outline-secondary bi bi-calendar3"
+                      (click)="dFrom.toggle()"
+                      type="button"
+                    ></button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-2 col-lg-2 mt-1">
+                <div class="col-12">
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      placeholder="To"
+                      name="dp_to"
+                      [(ngModel)]="model_to"
+                      ngbDatepicker
+                      #dTo="ngbDatepicker"
+                      [placement]="placement"
+                      [positionTarget]="buttonElTo"
+                      (dateSelect)="onToDateClicked()"
+                      [minDate]="{
+                        year: model_from.year,
+                        month: model_from.month,
+                        day: model_from.day 
+                      }"
+                    />
+                    <button
+                      #buttonElTo
+                      class="btn btn-outline-secondary bi bi-calendar3"
+                      (click)="dTo.toggle()"
+                      type="button"
+                    ></button>
+                  </div>
+                </div>
               </div>
       
               <!-- <div class="col-2 col-lg-2 mt-1">
@@ -35,7 +92,7 @@
                 </select>
               </div> -->
       
-              <div class="form-outline col-3 col-lg-3 mt-1">
+              <!-- <div class="form-outline col-3 col-lg-3 mt-1">
                 <input
                   (keyup)="getSearchTerm($event)"
                   [(ngModel)]="searchTerm"
@@ -44,7 +101,8 @@
                   class="form-control input-sm"
                   placeholder="Search Tokens"
                 />
-              </div>
+              </div> -->
+
             </div>
           </div>
       
