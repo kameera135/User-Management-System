@@ -106,10 +106,10 @@ export class RoleConfigurationModalComponent {
       this.buttonIcon = "bi-floppy2-fill";
     } else if(this.type == "Permission")
     {
-      this.buttonName = "Assign";
+      this.buttonName = "Assign_Permissions";
       this.buttonIcon = "bi-floppy2-fill";
-      this.roleConfigModalTableOptions.allowCheckbox = true;
       this.roleConfigModalTableOptions.displayPagination = false;
+      this.roleConfigModalTableOptions.allowAcknowledgeButton = true;
       this.getPermissionsForRoles(); 
     }
      else {
@@ -120,9 +120,9 @@ export class RoleConfigurationModalComponent {
 
     this.getPlatformList();
 
-    if(this.type == "Permission"){
-      this.getUnassignPermissionsForRoles();
-    }
+    // if(this.type == "Permission"){
+    //   this.getUnassignPermissionsForRoles();
+    // }
 
   }
 
@@ -164,13 +164,14 @@ export class RoleConfigurationModalComponent {
   headArray = [
     { Head: "", FieldName: "", ColumnType: "CheckBox" },
     { Head: "Permissions", FieldName: "Permission", ColumnType: "Data" },
+    { Head: "", FieldName: "", ColumnType: "Action" },
   ];
 
-  //FOR SHOW PERMISSIONS THAT NOT ASSIGN TO ROLE IN TABLE
-  headArray2 = [
-    { Head: "", FieldName: "", ColumnType: "CheckBox" },
-    { Head: "Permissions", FieldName: "Permission", ColumnType: "Data" },
-  ];
+  // //FOR SHOW PERMISSIONS THAT NOT ASSIGN TO ROLE IN TABLE
+  // headArray2 = [
+  //   { Head: "", FieldName: "", ColumnType: "CheckBox" },
+  //   { Head: "Permissions", FieldName: "Permission", ColumnType: "Data" },
+  // ];
 
   updateTable() {
 
@@ -243,13 +244,13 @@ export class RoleConfigurationModalComponent {
   //   return permissions.map(permission => `${permission.permission}`).join('\n');
   // }
 
-  // toggleListItems() {
-  //   // Toggle the visibility of list items view
-  //   if (this.type !== "View") {
-  //     this.getListItemsFromAPI();
-  //     this.showListItems = !this.showListItems;
-  //   }
-  // }
+  toggleListItems() {
+    // Toggle the visibility of list items view
+    if (this.type !== "View") {
+      this.getListItemsFromAPI();
+      this.showListItems = !this.showListItems;
+    }
+  }
 
   // addSelectedItems() {
   //   const existing = this.permissionsAsString;
@@ -270,27 +271,27 @@ export class RoleConfigurationModalComponent {
   //   this.showListItems = false;
   // }
 
-  // //get permissions that not assign to roles
-  // getListItemsFromAPI() {
+  //get permissions that not assign to roles
+  getListItemsFromAPI() {
     
-  //   // Make an API request to fetch the list items
-  //   this.shared.getPermissionsNotInRole(this.platformId,this.roleCode).subscribe({
-  //     next: (response: any) => {
+    // Make an API request to fetch the list items
+    this.shared.getPermissionsNotInRole(this.platformId,this.roleCode).subscribe({
+      next: (response: any) => {
         
-  //       // Check if the response is an array before mapping
-  //       if (Array.isArray(response)) {
+        // Check if the response is an array before mapping
+        if (Array.isArray(response)) {
           
-  //         // Assuming your API response has a structure like [{ permissionId: number, permission: string }, ...]
-  //         this.listItems = response.map(item => ({ name: item.permission, selected: false }));
-  //       } else {
-  //         console.error('Invalid API response format:', response);
-  //       }
-  //     },
-  //     error: (error) => {
-  //       console.error('Error fetching list items from API:', error);
-  //     }
-  //   });
-  // }
+          // Assuming your API response has a structure like [{ permissionId: number, permission: string }, ...]
+          this.listItems = response.map(item => ({ name: item.permission, selected: false }));
+        } else {
+          console.error('Invalid API response format:', response);
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching list items from API:', error);
+      }
+    });
+  }
 
   getPlatformList() {
     this.shared.getPlatformList().subscribe({
@@ -310,5 +311,35 @@ export class RoleConfigurationModalComponent {
         );
       },
     });
+  }
+
+  assignPermissionsForRoles(permission: any){
+    this.shared.assignPermissionsToRole(permission).subscribe({
+      next: (response: any) =>{
+        console.log(response);
+        this.updateTable();
+
+        // this.alertService.sideSuccessAlert(
+        //   "Success",
+        //   this.appService.popUpMessageConfig[0]
+        //     .PermissionAddedSuccessSideAlertMessage
+        // );
+        // this.alertService.successSweetAlertMessage(
+        //   this.appService.popUpMessageConfig[0]
+        //     .PermissionAddedNotificationMessage,
+        //   "Updated!",
+        //   4000
+        // );
+      },
+      error: (error: any) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0]
+            .PermissionAddedErrorSideAlertMessage
+        );
+      },
+    });
+    // Prevent the default form submission behavior
+    permission.preventDefault();
   }
 }

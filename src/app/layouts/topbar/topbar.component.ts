@@ -150,15 +150,44 @@ export class TopbarComponent implements OnInit {
     return "assets/images/user.png";
   }
 
+  // windowScroll() {
+  //   if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+  //     (document.getElementById("back-to-top") as HTMLElement).style.display = "block";
+  //     document.getElementById('page-topbar')?.classList.add('topbar-shadow');
+  //   } else {
+  //     (document.getElementById("back-to-top") as HTMLElement).style.display = "none";
+  //     document.getElementById('page-topbar')?.classList.remove('topbar-shadow');
+  //   }
+  // }
+
   windowScroll() {
-    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-      (document.getElementById("back-to-top") as HTMLElement).style.display = "block";
-      document.getElementById('page-topbar')?.classList.add('topbar-shadow');
-    } else {
-      (document.getElementById("back-to-top") as HTMLElement).style.display = "none";
-      document.getElementById('page-topbar')?.classList.remove('topbar-shadow');
+    const body = document.body;
+    const documentElement = document.documentElement;
+  
+    if (body && documentElement) {
+      if (body.scrollTop > 100 || documentElement.scrollTop > 100) {
+        const backToTopElement = document.getElementById("back-to-top") as HTMLElement;
+        if (backToTopElement) {
+          backToTopElement.style.display = "block";
+        }
+  
+        const pageTopbarElement = document.getElementById('page-topbar');
+        if (pageTopbarElement) {
+          pageTopbarElement.classList.add('topbar-shadow');
+        }
+      } else {
+        const backToTopElement = document.getElementById("back-to-top") as HTMLElement;
+        if (backToTopElement) {
+          backToTopElement.style.display = "none";
+        }
+  
+        const pageTopbarElement = document.getElementById('page-topbar');
+        if (pageTopbarElement) {
+          pageTopbarElement.classList.remove('topbar-shadow');
+        }
+      }
     }
   }
-
+  
 
 }

@@ -272,7 +272,7 @@
                         <i class="bi bi-shield-fill text-muted"></i>
                       </button>
 
-                      <!-- Acknowledge -->
+                      <!-- Unassign permissions from role -->
                       <button
                         *ngIf="allowtoAcknowledge && !item['changeButton']"
                         style="
@@ -280,15 +280,13 @@
                           padding-right: 16px !important;
                           margin-right: 10%;
                         "
-                        class="btn btn-sm btn-success btn-block"
+                        class="btn btn-sm btn-danger btn-block"
                         data-bs-toggle="modal"
                         data-bs-target="#removeTaskItemModal"
                         data-remove-id="15"
-                        (click)="confirm(appoveModal, item, '')"
                         Generate="Approve"
-                        [disabled]="item['isRejecteableOrApprovableRecord']"
                       >
-                        Acknowledge
+                        Remove
                       </button>
                       <button
                         *ngIf="
