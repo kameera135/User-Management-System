@@ -16,27 +16,18 @@ import { LoginComponent } from "../auth/login/login.component";
 import { AuthGuard } from "../auth/auth.guard";
 
 const routes: Routes = [
-  {
-    path: "",
-    redirectTo: "dashboard",
-    pathMatch: "full",
-  },
-  {
-    path:"login",
-    component: LoginComponent,
-  },
+  // {
+  //   path: "",
+  //   redirectTo: "dashboard",
+  //   pathMatch: "full",
+  // },
+  // {
+  //   path: "auth/login",
+  //   component: LoginComponent,
+  // },
   {
     path: "dashboard",
     component: DashboardComponent,
-  },
-  { path: '', 
-    redirectTo: '/login', 
-    pathMatch: 'full' 
-  }, // Redirect to login by default
-  {
-    path: "user-account",
-    component: UserAccountComponent,
-    canActivate:[AuthGuard]
   },
   {
     path: "platform-configuration",

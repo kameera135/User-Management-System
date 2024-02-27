@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { WidgetModule } from "../shared/widget/widget.module";
 import { LayoutsModule } from '../layouts/layouts.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NavbarComponent } from '../layouts/navbar/navbar.component';
 
 
 
@@ -14,7 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
         CommonModule,
         AuthRoutingModule,
         WidgetModule,
-        ReactiveFormsModule   
+        ReactiveFormsModule,
+        //LayoutsModule
     ]
 })
 export class AuthModule { }

@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { WidgetModule } from "./widget/widget.module";
+import { AuthModule } from '../auth/auth.module';
 
 
 
@@ -30,7 +31,8 @@ import { WidgetModule } from "./widget/widget.module";
         MatRadioModule,
         MatButtonModule,
         WidgetModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        AuthModule
     ]
 })
 export class SharedModule { }
