@@ -459,7 +459,7 @@ export class RoleConfigurationComponent {
           } else if (type == "Edit") {
             this.putRole(this.roleModel);
           }else if(type == "Permission"){
-            this.assignPermissionsForRoles(this.roleModel);
+            //this.assignPermissionsForRoles(this.roleModel);
           } 
           else if (type == "View") {
             //confirmation modal open
@@ -712,32 +712,32 @@ export class RoleConfigurationComponent {
     });
   }
 
-  assignPermissionsForRoles(permission: any){
-    this.shared.assignPermissionsToRole(permission).subscribe({
-      next: (response: any) =>{
-        console.log(response);
+  // assignPermissionsForRoles(permission: any){
+  //   this.shared.assignPermissionsToRole(permission).subscribe({
+  //     next: (response: any) =>{
+  //       console.log(response);
 
-        this.alertService.sideSuccessAlert(
-          "Success",
-          this.appService.popUpMessageConfig[0]
-            .PermissionAddedSuccessSideAlertMessage
-        );
-        this.alertService.successSweetAlertMessage(
-          this.appService.popUpMessageConfig[0]
-            .PermissionAddedNotificationMessage,
-          "Updated!",
-          4000
-        );
-      },
-      error: (error: any) => {
-        this.alertService.sideErrorAlert(
-          "Error",
-          this.appService.popUpMessageConfig[0]
-            .PermissionAddedErrorSideAlertMessage
-        );
-      },
-    });
-  }
+  //       this.alertService.sideSuccessAlert(
+  //         "Success",
+  //         this.appService.popUpMessageConfig[0]
+  //           .PermissionAddedSuccessSideAlertMessage
+  //       );
+  //       this.alertService.successSweetAlertMessage(
+  //         this.appService.popUpMessageConfig[0]
+  //           .PermissionAddedNotificationMessage,
+  //         "Updated!",
+  //         4000
+  //       );
+  //     },
+  //     error: (error: any) => {
+  //       this.alertService.sideErrorAlert(
+  //         "Error",
+  //         this.appService.popUpMessageConfig[0]
+  //           .PermissionAddedErrorSideAlertMessage
+  //       );
+  //     },
+  //   });
+  // }
 
   getPlatformList() {
     this.shared.getPlatformList().subscribe({

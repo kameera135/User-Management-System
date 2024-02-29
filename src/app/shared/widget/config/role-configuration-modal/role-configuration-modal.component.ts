@@ -8,6 +8,7 @@ import { Role as Role } from "src/app/shared/models/Cams-new/Role";
 import { PermissionsForRole } from "src/app/shared/models/Cams-new/PermissionsForRole";
 import { error } from "console";
 import { tableOptions } from "src/app/shared/models/tableOptions";
+import { threadId } from "worker_threads";
 
 interface ListItem {
   name: string;
@@ -34,10 +35,14 @@ export class RoleConfigurationModalComponent {
   @Input() description!: string;
   @Input() status!: boolean;
   @Input() statusName!: string;
+  @Input() permissionId!: number;
   @Input() permission!: string;
   @Input() platfromIds: any = [];
   
   @Input() platformName: any = [];
+
+  selectedItemArray: any = [];  //selected items for add or remove in the list
+  userDetailsArray: any;
 
   buttonName!: string;
   buttonIcon!: string;
@@ -282,7 +287,9 @@ export class RoleConfigurationModalComponent {
         if (Array.isArray(response)) {
           
           // Assuming your API response has a structure like [{ permissionId: number, permission: string }, ...]
-          this.listItems = response.map(item => ({ name: item.permission, selected: false }));
+          this.listItems = response.map(item => ({permissionId:item.permissionId, name: item.permission, selected: false }));
+          this.permissionsNotInRoleArray = response;
+
         } else {
           console.error('Invalid API response format:', response);
         }
@@ -313,23 +320,38 @@ export class RoleConfigurationModalComponent {
     });
   }
 
-  assignPermissionsForRoles(permission: any){
-    this.shared.assignPermissionsToRole(permission).subscribe({
+  //FOR GET SELECTED PERMISSION TO ASSIGN ROLES
+  loadSelectedRecords() {
+    this.selectedItemArray = this.listItems.filter((item: { selected: any; })=> item.selected);
+    this.assignUser(this.selectedItemArray);
+  }
+
+  assignUser(items: any){
+    let ids: number[] = []
+    
+    items.forEach((element: any) => {
+      ids.push(element.permissionId);
+    });
+    this.assignPermissionsForRoles(ids);
+  }
+
+  assignPermissionsForRoles(id:number[]){
+    this.shared.assignPermissionsToRole(this.roleCode,id).subscribe({
       next: (response: any) =>{
         console.log(response);
-        this.updateTable();
 
-        // this.alertService.sideSuccessAlert(
-        //   "Success",
-        //   this.appService.popUpMessageConfig[0]
-        //     .PermissionAddedSuccessSideAlertMessage
-        // );
-        // this.alertService.successSweetAlertMessage(
-        //   this.appService.popUpMessageConfig[0]
-        //     .PermissionAddedNotificationMessage,
-        //   "Updated!",
-        //   4000
-        // );
+        this.alertService.sideSuccessAlert(
+          "Success",
+          this.appService.popUpMessageConfig[0]
+            .PermissionAddedSuccessSideAlertMessage
+        );
+        this.alertService.successSweetAlertMessage(
+          this.appService.popUpMessageConfig[0]
+            .PermissionAddedNotificationMessage,
+          "Updated!",
+          4000
+        );
+        this.updateTable();
       },
       error: (error: any) => {
         this.alertService.sideErrorAlert(
@@ -339,7 +361,37 @@ export class RoleConfigurationModalComponent {
         );
       },
     });
-    // Prevent the default form submission behavior
-    permission.preventDefault();
+    // // Prevent the default form submission behavior
+    // permission.preventDefault();
+  }
+
+  unassignPermissionFromRole(){
+    this.shared.unassignPermissionsFromRole(this.roleCode,this.permissionId).subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.alertService.sideSuccessAlert(
+          "Success",
+          this.appService.popUpMessageConfig[0]
+            .RoleDeletedSuccessSideAlertMessage
+        );
+        this.alertService.successSweetAlertMessage(
+          this.appService.popUpMessageConfig[0]
+            .RoleDeletedNotificationMessage,
+          "Deleted!",
+          4000
+        );
+
+        this.updateTable();
+      },
+
+      error: (error: any) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0]
+            .RoleDeletedErrorSideAlertMessage
+        );
+        //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
+      },
+    });
   }
 }

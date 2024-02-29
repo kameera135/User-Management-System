@@ -16,11 +16,11 @@ import { LoginComponent } from "../auth/login/login.component";
 import { AuthGuard } from "../auth/auth.guard";
 
 const routes: Routes = [
-  // {
-  //   path: "",
-  //   redirectTo: "dashboard",
-  //   pathMatch: "full",
-  // },
+  {
+    path: "",
+    redirectTo: "dashboard",
+    pathMatch: "full",
+  },
   // {
   //   path: "auth/login",
   //   component: LoginComponent,
