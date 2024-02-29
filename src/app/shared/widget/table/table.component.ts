@@ -377,6 +377,12 @@ export class TableComponent {
     this.onEdit.emit(id);
   }
 
+  removeData(id:any){
+    this.modalService.dismissAll("close click"); //Hide update confirmation modal
+
+    this.onAcknowledge.emit(id);
+  }
+
   //Method handles acknowledge buttton click on the grid
   acknowledgeConfirm(id: any) {
     this.modalService.dismissAll("close click"); //Hide update confirmation modal

@@ -274,7 +274,7 @@
 
                       <!-- Unassign permissions from role -->
                       <button
-                        *ngIf="allowtoAcknowledge && !item['changeButton']"
+                        *ngIf="allowtoAcknowledge"
                         style="
                           padding-left: 16px !important;
                           padding-right: 16px !important;
@@ -284,7 +284,9 @@
                         data-bs-toggle="modal"
                         data-bs-target="#removeTaskItemModal"
                         data-remove-id="15"
-                        Generate="Approve"
+                        ngbTooltip="Remove"
+                        (click)="removeData(item)"
+                        Generate="Delete"
                       >
                         Remove
                       </button>

@@ -150,4 +150,11 @@ export interface toastServicePopUpConfigurations {
   UnassignUserConfirmationMessage: string;
   UserUnassignedSuccessSideAlertMessage: string;
   UserUnassignedErrorSideAlertMessage:string;
+
+  PermissionAssigndNotificationMessage: string;
+  PermissionAssignedSuccessSideAlertMessage: string;
+  PermissionAssignedErrorSideAlertMessage  :string; 
+  PermissionUnassignedNotificationMessage:string; 
+  PermissionUnassignedSuccessSideAlertMessage:string; 
+  PermissionUnassignedErrorSideAlertMessage:string;   
 }

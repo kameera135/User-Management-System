@@ -58,28 +58,17 @@
     <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
       <div class="mb-0">
         <label class="col-form-label">Permissions</label>
+        <!--use acknowledge button to the unassign permission-->
         <app-table
           *ngIf="!loadingInProgress"
           [headArray]="headArray"
           [dataArray]="tableData"
           [dataTableOptions]="roleConfigModalTableOptions"
+          (onAcknowledge)="unassignPermissionFromRole($event)"
         >
         </app-table>
       </div>
     </div>
-
-    <!-- <div class="col-12" *ngIf="type == 'Permission'">
-      <div class="mb-0">
-        <label class="col-form-label">Permissions Not In Role</label>
-        <app-table
-          *ngIf="!loadingInProgress"
-          [headArray]="headArray2"
-          [dataArray]="tableData2"
-          [dataTableOptions]="roleConfigModalTableOptions"
-        >
-        </app-table>
-      </div>
-    </div> -->
 
     <div class="col-12" *ngIf="type != 'View' && type != 'Permission'">
       <div class="mb-3">

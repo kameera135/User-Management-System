@@ -129,6 +129,13 @@
   "UserUnassignedNotificationMessage": "User/s Unassigned succesfully!",
   "UnassignUserConfirmationMessage": "You want to unassign user/s?",
   "UserUnassignedSuccessSideAlertMessage": "User/s unassigned successfully !",
-  "UserUnassignedErrorSideAlertMessage": "Could not unassign user/s."
+  "UserUnassignedErrorSideAlertMessage": "Could not unassign user/s.",
+
+  "PermissionAssigndNotificationMessage": "Permission/s assigened successfully! ",
+  "PermissionAssignedSuccessSideAlertMessage": "Permission/s assigned successfully !",
+  "PermissionAssignedErrorSideAlertMessage"  : "Permissions could not be assigned. Please check your input values and try again.",
+  "PermissionUnassignedNotificationMessage": "Permission Unassigned succesfully!",
+  "PermissionUnassignedSuccessSideAlertMessage": "Permission unassigned successfully !",
+  "PermissionUnassignedErrorSideAlertMessage": "Could not unassign permission."
 }
 

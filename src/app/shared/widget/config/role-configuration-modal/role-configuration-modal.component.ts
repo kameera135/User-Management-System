@@ -66,6 +66,7 @@ export class RoleConfigurationModalComponent {
 
   permissionsForRoleArray: any = [];
   permissionsForRoleList!: PermissionsForRole[];
+  list: any = [];
   
   permissionsNotInRoleArray: any = [];
   permissionsNotInRoleList!: PermissionsForRole[];
@@ -125,9 +126,6 @@ export class RoleConfigurationModalComponent {
 
     this.getPlatformList();
 
-    // if(this.type == "Permission"){
-    //   this.getUnassignPermissionsForRoles();
-    // }
 
   }
 
@@ -172,18 +170,12 @@ export class RoleConfigurationModalComponent {
     { Head: "", FieldName: "", ColumnType: "Action" },
   ];
 
-  // //FOR SHOW PERMISSIONS THAT NOT ASSIGN TO ROLE IN TABLE
-  // headArray2 = [
-  //   { Head: "", FieldName: "", ColumnType: "CheckBox" },
-  //   { Head: "Permissions", FieldName: "Permission", ColumnType: "Data" },
-  // ];
-
   updateTable() {
 
     this.permissionsForRoleArray = this.permissionsForRoleList.map((item) => ({
       PlatformId: item.platformId,
       Platform: item.platform,
-      PermssionId: item.permissionId,
+      PermissionId: item.permissionId,
       Permission: item.permission,
       isRejecteableOrApprovableRecord:true
     }));
@@ -245,9 +237,6 @@ export class RoleConfigurationModalComponent {
     });
   }
 
-  // getPermissionsAsString(permissions: any[]): string {
-  //   return permissions.map(permission => `${permission.permission}`).join('\n');
-  // }
 
   toggleListItems() {
     // Toggle the visibility of list items view
@@ -256,25 +245,6 @@ export class RoleConfigurationModalComponent {
       this.showListItems = !this.showListItems;
     }
   }
-
-  // addSelectedItems() {
-  //   const existing = this.permissionsAsString;
-
-  //   // Filter out items that are already present in the existing string
-  //   const selectedItems = this.listItems
-  //       .filter(item => item.selected && existing.indexOf(item.name) === -1)
-  //       .map(item => item.name)
-  //       .join('\n');
-
-  //   // Check if any items are selected
-  //   if (selectedItems) {
-  //       // Only append a newline character if there are existing items
-  //       this.permissionsAsString = existing + (existing ? '\n' : '') + selectedItems;
-  //   }
-
-  //   // Hide the list items view after adding items to the textarea
-  //   this.showListItems = false;
-  // }
 
   //get permissions that not assign to roles
   getListItemsFromAPI() {
@@ -323,19 +293,19 @@ export class RoleConfigurationModalComponent {
   //FOR GET SELECTED PERMISSION TO ASSIGN ROLES
   loadSelectedRecords() {
     this.selectedItemArray = this.listItems.filter((item: { selected: any; })=> item.selected);
-    this.assignUser(this.selectedItemArray);
+    this.assignPermissionToRole(this.selectedItemArray);
   }
 
-  assignUser(items: any){
+  assignPermissionToRole(items: any){
     let ids: number[] = []
     
     items.forEach((element: any) => {
       ids.push(element.permissionId);
     });
-    this.assignPermissionsForRoles(ids);
+    this.assignPermissionsToRoles(ids);
   }
 
-  assignPermissionsForRoles(id:number[]){
+  assignPermissionsToRoles(id:number[]){
     this.shared.assignPermissionsToRole(this.roleCode,id).subscribe({
       next: (response: any) =>{
         console.log(response);
@@ -365,18 +335,20 @@ export class RoleConfigurationModalComponent {
     // permission.preventDefault();
   }
 
-  unassignPermissionFromRole(){
-    this.shared.unassignPermissionsFromRole(this.roleCode,this.permissionId).subscribe({
+  unassignPermissionFromRole(item: any){
+
+    const id = (item as {PermissionId: number}).PermissionId;
+    this.shared.unassignPermissionsFromRole(this.roleCode,id).subscribe({
       next: (response: any) => {
         console.log(response);
         this.alertService.sideSuccessAlert(
           "Success",
           this.appService.popUpMessageConfig[0]
-            .RoleDeletedSuccessSideAlertMessage
+            .PermissionUnassignedSuccessSideAlertMessage
         );
         this.alertService.successSweetAlertMessage(
           this.appService.popUpMessageConfig[0]
-            .RoleDeletedNotificationMessage,
+            .PermissionUnassignedNotificationMessage,
           "Deleted!",
           4000
         );
@@ -388,7 +360,7 @@ export class RoleConfigurationModalComponent {
         this.alertService.sideErrorAlert(
           "Error",
           this.appService.popUpMessageConfig[0]
-            .RoleDeletedErrorSideAlertMessage
+            .PermissionUnassignedErrorSideAlertMessage,
         );
         //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
       },
