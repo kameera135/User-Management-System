@@ -88,10 +88,6 @@ export class SystemTokensComponent {
   ) {}
 
   ngOnInit(): void {
-    // var platforms = this.appService.appConfig[0].roleList;
-    // for (let i = 0; i < platforms.length; i++) {
-    //   this.platformList.push(platforms[i]);
-    // }
 
     this.model_from = this.initialFromDate;
     this.model_to = this.initialToDate;
@@ -100,11 +96,6 @@ export class SystemTokensComponent {
     this.tokenConfigTableOptions.allowBulkDeleteButton = true;
     this.tokenConfigTableOptions.allowDeleteButton = true;
     this.tokenConfigTableOptions.allowUpdateButton = true;
-    this.tokenConfigTableOptions.allowViewButton = true;
-    // this.tokenConfigTableOptions.allowActivateButton = true;
-    // this.tokenConfigTableOptions.allowBulkActivateButton = true;
-    // this.tokenConfigTableOptions.allowDeactivateButton = true;
-    // this.tokenConfigTableOptions.allowBulkDeactivateButton = true;
     this.tokenConfigTableOptions.displayPagination = true;
 
     this.tokenConfigTableOptions.rowEditConfirmationMessage =

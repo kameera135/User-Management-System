@@ -243,7 +243,7 @@ export class PlatformUserModalComponent {
   getAllUsers() {
     this.shared
       .getAllUsers(this.platformId)
-     .subscribe({
+      .subscribe({
         
         next: (response) => {
           this.userList = response.response;
@@ -414,7 +414,6 @@ export class PlatformUserModalComponent {
   }
 
   assignUsers(id:number[]){
-
       this.shared.assignUsers(this.platformId, id).subscribe({
       next: (response) => {
         console.log(response);
@@ -477,7 +476,6 @@ export class PlatformUserModalComponent {
     this.loadingInProgress = true;
     this.shared.getPlatformUserRoles(this.userId, this.platformId).subscribe({
       next: (response: any) => {
-       // console.log("Response from permissions for roles : ", response);
         this.userList = response;
         this.updateRoleTable();
         this.loadingInProgress = false;
@@ -520,20 +518,4 @@ export class PlatformUserModalComponent {
         this.showListItems = !this.showListItems;
       }
   }
-
-  // addSelectedItems() {
-  //     // Get selected items and add them to the textarea
-  //    const existing = this.rolesAsString;
-
-  //    const selectedItems = this.listItems.filter(item => item.selected && existing.indexOf(item.name) === -1)
-  //                                         .map(item => item.name)
-  //                                         .join('\n');
-
-  //    if(selectedItems){
-  //     this.rolesAsString = existing + (existing ? '\n' : '') + selectedItems;
-  //    }
-
-  //     // Hide the list items view after adding items to textarea
-  //     this.showListItems = false;
-  // }
 }
