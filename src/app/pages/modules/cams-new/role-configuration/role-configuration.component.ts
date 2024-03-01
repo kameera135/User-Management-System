@@ -712,33 +712,6 @@ export class RoleConfigurationComponent {
     });
   }
 
-  // assignPermissionsForRoles(permission: any){
-  //   this.shared.assignPermissionsToRole(permission).subscribe({
-  //     next: (response: any) =>{
-  //       console.log(response);
-
-  //       this.alertService.sideSuccessAlert(
-  //         "Success",
-  //         this.appService.popUpMessageConfig[0]
-  //           .PermissionAddedSuccessSideAlertMessage
-  //       );
-  //       this.alertService.successSweetAlertMessage(
-  //         this.appService.popUpMessageConfig[0]
-  //           .PermissionAddedNotificationMessage,
-  //         "Updated!",
-  //         4000
-  //       );
-  //     },
-  //     error: (error: any) => {
-  //       this.alertService.sideErrorAlert(
-  //         "Error",
-  //         this.appService.popUpMessageConfig[0]
-  //           .PermissionAddedErrorSideAlertMessage
-  //       );
-  //     },
-  //   });
-  // }
-
   getPlatformList() {
     this.shared.getPlatformList().subscribe({
       next: (response: any) => {

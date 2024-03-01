@@ -55,8 +55,6 @@ export class RoleConfigurationModalComponent {
 
   loadingInProgress: boolean = false;
 
-  permissionsAsString!: string;
-
   listItems: ListItem[] = [];
 
   isEditable: boolean = true;
@@ -132,6 +130,7 @@ export class RoleConfigurationModalComponent {
   onFormSubmit() {
 
     if ( 
+      this.roleCode == null ||
       this.roleName == "" 
     ) {
       this.notifierService.warning({
@@ -222,14 +221,14 @@ export class RoleConfigurationModalComponent {
       next: (response: any) => {
         console.log("Response from permissions not for roles : ", response);
         this.permissionsNotInRoleList = response;
-        this.updateTable2();
+       // this.updateTable2();
         //this.permissionsAsString = this.getPermissionsAsString(response);
         this.loadingInProgress = false;
       },
       error: (error) => {
 
         this.permissionsNotInRoleList = [];
-        this.updateTable2();
+       // this.updateTable2();
         //this.permissionsAsString = '';
         this.loadingInProgress = false;
       },
@@ -308,6 +307,7 @@ export class RoleConfigurationModalComponent {
     this.shared.assignPermissionsToRole(this.roleCode,id).subscribe({
       next: (response: any) =>{
         console.log(response);
+        this.showListItems = false;  
 
         this.alertService.sideSuccessAlert(
           "Success",
@@ -320,7 +320,8 @@ export class RoleConfigurationModalComponent {
           "Updated!",
           4000
         );
-        this.updateTable();
+        this.permissionsForRoleList = response;
+        this.updateTable(); 
       },
       error: (error: any) => {
         this.alertService.sideErrorAlert(

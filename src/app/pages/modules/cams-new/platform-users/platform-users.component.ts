@@ -269,7 +269,7 @@ export class PlatformUsersComponent {
 
           this.userModel = result;
           if (type == "Edit") {
-            this.putUser(this.userModel);
+           // this.putUser(this.userModel);
           } else if (type == "View") {
             //confirmation modal open
             const modalRefForConfirmation = this.modalService.open(

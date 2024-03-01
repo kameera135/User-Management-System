@@ -186,4 +186,31 @@ export class PlatformUsersService {
   announceUserDataAssigned() {
     this.userDataAssignedSource.next();
   }
+
+  assigRoleToUser(userId: number, list: number[]){
+    let queryParams = new HttpParams();
+
+    const requestBody = {
+      userId: userId,
+      roleIds: list
+    }
+
+    queryParams = queryParams.append("createdBy",this.user.id);
+
+    return this.httpClient.post(`${this.apiUrl}/api/user/roles`,requestBody,
+    {
+      params: queryParams,
+    });
+  }
+
+  unassignRoleFromUser(userId:number,roleId:number) {
+    let queryParams = new HttpParams();
+
+    queryParams = queryParams.append("userId", userId);
+    queryParams = queryParams.append("roleId",roleId);
+    queryParams = queryParams.append("deletedBy",this.user.id);
+
+    const url = `${this.apiUrl}/api/user/roles`;
+    return this.httpClient.delete(url, {params :queryParams});
+  }
 }

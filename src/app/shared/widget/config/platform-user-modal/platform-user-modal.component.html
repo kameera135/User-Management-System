@@ -66,7 +66,7 @@
             </div>
           </div>
 
-        <div class="col-12" *ngIf="type !== 'Add' && type != 'View'">
+        <!-- <div class="col-12" *ngIf="type !== 'Add' && type != 'View'">
             <div class="mb-3">
                 <label class="col-form-label">Roles</label>
                 <div class="input-group">
@@ -84,9 +84,9 @@
                         </button>
                     </div>
                 </div>
-            </div>
+            </div> -->
              <!-- Box to display list items -->
-            <div class="list-items-box" *ngIf="showListItems">
+            <!-- <div class="list-items-box" *ngIf="showListItems">
                 <ul>
                     <li *ngFor="let item of listItems">
                         <label>
@@ -97,12 +97,46 @@
                 </ul>
                 <button class="btn btn-primary" (click)="addSelectedItems()">Done</button>
             </div>
+        </div> -->
+
+        <div class="col-12" *ngIf="type != 'Add' && type != 'View'">
+            <div class="mb-0">
+              <label class="col-form-label">Roles</label>
+              <!--use acknowledge button to the unassign permission-->
+              <app-table
+                *ngIf="!loadingInProgress"
+                [headArray]="headArrayRole"
+                [dataArray]="roleTable"
+                [dataTableOptions]="platformUserModelViewTableOption"
+                (onAcknowledge)="unassignRoleFromUser($event)"
+              >
+              </app-table>
+            </div>
         </div>
           
+        <div>
+            <div class="input-group-append" *ngIf="type == 'Edit'">
+              <button type="button" class="btn btn-success btn-label mt-3" (click)="toggleListItems()">
+                <i class="bi {{ buttonIcon }} label-icon align-middle fs-16 me-2"></i>{{ buttonName }}
+              </button>
+            </div>
+            <!-- Box to display list items -->
+            <div class="list-items-box" *ngIf="showListItems">
+              <ul>
+                  <li *ngFor="let item of listItems">
+                      <label>
+                          <input type="checkbox" [(ngModel)]="item.selected" [ngModelOptions]="{standalone: true}"/>
+                          {{ item.name }}
+                      </label>
+                  </li>
+              </ul>
+              <button type="submit" class="btn btn-primary" (click)="loadRoles()">Done</button>
+            </div>
+          </div>
 
         <div class="col-12 mx-auto">
             <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-success btn-label mt-3">
+                <button type="submit" class="btn btn-success btn-label mt-3" *ngIf="type !== 'Edit'">
                 <i class="bi {{ buttonIcon }} label-icon align-middle fs-16 me-2"></i
                 >{{ buttonName }}
                 </button>

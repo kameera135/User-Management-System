@@ -51,13 +51,18 @@ export class PlatformUserModalComponent {
   userList!: PlatformUser[];
   userModal!: PlatformUser;
   rolePermission!: UserRolePermissions[];
+  roleList!: UserRolePermissions[];
 
   selectedUsers: PlatformUser[] = [];
 
+  roleTable: any = [];
   
   showListItems: boolean = false;
   
   listItems: ListItem[] = []; 
+  rolesNotAssignUserArray: any = [];
+
+  roleDetailsArray: any = [];
 
   selectedPage: number = 1;
   selectedPageSize: number = 20;
@@ -105,14 +110,27 @@ export class PlatformUserModalComponent {
     { Head: "Permissions", FieldName: "Permission", ColumnType: "Data"}
   ];
 
+  //FOR ROLE TABLE
+  headArrayRole = [
+    { Head: "", FieldName: "", ColumnType: "CheckBox" },
+    { Head: "Role", FieldName: "RoleName", ColumnType: "Data" },
+    { Head: "", FieldName: "", ColumnType: "Action" },
+  ];
+
+
   ngOnInit() {
     if (this.type == "Add") {
       this.buttonName = "Assign";
       this.buttonIcon = "bi-person-plus-fill";
+      this.platformUserModelViewTableOption.allowCheckbox = true;
+      this.platformUserModelViewTableOption.displayPagination = true;
       
     } else if (this.type == "Edit") {
-      this.buttonName = "Save";
+      this.buttonName = "Assign_roles";
       this.buttonIcon = "bi-floppy2-fill";
+      this.getPlatformUserRoles();
+      this.platformUserModelViewTableOption.displayPagination = false;
+      this.platformUserModelViewTableOption.allowAcknowledgeButton = true;
     } else {
       this.buttonName = "Edit";
       this.buttonIcon = "bi-pencil-fill";
@@ -120,9 +138,6 @@ export class PlatformUserModalComponent {
     //cancel button
     this.cancelButtonIcon;
     this.cancelButtonName;
-
-    this.platformUserModelViewTableOption.allowCheckbox = true;
-    this.platformUserModelViewTableOption.displayPagination = true;
 
     if(this.type == 'View'){
       this.getUserRolesPermissions();
@@ -135,6 +150,27 @@ export class PlatformUserModalComponent {
     }
     
   }
+
+  onFormSubmit() {
+
+    const user = new PlatformUser();
+    user.userIds = this.userIds;
+    user.empId = this.empId;
+    user.userName = this.userName;
+    user.firstName = this.firstName;
+    user.lastName = this.lastName;
+    user.platformName = this.platform;
+    user.email = this.email;
+    user.phoneNumber = this.phoneNumber;
+
+    this.activeModal.close(user);
+
+    //FOR ASSIGN USER BUTTON CLICK FUNCTION
+    if(this.type == "Add"){
+      this.loadSelectedRecords();
+    }
+  }
+
 
   loadData(){
     this.loadingInProgress = true;
@@ -187,40 +223,21 @@ export class PlatformUserModalComponent {
     this.rolePermissionTableData = this.rolePermissionArray
   }
 
+  //FOR ROLES TABLE
+  updateRoleTable(){
+    this.roleDetailsArray = this.userList.map((item)=>({
+      RoleId: item.roleId,
+      RoleName: item.role,
+    }));
+    this.roleTable = this.roleDetailsArray;
+  }
+
   getSearchTerm($event: KeyboardEvent) {
     this.selectedPage = 1;
     if ($event.key === "Enter") {
       this.loadData();
     }
   }
-
-  // getAllPlatformUsers() {
-  //   this.shared
-  //     .getAllPlatformUsers(this.platformId,this.selectedPage, this.selectedPageSize)
-  //    .subscribe({
-        
-  //       next: (response) => {
-  //         this.userList = response.response;
-  //         this.totalDataCount = response.rowCount;
-  //         this.updateTable();
-  //         this.loadingInProgress = false;
-  //       },
-  //       error: (error) => {
-  //         this.alertService.sideErrorAlert(
-  //           "Error",
-  //           this.appService.popUpMessageConfig[0]
-  //             .GetUserListErrorSideAlertMessage
-  //         );
-
-  //         this.userList = [];
-  //         this.totalDataCount = 0;
-
-  //         this.updateTable();
-  //         this.loadingInProgress = false;
-  //       },
-  //     });
-  // }
-
 
   //Get un assigned platform users for selected platform
   getAllUsers() {
@@ -327,24 +344,51 @@ export class PlatformUserModalComponent {
       });
   }
 
-  onFormSubmit() {
+  //FOR LOAD ROLE LIST FOR ASSIGN
+  loadRoles(){
+    this.selectedItemArray = this.listItems.filter((item: { selected: any; })=> item.selected);
+    this.assignRoleToUser(this.selectedItemArray);
+    this.selectedItemArray = [];
+  }
 
-    const user = new PlatformUser();
-    user.userIds = this.userIds;
-    user.empId = this.empId;
-    user.userName = this.userName;
-    user.firstName = this.firstName;
-    user.lastName = this.lastName;
-    user.platformName = this.platform;
-    user.email = this.email;
-    user.phoneNumber = this.phoneNumber;
+  assignRoleToUser(items: any) {
+    let ids: number[] = []
+    
+    items.forEach((element: any) => {
+      ids.push(element.roleId);
+    });
+    this.assignRolesToUser(ids);
+  }
 
-    this.activeModal.close(user);
 
-    //FOR ASSIGN USER BUTTON CLICK FUNCTION
-    if(this.type == "Add"){
-      this.loadSelectedRecords();
-    }
+  assignRolesToUser(ids: number[]) {
+    this.shared.assigRoleToUser(this.userId,ids).subscribe({
+      next: (response: any) =>{
+        console.log(response);
+        this.showListItems = false;  
+
+        this.alertService.sideSuccessAlert(
+          "Success",
+          this.appService.popUpMessageConfig[0]
+            .RoleAddedSuccessSideAlertMessage
+        );
+        this.alertService.successSweetAlertMessage(
+          this.appService.popUpMessageConfig[0]
+            .RoleAddedNotificationMessage,
+          "Updated!",
+          4000
+        );
+
+        this.updateTable(); 
+      },
+      error: (error: any) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0]
+            .RoleAddedErrorSideAlertMessage
+        );
+      },
+    });
   }
 
   //FOR GET SELECTED USERS TO ASSIGN PLATFORM
@@ -357,6 +401,7 @@ export class PlatformUserModalComponent {
       }
     }
     this.assignUser(this.selectedItemArray);
+    this.selectedItemArray = [];
   }
 
   assignUser(items: any){
@@ -397,13 +442,44 @@ export class PlatformUserModalComponent {
     });
   }
 
+  unassignRoleFromUser(item: any){
+    const id = (item as {RoleId: number}).RoleId;
+    this.shared.unassignRoleFromUser(this.userId,id).subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.alertService.sideSuccessAlert(
+          "Success",
+          this.appService.popUpMessageConfig[0]
+            .PermissionUnassignedSuccessSideAlertMessage
+        );
+        this.alertService.successSweetAlertMessage(
+          this.appService.popUpMessageConfig[0]
+            .PermissionUnassignedNotificationMessage,
+          "Deleted!",
+          4000
+        );
+
+        this.updateTable();
+      },
+
+      error: (error: any) => {
+        this.alertService.sideErrorAlert(
+          "Error",
+          this.appService.popUpMessageConfig[0]
+            .PermissionUnassignedErrorSideAlertMessage,
+        );
+        //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
+      },
+    });
+  }
+
   getPlatformUserRoles(){
     this.loadingInProgress = true;
     this.shared.getPlatformUserRoles(this.userId, this.platformId).subscribe({
       next: (response: any) => {
        // console.log("Response from permissions for roles : ", response);
         this.userList = response;
-        this.rolesAsString = this.getRolesAsString(response);
+        this.updateRoleTable();
         this.loadingInProgress = false;
       },
       error: (error) => {
@@ -414,7 +490,6 @@ export class PlatformUserModalComponent {
         // );
 
         this.userList = [];
-        this.rolesAsString = '';
         this.loadingInProgress = false;
       },
     });
@@ -426,7 +501,8 @@ export class PlatformUserModalComponent {
       next: (response: any) => {
         if (Array.isArray(response)) {
           
-          this.listItems = response.map(item => ({ name: item.role, selected: false }));
+          this.listItems = response.map(item => ({roleId:item.roleId, name: item.role, selected: false }));
+          this.rolesNotAssignUserArray = response;
         } else {
           console.error('Invalid API response format:', response);
         }
@@ -437,10 +513,6 @@ export class PlatformUserModalComponent {
     });
   }
 
-  getRolesAsString(roles: any[]): string{
-    return roles.map(role => `${role.role}`).join('\n');
-  }
-
   toggleListItems() {
       // Toggle the visibility of list items view
       if (this.type !== 'View') {
@@ -449,19 +521,19 @@ export class PlatformUserModalComponent {
       }
   }
 
-  addSelectedItems() {
-      // Get selected items and add them to the textarea
-     const existing = this.rolesAsString;
+  // addSelectedItems() {
+  //     // Get selected items and add them to the textarea
+  //    const existing = this.rolesAsString;
 
-     const selectedItems = this.listItems.filter(item => item.selected && existing.indexOf(item.name) === -1)
-                                          .map(item => item.name)
-                                          .join('\n');
+  //    const selectedItems = this.listItems.filter(item => item.selected && existing.indexOf(item.name) === -1)
+  //                                         .map(item => item.name)
+  //                                         .join('\n');
 
-     if(selectedItems){
-      this.rolesAsString = existing + (existing ? '\n' : '') + selectedItems;
-     }
+  //    if(selectedItems){
+  //     this.rolesAsString = existing + (existing ? '\n' : '') + selectedItems;
+  //    }
 
-      // Hide the list items view after adding items to textarea
-      this.showListItems = false;
-  }
+  //     // Hide the list items view after adding items to textarea
+  //     this.showListItems = false;
+  // }
 }
