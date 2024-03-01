@@ -399,7 +399,7 @@ export class PermissionConfigurationComponent {
     modalRef.result
       .then((result) => {
         if (result) {
-          console.log("Getting data from Role Configuration Modal");
+          console.log("Getting data from Permission Configuration Modal");
           console.log(result);
 
           this.permissionModal = result;

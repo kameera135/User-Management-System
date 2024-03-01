@@ -35,7 +35,6 @@ import { AuthModule } from "../auth/auth.module";
         TranslateModule,
         SharedModule,
         WidgetModule,
-        AuthModule
     ]
 })
 export class LayoutsModule { }

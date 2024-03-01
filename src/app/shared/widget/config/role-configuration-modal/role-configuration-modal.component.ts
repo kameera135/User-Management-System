@@ -127,12 +127,11 @@ export class RoleConfigurationModalComponent {
     this.getPlatformList();
 
 
-  }
+    }
 
   onFormSubmit() {
 
-    if (
-      this.roleCode == null ||
+    if ( 
       this.roleName == "" 
     ) {
       this.notifierService.warning({
@@ -142,13 +141,13 @@ export class RoleConfigurationModalComponent {
       });
       return;
     }
-    else if(this.type == "Add" && this.roleName == "" || this.platformId == 0){
+    else if(this.type == "Add" && this.roleName == "" || this.platfromIds == 0){
       this.notifierService.warning({
         detail: "Warning",
         summary: "Please fill required fields",
         duration: 2000,
       });
-      return;
+      return; 
     }
 
     const role = new Role();

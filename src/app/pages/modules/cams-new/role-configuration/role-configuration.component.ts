@@ -362,7 +362,7 @@ export class RoleConfigurationComponent {
   }
 
   onAddRoleButtonClicked(): void {
-    this.openModal("Add", "New Role", "", "", 0, "","","",true,0);
+    this.openModal("Add", "New Role", "", "", "", "","","",true,0);
   }
 
   onViewPermissionButtonClicked(row: any) {
@@ -417,7 +417,7 @@ export class RoleConfigurationComponent {
     modalTitle: string,
     roleCode: string,
     roleName: string,
-    platformId: number,
+    platformId: string,
     platformName:string,
     //description: string,
     createdDate: string,
