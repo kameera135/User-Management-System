@@ -100,13 +100,20 @@
               name="phoneNumber"
               [disabled]="type == 'View'"
               formControlName="phoneNumber"
+              placeholder="e.g., 6512345678"
             />
             <div *ngIf="isControlInvalid('phoneNumber')">
-              <span class="error-text">Phone Number is required.</span>
+              <div *ngIf="form.controls['phoneNumber']?.hasError('required')">
+                <span class="error-text">Phone Number is required.</span>
+              </div>
+              <div *ngIf="form.controls['phoneNumber']?.hasError('pattern') && form.controls['phoneNumber']?.dirty && !form.controls['phoneNumber']?.hasError('required')">
+                <span class="error-text">Invalid phone number. Please enter only numeric values.</span>
+              </div>
+              <div *ngIf="form.controls['phoneNumber']?.hasError('invalidPhoneNumber') && form.controls['phoneNumber']?.dirty && !form.controls['phoneNumber']?.hasError('required') && !form.controls['phoneNumber']?.hasError('pattern')">
+                <span class="error-text">Invalid phone number type.</span>
+              </div>
             </div>
-            <!-- <div *ngIf="form.controls['phoneNumber'].hasError('invalidPhoneNumber')">
-              Invalid phone number.
-            </div> -->
+            <div class="form-text text-muted">Please enter the phone number in the format: 65xxxxxxxx</div>
           </div>
         </div>
         
@@ -120,7 +127,7 @@
               <span class="required-star" *ngIf="type == 'Add'  || type == 'Edit'">*</span>
             </label>
             <input
-              type="text"
+              type="email"
               class="form-control"
               [(ngModel)]="email"
               name="email"
@@ -128,8 +135,14 @@
               formControlName="email"
             />
             <div *ngIf="isControlInvalid('email')">
-              <span class="error-text">Email is required.</span>
+              <div *ngIf="form.controls['email']?.hasError('required')">
+                <span class="error-text">Email is required.</span>
+              </div>
+              <div *ngIf="form.controls['email']?.hasError('pattern') && form.controls['email']?.dirty && !form.controls['email']?.hasError('required')">
+                <span class="error-text">Invalid email address. Please enter a valid email.</span>
+              </div>
             </div>
+            <div class="form-text text-muted">Please enter a valid email address in the format: john.doe@example.com</div>
           </div>
         </div>
   
@@ -164,7 +177,7 @@
           </div>
         </div>
 
-        <div class="col-12 mx-auto" *ngIf="type != 'View'">
+        <div class="col-12 mx-auto" *ngIf="type != 'View' && isFormValid()">
           <div class="d-flex justify-content-end">
             <!--Next button-->
             <button

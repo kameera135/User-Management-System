@@ -80,6 +80,31 @@ export class UserViewModalComponent {
     this.showPasswordFields = false;
   }
 
+  isFormValid(): boolean {
+    return this.form.valid && this.form.dirty;
+  }
+
+  // Assuming this is in your component class
+  isControlInvalidEmail(controlName: string): boolean {
+  const control = this.form.get(controlName);
+
+  if (!control) {
+    return false;
+  }
+
+  if (control.hasError('required') || control.hasError('pattern')) {
+    return true;
+  }
+
+  // Additional check for email to ensure it contains "@"
+  if (controlName === 'email' && control.value && !control.value.includes('@')) {
+    return true;
+  }
+
+  return false;
+  }
+
+
   ngOnInit() {
     if (this.type == "Add") {
       this.buttonName = "Add";
@@ -122,7 +147,7 @@ export class UserViewModalComponent {
     return (control: AbstractControl): ValidationErrors | null => {
       const value = control.value;
       // Use a regular expression to check if it's a Singapore phone number
-      const singaporePhoneNumberPattern = /^\+65\d{8}$/; // Customize the pattern as needed
+      const singaporePhoneNumberPattern = /^65\d{8}$/; // Customize the pattern as needed
 
       if (value && !singaporePhoneNumberPattern.test(value)) {
         return { invalidPhoneNumber: true };
@@ -134,7 +159,7 @@ export class UserViewModalComponent {
 
   isControlInvalid(controlName: string): boolean | null{
     const control = this.form?.get(controlName);
-    return !!control && control.touched && control.invalid;
+    return !!control && (control.dirty||control.touched) && control.invalid;
   }
 
   getRolesAndPlatforms(userId: number) {
