@@ -164,7 +164,7 @@ export class UsersViewComponent {
   }
 
   onAddUserButtonClicked(): void {
-    this.openModal("Add", "New User Account", "", "", "", "", "", "", "", "");
+    this.openModal("Add", "New User Account", "", "","", "", "", "", "", "", "");
   }
 
   onEditButtonClicked(row: any) {
@@ -178,6 +178,7 @@ export class UsersViewComponent {
       row.Email,
       row.PhoneNumber,
       row.Password,
+      "",
       row.UserId
     );
   }
@@ -193,6 +194,7 @@ export class UsersViewComponent {
       row.Email,
       row.PhoneNumber,
       row.password,
+      "",
       row.UserId
     );
   }
@@ -207,6 +209,7 @@ export class UsersViewComponent {
     email: string,
     phoneNumber: string,
     password: string,
+    confirmPassword:string,
     userId: string
   ): void {
     const modalRef = this.modalService.open(UserViewModalComponent, {
@@ -226,6 +229,7 @@ export class UsersViewComponent {
     modalRef.componentInstance.email = email;
     modalRef.componentInstance.phoneNumber = phoneNumber;
     modalRef.componentInstance.password = password;
+    modalRef.componentInstance.confirmPassword = confirmPassword;
     modalRef.componentInstance.userId = userId;
 
     modalRef.result
@@ -265,6 +269,7 @@ export class UsersViewComponent {
                     email,
                     phoneNumber,
                     password,
+                    confirmPassword,
                     userId
                   );
                 } else {
@@ -279,6 +284,7 @@ export class UsersViewComponent {
                     email,
                     phoneNumber,
                     password,
+                    confirmPassword,
                     userId
                   );
                 }

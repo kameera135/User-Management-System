@@ -13,7 +13,7 @@
   </button>
 </div>
 
-<div *ngIf="type != 'View'" class="d-flex justify-content-center align-items-center">
+<div *ngIf="type == 'Add' && isFormValid() || type == 'Edit'" class="d-flex justify-content-center align-items-center">
   <button type="button" class="btn btn-link btn-lg" (click)="showUserDetailsPage()">
     <i class="bi bi-person-vcard-fill"></i>
   </button>
@@ -113,7 +113,7 @@
                 <span class="error-text">Invalid phone number type.</span>
               </div>
             </div>
-            <div class="form-text text-muted">Please enter the phone number in the format: 65xxxxxxxx</div>
+            <div class="form-text text-muted" *ngIf="type == 'Add'">Please enter the phone number in the format: 65xxxxxxxx</div>
           </div>
         </div>
         
@@ -142,7 +142,7 @@
                 <span class="error-text">Invalid email address. Please enter a valid email.</span>
               </div>
             </div>
-            <div class="form-text text-muted">Please enter a valid email address in the format: john.doe@example.com</div>
+            <div class="form-text text-muted" *ngIf="type == 'Add'">Please enter a valid email address in the format:johndoe@example.com</div>
           </div>
         </div>
   
@@ -219,8 +219,8 @@
         </div>
       </div>
 
-      <div *ngIf="showPasswordFields">
-        <div class="col-12" *ngIf="type !== 'View'">
+      <div class="row" *ngIf="(showPasswordFields && isFormValid() && type === 'Add') || (showPasswordFields && type === 'Edit')">
+        <div class="col-12">
           <div class="mb-3">
             <label class="col-form-label">Password</label>
             <input
@@ -228,11 +228,12 @@
               class="form-control"
               [(ngModel)]="password"
               name="password"
+              formControlName="password"
             />
           </div>
         </div>
   
-        <div class="col-12" *ngIf="type !== 'View'">
+        <div class="col-12">
           <div class="mb-3">
             <label class="col-form-label">Confirm Password</label>
             <input
@@ -240,6 +241,7 @@
               class="form-control"
               [(ngModel)]="confirmPassword"
               name="confirmPassword"
+              formControlName="confirmPassword"
             />
           </div>
         </div>

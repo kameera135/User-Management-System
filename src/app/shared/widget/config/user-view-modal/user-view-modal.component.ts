@@ -29,6 +29,7 @@ export class UserViewModalComponent {
   @Input() confirmPassword!: string;
   @Input() userId!: number;
 
+
   platformsRoles: any = [];
   userPlatformRole!: PlatformRole;
   userPlatformsRoles!: PlatformRole[];
@@ -55,7 +56,9 @@ export class UserViewModalComponent {
     private fb: FormBuilder
   ) {
     this.form = this.fb.group({
-      phoneNumber: ['', [Validators.required, this.phoneNumberValidator]]
+      phoneNumber: ['', [Validators.required, this.phoneNumberValidator]],
+      password: ['', Validators.required],
+      confirmPassword: ['', Validators.required],
     });
   }
 
@@ -80,28 +83,9 @@ export class UserViewModalComponent {
     this.showPasswordFields = false;
   }
 
+  //check the form validation
   isFormValid(): boolean {
     return this.form.valid && this.form.dirty;
-  }
-
-  // Assuming this is in your component class
-  isControlInvalidEmail(controlName: string): boolean {
-  const control = this.form.get(controlName);
-
-  if (!control) {
-    return false;
-  }
-
-  if (control.hasError('required') || control.hasError('pattern')) {
-    return true;
-  }
-
-  // Additional check for email to ensure it contains "@"
-  if (controlName === 'email' && control.value && !control.value.includes('@')) {
-    return true;
-  }
-
-  return false;
   }
 
 
@@ -115,9 +99,6 @@ export class UserViewModalComponent {
     } else {
       this.buttonName = "Edit";
       this.buttonIcon = "bi-pencil-fill";
-    }
-
-    if (this.type == "View") {
       this.getRolesAndPlatforms(this.userId);
     }
 
@@ -138,7 +119,9 @@ export class UserViewModalComponent {
         this.sgPhoneNumberValidator(), // Custom validator for Singapore phone number
       ],
       ),
-      email: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required,Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)]),
+      password: new FormControl(),
+      confirmPassword : new FormControl(),
     });
   }
 
@@ -161,6 +144,7 @@ export class UserViewModalComponent {
     const control = this.form?.get(controlName);
     return !!control && (control.dirty||control.touched) && control.invalid;
   }
+  
 
   getRolesAndPlatforms(userId: number) {
     this.loadingInProgress = true;
@@ -196,22 +180,21 @@ export class UserViewModalComponent {
   }
 
   onFormSubmit() {
-    if (
-      this.userName == "" ||
-      this.firstName == "" ||
-      this.lastName == "" ||
-      this.password == "" ||
-      this.email == ""
-    ) {
+    if (this.form.value.userName == ""||
+      this.form.value.firstName == "" ||
+      this.form.value.lastName == "" ||
+      this.form.value.email == "" ||
+      this.form.value.phoneNumber == "" 
+      ) {
       this.notifierService.warning({
-        detail: "Warning",
-        summary: "Please fill required fields",
+        detail: 'Warning',
+        summary: 'Please fill required fields',
         duration: 2000,
       });
       return;
     }
 
-    if (this.password != this.confirmPassword) {
+    if (this.form.value.password != this.form.value.confirmPassword) {
       this.notifierService.warning({
         detail: "Warning",
         summary: "Please confirm the password",
@@ -221,12 +204,13 @@ export class UserViewModalComponent {
     }
 
     const user = new User();
-    user.userName = this.userName;
-    user.firstName = this.firstName;
-    user.lastName = this.lastName;
-    user.email = this.email;
-    user.phone = this.phoneNumber;
-    user.password = this.password;
+    user.userName = this.form.value.userName;
+    user.firstName = this.form.value.firstName;
+    user.lastName = this.form.value.lastName;
+    user.email = this.form.value.email;
+    user.phone = this.form.value.phoneNumber;
+    user.password = this.form.value.password;
+    user.confirmPassword = this.form.value.confirmPassword;
     user.userId = this.userId;
 
     this.activeModal.close(user);
