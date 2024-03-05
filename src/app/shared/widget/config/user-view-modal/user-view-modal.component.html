@@ -40,7 +40,7 @@
               class="form-control"
               [(ngModel)]="userName"
               name="userName"
-              [disabled]="type == 'View'"
+              [readonly]="type == 'View'"
               formControlName="userName"
             />
             <div *ngIf="isControlInvalid('userName')">
@@ -60,7 +60,7 @@
               class="form-control"
               [(ngModel)]="firstName"
               name="firstName"
-              [disabled]="type == 'View'"
+              [readonly]="type == 'View'"
               formControlName="firstName"
             />
             <div *ngIf="isControlInvalid('firstName')">
@@ -79,7 +79,7 @@
               class="form-control"
               [(ngModel)]="lastName"
               name="lastName"
-              [disabled]="type == 'View'"
+              [readonly]="type == 'View'"
               formControlName="lastName"
             />
             <div *ngIf="isControlInvalid('lastName')">
@@ -98,7 +98,7 @@
               class="form-control"
               [(ngModel)]="phoneNumber"
               name="phoneNumber"
-              [disabled]="type == 'View'"
+              [readonly]="type == 'View'"
               formControlName="phoneNumber"
               placeholder="e.g., 6512345678"
             />
@@ -131,7 +131,7 @@
               class="form-control"
               [(ngModel)]="email"
               name="email"
-              [disabled]="type == 'View'"
+              [readonly]="type == 'View'"
               formControlName="email"
             />
             <div *ngIf="isControlInvalid('email')">
