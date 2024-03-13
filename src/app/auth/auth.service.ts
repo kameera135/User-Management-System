@@ -1,7 +1,7 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { User } from '../shared/models/User';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
@@ -9,6 +9,7 @@ import { CrossStorageClient } from 'cross-storage';
 import { UserInformationService } from './user-information.service';
 import { shareReplay, tap } from "rxjs/operators";
 import * as moment from "moment";
+import { auth } from '../shared/models/Cams-new/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -121,14 +122,14 @@ export class AuthService {
   // }
 
   //log in to the system
-  login(username:string, password:string){
-    let queryParams = new HttpParams();
+  // login(username:string, password:string){
+  //   let queryParams = new HttpParams();
 
-    queryParams = queryParams.append('username',username);
-    queryParams = queryParams.append('password',password);
+  //   queryParams = queryParams.append('username',username);
+  //   queryParams = queryParams.append('password',password);
 
-    return this.httpClient.post<any>(`${this.baseUrl}/login`,{queryParams}).pipe(tap(res => this.setSession(res)),shareReplay());
-  }
+  //   return this.httpClient.post<any>(`${this.baseUrl}/login`,{queryParams}).pipe(tap(res => this.setSession(res)),shareReplay());
+  // }
 
   //to store token in session
   private setSession(authResult: any) {
@@ -141,6 +142,17 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem("id_token");
     localStorage.removeItem("expires_at");
+    localStorage.removeItem("jwtToken");
+
+    // Clear session storage
+    sessionStorage.clear();
+
+    // Redirect to the login page without adding the logout action to the browser's history
+    const navigationExtras: NavigationExtras = {
+      skipLocationChange: true
+    };
+    
+    this.router.navigate(['/login'], navigationExtras);
   }
 
   public isLoggedIn(): boolean {
@@ -200,6 +212,14 @@ export class AuthService {
   getRoleFromToken(){
     if(this.userPayload)
     return this.userPayload.role;
+  }
+
+  login(model: auth){
+    let queryParams = new HttpParams();
+
+    return this.httpClient.post(`${environment.apiBase}/api/user/login`,model,{
+      params:queryParams
+    });
   }
 
   // renewToken(tokenApi : TokenApiModel){

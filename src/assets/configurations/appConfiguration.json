@@ -7,7 +7,7 @@
   "nameOfOrganization": "Marina One",
   "footerMessage": "Design & Develop by Azbil",
   "moduleName": "User Management System",
-  "moduleNameColor": "red",
+  "moduleNameColor": "#B29A39",
   "datePickerDateFormat": {
     "year": "numeric",
     "month": "short",
@@ -70,7 +70,8 @@
   "platformList": [
     { "value": "Airecon Extention System", "id": "AES" },
     { "value": "Tenant Billing System", "id": "TBS" },
-    { "value": "Energy Management System", "id": "EMS" }
+    { "value": "Energy Management System", "id": "EMS" },
+    { "value": "Facility Booking System", "id": "FBS" }
   ],
 
   "status": [

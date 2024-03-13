@@ -12,7 +12,7 @@ import { UsersViewComponent } from "./modules/cams-new/users-view/users-view.com
 import { SystemTokensComponent } from "./modules/cams-new/system-tokens/system-tokens.component";
 import { PasswordPolicyComponent } from "./modules/cams-new/password-policy/password-policy.component";
 import { PlatformUsersComponent } from "./modules/cams-new/platform-users/platform-users.component";
-import { LoginComponent } from "../auth/login/login.component";
+//import { LoginComponent } from "../auth/login/login.component";
 import { AuthGuard } from "../auth/auth.guard";
 
 const routes: Routes = [
@@ -21,10 +21,6 @@ const routes: Routes = [
     redirectTo: "dashboard",
     pathMatch: "full",
   },
-  // {
-  //   path: "auth/login",
-  //   component: LoginComponent,
-  // },
   {
     path: "dashboard",
     component: DashboardComponent,
@@ -61,6 +57,10 @@ const routes: Routes = [
     path: "platform-users/:id",
     component: PlatformUsersComponent
   },
+  {
+    path: "user-account",
+    component: UserAccountComponent
+  }
 ];
 
 @NgModule({

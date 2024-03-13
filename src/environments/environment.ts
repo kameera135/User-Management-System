@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   signOn: "http://192.168.1.40:8062",
   // apiBase: 'http://13.229.243.107:97/api',
-  apiBase: 'http://127.0.0.1:3000/api',
+  apiBase: 'https://localhost:8745',
   defaultauth: 'fackbackend',
   appName: 'CMS',
   storage: 'localStorage',

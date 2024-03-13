@@ -150,16 +150,6 @@ export class TopbarComponent implements OnInit {
     return "assets/images/user.png";
   }
 
-  // windowScroll() {
-  //   if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-  //     (document.getElementById("back-to-top") as HTMLElement).style.display = "block";
-  //     document.getElementById('page-topbar')?.classList.add('topbar-shadow');
-  //   } else {
-  //     (document.getElementById("back-to-top") as HTMLElement).style.display = "none";
-  //     document.getElementById('page-topbar')?.classList.remove('topbar-shadow');
-  //   }
-  // }
-
   windowScroll() {
     const body = document.body;
     const documentElement = document.documentElement;

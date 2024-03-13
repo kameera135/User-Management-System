@@ -240,134 +240,390 @@
 //   }
 // }
 
-.fr {
-  display: block;
-  float: right;
+// .fr {
+//   display: block;
+//   float: right;
+// }
+
+// .outer {
+//   height: 100vh;
+//   background: linear-gradient(to top, #c9c9ff 50%, #6e6ef6 90%) no-repeat;
+// }
+
+// .panel-heading {
+//   text-align: center;
+//   margin-bottom: 10px
+// }
+
+// #forgot {
+//   min-width: 100px;
+//   margin-left: auto;
+//   text-decoration: none;
+//   cursor: pointer;
+// }
+
+// a:hover {
+//   text-decoration: none
+// }
+
+// .form-inline label {
+//   padding-left: 10px;
+//   margin: 0;
+//   cursor: pointer
+// }
+
+// .btn {
+//   margin-top: 20px;
+//   border-radius: 15px
+// }
+
+// .panel {
+//   min-height: 380px;
+//   box-shadow: 20px 20px 80px rgb(218, 218, 218);
+//   border-radius: 12px;
+//   margin-top: 100px
+// }
+
+// .input-field {
+//   border-radius: 5px;
+//   padding: 5px;
+//   display: flex;
+//   align-items: center;
+//   cursor: pointer;
+//   border: 1px solid #ddd;
+//   color: #4343ff
+// }
+
+// .input-field.error {
+//   border: 1px solid red;
+//   color: red;
+// }
+
+// input[type='text'],
+// input[type='password'] {
+//   border: none;
+//   outline: none;
+//   box-shadow: none;
+//   width: 100%
+// }
+
+// .fa-eye-slash.btn {
+//   border: none;
+//   outline: none;
+//   box-shadow: none
+// }
+
+// img {
+//   width: 40px;
+//   height: 40px;
+//   object-fit: cover;
+//   border-radius: 50%;
+//   position: relative
+// }
+
+
+// /* a[target='_blank'] {
+// position: relative;
+// transition: all 0.1s ease-in-out
+// } */
+
+// .bordert {
+//   border-top: 1px solid #aaa;
+//   position: relative
+// }
+
+// .bordert:after {
+//   content: "or connect with";
+//   position: absolute;
+//   top: -13px;
+//   left: 33%;
+//   background-color: #fff;
+//   padding: 0px 8px
+// }
+
+// @media(max-width: 360px) {
+//   #forgot {
+//       margin-left: 0;
+//       padding-top: 10px
+//   }
+//   body {
+//       height: 100%
+//   }
+//   .container {
+//       margin: 30px 0
+//   }
+//   .bordert:after {
+//       left: 25%
+//   }
+// }
+
+
+// /* Added Css for eye icon button */
+
+// .bg-white {
+//   background: none;
+//   border: none;
+// }
+
+
+// /* added height css for ngtoast */
+
+// .toast-right-top {
+//   height: auto !important;
+// }
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+*{  
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body{
+    //background-image: url({{loginBackgroudImageUrl}});
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    overflow: hidden;
+    position:relative;
+}
+.wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 110vh;
+    background: rgba(39, 39, 39, 0.4);
+}
+.nav{
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 100px;
+    line-height: 100px;
+    background: linear-gradient(rgba(39,39,39, 0.6), transparent);
+    z-index: 100;
+}
+.nav-logo p{
+    color: white;
+    font-size: 25px;
+    font-weight: 600;
+    margin-right: 1300px;
 }
 
-.outer {
-  height: 100vh;
-  background: linear-gradient(to top, #c9c9ff 50%, #6e6ef6 90%) no-repeat;
+.logo{
+    color: white;
+    font-size: 25px;
+    font-weight: 600;
+    margin-top: 20px;
 }
-
-.panel-heading {
-  text-align: center;
-  margin-bottom: 10px
+.nav-menu ul{
+    display: flex;
 }
-
-#forgot {
-  min-width: 100px;
-  margin-left: auto;
-  text-decoration: none;
-  cursor: pointer;
+.nav-menu ul li{
+    list-style-type: none;
 }
-
-a:hover {
-  text-decoration: none
+.nav-menu ul li .link{
+    text-decoration: none;
+    font-weight: 500;
+    color: #fff;
+    padding-bottom: 15px;
+    margin: 0 25px;
 }
-
-.form-inline label {
-  padding-left: 10px;
-  margin: 0;
-  cursor: pointer
+.link:hover, .active{
+    border-bottom: 2px solid #fff;
 }
-
-.btn {
-  margin-top: 20px;
-  border-radius: 15px
+.nav-button .btn{
+    width: 130px;
+    height: 40px;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.4);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: .3s ease;
+    margin-left: 1000px;
 }
-
-.panel {
-  min-height: 380px;
-  box-shadow: 20px 20px 80px rgb(218, 218, 218);
-  border-radius: 12px;
-  margin-top: 100px
+.btn:hover{
+    background: rgba(255, 255, 255, 0.3);
 }
-
-.input-field {
-  border-radius: 5px;
-  padding: 5px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  border: 1px solid #ddd;
-  color: #4343ff
+#registerBtn{
+    margin-left: 15px;
 }
-
-.input-field.error {
-  border: 1px solid red;
-  color: red;
+.btn.white-btn{
+    background: rgba(255, 255, 255, 0.7);
 }
-
-input[type='text'],
-input[type='password'] {
-  border: none;
-  outline: none;
-  box-shadow: none;
-  width: 100%
+.btn.btn.white-btn:hover{
+    background: rgba(255, 255, 255, 0.5);
 }
-
-.fa-eye-slash.btn {
-  border: none;
-  outline: none;
-  box-shadow: none
+.nav-menu-btn{
+    display: none;
 }
-
-img {
-  width: 40px;
-  height: 40px;
-  object-fit: cover;
-  border-radius: 50%;
-  position: relative
+.form-box{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 512px;
+    height: 420px;
+    overflow: hidden;
+    z-index: 2;
 }
-
-
-/* a[target='_blank'] {
-position: relative;
-transition: all 0.1s ease-in-out
-} */
-
-.bordert {
-  border-top: 1px solid #aaa;
-  position: relative
+.login-container{
+    position: absolute;
+    left: 4px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    transition: .5s ease-in-out;
 }
-
-.bordert:after {
-  content: "or connect with";
-  position: absolute;
-  top: -13px;
-  left: 33%;
-  background-color: #fff;
-  padding: 0px 8px
+.register-container{
+    position: absolute;
+    right: -520px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    transition: .5s ease-in-out;
 }
-
-@media(max-width: 360px) {
-  #forgot {
-      margin-left: 0;
-      padding-top: 10px
-  }
-  body {
-      height: 100%
-  }
-  .container {
-      margin: 30px 0
-  }
-  .bordert:after {
-      left: 25%
-  }
+.top span{
+    color: #fff;
+    font-size: small;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
 }
-
-
-/* Added Css for eye icon button */
-
-.bg-white {
-  background: none;
-  border: none;
+.top span a{
+    font-weight: 500;
+    color: #fff;
+    margin-left: 5px;
 }
+header{
+    color: #fff;
+    font-size: 30px;
+    text-align: center;
+    padding: 10px 0 30px 0;
+}
+.two-forms{
+    display: flex;
+    gap: 10px;
+}
+.input-field{
+    font-size: 15px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    height: 50px;
+    width: 100%;
+    padding: 0 10px 0 45px;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    transition: .2s ease;
+}
+.input-field:hover, .input-field:focus{
+    background: rgba(255, 255, 255, 0.25);
+}
+::-webkit-input-placeholder{
+    color: #fff;
+}
+.input-box i{
+    position: relative;
+    top: -35px;
+    left: 17px;
+    color: #fff;
+}
+.submit{
+    font-size: 15px;
+    font-weight: 500;
+    color: black;
+    height: 45px;
+    width: 100%;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: .3s ease-in-out;
+}
+.submit:hover{
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 1px 5px 7px 1px rgba(0, 0, 0, 0.2);
+}
+.two-col{
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    font-size: small;
+    margin-top: 10px;
+}
+.two-col .one{
+    display: flex;
+    gap: 5px;
+}
+.two label a{
+    text-decoration: none;
+    color: #fff;
+}
+.two label a:hover{
+    text-decoration: underline;
+}
+@media only screen and (max-width: 786px){
+    .logo{
+        display: none;
+    }
+    .nav-menu.responsive{
+        top: 100px;
+    }
+    .nav-menu{
+        position: absolute;
+        top: -800px;
+        display: flex;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.2);
+        width: 100%;
+        height: 90vh;
+        backdrop-filter: blur(20px);
+        transition: .3s;
+    }
+    .nav-menu ul{
+        flex-direction: column;
+        text-align: center;
+    }
+    .nav-menu-btn{
+        display: block;
+    }
+    .nav-menu-btn i{
+        font-size: 25px;
+        color: #fff;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        cursor: pointer;
+        transition: .3s;
+    }
+    .nav-menu-btn i:hover{
+        background: rgba(255, 255, 255, 0.15);
+    }
+}
+@media only screen and (max-width: 540px) {
+    .wrapper{
+        min-height: 100vh;
+    }
+    .form-box{
+        width: 100%;
+        height: 500px;
+    }
+    .register-container, .login-container{
+        width: 100%;
+        padding: 0 20px;
+    }
+    .register-container .two-forms{
+        flex-direction: column;
+        gap: 0;
+    }
 
-
-/* added height css for ngtoast */
-
-.toast-right-top {
-  height: auto !important;
+    .nav-button logo{
+        display: none;
+    }
 }

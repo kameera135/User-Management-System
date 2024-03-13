@@ -20,12 +20,16 @@ export class DashboardCardComponent {
 
 
   goToPage(path: string) {
-
-    this.eventEmitService.emitData(path);
-
-    this.router.navigate([path]);
-  }
-
+    // Check if the path is an external URL
+    if (path.startsWith('http') || path.startsWith('www')) {
+      // If it's an external URL, open it in a new tab/window
+      window.open(path, '_blank');
+    } else {
+      // Otherwise, it's an internal route
+      this.eventEmitService.emitData(path);
+      this.router.navigate([path]);
+    }
+  } 
 }
 
 

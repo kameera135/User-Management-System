@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { UserInformationService } from '../user-information.service';
 import { HorizontalComponent } from 'src/app/layouts/theme/theme.component';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { auth } from 'src/app/shared/models/Cams-new/auth';
 // import { AsseteTreeService } from 'src/app/services/Modules/aes/assete-tree.service';
 // import { MapperService } from 'src/app/services/Modules/aes/mapper.service';
 
@@ -18,19 +19,27 @@ export class LoginComponent {
   error!: string;
   loading!: boolean;
   submitted!: boolean;
-  loginForm!: FormGroup;
 
   isDarkMode: boolean = true;
+
+  credentials!: auth;
 
   
   type: string = 'password';
   isText: boolean = false;
   eyeIcon: string = 'fa-eye-slash';
 
+  form!: FormGroup;
+
+  isLoginActive: boolean = true;
+  loginLeft: number = 4;
+  registerRight: number = -520;
+  loginOpacity: number = 1;
+  registerOpacity: number = 0;
+
   constructor(
     private auth: AuthService, private router: Router,
     private actRoute: ActivatedRoute,
-    private horizontalComponent: HorizontalComponent,
     private fb: FormBuilder,
     // private asseteTreeService: AsseteTreeService,
     // private mapper: MapperService,
@@ -87,7 +96,7 @@ export class LoginComponent {
     //   }
     // });
 
-    this.loginForm = this.fb.group({
+    this.form = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
     });
@@ -127,8 +136,33 @@ export class LoginComponent {
   //   }
   // }
 
-  onSubmit() {
-    throw new Error('Method not implemented.');
+    login() {
+      this.credentials = this.form.value;
+  
+      this.loginLeft = 4;
+      this.registerRight = -520;
+      this.isLoginActive = true;
+      this.loginOpacity = 1;
+      this.registerOpacity = 0;
+  
+      //this.credentials = new auth();
+  
+      this.auth.login(this.credentials).subscribe({
+        next:(response:any) => {
+          console.log(response);
+          const jwtToken = response.token;
+  
+          // Store the JWT in local storage or a secure cookie
+          localStorage.setItem('jwtToken', jwtToken);
+  
+          // Redirect to a secure page or handle authentication success
+          this.router.navigate(['dashboard']);
+        },
+        error: (error:any) => {
+          // Handle authentication error
+          console.error('Authentication failed:', error);
+        }
+      });
     }
 
 }

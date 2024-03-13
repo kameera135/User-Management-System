@@ -3,3 +3,13 @@ h5{
     margin-top: 3%;
     margin-bottom: 2%;
 }
+
+@media only screen and (max-width: 600px) {
+    h2 {
+      font-size: 15px;
+    }
+  
+    .label-icon {
+      font-size: 20px;
+    }
+  }
