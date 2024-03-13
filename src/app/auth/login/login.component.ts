@@ -29,7 +29,7 @@ export class LoginComponent {
   isText: boolean = false;
   eyeIcon: string = 'fa-eye-slash';
 
-  form!: FormGroup;
+  loginForm!: FormGroup;
 
   isLoginActive: boolean = true;
   loginLeft: number = 4;
@@ -96,7 +96,7 @@ export class LoginComponent {
     //   }
     // });
 
-    this.form = this.fb.group({
+    this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
     });
@@ -136,33 +136,42 @@ export class LoginComponent {
   //   }
   // }
 
-    login() {
-      this.credentials = this.form.value;
-  
-      this.loginLeft = 4;
-      this.registerRight = -520;
-      this.isLoginActive = true;
-      this.loginOpacity = 1;
-      this.registerOpacity = 0;
-  
-      //this.credentials = new auth();
-  
-      this.auth.login(this.credentials).subscribe({
-        next:(response:any) => {
-          console.log(response);
-          const jwtToken = response.token;
-  
-          // Store the JWT in local storage or a secure cookie
-          localStorage.setItem('jwtToken', jwtToken);
-  
-          // Redirect to a secure page or handle authentication success
-          this.router.navigate(['dashboard']);
-        },
-        error: (error:any) => {
-          // Handle authentication error
-          console.error('Authentication failed:', error);
-        }
-      });
-    }
+  login() {
+    this.credentials = this.loginForm.value;
 
+    this.loginLeft = 4;
+    this.registerRight = -520;
+    this.isLoginActive = true;
+    this.loginOpacity = 1;
+    this.registerOpacity = 0;
+
+    //this.credentials = new auth();
+
+    this.auth.login(this.credentials).subscribe({
+      next:(response:any) => {
+        console.log(response);
+        const jwtToken = response.token;
+
+        // Store the JWT in local storage or a secure cookie
+        localStorage.setItem('jwtToken', jwtToken);
+
+        // Redirect to a secure page or handle authentication success
+        this.router.navigate(['dashboard']);
+      },
+      error: (error:any) => {
+        // Handle authentication error
+        console.error('Authentication failed:', error);
+      }
+    });
+  }
+
+  validateControl = (controlName: string) => {
+    const control = this.loginForm.get(controlName);
+    return control ? control.invalid && control.touched : false;
+  }
+
+  hasError = (controlName: string, errorName: string) => {
+    const control = this.loginForm.get(controlName);
+    return control ? control.hasError(errorName) : false;
+  }
 }

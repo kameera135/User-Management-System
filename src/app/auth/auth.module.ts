@@ -7,11 +7,13 @@ import { LayoutsModule } from '../layouts/layouts.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from '../layouts/navbar/navbar.component';
 import { PagesModule } from '../pages/pages.module';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 
 
 @NgModule({
-    declarations: [LoginComponent],
+    declarations: [LoginComponent, ResetPasswordComponent, ForgotPasswordComponent],
     imports: [
         CommonModule,
         AuthRoutingModule,
