@@ -153,7 +153,7 @@ export class LoginComponent {
         const jwtToken = response.token;
 
         // Store the JWT in local storage or a secure cookie
-        localStorage.setItem('jwtToken', jwtToken);
+        localStorage.setItem('jwt', jwtToken);
 
         // Redirect to a secure page or handle authentication success
         this.router.navigate(['dashboard']);

@@ -142,7 +142,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem("id_token");
     localStorage.removeItem("expires_at");
-    localStorage.removeItem("jwtToken");
+    localStorage.removeItem("jwt");
 
     // Clear session storage
     sessionStorage.clear();

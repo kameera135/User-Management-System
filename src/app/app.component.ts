@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -12,5 +12,10 @@ export class AppComponent {
 
   constructor(private http: HttpClient) {
 
+  }
+
+  @HostListener("window:beforeunload", ["$event"])
+  clearLocalStorage(event: any) {
+    localStorage.clear();
   }
 }

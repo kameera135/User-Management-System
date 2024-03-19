@@ -33,9 +33,15 @@ import { AuthGuard } from "./auth/auth.guard";
 import { AuthService } from "./auth/auth.service";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AuthModule } from "./auth/auth.module";
+import { JwtModule } from "@auth0/angular-jwt"; //for install npm i @auth0/angular-jwt
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, "assets/i18n/", ".json");
+}
+
+//to get token from local storage
+export function tokenGetter() {
+  return localStorage.getItem("token");
 }
 
 @NgModule({
@@ -58,7 +64,14 @@ export function createTranslateLoader(http: HttpClient): any {
     NgbModule,
     NgToastModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    JwtModule.forRoot({
+      config: {
+          tokenGetter: tokenGetter,
+          allowedDomains : [], // replace with  your domain, i.e.: https://myapp.com
+          disallowedRoutes: []
+      }
+  })
   ],
   providers: [
     [

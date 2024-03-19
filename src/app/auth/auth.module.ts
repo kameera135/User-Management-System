@@ -22,3 +22,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     ]
 })
 export class AuthModule { }
+
+export function tokenGetter() {
+    return localStorage.getItem("token");
+  }
+

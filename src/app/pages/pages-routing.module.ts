@@ -24,42 +24,52 @@ const routes: Routes = [
   {
     path: "dashboard",
     component: DashboardComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "platform-configuration",
     component: PlatformConfigurationComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "permission-configuration",
     component: PermissionConfigurationComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "role-configuration",
     component: RoleConfigurationComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "users-view",
     component: UsersViewComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "activity-logs",
     component: ActivityLogsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "system-tokens",
     component: SystemTokensComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "password-policy",
     component: PasswordPolicyComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "platform-users/:id",
-    component: PlatformUsersComponent
+    component: PlatformUsersComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "user-account",
-    component: UserAccountComponent
+    component: UserAccountComponent,
+    canActivate: [AuthGuard]
   }
 ];
 
