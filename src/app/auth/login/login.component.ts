@@ -62,6 +62,8 @@ export class LoginComponent {
   ngOnInit(): void {
 
     this.loading = true;
+
+    
     // this.auth.checkSingleSignOn('/').subscribe(res => {
     //   if (res) {
 
@@ -155,15 +157,31 @@ export class LoginComponent {
         // Store the JWT in local storage or a secure cookie
         localStorage.setItem('jwt', jwtToken);
 
-        // Redirect to a secure page or handle authentication success
-        this.router.navigate(['dashboard']);
+        // Check if there's a stored URL
+        const lastVisitedPage = localStorage.getItem('lastVisitedPage');
+        if (lastVisitedPage) {
+          // Redirect to the last visited page
+          this.router.navigateByUrl(lastVisitedPage);
+          // Remove the stored URL
+          localStorage.removeItem('lastVisitedPage');
+          
+        } else {
+          // If there's no stored URL, redirect to the default dashboard page
+          this.router.navigate(['dashboard']);
+        }
       },
-      error: (error:any) => {
+      error: (error: any) => {
         // Handle authentication error
         console.error('Authentication failed:', error);
       }
     });
   }
+
+  handleSessionExpired() {
+    // Store the current URL before redirecting to the login page
+    localStorage.setItem('lastVisitedPage', this.router.url);
+    this.router.navigate(['login']);
+}
 
   validateControl = (controlName: string) => {
     const control = this.loginForm.get(controlName);

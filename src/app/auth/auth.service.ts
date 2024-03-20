@@ -14,6 +14,7 @@ import { AppService } from '../app.service';
 import { appSettingModel } from '../shared/models/appSettingModel';
 import { forgotPassword } from '../shared/models/Cams-new/forgotPassword';
 import { resetPassword } from '../shared/models/Cams-new/resetPassword';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -107,20 +108,37 @@ export class AuthService {
   // }
 
   public getUser() {
-    try {
-      if (!this.user && isPlatformBrowser(this.platformId)) {
-        let user = JSON.parse((window as { [key: string]: any })[environment.storage].getItem(`${environment.appName}-auth`));
 
-        if (user)
-          this.user = new User(user);
+    let user: User | null = null;
+    try {
+      //if (!this.user && isPlatformBrowser(this.platformId)) {
+        // let user = JSON.parse((window as { [key: string]: any })[environment.storage].getItem(`${environment.appName}-auth`));
+
+        // if (user)
+        //   this.user = new User(user);
+        const jwtToken = localStorage.getItem('jwt');
+        if (jwtToken) {
+          const decodedToken = this.decodeToken(jwtToken);
+          if (decodedToken) {
+            user = new User(decodedToken);
+
+            console.log(user);
+          }
+        //}
       }
     }
     catch (e) {
       console.log(e);
     }
     finally {
-      return this.user;
+      return user;
     }
+  }
+
+  private decodeToken(token: string): any {
+    const payload = token.split('.')[1];
+    const decodedPayload = atob(payload);
+    return JSON.parse(decodedPayload);
   }
 
   // logout() {
@@ -220,7 +238,7 @@ export class AuthService {
 
   // decodedToken(){
   //   const jwtHelper = new JwtHelperService();
-  //   const token = this.getToken()!;
+  //   const token = localStorage.getItem('jwt');
   //   console.log(jwtHelper.decodeToken(token))
   //   return jwtHelper.decodeToken(token)
   // }
