@@ -4,6 +4,7 @@ import { BreadcrumbService } from "src/app/services/breadcrumb/breadcrumb.servic
 import { MenuService } from "src/app/services/menu.service";
 import { ActivityLogsService } from "src/app/services/cams-new/activity-logs.service";
 import { AppService } from "src/app/app.service";
+import { AuthService } from "src/app/auth/auth.service";
 
 @Component({
   selector: "app-dashboard",
@@ -116,10 +117,15 @@ export class DashboardComponent {
     private sideMenuService: MenuService,
     private ActivityLogsService: ActivityLogsService,
     private appConfigService: AppService,
+    private auth: AuthService
   ) {}
 
   ngOnInit(): void {
     // this.showAlert();
+
+    const token = this.auth.getUser();
+    //this.decodedJwt = this.jwtDecodeService.decodeJwt(token);
+      console.log('Decoded JWT:', token);
 
     this.menuItems = [...this.menus,
       ...this.generatePlatformMenuItems()]

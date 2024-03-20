@@ -36,6 +36,7 @@ export class LoginComponent {
   registerRight: number = -520;
   loginOpacity: number = 1;
   registerOpacity: number = 0;
+  decodedJwt: any;
 
   constructor(
     private auth: AuthService, private router: Router,
@@ -63,7 +64,6 @@ export class LoginComponent {
 
     this.loading = true;
 
-    
     // this.auth.checkSingleSignOn('/').subscribe(res => {
     //   if (res) {
 
