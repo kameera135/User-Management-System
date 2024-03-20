@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { resetPassword } from 'src/app/shared/models/Cams-new/resetPassword';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-reset-password',
@@ -8,22 +11,30 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./reset-password.component.scss']
 })
 export class ResetPasswordComponent {
-forgotPassword(arg0: any) {
-throw new Error('Method not implemented.');
-}
 
   resetPasswordForm!: FormGroup
   successMessage!: string;
   errorMessage!: string;
   showSuccess!: boolean;
   showError!: boolean;
+
+  credentials!: resetPassword
+
+  private token!: string;
+  private email!: string;
   
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService, private router: ActivatedRoute) { }
   
   ngOnInit(): void {
     this.resetPasswordForm = new FormGroup({
-      email: new FormControl("", [Validators.required])
-    })
+      password: new FormControl('', [Validators.required]),
+      confirm: new FormControl('')
+    });
+
+    //this.resetPasswordForm.get('confirm').setValidators([Validators.required,this.passConfValidator.validateConfirmPassword(this.resetPasswordForm.get('password'))]);
+
+    this.token = this.router.snapshot.queryParams['token'];
+    this.email = this.router.snapshot.queryParams['email'];
   }
 
   validateControl = (controlName: string) => {
@@ -34,6 +45,31 @@ throw new Error('Method not implemented.');
   hasError = (controlName: string, errorName: string) => {
     const control = this.resetPasswordForm.get(controlName);
     return control ? control.hasError(errorName) : false;
+  }
+
+  resetPassword(){
+
+    this.credentials = {
+      password: this.resetPasswordForm.value.password,
+      confirmPassword: this.resetPasswordForm.value.confirm,
+      email: this.email,
+      token: this.token
+    }
+
+    this.showError = this.showSuccess = false;
+
+    this.auth.resetPassword(this.credentials).subscribe({
+      next: (response:any) => {
+        console.log('Response from server: ', response);
+        this.showSuccess = true;
+      },
+      error: (err: HttpErrorResponse) => {
+
+        this.showError = true;
+        this.errorMessage = err.message;
+        console.log(this.errorMessage);
+      }
+    })
   }
 
 }

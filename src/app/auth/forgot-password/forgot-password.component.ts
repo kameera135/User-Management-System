@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { auth } from 'src/app/shared/models/Cams-new/auth';
+import { HttpErrorResponse } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { forgotPassword } from 'src/app/shared/models/Cams-new/forgotPassword';
 
 @Component({
   selector: 'app-forgot-password',
@@ -8,15 +12,14 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./forgot-password.component.scss']
 })
 export class ForgotPasswordComponent {
-forgotPassword(arg0: any) {
-throw new Error('Method not implemented.');
-}
 
   forgotPasswordForm!: FormGroup
   successMessage!: string;
   errorMessage!: string;
   showSuccess!: boolean;
   showError!: boolean;
+
+  credentials!: forgotPassword
   
   constructor(private auth: AuthService) { }
   
@@ -36,24 +39,27 @@ throw new Error('Method not implemented.');
     return control ? control.hasError(errorName) : false;
   }
 
-  // public forgotPassword = (forgotPasswordFormValue) => {
-  //   this.showError = this.showSuccess = false;
-  //   const forgotPass = { ...forgotPasswordFormValue };
+  public forgotPassword() {
+    
+    this.credentials = {
+      email: this.forgotPasswordForm.value.email,
+      clientURI: environment.clientURI
+    }
 
-  //   const forgotPassDto: ForgotPasswordDto = {
-  //     email: forgotPass.email,
-  //     clientURI: 'http://localhost:4200/authentication/resetpassword'
-  //   }
+    this.showError = this.showSuccess = false;
 
-  //   this._authService.forgotPassword('api/accounts/forgotpassword', forgotPassDto)
-  //   .subscribe({
-  //     next: (_) => {
-  //     this.showSuccess = true;
-  //     this.successMessage = 'The link has been sent, please check your email to reset your password.'
-  //   },
-  //   error: (err: HttpErrorResponse) => {
-  //     this.showError = true;
-  //     this.errorMessage = err.message;
-  //   }})
-  // }
+    this.auth.forgotPassword(this.credentials).subscribe({
+      next: (response:any) => {
+        console.log('Response from server: ', response);
+        this.showSuccess = true;
+        this.successMessage = 'The link has been sent, please check your email to reset your password.'
+      },
+      error: (err: HttpErrorResponse) => {
+
+        this.showError = true;
+        this.errorMessage = err.message;
+        console.log(this.errorMessage);
+      }
+    })
+  }
 }

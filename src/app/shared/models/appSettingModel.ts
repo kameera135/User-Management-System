@@ -8,6 +8,8 @@ export interface appSettingModel {
 
   signOn: boolean;
 
+  clientURI: string; // Client URI for OAuth2.0
+
   configModule: string;
 
   camsBackEnd: string;

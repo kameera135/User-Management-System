@@ -11,6 +11,7 @@ import { LanguageService } from '../../core/services/language.service';
 
 import { AppService } from 'src/app/app.service';
 import { Title } from '@angular/platform-browser';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-topbar',
@@ -33,7 +34,9 @@ export class TopbarComponent implements OnInit {
   organization: string = "company_name";
 
   constructor(@Inject(DOCUMENT) private document: any, private eventService: EventService, public languageService: LanguageService,
-    public _cookiesService: CookieService, private app: AppService,
+    public _cookiesService: CookieService, 
+    private app: AppService,
+    private auth: AuthService,
     private titleService: Title
   ) { }
 
@@ -122,7 +125,7 @@ export class TopbarComponent implements OnInit {
    * Logout the user
    */
   logout() {
-    this.app.logout();
+    this.auth.logout();
   }
 
   get manageProfileUrl() {

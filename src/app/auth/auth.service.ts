@@ -4,12 +4,16 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { NavigationExtras, Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import { CrossStorageClient } from 'cross-storage';
 import { UserInformationService } from './user-information.service';
 import { shareReplay, tap } from "rxjs/operators";
 import * as moment from "moment";
 import { auth } from '../shared/models/Cams-new/auth';
+import { AppService } from '../app.service';
+import { appSettingModel } from '../shared/models/appSettingModel';
+import { forgotPassword } from '../shared/models/Cams-new/forgotPassword';
+import { resetPassword } from '../shared/models/Cams-new/resetPassword';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +26,8 @@ export class AuthService {
 
   private headers!: Headers;
 
+  appConfig: appSettingModel[] = [];
+
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private httpClient: HttpClient,
@@ -32,6 +38,11 @@ export class AuthService {
     this.getUser();
   }
 
+  //apiUrl = this.appConfig[0].apiUrl;
+
+  init() {
+    return this.loadConfig();
+  }
   
 
   // public checkSingleSignOn(url: string): Observable<boolean> {
@@ -74,6 +85,16 @@ export class AuthService {
     return new Observable<boolean>(ob => {
       if (url != "/") this.lastUrl = url;
       ob.next(this.user != undefined && this.user?.permissions != undefined);
+    });
+  }
+
+  async loadConfig() {
+    await firstValueFrom(
+      this.httpClient.get("/assets/configurations/appConfiguration.json")
+    ).then((value: any) => {
+      environment.signOn = value.signOn;
+      environment.apiBase = value.apiUrl;
+      this.appConfig[0] = value as appSettingModel;
     });
   }
 
@@ -218,6 +239,22 @@ export class AuthService {
     let queryParams = new HttpParams();
 
     return this.httpClient.post(`${environment.apiBase}/api/user/login`,model,{
+      params:queryParams
+    });
+  }
+
+  forgotPassword(model: forgotPassword){
+    let queryParams = new HttpParams();
+
+    return this.httpClient.post(`${environment.apiBase}/api/user/ForgotPassword`,model,{
+      params:queryParams
+    });
+  }
+
+  resetPassword(model: resetPassword){
+    let queryParams = new HttpParams();
+
+    return this.httpClient.post(`${environment.apiBase}/api/user/ResetPassword`,model,{
       params:queryParams
     });
   }
