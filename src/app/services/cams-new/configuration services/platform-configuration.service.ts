@@ -12,14 +12,15 @@ import { Platform } from "src/app/shared/models/Cams-new/Platform";
   providedIn: "root",
 })
 export class PlatformConfigurationService {
-  constructor(private appService: AppService, private httpClient: HttpClient) {}
+  constructor(private appService: AppService, private httpClient: HttpClient, private auth: AuthService) {}
 
   apiUrl = this.appService.appConfig[0].apiUrl;
-  user = this.appService.user;
+  //user = this.appService.user;
+  user = this.auth.getUser();
 
   getAllPlatforms(page: number, page_size: number) {
     let queryParams = new HttpParams();
-    //queryParams = queryParams.append("viewedBy", this.user.id);
+    //queryParams = queryParams.append("viewedBy", this.user?.id);
 
     const url = `${this.apiUrl}/api/configuration/platforms/${page}/${page_size}`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
@@ -27,7 +28,7 @@ export class PlatformConfigurationService {
 
   // getPlatformsByRole(role: string, page: number, pageSize: number) {
   //   let queryParams = new HttpParams();
-  //   queryParams = queryParams.append("viewedBy", this.user.id);
+  //   queryParams = queryParams.append("viewedBy", this.user?.id);
   //   queryParams = queryParams.append("role", role);
   //   queryParams = queryParams.append("page", page);
   //   queryParams = queryParams.append("pageSize", pageSize);
@@ -38,7 +39,7 @@ export class PlatformConfigurationService {
 
   // getSearchedPlatforms(searchedTerm: string, page: number, pageSize: number) {
   //   let queryParams = new HttpParams();
-  //   queryParams = queryParams.append("viewedBy", this.user.id);
+  //   queryParams = queryParams.append("viewedBy", this.user?.id);
   //   queryParams = queryParams.append("searchedTerm", searchedTerm);
   //   queryParams = queryParams.append("page", page);
   //   queryParams = queryParams.append("pageSize", pageSize);
@@ -49,7 +50,7 @@ export class PlatformConfigurationService {
 
   getSearchedPlatforms(searchedTerm: string, page: number, page_size: number) {
     let queryParams = new HttpParams();
-    //queryParams = queryParams.append("viewedBy", this.user.id);
+    //queryParams = queryParams.append("viewedBy", this.user?.id);
     queryParams = queryParams.append("searchedPlatformName", searchedTerm);
 
     const url = `${this.apiUrl}/api/configuration/platforms/${page}/${page_size}`;
@@ -58,7 +59,7 @@ export class PlatformConfigurationService {
 
   postPlatform(model: Platform) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("createdBy", this.user.id);
+    queryParams = queryParams.append("createdBy", this.user?.id);
 
     return this.httpClient.post(
       `${this.apiUrl}/api/configuration/platform`,
@@ -71,7 +72,7 @@ export class PlatformConfigurationService {
 
   putPlatform(model: Platform) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("updatedBy", this.user.id);
+    queryParams = queryParams.append("updatedBy", this.user?.id);
 
     return this.httpClient.put(
       `${this.apiUrl}/api/configuration/platform`,
@@ -84,7 +85,7 @@ export class PlatformConfigurationService {
 
   deletePlatform(list: number[]) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("deletedBy", this.user.id);
+    queryParams = queryParams.append("deletedBy", this.user?.id);
 
     return this.httpClient.delete(
       `${this.apiUrl}/api/configuration/platforms`,
@@ -97,7 +98,7 @@ export class PlatformConfigurationService {
 
   // activatePlatform(list: any[]) {
   //   let queryParams = new HttpParams();
-  //   queryParams = queryParams.append("activatedBy", this.user.id);
+  //   queryParams = queryParams.append("activatedBy", this.user?.id);
 
   //   return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
   //     params: queryParams,
@@ -106,7 +107,7 @@ export class PlatformConfigurationService {
 
   // deactivatePlatform(list: any[]) {
   //   let queryParams = new HttpParams();
-  //   queryParams = queryParams.append("deactivatedBy", this.user.id);
+  //   queryParams = queryParams.append("deactivatedBy", this.user?.id);
 
   //   return this.httpClient.put(`${this.apiUrl}/end-point`, list, {
   //     params: queryParams,

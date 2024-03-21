@@ -123,10 +123,6 @@ export class DashboardComponent {
   ngOnInit(): void {
     // this.showAlert();
 
-    const token = this.auth.getUser();
-    //this.decodedJwt = this.jwtDecodeService.decodeJwt(token);
-      console.log('Decoded JWT:', token);
-
     this.menuItems = [...this.menus,
       ...this.generatePlatformMenuItems()]
 

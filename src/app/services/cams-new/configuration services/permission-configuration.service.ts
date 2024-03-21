@@ -11,14 +11,15 @@ import { Permission } from "src/app/shared/models/Cams-new/Permission";
   providedIn: "root",
 })
 export class PermissionConfigurationService {
-  constructor(private appService: AppService, private httpClient: HttpClient) {}
+  constructor(private appService: AppService, private httpClient: HttpClient, private auth: AuthService) {}
 
   apiUrl = this.appService.appConfig[0].apiUrl;
-  user = this.appService.user;
+  //user = this.appService.user;
+  user = this.auth.getUser();
 
   getAllPermissions(page: number, pageSize: number, platformId: number) {
     let queryParams = new HttpParams();
-    //ueryParams = queryParams.append("viewedBy", this.user.id);
+    //ueryParams = queryParams.append("viewedBy", this.user?.id);
     // queryParams = queryParams.append("page", page);
     queryParams = queryParams.append("platformId", platformId);
 
@@ -28,7 +29,7 @@ export class PermissionConfigurationService {
 
   // getPermissionsByRole(role: string, page: number, pageSize: number) {
   //   let queryParams = new HttpParams();
-  //   queryParams = queryParams.append("viewedBy", this.user.id);
+  //   queryParams = queryParams.append("viewedBy", this.user?.id);
   //   queryParams = queryParams.append("role", role);
   //   queryParams = queryParams.append("page", page);
   //   queryParams = queryParams.append("pageSize", pageSize);
@@ -39,7 +40,7 @@ export class PermissionConfigurationService {
 
   // getSearchedPermissions(searchedTerm: string, page: number, pageSize: number) {
   //   let queryParams = new HttpParams();
-  //   queryParams = queryParams.append("viewedBy", this.user.id);
+  //   queryParams = queryParams.append("viewedBy", this.user?.id);
   //   queryParams = queryParams.append("searchedTerm", searchedTerm);
   //   queryParams = queryParams.append("page", page);
   //   queryParams = queryParams.append("pageSize", pageSize);
@@ -55,7 +56,7 @@ export class PermissionConfigurationService {
     platformId: number
   ) {
     let queryParams = new HttpParams();
-    //queryParams = queryParams.append("viewedBy", this.user.id);
+    //queryParams = queryParams.append("viewedBy", this.user?.id);
     queryParams = queryParams.append("searchedPermissionName", searchedTerm);
     queryParams = queryParams.append("platformId", platformId);
 
@@ -70,7 +71,7 @@ export class PermissionConfigurationService {
   //   pageSize: number
   // ) {
   //   let queryParams = new HttpParams();
-  //   queryParams = queryParams.append("viewedBy", this.user.id);
+  //   queryParams = queryParams.append("viewedBy", this.user?.id);
   //   queryParams = queryParams.append("searchedTerm", searchedTerm);
   //   queryParams = queryParams.append("role", role);
   //   queryParams = queryParams.append("page", page);
@@ -82,7 +83,7 @@ export class PermissionConfigurationService {
 
   postPermission(model: Permission) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("createdBy", this.user.id);
+    queryParams = queryParams.append("createdBy", this.user?.id);
 
     return this.httpClient.post(
       `${this.apiUrl}/api/configuration/permission`,
@@ -95,7 +96,7 @@ export class PermissionConfigurationService {
 
   putPermission(model: Permission) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("updatedBy", this.user.id);
+    queryParams = queryParams.append("updatedBy", this.user?.id);
 
     return this.httpClient.put(
       `${this.apiUrl}/api/configuration/permission`,
@@ -108,7 +109,7 @@ export class PermissionConfigurationService {
 
   deletePermission(list: number[]) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("deletedBy", this.user.id);
+    queryParams = queryParams.append("deletedBy", this.user?.id);
 
     return this.httpClient.delete(
       `${this.apiUrl}/api/configuration/permissions`,
@@ -121,7 +122,7 @@ export class PermissionConfigurationService {
 
   activatePermissions(list: any[]) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("updatedBy", this.user.id);
+    queryParams = queryParams.append("updatedBy", this.user?.id);
 
     return this.httpClient.put(
       `${this.apiUrl}/api/configuration/permissions/activate`,
@@ -134,7 +135,7 @@ export class PermissionConfigurationService {
 
   deactivatePermissions(list: any[]) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("updatedBy", this.user.id);
+    queryParams = queryParams.append("updatedBy", this.user?.id);
 
     return this.httpClient.put(
       `${this.apiUrl}/api/configuration/permissions/deactivate`,

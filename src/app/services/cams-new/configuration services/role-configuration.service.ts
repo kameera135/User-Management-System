@@ -11,14 +11,15 @@ import { Role } from "src/app/shared/models/Cams-new/Role";
   providedIn: "root",
 })  
 export class RoleConfigurationService {
-  constructor(private appService: AppService, private httpClient: HttpClient) {}
+  constructor(private appService: AppService, private httpClient: HttpClient, private auth: AuthService) {}
 
   apiUrl = this.appService.appConfig[0].apiUrl;
-  user = this.appService.user;
+  //user = this.appService.user;
+  user = this.auth.getUser();
 
   getAllRoles(page: number, pageSize: number) {
     let queryParams = new HttpParams();
-    //queryParams = queryParams.append("viewedBy", this.user.id);
+    //queryParams = queryParams.append("viewedBy", this.user?.id);
     queryParams = queryParams.append("page", page);
     queryParams = queryParams.append("pageSize", pageSize);
 
@@ -28,7 +29,7 @@ export class RoleConfigurationService {
 
   getUsersByPlatform(platformId: number, page: number, pageSize: number) {
     let queryParams = new HttpParams();
-    //queryParams = queryParams.append("viewedBy", this.user.id);
+    //queryParams = queryParams.append("viewedBy", this.user?.id);
     queryParams = queryParams.append("platformId", platformId);
 
     const url = `${this.apiUrl}/api/configuration/roles/${page}/${pageSize}`;
@@ -37,7 +38,7 @@ export class RoleConfigurationService {
 
   getSearchedRoles(searchedTerm: string, page: number, page_size: number) {
     let queryParams = new HttpParams();
-    //queryParams = queryParams.append("viewedBy", this.user.id);
+    //queryParams = queryParams.append("viewedBy", this.user?.id);
     queryParams = queryParams.append("searchedRoleName", searchedTerm);
 
     const url = `${this.apiUrl}/api/configuration/roles/${page}/${page_size}`;
@@ -51,7 +52,7 @@ export class RoleConfigurationService {
     pageSize: number
   ) {
     let queryParams = new HttpParams();
-    //queryParams = queryParams.append("viewedBy", this.user.id);
+    //queryParams = queryParams.append("viewedBy", this.user?.id);
     queryParams = queryParams.append("platformId", platformId);
     queryParams = queryParams.append("searchedRoleName", searchedTerm);
 
@@ -61,7 +62,7 @@ export class RoleConfigurationService {
 
   postRole(model: Role) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("createdBy", this.user.id);
+    queryParams = queryParams.append("createdBy", this.user?.id);
 
     return this.httpClient.post(
       `${this.apiUrl}/api/configuration/role`,
@@ -74,7 +75,7 @@ export class RoleConfigurationService {
 
   putRole(model: Role) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("updatedBy", this.user.id);
+    queryParams = queryParams.append("updatedBy", this.user?.id);
 
     return this.httpClient.put(
       `${this.apiUrl}/api/configuration/role`,
@@ -88,7 +89,7 @@ export class RoleConfigurationService {
   deleteRoles(list: number[]) {
     //list is the id list of users which have to be deleted
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("deletedBy", this.user.id);
+    queryParams = queryParams.append("deletedBy", this.user?.id);
 
     return this.httpClient.delete(
       `${this.apiUrl}/api/configuration/roles`,
@@ -101,7 +102,7 @@ export class RoleConfigurationService {
 
   activateRoles(list: any[]) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("activatedBy", this.user.id);
+    queryParams = queryParams.append("activatedBy", this.user?.id);
 
     return this.httpClient.put(`${this.apiUrl}/api/configuration/roles/activate`, list, {
       params: queryParams,
@@ -110,7 +111,7 @@ export class RoleConfigurationService {
 
   deactivateRoles(list: any[]) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("deactivatedBy", this.user.id);
+    queryParams = queryParams.append("deactivatedBy", this.user?.id);
 
     return this.httpClient.put(`${this.apiUrl}/api/configuration/roles/deactivate`, list, {
       params: queryParams,
@@ -119,7 +120,7 @@ export class RoleConfigurationService {
 
   getPlatformList() {
     let queryParams = new HttpParams();
-    //queryParams = queryParams.append("viewedBy", this.user.id);
+    //queryParams = queryParams.append("viewedBy", this.user?.id);
 
     const url = `${this.apiUrl}/api/configuration/platforms/combobox`;
     return this.httpClient.get(url, { params: queryParams });
@@ -154,7 +155,7 @@ export class RoleConfigurationService {
       permissionIds: list
     }
 
-    queryParams = queryParams.append("createdBy", this.user.id);
+    queryParams = queryParams.append("createdBy", this.user?.id);
 
     return this.httpClient.post(`${this.apiUrl}/api/configuration/permissions/role`,requestBody,
     {
@@ -168,7 +169,7 @@ export class RoleConfigurationService {
 
   queryParams = queryParams.append("roleId", roleId);
   queryParams = queryParams.append("permissionId",permissionId);
-  queryParams = queryParams.append("createdBy",this.user.id);
+  queryParams = queryParams.append("createdBy",this.user?.id);
 
   const url = `${this.apiUrl}/api/configuration/permissions/role/unassign`;
   return this.httpClient.delete(url, {params :queryParams});

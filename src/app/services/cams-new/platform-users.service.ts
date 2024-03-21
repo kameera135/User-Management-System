@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
 import { AppService } from "src/app/app.service";
+import { AuthService } from "src/app/auth/auth.service";
 import { PaginatedResponse } from "src/app/shared/models/Cams-new/PaginatedResponse";
 import { PlatformUser } from "src/app/shared/models/Cams-new/platform-user";
 
@@ -12,10 +13,11 @@ export class PlatformUsersService {
 
   private userDataAssignedSource = new Subject<void>();
 
-  constructor(private appService: AppService, private httpClient: HttpClient) {}
+  constructor(private appService: AppService, private httpClient: HttpClient, private auth: AuthService) {}
 
   apiUrl = this.appService.appConfig[0].apiUrl;
-  user = this.appService.user;
+  //user = this.appService.user;
+  user = this.auth.getUser();
 
   getAllPlatformUsers(platformId: number,page: number, page_size: number) {
     let queryParams = new HttpParams();
@@ -41,7 +43,7 @@ export class PlatformUsersService {
 
   getAllPlatformUsersRoles(page: number, pageSize: number) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("viewedBy", this.user.id);
+    queryParams = queryParams.append("viewedBy", this.user?.id);
     queryParams = queryParams.append("page", page);
     queryParams = queryParams.append("pageSize", pageSize);
 
@@ -53,7 +55,7 @@ export class PlatformUsersService {
   
   getSearchedUsers(platformId: number,searchedTerm: string, page: number, pageSize: number) {
     let queryParams = new HttpParams();
-    //queryParams = queryParams.append("viewedBy", this.user.id);
+    //queryParams = queryParams.append("viewedBy", this.user?.id);
     queryParams = queryParams.append("platformId", platformId);
     queryParams = queryParams.append("userName", searchedTerm);
 
@@ -78,7 +80,7 @@ export class PlatformUsersService {
     pageSize: number
   ) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("viewedBy", this.user.id);
+    queryParams = queryParams.append("viewedBy", this.user?.id);
     queryParams = queryParams.append("searchedTerm", searchedTerm);
     queryParams = queryParams.append("role", role);
     queryParams = queryParams.append("page", page);
@@ -90,7 +92,7 @@ export class PlatformUsersService {
 
   postUser(model: PlatformUser) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("createdBy", this.user.id);
+    queryParams = queryParams.append("createdBy", this.user?.id);
 
     return this.httpClient.post(`${this.apiUrl}/end-point`, model, {
       params: queryParams,
@@ -99,7 +101,7 @@ export class PlatformUsersService {
 
   putUser(model: PlatformUser) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("updatedBy", this.user.id);
+    queryParams = queryParams.append("updatedBy", this.user?.id);
 
     return this.httpClient.put(`${this.apiUrl}/end-point`, model, {
       params: queryParams,
@@ -108,7 +110,7 @@ export class PlatformUsersService {
 
   deleteUser(list: number[]) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("deletedBy", this.user.id);
+    queryParams = queryParams.append("deletedBy", this.user?.id);
 
     return this.httpClient.delete(`${this.apiUrl}/api/users`, {
       params: queryParams,
@@ -124,7 +126,7 @@ export class PlatformUsersService {
       userIds: list
     }
 
-    queryParams = queryParams.append("createdBy", this.user.id);
+    queryParams = queryParams.append("createdBy", this.user?.id);
 
     return this.httpClient.post(`${this.apiUrl}/api/configuration/platform/assign_users`,requestBody,
     {
@@ -140,7 +142,7 @@ export class PlatformUsersService {
       userIds: list
     }
 
-    queryParams = queryParams.append("createdBy", this.user.id);
+    queryParams = queryParams.append("createdBy", this.user?.id);
 
     return this.httpClient.delete(`${this.apiUrl}/api/configuration/platforms/users/unassign_users`,
     {
@@ -195,7 +197,7 @@ export class PlatformUsersService {
       roleIds: list
     }
 
-    queryParams = queryParams.append("createdBy",this.user.id);
+    queryParams = queryParams.append("createdBy",this.user?.id);
 
     return this.httpClient.post(`${this.apiUrl}/api/user/roles`,requestBody,
     {
@@ -208,7 +210,7 @@ export class PlatformUsersService {
 
     queryParams = queryParams.append("userId", userId);
     queryParams = queryParams.append("roleId",roleId);
-    queryParams = queryParams.append("deletedBy",this.user.id);
+    queryParams = queryParams.append("deletedBy",this.user?.id);
 
     const url = `${this.apiUrl}/api/user/roles`;
     return this.httpClient.delete(url, {params :queryParams});

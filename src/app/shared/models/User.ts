@@ -26,4 +26,5 @@ export class User {
     get fullName(): string {
         return `${this.fName} ${this.lName}`;
     }
+
 }

@@ -132,9 +132,9 @@ export class TopbarComponent implements OnInit {
     return environment.signOn + "/account/profile";
   }
 
-  get role() {
-    return this.app.user?.role.replace("_", " ");
-  }
+  // get role() {
+  //   return this.app.user?.role.replace("_", " ");
+  // }
 
   get user() {
     return this.app.user?.fName;

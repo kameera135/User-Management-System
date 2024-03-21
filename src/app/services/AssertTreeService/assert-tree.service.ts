@@ -13,7 +13,7 @@ export class AssertTreeService {
     private httpClient: HttpClient) { }
 
   baseUrl = this.appService.appConfig[0].apiUrl
-  user = this.appService.user.id
+  //user = this.appService.user.id
 
   getAssertTree() {
     return this.httpClient.get<AssertTreeNode>(`${this.baseUrl}/api/common/location-map/units/000`)

@@ -119,6 +119,7 @@ export class AuthService {
         const jwtToken = localStorage.getItem('jwt');
         if (jwtToken) {
           const decodedToken = this.decodeToken(jwtToken);
+          console.log("decoded token", decodedToken); 
           if (decodedToken) {
             user = new User(decodedToken);
 

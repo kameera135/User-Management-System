@@ -3,6 +3,7 @@ import { Component, Input, ViewChild } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgToastService } from "ng-angular-popup";
 import { AppService } from "src/app/app.service";
+import { AuthService } from "src/app/auth/auth.service";
 import { MessageService } from "src/app/services/PopupMessages/message.service";
 import { User } from "src/app/shared/models/Cams-new/User";
 import { UserBulk } from "src/app/shared/models/Cams-new/UserBulk";
@@ -17,7 +18,8 @@ import * as XLSX from "xlsx";
 })
 export class AddBulkUsersModalComponent {
   url: string = this.appService.appConfig[0].apiUrl;
-  userId = this.appService.user.id;
+  //userId = this.appService.user.id;
+  user = this.auth.getUser();
 
   excelFile: File | null = null;
   csvData: any[] = [];
@@ -44,7 +46,8 @@ export class AddBulkUsersModalComponent {
     private appService: AppService,
     private notifierService: NgToastService,
     public activeModal: NgbActiveModal,
-    private alertService: MessageService
+    private alertService: MessageService,
+    private auth: AuthService
   ) {}
 
   ngOnInit() {}
@@ -102,7 +105,7 @@ export class AddBulkUsersModalComponent {
       email: item.Email,
       phone: item.PhoneNumber,
       password: item.Password,
-      createdBy: this.userId,
+      createdBy: this.user?.id,
     }));
 
     console.log(this.mappedUserDataArrayToPost);

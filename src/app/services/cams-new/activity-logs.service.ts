@@ -15,7 +15,7 @@ export class ActivityLogsService {
 
   getUserList() {
     let queryParams = new HttpParams();
-    //queryParams = queryParams.append("viewedBy", this.user.id);
+    //queryParams = queryParams.append("viewedBy", this.user?.id);
 
     const url = `${this.apiUrl}/api/users/combobox`;
     return this.httpClient.get(url, { params: queryParams });
@@ -23,7 +23,7 @@ export class ActivityLogsService {
 
   getPlatformList() {
     let queryParams = new HttpParams();
-    //queryParams = queryParams.append("viewedBy", this.user.id);
+    //queryParams = queryParams.append("viewedBy", this.user?.id);
 
     const url = `${this.apiUrl}/api/configuration/platforms/combobox`;
     return this.httpClient.get(url, { params: queryParams });
@@ -31,7 +31,7 @@ export class ActivityLogsService {
 
   getRoleList(platformId: number) {
     let queryParams = new HttpParams();
-    //queryParams = queryParams.append("viewedBy", this.user.id);
+    //queryParams = queryParams.append("viewedBy", this.user?.id);
 
     const url = `${this.apiUrl}/api/configuration/roles/combobox/${platformId}`;
     return this.httpClient.get(url, { params: queryParams });
@@ -47,7 +47,7 @@ export class ActivityLogsService {
     userId: number
   ) {
     let queryParams = new HttpParams();
-    // queryParams = queryParams.append("viewedBy", this.user.id);
+    // queryParams = queryParams.append("viewedBy", this.user?.id);
     queryParams = queryParams.append("platformId", platformId);
     queryParams = queryParams.append("roleId", roleId);
     queryParams = queryParams.append("userId", userId);

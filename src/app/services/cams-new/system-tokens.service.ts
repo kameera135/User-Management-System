@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppService } from 'src/app/app.service';
+import { AuthService } from 'src/app/auth/auth.service';
 import { PaginatedResponse } from 'src/app/shared/models/Cams-new/PaginatedResponse';
 import { SystemToken } from 'src/app/shared/models/Cams-new/SystemToken';
 
@@ -9,14 +10,15 @@ import { SystemToken } from 'src/app/shared/models/Cams-new/SystemToken';
 })
 export class SystemTokensService {
 
-  constructor(private appService: AppService, private httpClient: HttpClient) { }
+  constructor(private appService: AppService, private httpClient: HttpClient, private auth:AuthService) { }
 
   apiUrl = this.appService.appConfig[0].apiUrl;
-  user = this.appService.user;
+  //user = this.appService.user;
+  user = this.auth.getUser();
 
   getAllTokens(page: number, pageSize: number) {
     let queryParams = new HttpParams();
-    //queryParams = queryParams.append("viewedBy", this.user.id);
+    //queryParams = queryParams.append("viewedBy", this.user?.id);
     queryParams = queryParams.append("page", page);
     queryParams = queryParams.append("pageSize", pageSize);
 
@@ -54,7 +56,7 @@ export class SystemTokensService {
   //   pageSize: number
   // ) {
   //   let queryParams = new HttpParams();
-  //   queryParams = queryParams.append("viewedBy", this.user.id);
+  //   queryParams = queryParams.append("viewedBy", this.user?.id);
   //   queryParams = queryParams.append("searchedTerm", searchedTerm);
   //   queryParams = queryParams.append("role", role);
   //   queryParams = queryParams.append("page", page);
@@ -66,7 +68,7 @@ export class SystemTokensService {
 
   postToken(model: SystemToken) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("createdBy", this.user.id);
+    queryParams = queryParams.append("createdBy", this.user?.id);
 
     return this.httpClient.post(`${this.apiUrl}/api/token`, model, {
       params: queryParams,
@@ -75,7 +77,7 @@ export class SystemTokensService {
 
   putToken(model: SystemToken) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("updatedBy", this.user.id);
+    queryParams = queryParams.append("updatedBy", this.user?.id);
 
     return this.httpClient.put(`${this.apiUrl}/api/token`, model, {
       params: queryParams,
@@ -85,7 +87,7 @@ export class SystemTokensService {
   deleteToken(list: number[]) {
     //list is the id list of users which have to be deleted
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("deletedBy", this.user.id);
+    queryParams = queryParams.append("deletedBy", this.user?.id);
 
     return this.httpClient.delete(`${this.apiUrl}/api/tokens`, {
       params: queryParams,

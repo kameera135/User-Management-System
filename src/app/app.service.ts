@@ -73,15 +73,15 @@ export class AppService implements OnDestroy {
   }
 
   get user() {
-    //remove this line
-    const userDetails =
-      '{"id":2000,"fName":"John","lName":"Doe","email":null,"platforms":[{"id":1068,"name":"Config","url":"http://localhost:4200","security":null,"connectivity":null,"extraData":null,"sortingIndex":null}],"token":"8jO29OmjMDR6OiJg25mdXZwnBJbbcI2kOCnt3W6EJ24mIfHuwcB5m28jWBAAMlge","permissions":[],"role":"facility_manager"}';
+    // //remove this line
+    // const userDetails =
+    //   '{"id":2000,"fName":"John","lName":"Doe","email":null,"platforms":[{"id":1068,"name":"Config","url":"http://localhost:4200","security":null,"connectivity":null,"extraData":null,"sortingIndex":null}],"token":"8jO29OmjMDR6OiJg25mdXZwnBJbbcI2kOCnt3W6EJ24mIfHuwcB5m28jWBAAMlge","permissions":[],"role":"facility_manager"}';
 
-    let tempUser = JSON.parse(userDetails);
-    tempUser = new User(tempUser);
-    return tempUser;
+    // let tempUser = JSON.parse(userDetails);
+    // tempUser = new User(tempUser);
+    // return tempUser;
 
     //use this in production
-    //return this.auth.getUser();
+    return this.auth.getUser();
   }
 }
