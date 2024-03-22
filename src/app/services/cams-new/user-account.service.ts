@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { PaginatedResponse } from 'src/app/shared/models/Cams-new/PaginatedResponse';
+import { User } from 'src/app/shared/models/Cams-new/User';
 
 @Injectable({
   providedIn: 'root'
@@ -22,5 +23,14 @@ export class UserAccountService {
 
     const url = `${this.apiUrl}/api/user/userDetails`;
     return this.httpClient.get(url, { params: queryParams });
+  }
+
+  putUser(model: User) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("updatedBy", this.user?.id);
+
+    return this.httpClient.put(`${this.apiUrl}/api/user`, model, {
+      params: queryParams,
+    });
   }
 }

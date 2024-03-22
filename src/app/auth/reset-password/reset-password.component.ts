@@ -4,6 +4,7 @@ import { AuthService } from '../auth.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { resetPassword } from 'src/app/shared/models/Cams-new/resetPassword';
 import { HttpErrorResponse } from '@angular/common/http';
+import { UserProfileService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -23,7 +24,7 @@ export class ResetPasswordComponent {
   private token!: string;
   private email!: string;
   
-  constructor(private auth: AuthService, private router: ActivatedRoute) { }
+  constructor(private auth: AuthService, private router: ActivatedRoute, private userInfo: UserProfileService) { }
   
   ngOnInit(): void {
     this.resetPasswordForm = new FormGroup({
@@ -58,7 +59,7 @@ export class ResetPasswordComponent {
 
     this.showError = this.showSuccess = false;
 
-    this.auth.resetPassword(this.credentials).subscribe({
+    this.userInfo.resetPassword(this.credentials).subscribe({
       next: (response:any) => {
         console.log('Response from server: ', response);
         this.showSuccess = true;

@@ -65,6 +65,7 @@ import { PlatformUsersComponent } from "./modules/cams-new/platform-users/platfo
     NgSelectModule,
     NgbAlertModule,
     NgbModule,
+    FormsModule
   ],
 })
 export class PagesModule {

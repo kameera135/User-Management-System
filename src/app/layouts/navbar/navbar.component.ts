@@ -12,6 +12,7 @@ import { EventService } from "../../core/services/event.service";
 import { MenuItem } from "./menu.model";
 import { MenuService } from "../../services/menu.service";
 import { EventEmitService } from "src/app/core/services/event-emit.service";
+import { AuthService } from "src/app/auth/auth.service";
 
 @Component({
   selector: "app-navbar",
@@ -22,6 +23,8 @@ export class NavbarComponent implements OnInit {
   menu: any;
 
   mode: string | undefined;
+
+  showNavbar: boolean = false;
 
   menuItems: MenuItem[] = [];
 
@@ -44,7 +47,8 @@ export class NavbarComponent implements OnInit {
     public translate: TranslateService,
     private eventService: EventService,
     private sideMenuService: MenuService,
-    private eventEmitService: EventEmitService
+    private eventEmitService: EventEmitService,
+    private auth: AuthService
   ) {
     translate.setDefaultLang("en");
 
@@ -60,7 +64,13 @@ export class NavbarComponent implements OnInit {
     });
   }
 
+  user = this.auth.getUser();
+
   ngOnInit(): void {
+
+    // if(this.user?.role === 'admin'){
+    //   this.showNavbar = true;
+    // }
     //Load all the appropriate menu items from the database according to the user rights
     this.menuItems = this.sideMenuService.getMenu();
 
@@ -71,6 +81,7 @@ export class NavbarComponent implements OnInit {
     setTimeout(() => {
       this.initActiveMenu();
     }, 0);
+    
   }
 
   //This method set the selected module number and then referesh the page to populate the changes

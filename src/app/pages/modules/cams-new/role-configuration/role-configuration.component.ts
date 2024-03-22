@@ -67,30 +67,6 @@ export class RoleConfigurationComponent {
     { Head: "", FieldName: "", ColumnType: "Action" },
   ];
 
-  // tableData = [
-  //   {
-  //     PlatformCode: "Code001",
-  //     PlatformName: "PlatformL",
-  //     Description: "This is description one",
-  //     Status: "Active",
-  //     isRejecteableOrApprovableRecord: true,
-  //   },
-  //   {
-  //     PlatformCode: "Code002",
-  //     PlatformName: "PlatformM",
-  //     Description: "This is description two",
-  //     Status: "Active",
-  //     isRejecteableOrApprovableRecord: true,
-  //   },
-  //   {
-  //     PlatformCode: "Code002",
-  //     PlatformName: "PlatformM",
-  //     Description: "This is description three",
-  //     Status: "Active",
-  //     isRejecteableOrApprovableRecord: true,
-  //   },
-  // ];
-
   dataArray: any = [];
 
   constructor(

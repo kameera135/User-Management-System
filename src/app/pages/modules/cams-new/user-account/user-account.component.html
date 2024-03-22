@@ -36,10 +36,11 @@
                 <div class="col-9">
                   <div>
                     <button
-                      (click)="changePassword()"
+                      (click)="changePassword($event)"
                       type="button"
                       class="btn btn-light btn-label mt-2 custom-border"
                       style="width: 100%"
+                      [disabled]="!isEditMode"
                     >
                       <i
                         class="bi bi-key label-icon align-middle fs-16 me-2"
@@ -119,9 +120,19 @@
                     type="text"
                     class="form-control"
                     [(ngModel)]="tempuser.phone"
+                    (ngModelChange)="onPhoneNumberChanged()"
                     name="password"
                     [disabled]="!isEditMode"
                   />
+                </div>
+                <div *ngIf="isPhoneNumberRequired"> <!-- Check if phone number is required -->
+                  <span class="error-text">Phone Number is required.</span>
+                </div>
+                <div *ngIf="isInvalidPattern && isDirty && !isPhoneNumberRequired"> <!-- Check if phone number has invalid pattern -->
+                  <span class="error-text">Invalid phone number. Please enter only numeric values.</span>
+                </div>
+                <div *ngIf="isInvalidPhoneNumberType && isDirty && !isPhoneNumberRequired && !isInvalidPattern"> <!-- Check if phone number has invalid type -->
+                  <span class="error-text">Invalid phone number type.</span>
                 </div>
               </div>
 

@@ -53,6 +53,7 @@ import { RoleConfigurationModalComponent } from "./config/role-configuration-mod
 import { SystemTokenModalComponent } from "./config/system-token-modal/system-token-modal/system-token-modal.component";
 import { PlatformUserModalComponent } from "./config/platform-user-modal/platform-user-modal.component";
 import { AddBulkUsersModalComponent } from "./config/add-bulk-users-modal/add-bulk-users-modal.component";
+import { UserAccountModalComponent } from './config/user-account-modal/user-account-modal.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { AddBulkUsersModalComponent } from "./config/add-bulk-users-modal/add-bu
     SystemTokenModalComponent,
     PlatformUserModalComponent,
     AddBulkUsersModalComponent,
+    UserAccountModalComponent,
   ],
   imports: [
     CommonModule,

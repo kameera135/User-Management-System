@@ -5,6 +5,9 @@ import { auth } from 'src/app/shared/models/Cams-new/auth';
 import { HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { forgotPassword } from 'src/app/shared/models/Cams-new/forgotPassword';
+import { AppService } from 'src/app/app.service';
+import { UserInformationService } from '../user-information.service';
+import { UserProfileService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -21,7 +24,7 @@ export class ForgotPasswordComponent {
 
   credentials!: forgotPassword
   
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService,private userInfo: UserProfileService,private appConfigService: AppService) { }
   
   ngOnInit(): void {
     this.forgotPasswordForm = new FormGroup({
@@ -43,12 +46,12 @@ export class ForgotPasswordComponent {
     
     this.credentials = {
       email: this.forgotPasswordForm.value.email,
-      clientURI: environment.clientURI
+      clientURI: this.appConfigService.appConfig[0].clientURI
     }
 
     this.showError = this.showSuccess = false;
 
-    this.auth.forgotPassword(this.credentials).subscribe({
+    this.userInfo.forgotPassword(this.credentials).subscribe({
       next: (response:any) => {
         console.log('Response from server: ', response);
         this.showSuccess = true;

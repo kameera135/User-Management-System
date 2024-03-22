@@ -6,6 +6,9 @@ import { UserInformationService } from '../user-information.service';
 import { HorizontalComponent } from 'src/app/layouts/theme/theme.component';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { auth } from 'src/app/shared/models/Cams-new/auth';
+import { AppService } from 'src/app/app.service';
+import { UserProfile } from 'firebase/auth';
+import { UserProfileService } from 'src/app/core/services/user.service';
 // import { AsseteTreeService } from 'src/app/services/Modules/aes/assete-tree.service';
 // import { MapperService } from 'src/app/services/Modules/aes/mapper.service';
 
@@ -42,6 +45,7 @@ export class LoginComponent {
     private auth: AuthService, private router: Router,
     private actRoute: ActivatedRoute,
     private fb: FormBuilder,
+    private userInfo: UserProfileService,
     // private asseteTreeService: AsseteTreeService,
     // private mapper: MapperService,
     private userInforService: UserInformationService) { }
@@ -149,32 +153,34 @@ export class LoginComponent {
 
     //this.credentials = new auth();
 
-    this.auth.login(this.credentials).subscribe({
-      next:(response:any) => {
-        console.log(response);
-        const jwtToken = response.token;
-
-        // Store the JWT in local storage or a secure cookie
-        localStorage.setItem('jwt', jwtToken);
-
-        // Check if there's a stored URL
-        const lastVisitedPage = localStorage.getItem('lastVisitedPage');
-        if (lastVisitedPage) {
-          // Redirect to the last visited page
-          this.router.navigateByUrl(lastVisitedPage);
-          // Remove the stored URL
-          localStorage.removeItem('lastVisitedPage');
-          
-        } else {
-          // If there's no stored URL, redirect to the default dashboard page
-          this.router.navigate(['dashboard']);
+    if(this.loginForm.valid){
+      this.userInfo.login(this.credentials).subscribe({
+        next:(response:any) => {
+          console.log(response);
+          const jwtToken = response.token;
+  
+          // Store the JWT in local storage or a secure cookie
+          localStorage.setItem('jwt', jwtToken);
+  
+          // Check if there's a stored URL
+          const lastVisitedPage = localStorage.getItem('lastVisitedPage');
+          if (lastVisitedPage) {
+            // Redirect to the last visited page
+            this.router.navigateByUrl(lastVisitedPage);
+            // Remove the stored URL
+            localStorage.removeItem('lastVisitedPage');
+            
+          } else {
+            // If there's no stored URL, redirect to the default dashboard page
+            this.router.navigate(['dashboard']);
+          }
+        },
+        error: (error: any) => {
+          // Handle authentication error
+          console.error('Authentication failed:', error);
         }
-      },
-      error: (error: any) => {
-        // Handle authentication error
-        console.error('Authentication failed:', error);
-      }
-    });
+      });
+    }
   }
 
   handleSessionExpired() {

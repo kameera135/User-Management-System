@@ -32,7 +32,6 @@ import { AuthModule } from '../auth/auth.module';
         MatButtonModule,
         WidgetModule,
         ReactiveFormsModule,
-        AuthModule
     ]
 })
 export class SharedModule { }

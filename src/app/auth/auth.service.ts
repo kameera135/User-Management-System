@@ -15,6 +15,7 @@ import { appSettingModel } from '../shared/models/appSettingModel';
 import { forgotPassword } from '../shared/models/Cams-new/forgotPassword';
 import { resetPassword } from '../shared/models/Cams-new/resetPassword';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { config } from 'process';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,8 @@ export class AuthService {
 
   private headers!: Headers;
 
+  private appSettings: any = {};
+
   appConfig: appSettingModel[] = [];
 
   constructor(
@@ -38,8 +41,6 @@ export class AuthService {
     this.headers.append('Access-Control-Allow-Origin', '*');
     this.getUser();
   }
-
-  //apiUrl = this.appConfig[0].apiUrl;
 
   init() {
     return this.loadConfig();
@@ -95,6 +96,7 @@ export class AuthService {
     ).then((value: any) => {
       environment.signOn = value.signOn;
       environment.apiBase = value.apiUrl;
+      environment.clientURI = value.clientURI;
       this.appConfig[0] = value as appSettingModel;
     });
   }
@@ -150,12 +152,12 @@ export class AuthService {
   //   window.location.href = `${environment.signOn}/auth/logout`;
   // }
 
-  private baseUrl: string = 'https://localhost:8745/api/user';
+ // private baseUrl: string = 'https://localhost:8745/api/user';
   private userPayload:any;
 
-  signUp(userObj: any) {
-    return this.httpClient.post<any>(`${this.baseUrl}register`, userObj)
-  }
+  // signUp(userObj: any) {
+  //   return this.httpClient.post<any>(`${this.baseUrl}register`, userObj)
+  // }
 
   // signIn(loginObj : any){
   //   return this.http.post<any>(`${this.baseUrl}authenticate`,loginObj)
@@ -252,30 +254,6 @@ export class AuthService {
   getRoleFromToken(){
     if(this.userPayload)
     return this.userPayload.role;
-  }
-
-  login(model: auth){
-    let queryParams = new HttpParams();
-
-    return this.httpClient.post(`${environment.apiBase}/api/user/login`,model,{
-      params:queryParams
-    });
-  }
-
-  forgotPassword(model: forgotPassword){
-    let queryParams = new HttpParams();
-
-    return this.httpClient.post(`${environment.apiBase}/api/user/ForgotPassword`,model,{
-      params:queryParams
-    });
-  }
-
-  resetPassword(model: resetPassword){
-    let queryParams = new HttpParams();
-
-    return this.httpClient.post(`${environment.apiBase}/api/user/ResetPassword`,model,{
-      params:queryParams
-    });
   }
 
   // renewToken(tokenApi : TokenApiModel){

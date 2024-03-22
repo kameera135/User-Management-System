@@ -12,6 +12,7 @@ import { LanguageService } from '../../core/services/language.service';
 import { AppService } from 'src/app/app.service';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from 'src/app/auth/auth.service';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-topbar',
@@ -37,7 +38,8 @@ export class TopbarComponent implements OnInit {
     public _cookiesService: CookieService, 
     private app: AppService,
     private auth: AuthService,
-    private titleService: Title
+    private titleService: Title,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -94,6 +96,12 @@ export class TopbarComponent implements OnInit {
     }
 
     return cookieValue;
+  }
+
+
+  //Navigate to user account
+  navigateToUserAccount() {
+    this.router.navigate(['/user-account']);
   }
 
 

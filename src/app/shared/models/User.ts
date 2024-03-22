@@ -1,5 +1,6 @@
 export class User {
     id: any;
+    username: string;
     fName: string;
     lName: string;
     token: string;
@@ -12,6 +13,7 @@ export class User {
 
     constructor(data: any) {
         this.id = data.userId || data.id;
+        this.username = data.userName || data.username;
         this.fName = data.firstName || data.fName;
         this.lName = data.lastName || data.lName;
         this.email = data.email;
