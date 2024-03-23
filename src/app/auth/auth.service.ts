@@ -129,30 +129,34 @@ export class AuthService {
     const decodedPayload = atob(payload);
     const parsedPayload = JSON.parse(decodedPayload);
 
-    if(parsedPayload.UserDetails){
-      // Extract the "UserDetails" claim
-    const userDetailsJsonArray = parsedPayload.UserDetails;
+    if (parsedPayload.UserDetails) {
+        let userDetails = parsedPayload.UserDetails;
+        
+        // If userDetails is not an array, convert it to an array with a single element
+        if (!Array.isArray(userDetails)) {
+            userDetails = [userDetails];
+        }
 
-    // Remove the "UserDetails" claim from the parsed payload
-    delete parsedPayload.UserDetails;
+        // Remove the "UserDetails" claim from the parsed payload
+        delete parsedPayload.UserDetails;
 
-     // Deserialize each user detail JSON string within the array
-     const userDetails = userDetailsJsonArray.map((userDetailJson: string) => {
-      try {
-          return JSON.parse(userDetailJson);
-      } catch (error) {
-          console.warn('Invalid user details data in JWT payload.');
-          return {};
-      }
-  });
+        // Deserialize each user detail JSON string within the array
+        userDetails = userDetails.map((userDetailJson: string) => {
+            try {
+                return JSON.parse(userDetailJson);
+            } catch (error) {
+                console.warn('Invalid user details data in JWT payload.');
+                return {};
+            }
+        });
 
-  // Combine the parsed payload and the deserialized user details
-  return { ...parsedPayload, UserDetails: userDetails };
+        // Combine the parsed payload and the deserialized user details
+        return { ...parsedPayload, UserDetails: userDetails };
+    } else {
+        return parsedPayload;
     }
-    else{
-      return parsedPayload;
-    }
-  }
+}
+
 
   // logout() {
   //   if (isPlatformBrowser(this.platformId)) {

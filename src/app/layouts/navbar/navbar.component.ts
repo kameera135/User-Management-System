@@ -68,8 +68,20 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // if(this.user?.role === 'admin'){
-    //   this.showNavbar = true;
+    // if (this.user && this.user.UserDetails) {
+    //   // Iterate through UserDetails array to find the role
+    //   for (const detail of this.user.UserDetails) {
+    //     // Parse the stringified JSON object
+    //     const UserDetails = JSON.parse(detail);
+    //     console.log("userDetails",UserDetails);
+        
+    //     // Check if the role is 'admin'
+    //     if (UserDetails.Role === 'admin') {
+    //       // If 'admin', set showNavbar to true and break the loop
+    //       this.showNavbar = true;
+    //       break;
+    //     }
+    //   }
     // }
     //Load all the appropriate menu items from the database according to the user rights
     this.menuItems = this.sideMenuService.getMenu();
