@@ -129,7 +129,8 @@ export class AuthService {
     const decodedPayload = atob(payload);
     const parsedPayload = JSON.parse(decodedPayload);
 
-    // Extract the "UserDetails" claim
+    if(parsedPayload.UserDetails){
+      // Extract the "UserDetails" claim
     const userDetailsJsonArray = parsedPayload.UserDetails;
 
     // Remove the "UserDetails" claim from the parsed payload
@@ -147,6 +148,10 @@ export class AuthService {
 
   // Combine the parsed payload and the deserialized user details
   return { ...parsedPayload, UserDetails: userDetails };
+    }
+    else{
+      return parsedPayload;
+    }
   }
 
   // logout() {

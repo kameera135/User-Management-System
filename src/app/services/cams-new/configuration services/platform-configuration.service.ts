@@ -17,6 +17,7 @@ export class PlatformConfigurationService {
   apiUrl = this.appService.appConfig[0].apiUrl;
   //user = this.appService.user;
   user = this.auth.getUser();
+  
 
   getAllPlatforms(page: number, page_size: number) {
     let queryParams = new HttpParams();
