@@ -67,7 +67,7 @@ export class ResetPasswordComponent {
       error: (err: HttpErrorResponse) => {
 
         this.showError = true;
-        this.errorMessage = err.message;
+        this.errorMessage = "Please enter same password";
         console.log(this.errorMessage);
       }
     })

@@ -19,9 +19,12 @@ import { UserProfileService } from 'src/app/core/services/user.service';
 })
 export class LoginComponent {
 
-  error!: string;
   loading!: boolean;
-  submitted!: boolean;
+
+  successMessage!: string;
+  errorMessage!: string;
+  showSuccess!: boolean;
+  showError!: boolean;
 
   isDarkMode: boolean = true;
 
@@ -117,6 +120,8 @@ export class LoginComponent {
     this.isText ? (this.type = 'text') : (this.type = 'password');
   }
 
+  
+
   // onSubmit() {
   //   if (this.loginForm.valid) {
   //     console.log(this.loginForm.value);
@@ -154,6 +159,9 @@ export class LoginComponent {
     //this.credentials = new auth();
 
     if(this.loginForm.valid){
+
+      this.showError = this.showSuccess = false;
+
       this.userInfo.login(this.credentials).subscribe({
         next:(response:any) => {
           console.log(response);
@@ -174,9 +182,13 @@ export class LoginComponent {
             // If there's no stored URL, redirect to the default dashboard page
             this.router.navigate(['dashboard']);
           }
+          this.showSuccess = true;
+          this.successMessage = "Authentication has been Success.";
         },
         error: (error: any) => {
           // Handle authentication error
+          this.showError = true;
+          this.errorMessage = "Authentication has been failed. Please check your username and password.";
           console.error('Authentication failed:', error);
         }
       });
