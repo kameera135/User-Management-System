@@ -8,6 +8,7 @@ export class User {
     platforms: string[];
     profileImage: string;
     email: string;
+    UserDetails:string[]
 
     role: string;
 
@@ -21,6 +22,7 @@ export class User {
         this.profileImage = data.profileImage;
         this.token = data.token;
         this.permissions = data.permissions;
+        this.UserDetails = data.UserDetails?data.UserDetails:[];
 
         this.role = data.role;
     }

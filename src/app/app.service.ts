@@ -44,8 +44,8 @@ export class AppService implements OnDestroy {
     await firstValueFrom(
       this.httpClient.get("/assets/configurations/appConfiguration.json")
     ).then((value: any) => {
-      environment.signOn = value.signOn;
-      environment.apiBase = value.apiUrl;
+      //environment.signOn = value.signOn;
+      //environment.apiBase = value.apiUrl;
       this.appConfig[0] = value as appSettingModel;
     });
 

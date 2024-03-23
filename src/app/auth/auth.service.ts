@@ -1,8 +1,8 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID, Pipe, PipeTransform } from '@angular/core';
 import { User } from '../shared/models/User';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { NavigationExtras, Router } from '@angular/router';
-import { isPlatformBrowser } from '@angular/common';
+import { JsonPipe, isPlatformBrowser } from '@angular/common';
 import { environment } from 'src/environments/environment';
 import { Observable, firstValueFrom } from 'rxjs';
 import { CrossStorageClient } from 'cross-storage';
@@ -16,6 +16,7 @@ import { forgotPassword } from '../shared/models/Cams-new/forgotPassword';
 import { resetPassword } from '../shared/models/Cams-new/resetPassword';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { config } from 'process';
+
 
 @Injectable({
   providedIn: 'root'
@@ -35,15 +36,11 @@ export class AuthService {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private httpClient: HttpClient,
-    private router: Router) {
+    private router: Router,) {
     this.headers = new Headers();
     this.headers.append('Content-Type', 'application/json');
     this.headers.append('Access-Control-Allow-Origin', '*');
     this.getUser();
-  }
-
-  init() {
-    return this.loadConfig();
   }
   
 
@@ -90,17 +87,6 @@ export class AuthService {
     });
   }
 
-  async loadConfig() {
-    await firstValueFrom(
-      this.httpClient.get("/assets/configurations/appConfiguration.json")
-    ).then((value: any) => {
-      environment.signOn = value.signOn;
-      environment.apiBase = value.apiUrl;
-      environment.clientURI = value.clientURI;
-      this.appConfig[0] = value as appSettingModel;
-    });
-  }
-
   // verifyTokenPlatform(user: any): Observable<any> {
   //   let url = environment.apiBase + '/api/central-auth/single-auth/verify';
   //   return this.http.post(url, {
@@ -141,7 +127,26 @@ export class AuthService {
   private decodeToken(token: string): any {
     const payload = token.split('.')[1];
     const decodedPayload = atob(payload);
-    return JSON.parse(decodedPayload);
+    const parsedPayload = JSON.parse(decodedPayload);
+
+    // Extract the "UserDetails" claim
+    const userDetailsJsonArray = parsedPayload.UserDetails;
+
+    // Remove the "UserDetails" claim from the parsed payload
+    delete parsedPayload.UserDetails;
+
+     // Deserialize each user detail JSON string within the array
+     const userDetails = userDetailsJsonArray.map((userDetailJson: string) => {
+      try {
+          return JSON.parse(userDetailJson);
+      } catch (error) {
+          console.warn('Invalid user details data in JWT payload.');
+          return {};
+      }
+  });
+
+  // Combine the parsed payload and the deserialized user details
+  return { ...parsedPayload, UserDetails: userDetails };
   }
 
   // logout() {
