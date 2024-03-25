@@ -27,7 +27,7 @@ export class DashboardComponent {
         subItems: [
           {
             label: platform.value,
-            path: `/${platform.id.toLowerCase()}-dashboard`, // Adjust the path as needed
+            path: `${platform.Url}/dashboard`, // Adjust the path as needed
             description: `Navigate to ${platform.value} dashboard`,
           },
         ],

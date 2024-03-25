@@ -44,41 +44,41 @@ export class AuthService {
   }
   
 
-  // public checkSingleSignOn(url: string): Observable<boolean> {
-  //   return new Observable<boolean>((ob) => {
-  //     if (!this.user) {
-  //       var storage = new CrossStorageClient(environment.signOn, {});
-  //       storage.onConnect().then(() => {
-  //         storage.get('de6ee1c350d80711a36682ac397d5d10a7e1f364-auth').then(val => {
-  //           storage.close();
-  //           const user = JSON.parse(val);
-  //           if (user)
-  //             this.verifyTokenPlatform(user).subscribe({
-  //               next: (res: any) => {
-  //                 user.permissions = res.permissions;
-  //                 user.role = res.role;
-  //                 user.email = res.email;
-  //                 user.token = res.token;
-  //                 this.user = new User(user);
-  //                 ob.next(true);
-  //               },
-  //               error: (err: any) => {
-  //                 console.log(err.message);
-  //               }
-  //             });
-  //           else
-  //             ob.next(false);
-  //         });
-  //       }).catch(e => {
-  //         console.log(e.message);
-  //         storage.close();
-  //         ob.next(false);
-  //       });
-  //     } else {
-  //       ob.next(true);
-  //     }
-  //   });
-  // }
+  public checkSingleSignOn(url: string): Observable<boolean> {
+    return new Observable<boolean>((ob) => {
+      if (!this.user) {
+        var storage = new CrossStorageClient(environment.signOn, {});
+        storage.onConnect().then(() => {
+          storage.get('de6ee1c350d80711a36682ac397d5d10a7e1f364-auth').then(val => {
+            storage.close();
+            const user = JSON.parse(val);
+            if (user)
+              this.verifyTokenPlatform(user).subscribe({
+                next: (res: any) => {
+                  user.permissions = res.permissions;
+                  user.role = res.role;
+                  user.email = res.email;
+                  user.token = res.token;
+                  this.user = new User(user);
+                  ob.next(true);
+                },
+                error: (err: any) => {
+                  console.log(err.message);
+                }
+              });
+            else
+              ob.next(false);
+          });
+        }).catch(e => {
+          console.log(e.message);
+          storage.close();
+          ob.next(false);
+        });
+      } else {
+        ob.next(true);
+      }
+    });
+  }
 
   public isAuthenticated(url: any): Observable<boolean> {
     return new Observable<boolean>(ob => {
@@ -87,13 +87,13 @@ export class AuthService {
     });
   }
 
-  // verifyTokenPlatform(user: any): Observable<any> {
-  //   let url = environment.apiBase + '/api/central-auth/single-auth/verify';
-  //   return this.http.post(url, {
-  //     token: user.token,
-  //     behaviorString: "string"
-  //   });
-  // }
+  verifyTokenPlatform(user: any): Observable<any> {
+    let url = environment.apiBase + '/api/central-auth/single-auth/verify';
+    return this.httpClient.post(url, {
+      token: user.token,
+      behaviorString: "string"
+    });
+  }
 
   public getUser() {
 

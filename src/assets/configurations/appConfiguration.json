@@ -70,10 +70,10 @@
   ],
 
   "platformList": [
-    { "value": "Airecon Extention System", "id": "AES" },
-    { "value": "Tenant Billing System", "id": "TBS" },
-    { "value": "Energy Management System", "id": "EMS" },
-    { "value": "Facility Booking System", "id": "FBS" }
+    { "value": "Airecon Extention System", "id": "AES", "Url": "http://localhost:4200" },
+    { "value": "Tenant Billing System", "id": "TBS", "Url": "http://localhost:4200" },
+    { "value": "Energy Management System", "id": "EMS", "Url": "http://localhost:4200"  },
+    { "value": "Facility Booking System", "id": "FBS", "Url": "http://localhost:4200"  }
   ],
 
   "status": [

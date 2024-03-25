@@ -18,19 +18,7 @@ import { UserAccountModalComponent } from "src/app/shared/widget/config/user-acc
   styleUrls: ["./user-account.component.scss"],
 })
 export class UserAccountComponent {
-  asseteTreeData: any[] = [];
-  tenantName: string = "Name of the Tenant";
-  unitCode: string = "STN1-BLD2-UNT-749567";
-  unitName: string = "Select..";
-  selectedService: string = "";
-  selectedYear: string = new Date().getFullYear().toString();
-  selectedMonth: string = (new Date().getMonth() + 1).toString();
-  selectedTenant: string = "";
-  serviceList: any[] = [];
-  yearList: any[] = [];
-  monthList: any[] = [];
-  tenantList: any[] = [];
-  extensionData: any[] = [];
+
   loadingInProgress: boolean = false;
 
   userName!: string;
