@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { error } from "console";
 import { result } from "lodash";
+import { NgToastService } from "ng-angular-popup";
 import { AppService } from "src/app/app.service";
 import { AuthService } from "src/app/auth/auth.service";
 import { MessageService } from "src/app/services/PopupMessages/message.service";
@@ -48,7 +49,8 @@ export class UserAccountComponent {
               private shared: UserAccountService,
               private modalService: NgbModal,
               private alertService: MessageService,
-              private appService: AppService,) { }
+              private appService: AppService,
+              private notifierService: NgToastService) { }
 
   user = this.auth.getUser();
 
@@ -97,7 +99,8 @@ export class UserAccountComponent {
 
   onSaveClicked() {
     // Implement save functionality
-    //this.putUser();
+    this.tempuser.userId = this.user?.id
+    this.putUser(this.tempuser);
     this.isEditMode = false; // Disable edit mode
   }
 
@@ -137,7 +140,17 @@ export class UserAccountComponent {
       if(result){
         console.log(result);
         this.userModal = result;
-        this.postPassword(this.userModal);
+        if(this.userModal.password != this.userModal.confirmPassword){
+          this.notifierService.warning({
+            detail: "Warning",
+            summary: "Please confirm the password",
+            duration: 2000,
+          });
+        }
+        else{
+          this.postPassword(this.userModal);
+        }
+
       }
     })
     .catch((error) => {
@@ -146,6 +159,13 @@ export class UserAccountComponent {
   }
 
   postPassword(user:any){
+    user.userId = this.user?.id;
+    user.userName = this.tempuser.userName;
+    user.firstName = this.tempuser.firstName;
+    user.lastName = this.tempuser.lastName;
+    user.phone = this.tempuser.phone;
+    user.email = this.tempuser.email;
+
     this.shared.putUser(user).subscribe({
       next:(res)=>{
         console.log(res)

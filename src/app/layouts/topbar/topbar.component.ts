@@ -34,6 +34,7 @@ export class TopbarComponent implements OnInit {
   module: string = "moduleName";
   organization: string = "company_name";
 
+
   constructor(@Inject(DOCUMENT) private document: any, private eventService: EventService, public languageService: LanguageService,
     public _cookiesService: CookieService, 
     private app: AppService,
@@ -140,9 +141,9 @@ export class TopbarComponent implements OnInit {
     return environment.signOn + "/account/profile";
   }
 
-  // get role() {
-  //   return this.app.user?.role.replace("_", " ");
-  // }
+  get role() {
+    return this.app.user?.role.replace("_", " ");
+  }
 
   get user() {
     return this.app.user?.fName;
@@ -189,6 +190,4 @@ export class TopbarComponent implements OnInit {
       }
     }
   }
-  
-
 }

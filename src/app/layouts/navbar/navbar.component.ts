@@ -68,21 +68,23 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // if (this.user && this.user.UserDetails) {
-    //   // Iterate through UserDetails array to find the role
-    //   for (const detail of this.user.UserDetails) {
-    //     // Parse the stringified JSON object
-    //     const UserDetails = JSON.parse(detail);
-    //     console.log("userDetails",UserDetails);
-        
-    //     // Check if the role is 'admin'
-    //     if (UserDetails.Role === 'admin') {
-    //       // If 'admin', set showNavbar to true and break the loop
-    //       this.showNavbar = true;
-    //       break;
-    //     }
-    //   }
-    // }
+    // // Assuming this.user is already assigned the decoded response
+    if (this.user && this.user.UserDetails) {
+      // Initialize showNavbar as false
+      this.showNavbar = false;
+
+      // Check if any detail object matches the specified conditions
+      for (const detail of this.user.UserDetails) {
+        if (
+          this.convertToLowerCase(detail.PlatformName) === 'user_management_system' && 
+          detail.Role.toLowerCase() === 'admin'
+        ) {
+          // If the conditions are met, set showNavbar to true and exit the loop
+          this.showNavbar = true;
+          break;
+        }
+      }
+    }
     //Load all the appropriate menu items from the database according to the user rights
     this.menuItems = this.sideMenuService.getMenu();
 
@@ -94,6 +96,12 @@ export class NavbarComponent implements OnInit {
       this.initActiveMenu();
     }, 0);
     
+  }
+
+  //Convert platform name
+  convertToLowerCase(name: string): string {
+    // Convert the name to lowercase and replace spaces with underscores
+    return name.toLowerCase().replace(/\s+/g, '_');
   }
 
   //This method set the selected module number and then referesh the page to populate the changes

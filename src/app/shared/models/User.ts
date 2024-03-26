@@ -8,9 +8,11 @@ export class User {
     platforms: string[];
     profileImage: string;
     email: string;
-    UserDetails:string[]
+    UserDetails:UserDetails[];
 
     role: string;
+
+    
 
     constructor(data: any) {
         this.id = data.userId || data.id;
@@ -31,4 +33,26 @@ export class User {
         return `${this.fName} ${this.lName}`;
     }
 
+}
+
+export class UserDetails {
+    PlatformID: number;
+    PlatformName: string;
+    PlatformURL: string;
+    Role: string;
+    RoleId: number;
+    Permission?: string;
+    Is_licence?: boolean;
+
+    constructor(data:any){
+        this.PlatformID=data.PlatformID;
+        this.PlatformName=data.PlatformName;
+        this.PlatformURL= data.PlatformURL;
+        this.RoleId=data.RoleId;
+        this.Role=data.Role;
+        this.Permission=data.Permissions;
+        if (data.IsLicense != null && typeof data.IsLicense == "string"){
+            this.Is_licence = data.IsLicense=="Yes";
+        } 
+    }
 }
