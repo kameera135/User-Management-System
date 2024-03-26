@@ -166,9 +166,11 @@ export class LoginComponent {
         next:(response:any) => {
           console.log(response);
           const jwtToken = response.token;
+          const sessionToken = response.session_id;
   
           // Store the JWT in local storage or a secure cookie
-          localStorage.setItem('jwt', jwtToken);
+          localStorage.setItem('user', jwtToken);
+          localStorage.setItem("sessionId", sessionToken);
   
           // Check if there's a stored URL
           const lastVisitedPage = localStorage.getItem('lastVisitedPage');
