@@ -1,19 +1,20 @@
-<div class="row align-items-center" *ngIf="loadingInProgress">
+<body>
+  <div class="row align-items-center" *ngIf="loadingInProgress">
   <app-waiting-circle></app-waiting-circle>
 </div>
-
-<div class="row mb-3 mx-1  {{ loadingInProgress ? 'hidden' : '' }}">
-  <div class="container">
-    <div class="row">
-      <!-- Include the SidebarComponent -->
-      
-      <div class="col-md-4" *ngFor="let menu of menuItems">
-        <!-- <app-dashboard-card [title]="menu.label" [subMenus]="menu.subItems"></app-dashboard-card> -->
-        <div class="dashboard-card">
-          <app-dashboard-card [subMenus]="menu.subItems"></app-dashboard-card>
+  <div class="row mb-3 mx-1  {{ loadingInProgress ? 'hidden' : '' }}">
+    <div class="container mx-auto">
+      <div class="row">
+        <!-- Include the SidebarComponent -->
+        
+        <div class="col-md-4" *ngFor="let menu of menuItems">
+          <!-- <app-dashboard-card [title]="menu.label" [subMenus]="menu.subItems"></app-dashboard-card> -->
+          <div class="dashboard-card">
+            <app-dashboard-card [subMenus]="menu.subItems"></app-dashboard-card>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</body>
 

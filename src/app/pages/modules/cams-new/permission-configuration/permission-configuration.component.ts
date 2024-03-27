@@ -185,38 +185,6 @@ export class PermissionConfigurationComponent {
     });
   }
 
-  // onAsseteTreeChanged(selectedItems: any[]): void {
-  //   window.alert(selectedItems.map(x => x.unitName).join(", ") + " selected")
-  // }
-
-  // loadData() {
-  //   this.loadingInProgress = true;
-  //   if (
-  //     (this.serchedTerm == undefined ||
-  //       this.serchedTerm == null ||
-  //       this.serchedTerm == "") &&
-  //     (this.selectedPermission == undefined ||
-  //       this.selectedPermission == null ||
-  //       this.selectedPermission == "All" ||
-  //       this.selectedPermission == "")
-  //   ) {
-  //     this.getAllPermissions();
-  //   } else if (
-  //     (this.serchedTerm != undefined ||
-  //       this.serchedTerm != null ||
-  //       this.serchedTerm != "") &&
-  //     (this.selectedPermission == undefined ||
-  //       this.selectedPermission == null ||
-  //       this.selectedPermission == "All" ||
-  //       this.selectedPermission == "")
-  //   ) {
-  //     this.searchPermissions(this.serchedTerm);
-  //   } else {
-  //     this.getAllPermissions();
-  //     this.alertService.sideErrorAlert("Error", "Could not retrive data");
-  //   }
-  // }
-
   loadData() {
     this.loadingInProgress = true;
     if (
@@ -240,11 +208,6 @@ export class PermissionConfigurationComponent {
       );
     }
   }
-
-  // onPlatformSelect() {
-  //   this.searchTerm = "";
-  //   this.loadData();
-  // }
 
   searchPermissions(serchedTerm: string) {
     this.shared
