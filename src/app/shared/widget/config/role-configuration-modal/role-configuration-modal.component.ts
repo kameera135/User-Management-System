@@ -59,7 +59,7 @@ export class RoleConfigurationModalComponent {
 
   isEditable: boolean = true;
 
-  platformListDefault: any[] = [{ value: "Select Platforms", id: "0" }];
+  platformListDefault: any[] = [];
   selectedPlatform!: number;
 
   permissionsForRoleArray: any = [];
@@ -140,7 +140,7 @@ export class RoleConfigurationModalComponent {
       });
       return;
     }
-    else if(this.type == "Add" && this.roleName == "" || this.platfromIds == 0){
+    else if(this.type == "Add" && (this.roleName == "" || this.platfromIds == 0)){
       this.notifierService.warning({
         detail: "Warning",
         summary: "Please fill required fields",

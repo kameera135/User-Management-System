@@ -68,23 +68,23 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // // Assuming this.user is already assigned the decoded response
-    if (this.user && this.user.UserDetails) {
-      // Initialize showNavbar as false
-      this.showNavbar = false;
+    // // // Assuming this.user is already assigned the decoded response
+    // if (this.user && this.user.UserDetails) {
+    //   // Initialize showNavbar as false
+    //   this.showNavbar = false;
 
-      // Check if any detail object matches the specified conditions
-      for (const detail of this.user.UserDetails) {
-        if (
-          this.convertToLowerCase(detail.PlatformName) === 'user_management_system' && 
-          detail.Role.toLowerCase() === 'admin'
-        ) {
-          // If the conditions are met, set showNavbar to true and exit the loop
-          this.showNavbar = true;
-          break;
-        }
-      }
-    }
+    //   // Check if any detail object matches the specified conditions
+    //   for (const detail of this.user.UserDetails) {
+    //     if (
+    //       this.convertToLowerCase(detail.PlatformName) === 'user_management_system' && 
+    //       detail.Role.toLowerCase() === 'admin'
+    //     ) {
+    //       // If the conditions are met, set showNavbar to true and exit the loop
+    //       this.showNavbar = true;
+    //       break;
+    //     }
+    //   }
+    // }
     //Load all the appropriate menu items from the database according to the user rights
     this.menuItems = this.sideMenuService.getMenu();
 

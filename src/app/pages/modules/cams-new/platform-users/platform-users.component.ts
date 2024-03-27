@@ -288,7 +288,7 @@ export class PlatformUsersComponent {
                   console.log("Confirmed to edit");
                   this.openModal(
                     "Edit",
-                    "Edit User Account Details",
+                    "Assign Roles",
                     userId,
                     userName,
                     firstName,

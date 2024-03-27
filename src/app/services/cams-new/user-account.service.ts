@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, catchError, throwError } from 'rxjs';
 import { AppService } from 'src/app/app.service';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -12,7 +12,7 @@ import { User } from 'src/app/shared/models/Cams-new/User';
 })
 export class UserAccountService {
 
-  constructor(private appService: AppService, private httpClient: HttpClient, private auth: AuthService, private router: Router) { }
+  constructor(private appService: AppService, private httpClient: HttpClient, private auth: AuthService, private router: Router, private route: ActivatedRoute) { }
 
   apiUrl = this.appService.appConfig[0].apiUrl;
   //user = this.appService.user;
@@ -40,6 +40,10 @@ export class UserAccountService {
     const urlParams = new URLSearchParams(window.location.search);
     const sessionToken = urlParams.get('token');
     const loginUser = urlParams.get('userId');
+
+    /*const sessionToken = this.route.snapshot.queryParams['token'];
+    const loginUser = this.route.snapshot.queryParams['userId'];*/
+
     if (!sessionToken) {
       this.router.navigate(['/login']);
       return throwError('Session token not found in URL');
@@ -49,7 +53,7 @@ export class UserAccountService {
 
     let queryParams = new HttpParams();
     const userId = parseInt(loginUser!, 10);
-    
+
     queryParams = queryParams.append("userId", userId.toString());
     queryParams = queryParams.append("sessionId", sessionToken);
 

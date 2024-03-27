@@ -51,15 +51,15 @@ class FirebaseAuthBackend {
     /**
      * Logout the user
      */
-    logout = () => {
-        return new Promise((resolve, reject) => {
-            firebase.auth().signOut().then(() => {
-                resolve(true);
-            }).catch((error: any) => {
-                reject(this._handleError(error));
-            });
-        });
-    }
+    // logout = () => {
+    //     return new Promise((resolve, reject) => {
+    //         firebase.auth().signOut().then(() => {
+    //             resolve(true);
+    //         }).catch((error: any) => {
+    //             reject(this._handleError(error));
+    //         });
+    //     });
+    // }
 
     /**
      * forget Password user with given details

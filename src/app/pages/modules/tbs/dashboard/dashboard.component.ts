@@ -1,10 +1,11 @@
-import { ApplicationConfig, Component } from "@angular/core";
+import { ApplicationConfig, Component, HostListener } from "@angular/core";
 import { error } from "console";
 import { BreadcrumbService } from "src/app/services/breadcrumb/breadcrumb.service";
 import { MenuService } from "src/app/services/menu.service";
 import { ActivityLogsService } from "src/app/services/cams-new/activity-logs.service";
 import { AppService } from "src/app/app.service";
 import { AuthService } from "src/app/auth/auth.service";
+import { NavigationStart, Router } from "@angular/router";
 
 @Component({
   selector: "app-dashboard",
@@ -18,6 +19,7 @@ export class DashboardComponent {
   showAddTile: boolean = true;
 
   menuItems: any[] = [];
+
 
   sessionId = localStorage.getItem("sessionId");
   user = this.auth.getUser();
@@ -120,8 +122,11 @@ export class DashboardComponent {
     private sideMenuService: MenuService,
     private ActivityLogsService: ActivityLogsService,
     private appConfigService: AppService,
-    private auth: AuthService
+    private auth: AuthService,
+    private router: Router
   ) {}
+
+
 
   ngOnInit(): void {
     // this.showAlert();

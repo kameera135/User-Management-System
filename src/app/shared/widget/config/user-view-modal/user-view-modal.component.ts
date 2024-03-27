@@ -194,7 +194,7 @@ export class UserViewModalComponent {
       return;
     }
 
-    if (this.form.value.password != this.form.value.confirmPassword) {
+    if ((this.form.value.password) != this.form.value.confirmPassword) {
       this.notifierService.warning({
         detail: "Warning",
         summary: "Please confirm the password",
