@@ -20,6 +20,7 @@ export class DashboardComponent {
   menuItems: any[] = [];
 
   sessionId = localStorage.getItem("sessionId");
+  user = this.auth.getUser();
 
   generatePlatformMenuItems(): any[] {
     const platformList = this.appConfigService.appConfig[0].platformList; // Replace with your service method to get platform list
@@ -29,7 +30,7 @@ export class DashboardComponent {
         subItems: [
           {
             label: platform.value,
-            path: `${platform.Url}/dashboard?session=${this.sessionId}`, // Adjust the path as needed
+            path: `${platform.Url}/dashboard?session=${this.sessionId}?user=${this.user?.id}`, // Adjust the path as needed
             description: `Navigate to ${platform.value} dashboard`,
           },
         ],

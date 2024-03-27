@@ -39,6 +39,7 @@ export class UserAccountService {
   validateSessionTokenFromUrl(): Observable<any> {
     const urlParams = new URLSearchParams(window.location.search);
     const sessionToken = urlParams.get('token');
+    const loginUser = urlParams.get('userId');
     if (!sessionToken) {
       this.router.navigate(['/login']);
       return throwError('Session token not found in URL');
@@ -47,7 +48,9 @@ export class UserAccountService {
     localStorage.setItem('sessionId', sessionToken);
 
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("userId", this.user?.id);
+    const userId = parseInt(loginUser!, 10);
+    
+    queryParams = queryParams.append("userId", userId.toString());
     queryParams = queryParams.append("sessionId", sessionToken);
 
     return this.httpClient.post<any>(`${this.apiUrl}user/validateSessionToken`, {params:queryParams}).pipe(
