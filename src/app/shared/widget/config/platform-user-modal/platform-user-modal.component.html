@@ -66,39 +66,6 @@
             </div>
           </div>
 
-        <!-- <div class="col-12" *ngIf="type !== 'Add' && type != 'View'">
-            <div class="mb-3">
-                <label class="col-form-label">Roles</label>
-                <div class="input-group">
-                    <textarea 
-                        class="form-control" 
-                        name="role"
-                        [ngModel]="rolesAsString"
-                        [disabled]="!isEditable || type === 'View' || type == 'Edit'" 
-                        cols="30" 
-                        rows="15">   
-                    </textarea>
-                    <div class="input-group-append" *ngIf="type !== 'View'">
-                        <button class="btn btn-outline-secondary edit-button" type="button" (click)="toggleListItems()">
-                          <i class="fas fa-plus"></i> 
-                        </button>
-                    </div>
-                </div>
-            </div> -->
-             <!-- Box to display list items -->
-            <!-- <div class="list-items-box" *ngIf="showListItems">
-                <ul>
-                    <li *ngFor="let item of listItems">
-                        <label>
-                            <input type="checkbox" [(ngModel)]="item.selected" [ngModelOptions]="{standalone: true}"/>
-                            {{ item.name }}
-                        </label>
-                    </li>
-                </ul>
-                <button class="btn btn-primary" (click)="addSelectedItems()">Done</button>
-            </div>
-        </div> -->
-
         <div class="col-12" *ngIf="type != 'Add' && type != 'View'">
             <div class="mb-0">
               <label class="col-form-label">Roles</label>
@@ -130,7 +97,10 @@
                       </label>
                   </li>
               </ul>
-              <button type="submit" class="btn btn-primary" (click)="loadRoles()">Done</button>
+              <div>
+                <button type="submit" class="btn btn-primary" style="margin-right: 20px;" [disabled]="!atLeastOneItemSelected()" (click)="loadRoles()">Done</button>
+                <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+              </div>
             </div>
           </div>
 

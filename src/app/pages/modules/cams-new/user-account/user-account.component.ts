@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { error } from "console";
 import { result } from "lodash";
@@ -50,11 +51,40 @@ export class UserAccountComponent {
               private modalService: NgbModal,
               private alertService: MessageService,
               private appService: AppService,
-              private notifierService: NgToastService) { }
+              private notifierService: NgToastService,
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   user = this.auth.getUser();
 
   ngOnInit(): void {
+
+    const sessionToken = this.route.snapshot.queryParams['session'];
+    const loginUser = this.route.snapshot.queryParams['user'];
+
+    if (sessionToken && loginUser) {
+      // Session token and user ID are present in the URL, validate session
+      this.shared.validateSessionTokenFromUrl(sessionToken, loginUser).subscribe({
+        next: (response:any) => {
+          console.log(response);
+          this.handleSessionValidationResponse(response);
+          this.getUserDetails(loginUser);
+        },
+        error: (error) => {
+          // Session validation failed or session token not found, handle error
+          console.error('Error validating session:', error);
+          this.router.navigate(['/login']);
+          alert("Session not validate")
+        }
+      });
+    } else {
+      // Session token or user ID not present in the URL, proceed with initialization
+      this.initializeUserAccount();
+    }
+  
+  }
+
+  initializeUserAccount() {
     this.extensionTableOptions.allowCheckbox = true;
 
     // this.extensionData = this.dataArray;
@@ -64,12 +94,38 @@ export class UserAccountComponent {
       { label: "User Account", active: true },
     ]);
 
-    this.getUserDetails();
+    this.getUserDetails(this.user?.id);
   }
 
-  getUserDetails() {
+  handleSessionValidationResponse(response: any): void{
+    if (response.statusCode === 200 && response.token) {
+      const token = response.token;
+      // Check if the token is a valid JWT
+      if (this.isJWT(token)) {
+        // Set JWT token to local storage
+        localStorage.setItem('user', token);
+
+      } else {
+        // Redirect to login page if token is invalid
+        this.router.navigate(['/login']);
+        throw new Error('Invalid JWT token');
+      }
+    } else {
+      // Redirect to login page if response does not contain a valid token
+      this.router.navigate(['/login']);
+      throw new Error('Session validation failed');
+    }
+  }
+
+  private isJWT(token: string): boolean {
+    const jwtParts = token.split('.');
+    return jwtParts.length === 3; // JWT tokens contain three parts separated by dots
+  }
+
+
+  getUserDetails(userId: any) {
     
-    this.shared.getUserDetails(this.user?.id).subscribe({
+    this.shared.getUserDetails(userId).subscribe({
       next: (response) => {
         console.log(response);
         this.tempuser = response;
@@ -208,6 +264,7 @@ export class UserAccountComponent {
         );
       },
       error: (error) => {
+        console.log("error: ",error);
         this.alertService.sideErrorAlert(
           "Error",
           this.appService.popUpMessageConfig[0].UserUpdatedErrorSideAlertMessage

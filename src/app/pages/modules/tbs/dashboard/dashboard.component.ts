@@ -5,7 +5,10 @@ import { MenuService } from "src/app/services/menu.service";
 import { ActivityLogsService } from "src/app/services/cams-new/activity-logs.service";
 import { AppService } from "src/app/app.service";
 import { AuthService } from "src/app/auth/auth.service";
-import { NavigationStart, Router } from "@angular/router";
+import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
+import { UserAccountService } from "src/app/services/cams-new/user-account.service";
+import { Observable, catchError, map, of } from "rxjs";
+import { STATUS_CODES } from "http";
 
 @Component({
   selector: "app-dashboard",
@@ -23,16 +26,16 @@ export class DashboardComponent {
 
   sessionId = localStorage.getItem("sessionId");
   user = this.auth.getUser();
+  platformList = this.appConfigService.appConfig[0].platformList; // Replace with your service method to get platform list
 
   generatePlatformMenuItems(): any[] {
-    const platformList = this.appConfigService.appConfig[0].platformList; // Replace with your service method to get platform list
   
-    return platformList.map((platform) => {
+    return this.platformList.map((platform) => {
       return {
         subItems: [
           {
             label: platform.value,
-            path: `${platform.Url}/dashboard?session=${this.sessionId}?user=${this.user?.id}`, // Adjust the path as needed
+            path: `${platform.Url}/dashboard?session=${this.sessionId}&user=${this.user?.id}`, // Adjust the path as needed
             description: `Navigate to ${platform.value} dashboard`,
           },
         ],
@@ -48,60 +51,6 @@ export class DashboardComponent {
     //       label: "Tenant Billing system",
     //       path: "https://www.google.com/",
     //       description: "View users and customize users",
-    //     },
-    //   ],
-    // },
-
-    // {
-    //   //label: "Configuration",
-    //   subItems: [
-    //     {
-    //       label: "Aircon Extention System",
-    //       path: "https://www.facebook.com/",
-    //       description: "Aircon extension configuration site",
-    //     },
-    //   ],
-    // },
-
-    // {
-    //   //label: "Configuration",
-    //   subItems: [
-    //     {
-    //       label: "Configuration management system",
-    //       path: "https://www.linkedin.com/",
-    //       description: "Customize configurations of sites",
-    //     },
-    //   ],
-    // },
-
-    // {
-    //   //label: "Configuration",
-    //   subItems: [
-    //     {
-    //       label: "Facility Booking system",
-    //       path: "/permission-configuration",
-    //       description: "Customize permission configuration",
-    //     },
-    //   ],
-    // },
-
-    // {
-    //   //label: "Activity Logs",
-    //   subItems: [
-    //     {
-    //       label: "Activity Logs",
-    //       path: "/activity-logs",
-    //       description: "View Activity Logs",
-    //     },
-    //   ],
-    // },
-
-    // {
-    //   subItems: [
-    //     {
-    //       label: "Password Policy",
-    //       path: "/password-policy",
-    //       description: "Customize password policies",
     //     },
     //   ],
     // },
@@ -123,14 +72,58 @@ export class DashboardComponent {
     private ActivityLogsService: ActivityLogsService,
     private appConfigService: AppService,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
+    private shared: UserAccountService
   ) {}
 
 
 
   ngOnInit(): void {
-    // this.showAlert();
 
+    const loginUser = this.route.snapshot.queryParams['user'];
+    const platformId = this.route.snapshot.queryParams['platform'];
+
+    if(loginUser){
+
+      if(this.validateUserId(loginUser,this.sessionId)){
+
+        const platform = this.platformList.find(item => item.id == platformId);
+
+        if(platform){
+          const dashboardUrl = `${platform.Url}/dashboard?session=${this.sessionId}&user=${this.user?.id}`
+          this.router.navigateByUrl(dashboardUrl);
+          this.initializedashboard();
+        }else{
+          alert("Platform not found from the Id")
+          this.router.navigate(['/login']);
+        }
+      }
+      else{
+        alert( 'Invalid User ID');
+      }
+    }
+    else
+    { 
+      this.initializedashboard();
+    }
+
+  }
+
+  validateUserId(userId:any,sessionId: any): Observable<boolean>{
+    return this.shared.validateSessionTokenFromUrl(sessionId, userId).pipe(
+      map(response => {
+        return response && response.valueOf() === 200 && userId == this.user?.id;
+      }),
+      catchError(error => {
+        // Handle error or invalid session
+        this.router.navigate(['/login']); // Redirect to login page
+        return of(false);
+      })
+    );
+  }
+
+  initializedashboard(){
     this.menuItems = [...this.menus,
       ...this.generatePlatformMenuItems()]
 
@@ -138,19 +131,4 @@ export class DashboardComponent {
       { label: "Dashboard", active: true },
     ]);
   }
-
-  // showAlert(): any {
-  //   this.ActivityLogsService.getAcknowledgeAlert().subscribe({
-  //     next: (result) => {
-  //       this.hasAlert = result.hasAlert;
-
-  //       if (this.hasAlert) {
-  //         this.menuItems[4].subItems[0].hasAlert = true;
-  //       }
-  //     },
-  //     error: (error) => {
-  //       console.log(error);
-  //     },
-  //   });
-  // }
 }

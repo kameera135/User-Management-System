@@ -105,6 +105,7 @@
         </ng-option>
       </ng-select>
       </div>
+      <div class="form-text text-muted" *ngIf="type == 'Edit'">Select the platform</div>
     </div>
 
     <!-- <div class="col-12" *ngIf="type != 'Add' && type != 'Edit' && type != 'View'">
@@ -189,7 +190,8 @@
                 </label>
             </li>
         </ul>
-        <button type="submit" class="btn btn-primary" (click)="loadSelectedRecords()">Done</button>
+        <button type="submit" class="btn btn-primary align-items-center" style="margin-right: 30px;"  [disabled]="!atLeastOneItemSelected()" (click)="loadSelectedRecords()">Done</button>
+        <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
       </div>
     </div>
 

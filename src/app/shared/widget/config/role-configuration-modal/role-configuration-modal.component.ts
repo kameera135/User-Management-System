@@ -127,6 +127,15 @@ export class RoleConfigurationModalComponent {
 
     }
 
+    //Disable when user not select permission in the list
+    atLeastOneItemSelected(): boolean {
+      return this.listItems.some(item => item.selected);
+    }
+
+    cancel() {
+      this.showListItems = false;
+    }
+
   onFormSubmit() {
 
     if ( 

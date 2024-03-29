@@ -130,6 +130,7 @@
   "UnassignUserConfirmationMessage": "You want to unassign user/s?",
   "UserUnassignedSuccessSideAlertMessage": "User/s unassigned successfully !",
   "UserUnassignedErrorSideAlertMessage": "Could not unassign user/s.",
+  "UserNotAssigndNotificationMessage": "User not selected.",
 
   "PermissionAssigndNotificationMessage": "Permission/s assigened successfully! ",
   "PermissionAssignedSuccessSideAlertMessage": "Permission/s assigned successfully !",

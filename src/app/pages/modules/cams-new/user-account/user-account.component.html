@@ -3,179 +3,181 @@
 </div>
 
 <div class="row mb-0 mx-1 {{ loadingInProgress ? 'hidden' : '' }}">
-<div class="row mb-0 mx-1">
-  <div class="card col-lg-6 mx-auto">
-    <div class="card-header">
-      <div class="col-12 col-lg-12 mt-1"><h2>User Account</h2></div>
-    </div>
-
-    <div class="card-body pb-3">
-      <div class="row">
-        <div class="card-body">
-          <div class="row align-items-end">
-            <div>
-              <div class="row mb-4 align-items-baseline">
-                <div class="col-3">
-                  <label class="form-label">Username*</label>
-                </div>
-                <div class="col-9">
-                  <input
-                    type="text"
-                    class="form-control"
-                    [(ngModel)]="tempuser.userName"
-                    name="userName"
-                    [disabled]="!isEditMode"
-                  />
-                </div>
-              </div>
-
-              <div class="row mb-4 align-items-baseline">
-                <div class="col-3">
-                  <label class="form-label">Password*</label>
-                </div>
-                <div class="col-9">
-                  <div>
-                    <button
-                      (click)="changePassword($event)"
-                      type="button"
-                      class="btn btn-light btn-label mt-2 custom-border"
-                      style="width: 100%"
+<ng-container >
+  <div class="row mb-0 mx-1">
+    <div class="card col-lg-6 mx-auto">
+      <div class="card-header">
+        <div class="col-12 col-lg-12 mt-1"><h2>User Account</h2></div>
+      </div>
+  
+      <div class="card-body pb-3">
+        <div class="row">
+          <div class="card-body">
+            <div class="row align-items-end">
+              <div>
+                <div class="row mb-4 align-items-baseline">
+                  <div class="col-3">
+                    <label class="form-label">Username*</label>
+                  </div>
+                  <div class="col-9">
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="tempuser.userName"
+                      name="userName"
                       [disabled]="!isEditMode"
-                    >
-                      <i
-                        class="bi bi-key label-icon align-middle fs-16 me-2"
-                      ></i
-                      >Change
-                    </button>
+                    />
                   </div>
                 </div>
+  
+                <div class="row mb-4 align-items-baseline">
+                  <div class="col-3">
+                    <label class="form-label">Password*</label>
+                  </div>
+                  <div class="col-9">
+                    <div>
+                      <button
+                        (click)="changePassword($event)"
+                        type="button"
+                        class="btn btn-light btn-label mt-2 custom-border"
+                        style="width: 100%"
+                        [disabled]="!isEditMode"
+                      >
+                        <i
+                          class="bi bi-key label-icon align-middle fs-16 me-2"
+                        ></i
+                        >Change
+                      </button>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row mb-4 align-items-baseline">
+                  <div class="col-3">
+                    <label class="form-label">First Name*</label>
+                  </div>
+                  <div class="col-9">
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="tempuser.firstName"
+                      name="firstName"
+                      [disabled]="!isEditMode"
+                    />
+                  </div>
+                </div>
+  
+                <div class="row mb-4 align-items-baseline">
+                  <div class="col-3">
+                    <label class="form-label">Last Name*</label>
+                  </div>
+                  <div class="col-9">
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="tempuser.lastName"
+                      name="lastName"
+                      [disabled]="!isEditMode"
+                    />
+                  </div>
+                </div>
+  
+                <!-- <div class="row mb-4 align-items-baseline">
+                  <div class="col-3">
+                    <label class="form-label">Role*</label>
+                  </div>
+                  <div class="col-9">
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="role"
+                      name="role"
+                      [disabled]="!isEditMode"
+                    />
+                  </div>
+                </div> -->
+  
+                <div class="row mb-4 align-items-baseline">
+                  <div class="col-3">
+                    <label class="form-label">Email*</label>
+                  </div>
+                  <div class="col-9">
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="tempuser.email"
+                      name="userName"
+                      [disabled]="!isEditMode"
+                    />
+                  </div>
+                </div>
+  
+                <div class="row mb-4 align-items-baseline">
+                  <div class="col-3">
+                    <label class="form-label">Phone Number</label>
+                  </div>
+                  <div class="col-9">
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="tempuser.phone"
+                      (ngModelChange)="onPhoneNumberChanged()"
+                      name="password"
+                      [disabled]="!isEditMode"
+                    />
+                  </div>
+                  <div *ngIf="isPhoneNumberRequired"> <!-- Check if phone number is required -->
+                    <span class="error-text">Phone Number is required.</span>
+                  </div>
+                  <div *ngIf="isInvalidPattern && isDirty && !isPhoneNumberRequired"> <!-- Check if phone number has invalid pattern -->
+                    <span class="error-text">Invalid phone number. Please enter only numeric values.</span>
+                  </div>
+                  <div *ngIf="isInvalidPhoneNumberType && isDirty && !isPhoneNumberRequired && !isInvalidPattern"> <!-- Check if phone number has invalid type -->
+                    <span class="error-text">Invalid phone number type.</span>
+                  </div>
+                </div>
+  
+                <!-- <div class="row mb-4 align-items-baseline">
+                  <div class="col-3">
+                    <label class="form-label">User Profile</label>
+                  </div>
+                  <div class="col-9">
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="userProfile"
+                      name="firstName"
+                      [disabled]="false"
+                    />
+                  </div>
+                </div> -->
               </div>
-
-              <div class="row mb-4 align-items-baseline">
-                <div class="col-3">
-                  <label class="form-label">First Name*</label>
+  
+              <div class="col-12 d-flex justify-content-end">
+                <div class="mb-2">
+                  <!-- <button
+                    (click)="onEditClicked()"
+                    type="button"
+                    class="btn btn-primary btn-label mt-2"
+                  >
+                    <i
+                      class="bi bi-pencil-fill label-icon align-middle fs-16 me-2"
+                    ></i
+                    >Edit Account
+                  </button> -->
+                  <button (click)="isEditMode ? onSaveClicked() : onEditClicked()" type="button" class="btn btn-primary btn-label mt-2">
+                    <i class="bi bi-pencil-fill label-icon align-middle fs-16 me-2"></i>
+                    {{ isEditMode ? 'Save' : 'Edit' }} Account
+                  </button>
                 </div>
-                <div class="col-9">
-                  <input
-                    type="text"
-                    class="form-control"
-                    [(ngModel)]="tempuser.firstName"
-                    name="firstName"
-                    [disabled]="!isEditMode"
-                  />
-                </div>
-              </div>
-
-              <div class="row mb-4 align-items-baseline">
-                <div class="col-3">
-                  <label class="form-label">Last Name*</label>
-                </div>
-                <div class="col-9">
-                  <input
-                    type="text"
-                    class="form-control"
-                    [(ngModel)]="tempuser.lastName"
-                    name="lastName"
-                    [disabled]="!isEditMode"
-                  />
-                </div>
-              </div>
-
-              <!-- <div class="row mb-4 align-items-baseline">
-                <div class="col-3">
-                  <label class="form-label">Role*</label>
-                </div>
-                <div class="col-9">
-                  <input
-                    type="text"
-                    class="form-control"
-                    [(ngModel)]="role"
-                    name="role"
-                    [disabled]="!isEditMode"
-                  />
-                </div>
-              </div> -->
-
-              <div class="row mb-4 align-items-baseline">
-                <div class="col-3">
-                  <label class="form-label">Email*</label>
-                </div>
-                <div class="col-9">
-                  <input
-                    type="text"
-                    class="form-control"
-                    [(ngModel)]="tempuser.email"
-                    name="userName"
-                    [disabled]="!isEditMode"
-                  />
-                </div>
-              </div>
-
-              <div class="row mb-4 align-items-baseline">
-                <div class="col-3">
-                  <label class="form-label">Phone Number</label>
-                </div>
-                <div class="col-9">
-                  <input
-                    type="text"
-                    class="form-control"
-                    [(ngModel)]="tempuser.phone"
-                    (ngModelChange)="onPhoneNumberChanged()"
-                    name="password"
-                    [disabled]="!isEditMode"
-                  />
-                </div>
-                <div *ngIf="isPhoneNumberRequired"> <!-- Check if phone number is required -->
-                  <span class="error-text">Phone Number is required.</span>
-                </div>
-                <div *ngIf="isInvalidPattern && isDirty && !isPhoneNumberRequired"> <!-- Check if phone number has invalid pattern -->
-                  <span class="error-text">Invalid phone number. Please enter only numeric values.</span>
-                </div>
-                <div *ngIf="isInvalidPhoneNumberType && isDirty && !isPhoneNumberRequired && !isInvalidPattern"> <!-- Check if phone number has invalid type -->
-                  <span class="error-text">Invalid phone number type.</span>
-                </div>
-              </div>
-
-              <!-- <div class="row mb-4 align-items-baseline">
-                <div class="col-3">
-                  <label class="form-label">User Profile</label>
-                </div>
-                <div class="col-9">
-                  <input
-                    type="text"
-                    class="form-control"
-                    [(ngModel)]="userProfile"
-                    name="firstName"
-                    [disabled]="false"
-                  />
-                </div>
-              </div> -->
-            </div>
-
-            <div class="col-12 d-flex justify-content-end">
-              <div class="mb-2">
-                <!-- <button
-                  (click)="onEditClicked()"
-                  type="button"
-                  class="btn btn-primary btn-label mt-2"
-                >
-                  <i
-                    class="bi bi-pencil-fill label-icon align-middle fs-16 me-2"
-                  ></i
-                  >Edit Account
-                </button> -->
-                <button (click)="isEditMode ? onSaveClicked() : onEditClicked()" type="button" class="btn btn-primary btn-label mt-2">
-                  <i class="bi bi-pencil-fill label-icon align-middle fs-16 me-2"></i>
-                  {{ isEditMode ? 'Save' : 'Edit' }} Account
-                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- </div> -->
+  
+    <div class="col-lg-7 mx-auto mt-5"></div>
   </div>
-  <!-- </div> -->
-
-  <div class="col-lg-7 mx-auto mt-5"></div>
-</div>
+</ng-container>

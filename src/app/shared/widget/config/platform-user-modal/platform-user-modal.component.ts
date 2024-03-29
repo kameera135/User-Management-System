@@ -96,7 +96,6 @@ export class PlatformUserModalComponent {
   headArray = [
   
     { Head: "", FieldName: "", ColumnType: "CheckBox" },
-    { Head: "EmpId", FieldName: "EmpId", ColumnType: "Data" },
     { Head: "User Name", FieldName: "UserName", ColumnType: "Data" },
     { Head: "First Name", FieldName: "FirstName", ColumnType: "Data" },
     { Head: "Last Name", FieldName: "LastName", ColumnType: "Data" },
@@ -149,6 +148,15 @@ export class PlatformUserModalComponent {
       this.loadData();
     }
     
+  }
+
+  //Disable when user not select role in the list
+  atLeastOneItemSelected(): boolean {
+    return this.listItems.some(item => item.selected);
+  }
+
+  cancel() {
+  this.showListItems = false;
   }
 
   onFormSubmit() {
@@ -401,8 +409,16 @@ export class PlatformUserModalComponent {
         this.selectedItemArray.push(entry);
       }
     }
-    this.assignUser(this.selectedItemArray);
-    this.selectedItemArray = [];
+    if(this.selectedItemArray.length == 0){
+      this.alertService.warningSweetAlertMessage(
+        this.appService.popUpMessageConfig[0].UserNotAssigndNotificationMessage,
+        "Error!",
+        4000
+      );
+    }else{
+      this.assignUser(this.selectedItemArray);
+      this.selectedItemArray = [];
+    }
   }
 
   assignUser(items: any){
