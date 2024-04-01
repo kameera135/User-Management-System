@@ -23,19 +23,17 @@ export class DashboardComponent {
 
   menuItems: any[] = [];
 
-
   sessionId = localStorage.getItem("sessionId");
   user = this.auth.getUser();
   platformList = this.appConfigService.appConfig[0].platformList; // Replace with your service method to get platform list
 
   generatePlatformMenuItems(): any[] {
-  
     return this.platformList.map((platform) => {
       return {
         subItems: [
           {
             label: platform.value,
-            path: `${platform.Url}/dashboard?session=${this.sessionId}&user=${this.user?.id}`, // Adjust the path as needed
+            path: `${platform.Url}/login?session=${this.sessionId}&user=${this.user?.id}`, // Adjust the path as needed
             description: `Navigate to ${platform.value} dashboard`,
           },
         ],
@@ -77,55 +75,49 @@ export class DashboardComponent {
     private shared: UserAccountService
   ) {}
 
-
-
   ngOnInit(): void {
+    const loginUser = this.route.snapshot.queryParams["user"];
+    const platformId = this.route.snapshot.queryParams["platform"];
 
-    const loginUser = this.route.snapshot.queryParams['user'];
-    const platformId = this.route.snapshot.queryParams['platform'];
+    if (loginUser) {
+      if (this.validateUserId(loginUser, this.sessionId)) {
+        const platform = this.platformList.find(
+          (item) => item.id == platformId
+        );
 
-    if(loginUser){
-
-      if(this.validateUserId(loginUser,this.sessionId)){
-
-        const platform = this.platformList.find(item => item.id == platformId);
-
-        if(platform){
-          const dashboardUrl = `${platform.Url}/dashboard?session=${this.sessionId}&user=${this.user?.id}`
+        if (platform) {
+          const dashboardUrl = `${platform.Url}/dashboard?session=${this.sessionId}&user=${this.user?.id}`;
           this.router.navigateByUrl(dashboardUrl);
           this.initializedashboard();
-        }else{
-          alert("Platform not found from the Id")
-          this.router.navigate(['/login']);
+        } else {
+          alert("Platform not found from the Id");
+          this.router.navigate(["/login"]);
         }
+      } else {
+        alert("Invalid User ID");
       }
-      else{
-        alert( 'Invalid User ID');
-      }
-    }
-    else
-    { 
+    } else {
       this.initializedashboard();
     }
-
   }
 
-  validateUserId(userId:any,sessionId: any): Observable<boolean>{
+  validateUserId(userId: any, sessionId: any): Observable<boolean> {
     return this.shared.validateSessionTokenFromUrl(sessionId, userId).pipe(
-      map(response => {
-        return response && response.valueOf() === 200 && userId == this.user?.id;
+      map((response) => {
+        return (
+          response && response.valueOf() === 200 && userId == this.user?.id
+        );
       }),
-      catchError(error => {
+      catchError((error) => {
         // Handle error or invalid session
-        this.router.navigate(['/login']); // Redirect to login page
+        this.router.navigate(["/login"]); // Redirect to login page
         return of(false);
       })
     );
   }
 
-  initializedashboard(){
-    this.menuItems = [...this.menus,
-      ...this.generatePlatformMenuItems()]
+  initializedashboard() {
+    this.menuItems = [...this.menus, ...this.generatePlatformMenuItems()];
 
     this.breadcrumbService.loadBreadcrumbValue([
       { label: "Dashboard", active: true },
