@@ -25,17 +25,25 @@ export class DashboardComponent {
 
   sessionId = localStorage.getItem("sessionId");
   user = this.auth.getUser();
-  platformList = this.appConfigService.appConfig[0].platformList; // Replace with your service method to get platform list
+  //platformList = this.appConfigService.appConfig[0].platformList; // Replace with your service method to get platform list
+
+  platformList = this.user?.UserDetails.filter(item => item.PlatformURL && item.PlatformName);
 
   generatePlatformMenuItems(): any[] {
+
+    if (!this.user || !this.user.UserDetails) {
+      // Return an empty array or handle the case when user or UserDetails is undefined
+      return [];
+    }
     
-    return this.platformList.map((platform) => {
+    const platformList = this.user.UserDetails.filter(item => item.PlatformURL && item.PlatformName);
+    return platformList.map((platform) => {
       return {
         subItems: [
           {
-            label: platform.value,
-            path: `${platform.Url}/login?session=${this.sessionId}&user=${this.user?.id}`, // Adjust the path as needed
-            description: `Navigate to ${platform.value} dashboard`,
+            label: platform.PlatformName,
+            path: `${platform.PlatformURL}login?session=${this.sessionId}`, // Adjust the path as needed
+            description: `Navigate to ${platform.PlatformName} dashboard`,
           },
         ],
       };
@@ -89,11 +97,11 @@ export class DashboardComponent {
             this.router.navigate(["/login"]);
           }
           else if(platformId){
-            const platform = this.platformList.find(
-              (item) => item.id == platformId);
+            const platform = this.platformList?.find(
+              (item) => item.PlatformID == platformId);
 
             if (platform) {
-              const dashboardUrl = `${platform.Url}/dashboard?session=${this.sessionId}&user=${this.user?.id}`;
+              const dashboardUrl = `${platform.PlatformName}/dashboard?session=${this.sessionId}&user=${this.user?.id}`;
               this.router.navigateByUrl(dashboardUrl);
               this.initializedashboard();
               } else {
@@ -105,7 +113,7 @@ export class DashboardComponent {
             this.initializedashboard();
           }
         })
-      );
+      ).subscribe();
     }
     else{
       localStorage.clear();
