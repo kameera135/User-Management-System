@@ -71,6 +71,11 @@ export class LoginComponent {
 
     this.loading = true;
 
+    if(this.auth.isLoggedIn()){
+      console.log("hello")
+      this.router.navigate(['/dashboard']);
+    }
+
     // this.auth.checkSingleSignOn('/').subscribe(res => {
     //   if (res) {
 

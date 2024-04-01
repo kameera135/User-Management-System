@@ -50,12 +50,12 @@ export class UserAccountService {
 
     // console.log(sessionToken + " - " + loginUser);
 
-    if (!sessionToken) {
-      this.router.navigate(['/login']);
-      return throwError('Session token not found in URL');
-    }
+    // if (!sessionToken) {
+    //   this.router.navigate(['/login']);
+    //   return throwError('Session token not found in URL');
+    // }
 
-    localStorage.setItem('sessionId', sessionToken);
+    // localStorage.setItem('sessionId', sessionToken);
 
     let queryParams = new HttpParams();
     const userId = parseInt(loginUser!, 10);

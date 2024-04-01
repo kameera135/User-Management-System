@@ -7,7 +7,7 @@ import { AppService } from "src/app/app.service";
 import { AuthService } from "src/app/auth/auth.service";
 import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
 import { UserAccountService } from "src/app/services/cams-new/user-account.service";
-import { Observable, catchError, map, of } from "rxjs";
+import { Observable, catchError, map, of, tap } from "rxjs";
 import { STATUS_CODES } from "http";
 
 @Component({
@@ -28,6 +28,7 @@ export class DashboardComponent {
   platformList = this.appConfigService.appConfig[0].platformList; // Replace with your service method to get platform list
 
   generatePlatformMenuItems(): any[] {
+    
     return this.platformList.map((platform) => {
       return {
         subItems: [
@@ -76,47 +77,81 @@ export class DashboardComponent {
   ) {}
 
   ngOnInit(): void {
-    const loginUser = this.route.snapshot.queryParams["user"];
+    //const loginUser = this.route.snapshot.queryParams["user"];
     const platformId = this.route.snapshot.queryParams["platform"];
 
-    if (loginUser) {
-      if (loginUser == this.user?.id) {
-        const platform = this.platformList.find(
-          (item) => item.id == platformId
-        );
+    if(this.sessionId){
+      this.shared.validateSessionTokenFromUrl(this.sessionId,this.user?.id).pipe(
+        map((response: any)=> response.statusCode === 200),
+        tap((isvalid: boolean)=>{
+          if(!isvalid){
+            localStorage.clear();
+            this.router.navigate(["/login"]);
+          }
+          else if(platformId){
+            const platform = this.platformList.find(
+              (item) => item.id == platformId);
 
-        //check the platform with user ID in JWT
-        if (platform) {
-          const dashboardUrl = `${platform.url}/dashboard?session=${this.sessionId}&user=${this.user?.id}`;
-          this.router.navigateByUrl(dashboardUrl);
-          this.initializedashboard();
-        } else {
-          alert("Platform not found from the Id");
-          this.router.navigate(["/login"]);
-        }
-      } else {
-        alert("Invalid User ID");
-      }
-
-      // if (this.validateUserId(loginUser, this.sessionId)) {
-      //   const platform = this.platformList.find(
-      //     (item) => item.id == platformId
-      //   );
-
-      //   if (platform) {
-      //     const dashboardUrl = `${platform.Url}/dashboard?session=${this.sessionId}&user=${this.user?.id}`;
-      //     this.router.navigateByUrl(dashboardUrl);
-      //     this.initializedashboard();
-      //   } else {
-      //     alert("Platform not found from the Id");
-      //     this.router.navigate(["/login"]);
-      //   }
-      // } else {
-      //   alert("Invalid User ID");
-      // }
-    } else {
-      this.initializedashboard();
+            if (platform) {
+              const dashboardUrl = `${platform.Url}/dashboard?session=${this.sessionId}&user=${this.user?.id}`;
+              this.router.navigateByUrl(dashboardUrl);
+              this.initializedashboard();
+              } else {
+                alert("Platform not found from the Id");
+                this.router.navigate(["/login"]);
+              }
+          }
+          else{
+            this.initializedashboard();
+          }
+        })
+      );
     }
+    else{
+      localStorage.clear();
+      this.router.navigate(["/login"]);
+    }
+
+    this.initializedashboard();
+
+    // if (loginUser) {
+    //   if (loginUser == this.user?.id) {
+    //     const platform = this.platformList.find(
+    //       (item) => item.id == platformId
+    //     );
+
+    //     //check the platform with user ID in JWT
+    //     if (platform) {
+    //       const dashboardUrl = `${platform.Url}/dashboard?session=${this.sessionId}&user=${this.user?.id}`;
+    //       this.router.navigateByUrl(dashboardUrl);
+    //       this.initializedashboard();
+    //     } else {
+    //       alert("Platform not found from the Id");
+    //       this.router.navigate(["/login"]);
+    //     }
+    //   } else {
+    //     alert("Invalid User ID");
+    //   }
+
+    //   // if (this.validateUserId(loginUser, this.sessionId)) {
+    //   //   const platform = this.platformList.find(
+    //   //     (item) => item.id == platformId
+    //   //   );
+
+    //   //   if (platform) {
+    //   //     const dashboardUrl = `${platform.Url}/dashboard?session=${this.sessionId}&user=${this.user?.id}`;
+    //   //     this.router.navigateByUrl(dashboardUrl);
+    //   //     this.initializedashboard();
+    //   //   } else {
+    //   //     alert("Platform not found from the Id");
+    //   //     this.router.navigate(["/login"]);
+    //   //   }
+    //   // } else {
+    //   //   alert("Invalid User ID");
+    //   // }
+    // } else {
+    //   this.initializedashboard();
+    // }
   }
 
   validateUserId(userId: any, sessionId: any): Observable<boolean> {

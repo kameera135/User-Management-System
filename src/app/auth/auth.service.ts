@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 import { Observable, firstValueFrom } from 'rxjs';
 import { CrossStorageClient } from 'cross-storage';
 import { UserInformationService } from './user-information.service';
-import { shareReplay, tap } from "rxjs/operators";
+import { map, shareReplay, tap } from "rxjs/operators";
 import * as moment from "moment";
 import { auth } from '../shared/models/Cams-new/auth';
 import { AppService } from '../app.service';
@@ -16,6 +16,7 @@ import { forgotPassword } from '../shared/models/Cams-new/forgotPassword';
 import { resetPassword } from '../shared/models/Cams-new/resetPassword';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { config } from 'process';
+import { UserAccountService } from '../services/cams-new/user-account.service';
 
 
 @Injectable({
@@ -36,7 +37,8 @@ export class AuthService {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private httpClient: HttpClient,
-    private router: Router,) {
+    private router: Router,
+    private jwtHelper: JwtHelperService,) {
     this.headers = new Headers();
     this.headers.append('Content-Type', 'application/json');
     this.headers.append('Access-Control-Allow-Origin', '*');
@@ -213,7 +215,27 @@ export class AuthService {
   }
 
   public isLoggedIn(): boolean {
-    return moment().isBefore(this.getExpiration());
+    //return moment().isBefore(this.getExpiration());
+    return this.isJWTValid();
+  }
+
+  public isJWTValid(): boolean {
+    const userToken = localStorage.getItem('user');
+    return userToken != null && !this.jwtHelper.isTokenExpired(userToken);
+  }
+
+  private isSessionTokenValid(): boolean {
+    const sessionToken = localStorage.getItem('sessionId');
+    return sessionToken != null && !this.isSessionExpired(sessionToken);
+  }
+
+  private isSessionExpired(sessionToken: string): boolean {
+    if (!sessionToken) {
+      return false; // Session token not found, consider it as not expired
+    }
+    else{
+          return true;
+    }
   }
 
   isLoggedOut(): boolean {

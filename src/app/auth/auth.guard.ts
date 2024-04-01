@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { UserAccountService } from '../services/cams-new/user-account.service';
+import { error } from 'console';
 
 @Injectable({
   providedIn: 'root'
@@ -15,18 +17,17 @@ export class AuthGuard implements CanActivate {
     constructor(
       private service: AuthService,
       private router: Router,
-      private jwtHelper: JwtHelperService
+      private jwtHelper: JwtHelperService,
+      private sessionValidation: UserAccountService
       ) {
     }
     
   canActivate(next: ActivatedRouteSnapshot,state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
     const token = localStorage.getItem("user");  
+    const session = localStorage.getItem("sessionId")
+    const user = this.service.getUser()?.id;
     const url = state.url;
-
-    if (token && !this.jwtHelper.isTokenExpired(token)){
-      return true;
-    }
 
     if (url.startsWith("/user-account")) {
       // Check if the URL has the specific format
@@ -46,27 +47,16 @@ export class AuthGuard implements CanActivate {
         return false;
       }
     }
-    this.router.navigate(["/login"]);
-    return false;
 
-
-
-      return this.service.isAuthenticated(state.url)
-        .pipe(
-
-            tap(authenticated => {
-
-              if (!authenticated)
-              {
-
-                this.router.navigate(['/login']);
-
-              }
-
-            }),
-
-        );
-        
+    // For other pages, validate the session token
+    return this.sessionValidation.validateSessionTokenFromUrl(session, user).pipe(
+      map((response: any) => response.statusCode === 200),
+      tap((isValid: boolean) => {
+        if (!isValid) {
+          localStorage.clear();
+          this.router.navigate(["/login"]);
+        }
+      })
+    );
   }
-  
 }

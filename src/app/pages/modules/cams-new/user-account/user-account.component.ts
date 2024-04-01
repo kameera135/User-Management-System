@@ -64,33 +64,7 @@ export class UserAccountComponent {
 
     const sessionTokenInLocal = localStorage.getItem('sessionId');
 
-    if(sessionToken === sessionTokenInLocal){
-      this.getUserDetails(loginUser);
-      this.initializeUserAccount()
-    }
-    else{
-      this.router.navigate(['/login']);
-      alert("Session not validate");
-    }
-
-    // if (sessionToken && loginUser) {
-    //   // Session token and user ID are present in the URL, validate session
-    //   this.shared.validateSessionTokenFromUrl(sessionToken, loginUser).subscribe({
-    //     next: (response:any) => {
-    //       console.log(response);
-    //       this.handleSessionValidationResponse(response);
-    //       this.getUserDetails(loginUser);
-    //     },
-    //     error: (error) => {
-    //       // Session validation failed or session token not found, handle error
-    //       console.error('Error validating session:', error);
-    //     }
-    //   });
-    // } else {
-    //   // Session token or user ID not present in the URL, proceed with initialization
-    //   this.initializeUserAccount();
-    // }
-  
+    this.initializeUserAccount();
   }
 
   initializeUserAccount() {

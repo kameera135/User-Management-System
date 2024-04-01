@@ -16,33 +16,6 @@
     "day": "numeric"
   },
   "pageSizeArray": ["5", "10", "20", "50", "100"],
-  "servicesList": {
-    "Date": "",
-    "Water": 0,
-    "Electricity": 0,
-    "AC": 0,
-    "Gas": 0
-  },
-  "consumptionReportName": [
-    {
-      "consumption_by_service": "Consumption By Service",
-      "consumption_by_meter": "Consumption By Meter",
-      "consumption_history": "Consumption History",
-      "meter_daily_summary": "Meter Daily Summary",
-      "meter_compensates": "Meter Compensates",
-      "meter_readings": "Meter Readings"
-    }
-  ],
-  "consumptionSheetName": [
-    {
-      "consumption_by_service": "Consumption Service Data",
-      "consumption_by_meter": "Consumption Meter Data",
-      "consumption_history": "Consumption History Data",
-      "meter_daily_summary": "Daily Summary Data",
-      "meter_compensates": "Compensates Data",
-      "meter_readings": "Meter Readings"
-    }
-  ],
   "maximumYearRangeForInvoice": 10,
   "maximumYearRangeForReport": 10,
   "maximumYearRange": 10,
