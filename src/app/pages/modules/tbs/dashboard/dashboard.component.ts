@@ -80,11 +80,12 @@ export class DashboardComponent {
     const platformId = this.route.snapshot.queryParams["platform"];
 
     if (loginUser) {
-      if (this.validateUserId(loginUser, this.sessionId)) {
+      if (loginUser == this.user?.id) {
         const platform = this.platformList.find(
           (item) => item.id == platformId
         );
 
+        //check the platform with user ID in JWT
         if (platform) {
           const dashboardUrl = `${platform.Url}/dashboard?session=${this.sessionId}&user=${this.user?.id}`;
           this.router.navigateByUrl(dashboardUrl);
@@ -96,6 +97,23 @@ export class DashboardComponent {
       } else {
         alert("Invalid User ID");
       }
+
+      // if (this.validateUserId(loginUser, this.sessionId)) {
+      //   const platform = this.platformList.find(
+      //     (item) => item.id == platformId
+      //   );
+
+      //   if (platform) {
+      //     const dashboardUrl = `${platform.Url}/dashboard?session=${this.sessionId}&user=${this.user?.id}`;
+      //     this.router.navigateByUrl(dashboardUrl);
+      //     this.initializedashboard();
+      //   } else {
+      //     alert("Platform not found from the Id");
+      //     this.router.navigate(["/login"]);
+      //   }
+      // } else {
+      //   alert("Invalid User ID");
+      // }
     } else {
       this.initializedashboard();
     }
