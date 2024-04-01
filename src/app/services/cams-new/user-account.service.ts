@@ -73,5 +73,16 @@ export class UserAccountService {
       return throwError('Session validation failed')
       }));
   }
+
+  deleteSessionToken(userId: number, sessionToken: string){
+    let queryParams = new HttpParams();
+
+    queryParams = queryParams.append( 'sessionToken', sessionToken );
+    queryParams = queryParams.append('userId', userId);
+
+    return this.httpClient.delete(`${this.apiUrl}/api/user/deleteSession`,{
+        params: queryParams
+    });
+}
 }
 

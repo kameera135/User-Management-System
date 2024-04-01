@@ -13,6 +13,7 @@ import { AppService } from 'src/app/app.service';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Route, Router } from '@angular/router';
+import { UserAccountService } from 'src/app/services/cams-new/user-account.service';
 
 @Component({
   selector: 'app-topbar',
@@ -31,6 +32,9 @@ export class TopbarComponent implements OnInit {
   userData: any;
   current_theme = this.getCookie('aes-app-theme');
 
+  tempuser= this.auth.getUser();
+  private sessionToken : string | any = localStorage.getItem('sessionId');
+
   module: string = "moduleName";
   organization: string = "company_name";
 
@@ -40,7 +44,8 @@ export class TopbarComponent implements OnInit {
     private app: AppService,
     private auth: AuthService,
     private titleService: Title,
-    private router: Router
+    private router: Router,
+    private shared: UserAccountService
   ) { }
 
   ngOnInit(): void {
@@ -134,6 +139,16 @@ export class TopbarComponent implements OnInit {
    * Logout the user
    */
   logout() {
+
+    this.shared.deleteSessionToken(this.tempuser?.id, this.sessionToken).subscribe({
+      next: (response) =>{
+        console.log(response);
+      },
+      error:(error)=>{
+        alert("Error while logging out!");
+      }
+    })
+
     this.auth.logout();
   }
 
