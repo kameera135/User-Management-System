@@ -70,9 +70,9 @@
   ],
 
   "platformList": [
-    { "value": "System Configuration", "id": 3, "Url": "http://localhost:4200" },
-    { "value": "Tenant Billing System", "id": 2, "Url": "http://localhost:5630" },
-    { "value": "Energy Management System", "id": 4, "Url": "http://localhost:4200"  }
+    { "value": "System Configuration", "id": 3, "url": "http://localhost:4200" },
+    { "value": "Tenant Billing System", "id": 2, "url": "http://localhost:5630" },
+    { "value": "Energy Management System", "id": 4, "url": "http://localhost:4200"  }
   ],
 
   "status": [

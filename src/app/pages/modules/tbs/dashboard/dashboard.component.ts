@@ -87,7 +87,7 @@ export class DashboardComponent {
 
         //check the platform with user ID in JWT
         if (platform) {
-          const dashboardUrl = `${platform.Url}/dashboard?session=${this.sessionId}&user=${this.user?.id}`;
+          const dashboardUrl = `${platform.url}/dashboard?session=${this.sessionId}&user=${this.user?.id}`;
           this.router.navigateByUrl(dashboardUrl);
           this.initializedashboard();
         } else {
