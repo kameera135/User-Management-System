@@ -100,8 +100,13 @@ export class NavbarComponent implements OnInit {
 
   //Convert platform name
   convertToLowerCase(name: string): string {
-    // Convert the name to lowercase and replace spaces with underscores
-    return name.toLowerCase().replace(/\s+/g, '_');
+    
+    if (name) {
+      // Convert the name to lowercase and replace spaces with underscores
+      return name.toLowerCase().replace(/\s+/g, '_');
+    } else {
+      return ''; // Return an empty string if name is undefined
+    }
   }
 
   //This method set the selected module number and then referesh the page to populate the changes
