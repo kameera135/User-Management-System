@@ -79,10 +79,6 @@ export class PlatformUsersComponent {
   ) {}
 
   ngOnInit(): void {
-    var platforms = this.appService.appConfig[0].platformList;
-    for (let i = 0; i < platforms.length; i++) {
-      this.platformList.push(platforms[i]);
-    }
 
     this.usersViewTableOptions.allowCheckbox = true;
     this.usersViewTableOptions.allowBulkDeleteButton = true;

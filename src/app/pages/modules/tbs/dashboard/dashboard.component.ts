@@ -143,7 +143,7 @@ export class DashboardComponent {
             this.initializedashboard();
           }
         })
-      ).subscribe();
+      );
     }
     else{
       localStorage.clear();
