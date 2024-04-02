@@ -40,13 +40,26 @@ export class DashboardComponent {
     const platformList: { label: string; path: string; description: string; }[] = [];
 
     this.user.UserDetails.forEach(item => {
-      if (item.PlatformURL && item.PlatformName && !uniquePlatforms.has(item.PlatformID)) {
-        uniquePlatforms.add(item.PlatformID); // Add the PlatformID to the Set
-        platformList.push({
-          label: item.PlatformName,
-          path: `${item.PlatformURL}login?session=${this.sessionId}`,
-          description: `Navigate to ${item.PlatformName} dashboard`,
+      if (Array.isArray(item)) {
+        item.forEach(nestedItem => {
+          if (nestedItem.PlatformURL && nestedItem.PlatformName && !uniquePlatforms.has(nestedItem.PlatformID)) {
+            uniquePlatforms.add(nestedItem.PlatformID);
+            platformList.push({
+              label: nestedItem.PlatformName,
+              path: `${nestedItem.PlatformURL}login?session=${this.sessionId}`,
+              description: `Navigate to ${nestedItem.PlatformName} dashboard`,
+            });
+          }
         });
+      } else {
+        if (item.PlatformURL && item.PlatformName && !uniquePlatforms.has(item.PlatformID)) {
+          uniquePlatforms.add(item.PlatformID);
+          platformList.push({
+            label: item.PlatformName,
+            path: `${item.PlatformURL}login?session=${this.sessionId}`,
+            description: `Navigate to ${item.PlatformName} dashboard`,
+          });
+        }
       }
     });
     
