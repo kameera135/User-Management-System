@@ -46,7 +46,6 @@ export class LoginComponent {
 
   constructor(
     private auth: AuthService, private router: Router,
-    private actRoute: ActivatedRoute,
     private fb: FormBuilder,
     private userInfo: UserProfileService,
     // private asseteTreeService: AsseteTreeService,
@@ -71,8 +70,7 @@ export class LoginComponent {
 
     this.loading = true;
 
-    if(this.auth.isLoggedIn()){
-      console.log("hello")
+    if(this.userInforService.isLoggedIn()){
       this.router.navigate(['/dashboard']);
     }
 

@@ -41,21 +41,6 @@ export class UserAccountService {
   }
 
   validateSessionTokenFromUrl(sessionToken:any, loginUser: any) {
-    /*const urlParams = new URLSearchParams(window.location.search);
-    const sessionToken = urlParams.get('token');
-    const loginUser = urlParams.get('userId');*/
-
-    // const sessionToken = this.route.snapshot.queryParams['token'];
-    // const loginUser = this.route.snapshot.queryParams['userId'];
-
-    // console.log(sessionToken + " - " + loginUser);
-
-    // if (!sessionToken) {
-    //   this.router.navigate(['/login']);
-    //   return throwError('Session token not found in URL');
-    // }
-
-    // localStorage.setItem('sessionId', sessionToken);
 
     let queryParams = new HttpParams();
     const userId = parseInt(loginUser!, 10);
@@ -69,7 +54,9 @@ export class UserAccountService {
       {
         params:queryParams
       }).pipe(catchError(error=>{
+        localStorage.clear();
         this.router.navigate(['/login']);
+        console.log(error);
       return throwError('Session validation failed')
       }));
   }

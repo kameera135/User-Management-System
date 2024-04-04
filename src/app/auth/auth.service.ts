@@ -44,43 +44,6 @@ export class AuthService {
     this.headers.append('Access-Control-Allow-Origin', '*');
     this.getUser();
   }
-  
-
-  // public checkSingleSignOn(url: string): Observable<boolean> {
-  //   return new Observable<boolean>((ob) => {
-  //     if (!this.user) {
-  //       var storage = new CrossStorageClient(environment.signOn, {});
-  //       storage.onConnect().then(() => {
-  //         storage.get('de6ee1c350d80711a36682ac397d5d10a7e1f364-auth').then(val => {
-  //           storage.close();
-  //           const user = JSON.parse(val);
-  //           if (user)
-  //             this.verifyTokenPlatform(user).subscribe({
-  //               next: (res: any) => {
-  //                 user.permissions = res.permissions;
-  //                 user.role = res.role;
-  //                 user.email = res.email;
-  //                 user.token = res.token;
-  //                 this.user = new User(user);
-  //                 ob.next(true);
-  //               },
-  //               error: (err: any) => {
-  //                 console.log(err.message);
-  //               }
-  //             });
-  //           else
-  //             ob.next(false);
-  //         });
-  //       }).catch(e => {
-  //         console.log(e.message);
-  //         storage.close();
-  //         ob.next(false);
-  //       });
-  //     } else {
-  //       ob.next(true);
-  //     }
-  //   });
-  // }
 
   public isAuthenticated(url: any): Observable<boolean> {
     return new Observable<boolean>(ob => {
@@ -101,19 +64,16 @@ export class AuthService {
 
     let user: User | null = null;
     try {
-      //if (!this.user && isPlatformBrowser(this.platformId)) {
-        // let user = JSON.parse((window as { [key: string]: any })[environment.storage].getItem(`${environment.appName}-auth`));
-
-        // if (user)
-        //   this.user = new User(user);
         const jwtToken = localStorage.getItem('user');
-        if (jwtToken) {
+        if (jwtToken && this.isJWTValid()) {
           const decodedToken = this.decodeToken(jwtToken);
-          console.log("decoded token", decodedToken); 
           if (decodedToken) {
             user = new User(decodedToken);
           }
-        //}
+      }
+      else{
+        localStorage.clear();
+        this.router.navigate(['/login']);
       }
     }
     catch (e) {
@@ -125,67 +85,43 @@ export class AuthService {
   }
 
   private decodeToken(token: string): any {
-    const payload = token.split('.')[1];
-    const decodedPayload = atob(payload);
-    const parsedPayload = JSON.parse(decodedPayload);
 
-    if (parsedPayload.UserDetails) {
-        let userDetails = parsedPayload.UserDetails;
-        
-        // If userDetails is not an array, convert it to an array with a single element
-        if (!Array.isArray(userDetails)) {
-            userDetails = [userDetails];
-        }
+    if(token){
+      const payload = token.split('.')[1];
+      const decodedPayload = atob(payload);
+      const parsedPayload = JSON.parse(decodedPayload);
 
-        // Remove the "UserDetails" claim from the parsed payload
-        delete parsedPayload.UserDetails;
+      if (parsedPayload.UserDetails) {
+          let userDetails = parsedPayload.UserDetails;
+          
+          // If userDetails is not an array, convert it to an array with a single element
+          if (!Array.isArray(userDetails)) {
+              userDetails = [userDetails];
+          }
 
-        // Deserialize each user detail JSON string within the array
-        userDetails = userDetails.map((userDetailJson: string) => {
-            try {
-                return JSON.parse(userDetailJson);
-            } catch (error) {
-                console.warn('Invalid user details data in JWT payload.');
-                return {};
-            }
-        });
+          // Remove the "UserDetails" claim from the parsed payload
+          delete parsedPayload.UserDetails;
 
-        // Combine the parsed payload and the deserialized user details
-        return { ...parsedPayload, UserDetails: userDetails };
-    } else {
-        return parsedPayload;
+          // Deserialize each user detail JSON string within the array
+          userDetails = userDetails.map((userDetailJson: string) => {
+              try {
+                  return JSON.parse(userDetailJson);
+              } catch (error) {
+                  console.warn('Invalid user details data in JWT payload.');
+                  return {};
+              }
+          });
+
+          // Combine the parsed payload and the deserialized user details
+          return { ...parsedPayload, UserDetails: userDetails };
+      } else {
+          return parsedPayload;
+      }
     }
-}
+  }
 
-
-  // logout() {
-  //   if (isPlatformBrowser(this.platformId)) {
-  //     (window as { [key: string]: any })[environment.storage].removeItem(`${environment.appName}-auth`);
-  //   }
-  //   this.user = undefined;
-  //   window.location.href = `${environment.signOn}/auth/logout`;
-  // }
-
- // private baseUrl: string = 'https://localhost:8745/api/user';
   private userPayload:any;
 
-  // signUp(userObj: any) {
-  //   return this.httpClient.post<any>(`${this.baseUrl}register`, userObj)
-  // }
-
-  // signIn(loginObj : any){
-  //   return this.http.post<any>(`${this.baseUrl}authenticate`,loginObj)
-  // }
-
-  //log in to the system
-  // login(username:string, password:string){
-  //   let queryParams = new HttpParams();
-
-  //   queryParams = queryParams.append('username',username);
-  //   queryParams = queryParams.append('password',password);
-
-  //   return this.httpClient.post<any>(`${this.baseUrl}/login`,{queryParams}).pipe(tap(res => this.setSession(res)),shareReplay());
-  // }
 
   //to store token in session
   private setSession(authResult: any) {
@@ -196,13 +132,7 @@ export class AuthService {
   }  
 
   logout(): void {
-    localStorage.removeItem("id_token");
-    localStorage.removeItem("expires_at");
-    localStorage.removeItem("user");
-    localStorage.removeItem("sessionId");
-
-    
-
+   localStorage.clear();
     // Clear session storage
     sessionStorage.clear();
 
@@ -234,7 +164,7 @@ export class AuthService {
       return false; // Session token not found, consider it as not expired
     }
     else{
-          return true;
+        return true;
     }
   }
 
@@ -252,11 +182,6 @@ export class AuthService {
 
     return null;
   }
-
-  // signOut(){
-  //   localStorage.clear();
-  //   this.router.navigate(['login'])
-  // }
 
   storeToken(tokenValue: string){
     localStorage.setItem('token', tokenValue)

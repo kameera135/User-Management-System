@@ -106,9 +106,19 @@
                       type="text"
                       class="form-control"
                       [(ngModel)]="tempuser.email"
-                      name="userName"
+                      name="email"
+                      #email="ngModel"
+                      required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                       [disabled]="!isEditMode"
                     />
+                    <div *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+                      <div *ngIf="email?.errors?.['required']">
+                        <span class="error-text">Email is required.</span>
+                      </div>
+                      <div *ngIf="email?.errors?.[ 'pattern' ]">
+                        <span class="error-text">Invalid Email. Please check the email format.</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
   
@@ -121,19 +131,19 @@
                       type="text"
                       class="form-control"
                       [(ngModel)]="tempuser.phone"
-                      (ngModelChange)="onPhoneNumberChanged()"
-                      name="password"
+                      name="phone"
+                      #phone = "ngModel"
+                      required pattern="^65\d{8}$"
                       [disabled]="!isEditMode"
                     />
-                  </div>
-                  <div *ngIf="isPhoneNumberRequired"> <!-- Check if phone number is required -->
-                    <span class="error-text">Phone Number is required.</span>
-                  </div>
-                  <div *ngIf="isInvalidPattern && isDirty && !isPhoneNumberRequired"> <!-- Check if phone number has invalid pattern -->
-                    <span class="error-text">Invalid phone number. Please enter only numeric values.</span>
-                  </div>
-                  <div *ngIf="isInvalidPhoneNumberType && isDirty && !isPhoneNumberRequired && !isInvalidPattern"> <!-- Check if phone number has invalid type -->
-                    <span class="error-text">Invalid phone number type.</span>
+                    <div *ngIf="phone?.invalid && (phone?.dirty || phone?.touched)">
+                      <div *ngIf="phone?.errors?.['required']">
+                        <span class="error-text">Phone Number is required.</span>
+                      </div>
+                      <div *ngIf="phone?.errors?.[ 'pattern' ]">
+                        <span class="error-text">Invalid phone number. Please enter only numeric values or check the number length or format.</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
   

@@ -119,7 +119,7 @@ export class UserViewModalComponent {
         this.sgPhoneNumberValidator(), // Custom validator for Singapore phone number
       ],
       ),
-      email: new FormControl('', [Validators.required,Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)]),
+      email: new FormControl('', [Validators.required,Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
       password: new FormControl(),
       confirmPassword : new FormControl(),
     });

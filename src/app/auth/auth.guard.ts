@@ -41,7 +41,17 @@ export class AuthGuard implements CanActivate {
         // URL does not have the correct format
         // Check JWT token as for other pages
         if (token && !this.jwtHelper.isTokenExpired(token)) {
-          return true;
+          return this.sessionValidation.validateSessionTokenFromUrl(session, user).pipe(
+            map((response: any) => response.statusCode === 200),
+            tap((isValid: boolean) => {
+              if (!isValid) {
+                localStorage.clear();
+                this.router.navigate(["/login"]);
+                //return false;
+              }
+            })
+          );
+          //return true;
         }
         this.router.navigate(["/login"]);
         return false;
@@ -50,11 +60,13 @@ export class AuthGuard implements CanActivate {
 
     // For other pages, validate the session token
     return this.sessionValidation.validateSessionTokenFromUrl(session, user).pipe(
-      map((response: any) => response.statusCode === 200),
+      map((response: any) => response.statusCode == 200),
       tap((isValid: boolean) => {
         if (!isValid) {
+          console.log("hello");
           localStorage.clear();
           this.router.navigate(["/login"]);
+          //return false;
         }
       })
     );
