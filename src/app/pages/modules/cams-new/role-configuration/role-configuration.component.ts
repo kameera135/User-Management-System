@@ -548,11 +548,12 @@ export class RoleConfigurationComponent {
         this.loadData();
       },
       error: (error: any) => {
-        if (error.error) {
+        console.log(error)
+        if (error.error && error.error.errorDetails) {
           this.alertService.warningSweetAlertMessage(
-            error.error,
-            "Error!",
-            4000
+              error.error.errorDetails, // Use error.error.errorDetails for the specific error message
+              "Error!",
+              4000
           );
         }
         this.alertService.sideErrorAlert(
