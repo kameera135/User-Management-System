@@ -77,7 +77,7 @@ export class NavbarComponent implements OnInit {
       for (const detail of this.user.UserDetails) {
         if (
           this.convertToLowerCase(detail.PlatformName) === 'user_management_system' && 
-          detail.Role.toLowerCase() === 'admin'
+          detail.Role.toLowerCase() === 'admin-ums'
         ) {
           // If the conditions are met, set showNavbar to true and exit the loop
           this.showNavbar = true;
