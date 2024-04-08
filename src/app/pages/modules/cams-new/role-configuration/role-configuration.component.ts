@@ -516,6 +516,15 @@ export class RoleConfigurationComponent {
         this.loadData();
       },
       error: (error: any) => {
+        console.log(error);
+        if (error.error) {
+          this.alertService.warningSweetAlertMessage(
+              error.error, 
+              "Error!",
+              4000
+          );
+        }
+
         this.alertService.sideErrorAlert(
           "Error",
           this.appService.popUpMessageConfig[0]
@@ -548,7 +557,6 @@ export class RoleConfigurationComponent {
         this.loadData();
       },
       error: (error: any) => {
-        console.log(error)
         if (error.error && error.error.errorDetails) {
           this.alertService.warningSweetAlertMessage(
               error.error.errorDetails, // Use error.error.errorDetails for the specific error message
