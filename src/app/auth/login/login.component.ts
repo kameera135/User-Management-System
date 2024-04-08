@@ -44,6 +44,9 @@ export class LoginComponent {
   registerOpacity: number = 0;
   decodedJwt: any;
 
+  hidePassword: boolean = true;
+  visible: boolean = true
+
   constructor(
     private auth: AuthService, private router: Router,
     private fb: FormBuilder,
@@ -121,6 +124,11 @@ export class LoginComponent {
     this.isText = !this.isText;
     this.isText ? (this.eyeIcon = 'fa-eye') : (this.eyeIcon = 'fa-eye-slash');
     this.isText ? (this.type = 'text') : (this.type = 'password');
+  }
+
+  togglePasswordVisibility(): void {
+    this.hidePassword = !this.hidePassword;
+    this.visible = !this.visible;
   }
 
   

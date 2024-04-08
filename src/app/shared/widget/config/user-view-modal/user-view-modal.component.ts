@@ -45,6 +45,9 @@ export class UserViewModalComponent {
 
   showRequiredMessage = false;
 
+  hidePassword: boolean = true;
+  visible: boolean = true;
+
   rolesViewTableOptions: tableOptions = new tableOptions();
 
   constructor(
@@ -143,6 +146,12 @@ export class UserViewModalComponent {
   isControlInvalid(controlName: string): boolean | null{
     const control = this.form?.get(controlName);
     return !!control && (control.dirty||control.touched) && control.invalid;
+  }
+
+  //show hide password value
+  togglePasswordVisibility(){
+    this.hidePassword = !this.hidePassword;
+    this.visible = !this.visible
   }
   
 

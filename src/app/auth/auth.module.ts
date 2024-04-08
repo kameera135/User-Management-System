@@ -9,6 +9,7 @@ import { NavbarComponent } from '../layouts/navbar/navbar.component';
 import { PagesModule } from '../pages/pages.module';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { MatIconModule } from '@angular/material/icon';
 
 
 
@@ -19,6 +20,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
         AuthRoutingModule,
         ReactiveFormsModule,
         FormsModule,
+        MatIconModule
     ]
 })
 export class AuthModule { }

@@ -19,12 +19,15 @@
             <div class="mb-3">
               <label class="col-form-label">Password</label>
               <input
-                type="password"
+                type="{{ hidePassword ? 'password' : 'text' }}"
                 class="form-control"
                 [(ngModel)]="password"
                 name="password"
                 [disabled]="false"
               />
+              <span class="eyeicon">
+                <i class="bi bi-eye-fill h5" (click)="togglePasswordVisibility()" [ngClass]="visible?'bi bi-eye-fill':'bi bi-eye-slash-fill'"></i>
+              </span>
               <div class="input-group"></div>
             </div>
         </div>
@@ -33,12 +36,15 @@
             <div class="mb-3">
               <label class="col-form-label">Confirm Password</label>
               <input
-                type="password"
+                type="{{ hidePassword ? 'password' : 'text' }}"
                 class="form-control"
                 [(ngModel)]="confirmPaswword"
                 name="password"
                 [disabled]="false"
               />
+              <span class="eyeicon">
+                <i class="bi bi-eye-fill h5" (click)="togglePasswordVisibility()" [ngClass]="visible?'bi bi-eye-fill':'bi bi-eye-slash-fill'"></i>
+              </span>
               <div class="input-group"></div>
             </div>
         </div>

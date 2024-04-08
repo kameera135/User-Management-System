@@ -18,6 +18,9 @@ export class UserAccountModalComponent {
   @Input() confirmPaswword!:string;
 
 
+  hidePassword: boolean = true;
+  visible: boolean = true;
+
 
   buttonName: string = "Change";
   buttonIcon: string = "fa-pencil";
@@ -55,5 +58,10 @@ export class UserAccountModalComponent {
     user.confirmPassword = this.confirmPaswword;
 
     this.activeModal.close(user);
+  }
+
+  togglePasswordVisibility(){
+    this.hidePassword = !this.hidePassword;
+    this.visible = !this.visible
   }
 }
