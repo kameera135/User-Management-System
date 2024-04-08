@@ -94,28 +94,6 @@ export class PermissionConfigurationComponent {
 
   tableData: any = [];
 
-  // yearList = [
-  //   { value: '', id: 0 }
-  // ]
-
-  //this is fake data, just for demo purpose
-  // tableData = [
-  //   // do this
-  //   { 'Date': '2023-06-' + Math.floor(Math.random() * 30), 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'Total': Math.floor(Math.random() * 1000), 'isRejecteableOrApprovableRecord': true },
-  // ]
-
-  // tableData1 = [
-  //   // do this
-  //   { 'Date': '2023-06-01', 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'Total': Math.floor(Math.random() * 1000), 'isRejecteableOrApprovableRecord': true },
-  //   { 'Date': '2023-06-02', 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'Total': Math.floor(Math.random() * 1000), 'isRejecteableOrApprovableRecord': true },
-  //   { 'Date': '2023-06-03', 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'Total': Math.floor(Math.random() * 1000), 'isRejecteableOrApprovableRecord': true },
-  //   { 'Date': '2023-06-04', 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'Total': Math.floor(Math.random() * 1000), 'isRejecteableOrApprovableRecord': true },
-  //   { 'Date': '2023-06-05', 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'Total': Math.floor(Math.random() * 1000), 'isRejecteableOrApprovableRecord': true },
-  //   { 'Date': '2023-06-06', 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'Total': Math.floor(Math.random() * 1000), 'isRejecteableOrApprovableRecord': true },
-  //   { 'Date': '2023-06-07', 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'Total': Math.floor(Math.random() * 1000), 'isRejecteableOrApprovableRecord': true },
-  //   { 'Date': '2023-06-08', 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'Total': Math.floor(Math.random() * 1000), 'isRejecteableOrApprovableRecord': true },
-  //   { 'Date': '2023-06-09', 'NormalCompensation': Math.floor(Math.random() * 1000), 'ExtendedCompensation': Math.floor(Math.random() * 1000), 'Total': Math.floor(Math.random() * 1000), 'isRejecteableOrApprovableRecord': true },
-  // ]
 
   constructor(
     private breadcrumbService: BreadcrumbService,
@@ -130,15 +108,7 @@ export class PermissionConfigurationComponent {
   ) {}
 
   ngOnInit(): void {
-    //this.consumptionTableOptions.allowCheckbox = true;
-    // this.consumptionTableOptions.allowGenerateButton = true;
 
-    // this.nameOfOrganization = this.appService.appConfig[0].nameOfOrganization;
-    // this.moduleName = this.appService.appConfig[0].moduleName;
-    // var platforms = this.appService.appConfig[0].roleList;
-    // for (let i = 0; i < platforms.length; i++) {
-    //   this.platformList.push(platforms[i]);
-    // }
     this.getPlatformList();
 
     this.permissionConfigTableOptions.allowCheckbox = true;

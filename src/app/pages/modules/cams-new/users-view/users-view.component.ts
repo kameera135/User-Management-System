@@ -482,7 +482,14 @@ export class UsersViewComponent {
 
         this.loadData();
       },
-      error: (error) => {
+      error: (error:any) => {
+        if(error.error){
+          this.alertService.warningSweetAlertMessage(
+            error.error,
+            "Error!",
+            4000
+          );
+        }
         this.alertService.sideErrorAlert(
           "Error",
           this.appService.popUpMessageConfig[0].UserAddedErrorSideAlertMessage
@@ -541,6 +548,13 @@ export class UsersViewComponent {
         this.loadData();
       },
       error: (error) => {
+        if(error.error){
+          this.alertService.warningSweetAlertMessage(
+            error.error,
+            "Error!",
+            4000
+          );
+        }
         this.alertService.sideErrorAlert(
           "Error",
           this.appService.popUpMessageConfig[0].UserUpdatedErrorSideAlertMessage

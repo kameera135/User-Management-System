@@ -548,10 +548,7 @@ export class RoleConfigurationComponent {
         this.loadData();
       },
       error: (error: any) => {
-        if (
-          error.error ==
-          "Unable to create new role. The specified role name is already in use for given platform."
-        ) {
+        if (error.error) {
           this.alertService.warningSweetAlertMessage(
             error.error,
             "Error!",

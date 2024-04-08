@@ -71,6 +71,7 @@ export class UserAccountModalComponent {
     this.activeModal.close(user);
   }
 
+  //toggle for password visibility
   togglePasswordVisibility(){
     this.hidePassword = !this.hidePassword;
     this.visible = !this.visible
