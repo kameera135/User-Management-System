@@ -42,12 +42,23 @@ export class UserAccountModalComponent {
   onFormSubmit() {
     if(
       this.password == "" ||
+      this.password == undefined ||
+      this.confirmPaswword == undefined ||
       this.confirmPaswword == "" 
     ){
       this.notifierService.warning({
         detail: "Warning",
         summary: "Please fill required fields",
         duration: 2000,
+      });
+      return;
+    }
+
+    if(this.password != this.confirmPaswword) {
+      this.notifierService.warning({
+        detail: "Warning",
+        summary: "Password does not mach. Confirm with correct password.",
+        duration: 4000,
       });
       return;
     }
