@@ -110,7 +110,7 @@ export class DashboardComponent {
               (item) => item.split('||')[0].trim() == platformId);
 
             const platformName = this.user?.platforms.find(
-              (item) => item.split('||')[1].trim() == platformId);
+              (item) => item.split('||')[1].trim());
 
             if (platform) {
               const dashboardUrl = `${platformName}/dashboard?session=${this.sessionId}&user=${this.user?.id}`;
