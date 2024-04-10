@@ -67,23 +67,14 @@ export class NavbarComponent implements OnInit {
   user = this.auth.getUser();
 
   ngOnInit(): void {
-
     // // Assuming this.user is already assigned the decoded response
     if (this.user) {
       // Initialize showNavbar as false
       this.showNavbar = false;
 
       // Check if any detail object matches the specified conditions
-      if(this.user.roles){
-        for (const detail of this.user?.roles) {
-          if (
-            detail.toLowerCase() === 'admin-ums'
-          ) {
-            // If the conditions are met, set showNavbar to true and exit the loop
-            this.showNavbar = true;
-            break;
-          }
-        }
+      if (this.user.permissions.includes("ums_admin")) {
+        this.showNavbar = true;
       }
     }
     //Load all the appropriate menu items from the database according to the user rights
@@ -96,17 +87,15 @@ export class NavbarComponent implements OnInit {
     setTimeout(() => {
       this.initActiveMenu();
     }, 0);
-    
   }
 
   //Convert platform name
   convertToLowerCase(name: string): string {
-    
     if (name) {
       // Convert the name to lowercase and replace spaces with underscores
-      return name.toLowerCase().replace(/\s+/g, '_');
+      return name.toLowerCase().replace(/\s+/g, "_");
     } else {
-      return ''; // Return an empty string if name is undefined
+      return ""; // Return an empty string if name is undefined
     }
   }
 
