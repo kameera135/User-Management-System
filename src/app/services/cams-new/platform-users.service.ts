@@ -142,7 +142,7 @@ export class PlatformUsersService {
       userIds: list
     }
 
-    queryParams = queryParams.append("createdBy", this.user?.id);
+    queryParams = queryParams.append("deletedBy", this.user?.id);
 
     return this.httpClient.delete(`${this.apiUrl}/api/configuration/platforms/users/unassign_users`,
     {

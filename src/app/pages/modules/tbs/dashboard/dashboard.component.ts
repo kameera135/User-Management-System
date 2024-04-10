@@ -9,6 +9,7 @@ import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
 import { UserAccountService } from "src/app/services/cams-new/user-account.service";
 import { Observable, catchError, map, of, tap } from "rxjs";
 import { STATUS_CODES } from "http";
+import { split } from "lodash";
 
 @Component({
   selector: "app-dashboard",
@@ -31,39 +32,80 @@ export class DashboardComponent {
 
   generatePlatformMenuItems(): any[] {
 
-    if (!this.user ) {
-      // Return an empty array or handle the case when user or UserDetails is undefined
+    // if (!this.user ) {
+    //   // Return an empty array or handle the case when user or UserDetails is undefined
+    //   return [];
+    // }
+
+    // const uniquePlatforms = new Set(); // Set to keep track of unique PlatformIDs
+    // const platformList: { label: string; path: string; description: string; }[] = [];
+
+    // this.user.UserDetails.forEach(item => {
+    //   if (Array.isArray(item)) {
+    //     item.forEach(nestedItem => {
+    //       if (nestedItem.PlatformURL && nestedItem.PlatformName && !uniquePlatforms.has(nestedItem.PlatformID)) {
+    //         uniquePlatforms.add(nestedItem.PlatformID);
+    //         platformList.push({
+    //           label: nestedItem.PlatformName,
+    //           path: `${nestedItem.PlatformURL}login?session=${this.sessionId}`,
+    //           description: `Navigate to ${nestedItem.PlatformName} dashboard`,
+    //         });
+    //       }
+    //     });
+    //   } else {
+    //     if (item.PlatformURL && item.PlatformName && !uniquePlatforms.has(item.PlatformID)) {
+    //       uniquePlatforms.add(item.PlatformID);
+    //       platformList.push({
+    //         label: item.PlatformName,
+    //         path: `${item.PlatformURL}login?session=${this.sessionId}`,
+    //         description: `Navigate to ${item.PlatformName} dashboard`,
+    //       });
+    //     }
+    //   }
+    // });
+    
+    // return platformList.map(platform => ({ subItems: [platform] }));
+
+    if (!this.user || !this.user.platforms) {
+      // Return an empty array or handle the case when user or platforms is undefined
       return [];
     }
-
-    const uniquePlatforms = new Set(); // Set to keep track of unique PlatformIDs
+    
     const platformList: { label: string; path: string; description: string; }[] = [];
-
-    this.user.UserDetails.forEach(item => {
-      if (Array.isArray(item)) {
-        item.forEach(nestedItem => {
-          if (nestedItem.PlatformURL && nestedItem.PlatformName && !uniquePlatforms.has(nestedItem.PlatformID)) {
-            uniquePlatforms.add(nestedItem.PlatformID);
-            platformList.push({
-              label: nestedItem.PlatformName,
-              path: `${nestedItem.PlatformURL}login?session=${this.sessionId}`,
-              description: `Navigate to ${nestedItem.PlatformName} dashboard`,
-            });
-          }
-        });
+    const uniquePlatforms = new Set(); // Set to keep track of unique platforms
+    
+    // Function to add platform details to the platform list
+    const addPlatform = (platform: string | { platformName: string; platformURL: string }) => {
+      let platformName, platformURL;
+      if (typeof platform === 'string') {
+        [platformName, platformURL] = platform.split(" || ");
       } else {
-        if (item.PlatformURL && item.PlatformName && !uniquePlatforms.has(item.PlatformID)) {
-          uniquePlatforms.add(item.PlatformID);
-          platformList.push({
-            label: item.PlatformName,
-            path: `${item.PlatformURL}login?session=${this.sessionId}`,
-            description: `Navigate to ${item.PlatformName} dashboard`,
-          });
-        }
+        platformName = platform.platformName;
+        platformURL = platform.platformURL;
       }
-    });
+      if (platformName && platformURL && !uniquePlatforms.has(platformName)) {
+        uniquePlatforms.add(platformName);
+        platformList.push({
+          label: platformName,
+          path: `${platformURL}login?session=${this.sessionId}`,
+          description: `Navigate to ${platformName} dashboard`,
+        });
+      }
+    };
+    
+    if (Array.isArray(this.user.platforms)) {
+      // Handle case when platforms is an array
+      this.user.platforms.forEach(addPlatform);
+    } else if (typeof this.user.platforms === 'string') {
+      // Handle case when platforms is a string
+      addPlatform(this.user.platforms);
+    }
     
     return platformList.map(platform => ({ subItems: [platform] }));
+    
+    
+    
+    
     
     // const platformList = this.user.platforms.filter(item => item. && item.PlatformName);
 
