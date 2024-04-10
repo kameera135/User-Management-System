@@ -60,7 +60,7 @@ export class ForgotPasswordComponent {
       error: (err: HttpErrorResponse) => {
 
         this.showError = true;
-        this.errorMessage = err.message;
+        this.errorMessage = "Email is not valid. Please check";
         console.log(this.errorMessage);
       }
     })

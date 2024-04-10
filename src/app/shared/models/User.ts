@@ -9,8 +9,7 @@ export class User {
     profileImage: string;
     email: string;
     UserDetails:UserDetails[];
-
-    role: string;
+    roles: string[];
 
     
 
@@ -26,7 +25,7 @@ export class User {
         this.permissions = data.permissions;
         this.UserDetails = data.UserDetails?data.UserDetails:[];
 
-        this.role = data.role;
+        this.roles = data.roles;
     }
 
     get fullName(): string {

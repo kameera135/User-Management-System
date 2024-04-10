@@ -31,7 +31,7 @@ export class DashboardComponent {
 
   generatePlatformMenuItems(): any[] {
 
-    if (!this.user || !this.user.UserDetails) {
+    if (!this.user ) {
       // Return an empty array or handle the case when user or UserDetails is undefined
       return [];
     }
@@ -65,7 +65,7 @@ export class DashboardComponent {
     
     return platformList.map(platform => ({ subItems: [platform] }));
     
-    // const platformList = this.user.UserDetails.filter(item => item.PlatformURL && item.PlatformName);
+    // const platformList = this.user.platforms.filter(item => item. && item.PlatformName);
 
     // return platformList.map((platform) => {
     //   return {

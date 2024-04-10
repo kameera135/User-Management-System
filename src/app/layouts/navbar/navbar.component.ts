@@ -69,19 +69,20 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
 
     // // Assuming this.user is already assigned the decoded response
-    if (this.user && this.user.UserDetails) {
+    if (this.user) {
       // Initialize showNavbar as false
       this.showNavbar = false;
 
       // Check if any detail object matches the specified conditions
-      for (const detail of this.user.UserDetails) {
-        if (
-          this.convertToLowerCase(detail.PlatformName) === 'user_management_system' && 
-          detail.Role.toLowerCase() === 'admin-ums'
-        ) {
-          // If the conditions are met, set showNavbar to true and exit the loop
-          this.showNavbar = true;
-          break;
+      if(this.user.roles){
+        for (const detail of this.user?.roles) {
+          if (
+            detail.toLowerCase() === 'admin-ums'
+          ) {
+            // If the conditions are met, set showNavbar to true and exit the loop
+            this.showNavbar = true;
+            break;
+          }
         }
       }
     }

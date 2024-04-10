@@ -69,6 +69,7 @@ export class AuthService {
           const decodedToken = this.decodeToken(jwtToken);
           if (decodedToken) {
             user = new User(decodedToken);
+            console.log(user);
           }
       }
       else{
