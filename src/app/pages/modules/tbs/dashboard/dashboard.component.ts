@@ -28,43 +28,8 @@ export class DashboardComponent {
   user = this.auth.getUser();
   //platformList = this.appConfigService.appConfig[0].platformList; // Replace with your service method to get platform list
 
-  platformList = this.user?.UserDetails.filter(item => item.PlatformURL && item.PlatformName);
 
   generatePlatformMenuItems(): any[] {
-
-    // if (!this.user ) {
-    //   // Return an empty array or handle the case when user or UserDetails is undefined
-    //   return [];
-    // }
-
-    // const uniquePlatforms = new Set(); // Set to keep track of unique PlatformIDs
-    // const platformList: { label: string; path: string; description: string; }[] = [];
-
-    // this.user.UserDetails.forEach(item => {
-    //   if (Array.isArray(item)) {
-    //     item.forEach(nestedItem => {
-    //       if (nestedItem.PlatformURL && nestedItem.PlatformName && !uniquePlatforms.has(nestedItem.PlatformID)) {
-    //         uniquePlatforms.add(nestedItem.PlatformID);
-    //         platformList.push({
-    //           label: nestedItem.PlatformName,
-    //           path: `${nestedItem.PlatformURL}login?session=${this.sessionId}`,
-    //           description: `Navigate to ${nestedItem.PlatformName} dashboard`,
-    //         });
-    //       }
-    //     });
-    //   } else {
-    //     if (item.PlatformURL && item.PlatformName && !uniquePlatforms.has(item.PlatformID)) {
-    //       uniquePlatforms.add(item.PlatformID);
-    //       platformList.push({
-    //         label: item.PlatformName,
-    //         path: `${item.PlatformURL}login?session=${this.sessionId}`,
-    //         description: `Navigate to ${item.PlatformName} dashboard`,
-    //       });
-    //     }
-    //   }
-    // });
-    
-    // return platformList.map(platform => ({ subItems: [platform] }));
 
     if (!this.user || !this.user.platforms) {
       // Return an empty array or handle the case when user or platforms is undefined
@@ -75,11 +40,12 @@ export class DashboardComponent {
     const uniquePlatforms = new Set(); // Set to keep track of unique platforms
     
     // Function to add platform details to the platform list
-    const addPlatform = (platform: string | { platformName: string; platformURL: string }) => {
-      let platformName, platformURL;
+    const addPlatform = (platform: string | { platformId: string; platformName: string; platformURL: string }) => {
+      let platformId, platformName, platformURL;
       if (typeof platform === 'string') {
-        [platformName, platformURL] = platform.split(" || ");
+        [platformId,platformName, platformURL] = platform.split(" || ");
       } else {
+        platformId = platform.platformId;
         platformName = platform.platformName;
         platformURL = platform.platformURL;
       }
@@ -87,7 +53,7 @@ export class DashboardComponent {
         uniquePlatforms.add(platformName);
         platformList.push({
           label: platformName,
-          path: `${platformURL}login?session=${this.sessionId}`,
+          path: `${platformURL}login?session=${this.sessionId}&platformId=${platformId}`,
           description: `Navigate to ${platformName} dashboard`,
         });
       }
@@ -102,38 +68,9 @@ export class DashboardComponent {
     }
     
     return platformList.map(platform => ({ subItems: [platform] }));
-    
-    
-    
-    
-    
-    // const platformList = this.user.platforms.filter(item => item. && item.PlatformName);
-
-    // return platformList.map((platform) => {
-    //   return {
-    //     subItems: [
-    //       {
-    //         label: platform.PlatformName,
-    //         path: `${platform.PlatformURL}login?session=${this.sessionId}`, // Adjust the path as needed
-    //         description: `Navigate to ${platform.PlatformName} dashboard`,
-    //       },
-    //     ],
-    //   };
-    // });
   }
 
   menus: any = [
-    // {
-    //   //label: "Users",
-    //   subItems: [
-    //     {
-    //       label: "Tenant Billing system",
-    //       path: "https://www.google.com/",
-    //       description: "View users and customize users",
-    //     },
-    //   ],
-    // },
-
     {
       subItems: [
         {
@@ -169,11 +106,14 @@ export class DashboardComponent {
             this.router.navigate(["/login"]);
           }
           else if(platformId){
-            const platform = this.platformList?.find(
-              (item) => item.PlatformID == platformId);
+            const platform = this.user?.platforms.find(
+              (item) => item.split('||')[0].trim() == platformId);
+
+            const platformName = this.user?.platforms.find(
+              (item) => item.split('||')[1].trim() == platformId);
 
             if (platform) {
-              const dashboardUrl = `${platform.PlatformName}/dashboard?session=${this.sessionId}&user=${this.user?.id}`;
+              const dashboardUrl = `${platformName}/dashboard?session=${this.sessionId}&user=${this.user?.id}`;
               this.router.navigateByUrl(dashboardUrl);
               this.initializedashboard();
               } else {

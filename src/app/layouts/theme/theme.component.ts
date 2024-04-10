@@ -21,7 +21,9 @@ export class HorizontalComponent implements OnInit {
   @ViewChild(NavbarComponent) childHorizontalTopBar!: NavbarComponent;
 
   user = this.auth.getUser();
-  licenseType = "trial"; //this.user?.license
+  
+  
+  licenseType = this.user?.license
   activateWatermark: boolean = true;
 
   ngOnInit(): void {
