@@ -36,7 +36,7 @@ export class DashboardComponent {
       return [];
     }
     
-    const platformList: { label: string; path: string; description: string; }[] = [];
+    const platformList: { label: string; path: string; description: string; iconPath: string; }[] = [];
     const uniquePlatforms = new Set(); // Set to keep track of unique platforms
     
     // Function to add platform details to the platform list
@@ -55,6 +55,7 @@ export class DashboardComponent {
           label: platformName,
           path: `${platformURL}/login?session=${this.sessionId}&platformId=${platformId}`,
           description: `Navigate to ${platformName} dashboard`,
+          iconPath:`assets/icons/${platformName.charAt(0).toLowerCase()}.png`,
         });
       }
     };
@@ -77,6 +78,7 @@ export class DashboardComponent {
           label: "My Profile",
           path: "/user-account",
           description: "View My Account",
+          iconPath: "assets/icons/profile-icon.png",
         },
       ],
     },

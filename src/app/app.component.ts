@@ -12,15 +12,15 @@ export class AppComponent {
 
   constructor(private http: HttpClient, private router: Router) 
   {
-    window.onbeforeunload = function (e) {
+   /* window.onbeforeunload = function (e) {
       window.onunload = function () {
               window.localStorage.getItem;
       }
       return undefined;
-  };
+    };
   
-  window.onload = function () {
-              window.localStorage.clear;
-  };
+    window.onload = function () {
+        window.localStorage.clear;
+    };*/
   }
 }
