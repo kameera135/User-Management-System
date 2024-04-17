@@ -40,10 +40,10 @@ export class DashboardComponent {
     const uniquePlatforms = new Set(); // Set to keep track of unique platforms
     
     // Function to add platform details to the platform list
-    const addPlatform = (platform: string | { platformId: string; platformName: string; platformURL: string }) => {
+    const addPlatform = (platform: string | { platformName: string; platformURL: string; platformId: string; }) => {
       let platformId, platformName, platformURL;
       if (typeof platform === 'string') {
-        [platformId,platformName, platformURL] = platform.split(" || ");
+        [platformName, platformURL, platformId] = platform.split(" || ");
       } else {
         platformId = platform.platformId;
         platformName = platform.platformName;
@@ -53,7 +53,7 @@ export class DashboardComponent {
         uniquePlatforms.add(platformName);
         platformList.push({
           label: platformName,
-          path: `${platformURL}login?session=${this.sessionId}&platformId=${platformId}`,
+          path: `${platformURL}/login?session=${this.sessionId}&platformId=${platformId}`,
           description: `Navigate to ${platformName} dashboard`,
         });
       }

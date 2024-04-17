@@ -137,6 +137,13 @@
   "PermissionAssignedErrorSideAlertMessage"  : "Permissions could not be assigned. Please check your input values and try again.",
   "PermissionUnassignedNotificationMessage": "Permission Unassigned succesfully!",
   "PermissionUnassignedSuccessSideAlertMessage": "Permission unassigned successfully !",
-  "PermissionUnassignedErrorSideAlertMessage": "Could not unassign permission."
+  "PermissionUnassignedErrorSideAlertMessage": "Could not unassign permission.",
+
+  "RoleAssigndNotificationMessage": "Role/s assigened successfully! ",
+  "RoleAssignedSuccessSideAlertMessage": "Role/s assigned successfully !",
+  "RoleAssignedErrorSideAlertMessage"  : "Roles could not be assigned. Please check your input values and try again.",
+  "RoleUnassignedNotificationMessage": "Role Unassigned succesfully!",
+  "RoleUnassignedSuccessSideAlertMessage": "Role unassigned successfully !",
+  "RoleUnassignedErrorSideAlertMessage": "Could not unassign Role."
 }
 

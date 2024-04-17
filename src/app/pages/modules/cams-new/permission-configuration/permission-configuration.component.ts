@@ -384,7 +384,7 @@ export class PermissionConfigurationComponent {
             //second modal closed
           }
         } else {
-          console.log("Data not submitted from add Role View Modal");
+          console.log("Data not submitted from add Permission View Modal");
         }
       })
       .catch((error) => {
@@ -553,10 +553,10 @@ export class PermissionConfigurationComponent {
         this.alertService.sideSuccessAlert(
           "Success",
           this.appService.popUpMessageConfig[0]
-            .RoleActivatedSuccessSideAlertMessage
+            .PermissionActivatedSuccessSideAlertMessage
         );
         this.alertService.successSweetAlertMessage(
-          this.appService.popUpMessageConfig[0].RoleActivateNotificationMessage,
+          this.appService.popUpMessageConfig[0].PermissionActivateNotificationMessage,
           "Actvated!",
           4000
         );
@@ -570,7 +570,7 @@ export class PermissionConfigurationComponent {
         this.alertService.sideErrorAlert(
           "Error",
           this.appService.popUpMessageConfig[0]
-            .RoleActivatedErrorSideAlertMessage
+            .PermissionActivatedErrorSideAlertMessage
         );
         //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
       },
@@ -587,11 +587,11 @@ export class PermissionConfigurationComponent {
         this.alertService.sideSuccessAlert(
           "Success",
           this.appService.popUpMessageConfig[0]
-            .RoleDeactivatedSuccessSideAlertMessage
+            .PermissionDeactivatedSuccessSideAlertMessage
         );
         this.alertService.successSweetAlertMessage(
           this.appService.popUpMessageConfig[0]
-            .RoleDeactivateNotificationMessage,
+            .PermissionDeactivateNotificationMessage,
           "Deactvated!",
           4000
         );
@@ -605,7 +605,7 @@ export class PermissionConfigurationComponent {
         this.alertService.sideErrorAlert(
           "Error",
           this.appService.popUpMessageConfig[0]
-            .RoleDeactivatedErrorSideAlertMessage
+            .PermissionDeactivatedErrorSideAlertMessage
         );
         //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
       },

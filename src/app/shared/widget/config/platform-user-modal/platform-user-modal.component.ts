@@ -441,7 +441,7 @@ export class PlatformUserModalComponent {
         );
         this.alertService.successSweetAlertMessage(
           this.appService.popUpMessageConfig[0].UserAssigndNotificationMessage,
-          "Updated!",
+          "Assigned!",
           4000
         );
 
@@ -466,12 +466,12 @@ export class PlatformUserModalComponent {
         this.alertService.sideSuccessAlert(
           "Success",
           this.appService.popUpMessageConfig[0]
-            .PermissionUnassignedSuccessSideAlertMessage
+            .RoleUnassignedSuccessSideAlertMessage
         );
         this.alertService.successSweetAlertMessage(
           this.appService.popUpMessageConfig[0]
-            .PermissionUnassignedNotificationMessage,
-          "Deleted!",
+            .RoleUnassignedNotificationMessage,
+          "UnAssigned!",
           4000
         );
 
@@ -482,7 +482,7 @@ export class PlatformUserModalComponent {
         this.alertService.sideErrorAlert(
           "Error",
           this.appService.popUpMessageConfig[0]
-            .PermissionUnassignedErrorSideAlertMessage,
+            .RoleUnassignedErrorSideAlertMessage,
         );
         //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
       },

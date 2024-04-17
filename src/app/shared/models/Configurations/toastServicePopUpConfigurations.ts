@@ -159,4 +159,11 @@ export interface toastServicePopUpConfigurations {
   PermissionUnassignedErrorSideAlertMessage:string; 
   
   UserNotAssigndNotificationMessage: string;
+
+  RoleAssigndNotificationMessage: string;
+  RoleAssignedSuccessSideAlertMessage: string;
+  RoleAssignedErrorSideAlertMessage  : string;
+  RoleUnassignedNotificationMessage: string;
+  RoleUnassignedSuccessSideAlertMessage: string;
+  RoleUnassignedErrorSideAlertMessage: string;
 }
