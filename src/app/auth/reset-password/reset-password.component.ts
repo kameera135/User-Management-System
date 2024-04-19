@@ -19,6 +19,10 @@ export class ResetPasswordComponent {
   showSuccess!: boolean;
   showError!: boolean;
 
+  hidePassword: boolean = true;
+  visible: boolean = true
+
+
   credentials!: resetPassword
 
   private token!: string;
@@ -71,6 +75,11 @@ export class ResetPasswordComponent {
         console.log(this.errorMessage);
       }
     })
+  }
+
+  togglePasswordVisibility(): void {
+    this.hidePassword = !this.hidePassword;
+    this.visible = !this.visible;
   }
 
 }

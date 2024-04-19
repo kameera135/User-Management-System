@@ -119,13 +119,7 @@ export class LoginComponent {
     this.isDarkMode = this.getCookie('aes-app-theme') == 'dark' ? true : false;
 
   }
-
-  hideShowPass() {
-    this.isText = !this.isText;
-    this.isText ? (this.eyeIcon = 'fa-eye') : (this.eyeIcon = 'fa-eye-slash');
-    this.isText ? (this.type = 'text') : (this.type = 'password');
-  }
-
+  
   togglePasswordVisibility(): void {
     this.hidePassword = !this.hidePassword;
     this.visible = !this.visible;

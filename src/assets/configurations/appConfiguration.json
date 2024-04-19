@@ -1,10 +1,7 @@
 {
   "version": "1.0.0",
   "apiUrl": "https://localhost:8745",
-  "signOn": "http://10.20.30.149:8085",
-  "configModule": "http://localhost:5002",
   "clientURI": "http://localhost:4200/auth/reset-password",
-  "camsBackEnd": "172.16.5.24",
   "allowedDomains":"localhost:4200",
   "nameOfOrganization": "Star_Hub",
   "footerMessage": "Design & Develop by Azbil",
