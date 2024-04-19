@@ -2,7 +2,6 @@ export const environment = {
   production: true,
   signOn: "http://192.168.1.40:8062",
   apiBase: 'http://13.229.243.107:97/api',
-  clientURI: 'http://localhost:4200/auth/reset-password',
   defaultauth: 'fackbackend',
   appName: 'CMS',
   storage: 'localStorage',

@@ -74,7 +74,7 @@ export class AuthService {
       }
       else{
         localStorage.clear();
-        this.router.navigate(['/login']);
+        //this.router.navigate(['/login']);
       }
     }
     catch (e) {

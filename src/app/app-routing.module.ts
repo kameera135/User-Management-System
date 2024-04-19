@@ -12,7 +12,7 @@ const use_login = false;
 const routes: Routes = [
   {
     path: "",
-    redirectTo:use_login? "login": "", // Redirect to login component by default
+    redirectTo:use_login? "": "login", // Redirect to login component by default
     pathMatch: "full",
   },
   {

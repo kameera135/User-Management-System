@@ -12,7 +12,7 @@ export class AppComponent {
 
   constructor(private http: HttpClient, private router: Router) 
   {
-   /* window.onbeforeunload = function (e) {
+    /*window.onbeforeunload = function (e) {
       window.onunload = function () {
               window.localStorage.getItem;
       }
