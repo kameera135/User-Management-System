@@ -17,6 +17,7 @@ export class PlatformConfigurationModalComponent {
   @Input() modalTitle!: string;
 
   @Input() platformId!: number;
+  @Input() platformCode!: string;
   @Input() platformName!: string;
   @Input() description!: string;
   @Input() platformUrl!: string;
@@ -68,6 +69,7 @@ export class PlatformConfigurationModalComponent {
 
     const platform = new Platform();
     platform.platformId = this.platformId;
+    platform.platformCode = this.platformCode;
     platform.platformName = this.platformName;
     platform.description = this.description;
     platform.platformUrl = this.platformUrl;

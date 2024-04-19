@@ -52,31 +52,6 @@ export class PlatformConfigurationComponent {
     { Head: "", FieldName: "", ColumnType: "Action" },
   ];
 
-  //to remove
-  // tableData = [
-  //   {
-  //     PlatformCode: "Code001",
-  //     PlatformName: "PlatformL",
-  //     Description: "This is description one",
-  //     Status: "Active",
-  //     isRejecteableOrApprovableRecord: true,
-  //   },
-  //   {
-  //     PlatformCode: "Code002",
-  //     PlatformName: "PlatformM",
-  //     Description: "This is description two",
-  //     Status: "Active",
-  //     isRejecteableOrApprovableRecord: true,
-  //   },
-  //   {
-  //     PlatformCode: "Code002",
-  //     PlatformName: "PlatformM",
-  //     Description: "This is description three",
-  //     Status: "Active",
-  //     isRejecteableOrApprovableRecord: true,
-  //   },
-  // ];
-
   constructor(
     private breadcrumbService: BreadcrumbService,
     private shared: PlatformConfigurationService,
@@ -153,6 +128,7 @@ export class PlatformConfigurationComponent {
   updateTable() {
     this.platformDetailsArray = this.platformList.map((item) => ({
       PlatformId: item.platformId,
+      PlatformCode: item.platformCode,
       PlatformName: item.platformName,
       Description: item.description,
       PlatformUrl: item.platformUrl,
@@ -171,7 +147,7 @@ export class PlatformConfigurationComponent {
   }
 
   onAddPlatformButtonClicked(): void {
-    this.openModal("Add", "New Platform", "", "", "", "");
+    this.openModal("Add", "New Platform", "", "", "", "","");
   }
 
   onEditButtonClicked(row: any) {
@@ -179,6 +155,7 @@ export class PlatformConfigurationComponent {
       "Edit",
       "Edit Platform Details",
       row.PlatformId,
+      row.PlatformCode,
       row.PlatformName,
       row.Description,
       row.PlatformUrl
@@ -205,6 +182,7 @@ export class PlatformConfigurationComponent {
       "View",
       "Platform Details",
       row.PlatformId,
+      row.PlatformCode,
       row.PlatformName,
       row.Description,
       row.PlatformUrl
@@ -215,6 +193,7 @@ export class PlatformConfigurationComponent {
     type: string,
     modalTitle: string,
     platformId: string,
+    platformCode: string,
     platformName: string,
     description: string,
     platformUrl: string
@@ -232,6 +211,7 @@ export class PlatformConfigurationComponent {
     modalRef.componentInstance.modalTitle = modalTitle;
 
     modalRef.componentInstance.platformId = platformId;
+    modalRef.componentInstance.platformCode = platformCode;
     modalRef.componentInstance.platformName = platformName;
     modalRef.componentInstance.description = description;
     modalRef.componentInstance.platformUrl = platformUrl;
@@ -267,6 +247,7 @@ export class PlatformConfigurationComponent {
                     "Edit",
                     "Edit Platform Details",
                     platformId,
+                    platformCode,
                     platformName,
                     description,
                     platformUrl
@@ -277,6 +258,7 @@ export class PlatformConfigurationComponent {
                     "View",
                     "Platform",
                     platformId,
+                    platformCode,
                     platformName,
                     description,
                     platformUrl
@@ -302,8 +284,6 @@ export class PlatformConfigurationComponent {
     if ($event.key === "Enter") {
       this.loadData();
     }
-    // const inputValue = ($event.target as HTMLInputElement).value;
-    // this.loadData();
   }
 
   getAllPlatforms() {
@@ -331,32 +311,6 @@ export class PlatformConfigurationComponent {
         },
       });
   }
-
-  // getPlatformsByRole(role: string) {
-  //   this.shared
-  //     .getPlatformsByRole(role, this.selectedPage, this.selectedPageSize)
-  //     .subscribe({
-  //       next: (response: any) => {
-  //         this.platformList = response.response;
-  //         this.totalDataCount = response.rowCount;
-  //         this.updateTable();
-  //         this.loadingInProgress = false;
-  //       },
-  //       error: (error: any) => {
-  //         this.alertService.sideErrorAlert(
-  //           "Error",
-  //           this.appService.popUpMessageConfig[0]
-  //             .GetPlatformListErrorSideAlertMessage
-  //         );
-
-  //         this.platformList = [];
-  //         this.totalDataCount = 0;
-
-  //         this.updateTable();
-  //         this.loadingInProgress = false;
-  //       },
-  //     });
-  // }
 
   searchPlatforms(serchedTerm: string) {
     this.shared
@@ -399,45 +353,6 @@ export class PlatformConfigurationComponent {
         },
       });
   }
-
-  // searchPlatformsByRole(serchedTerm: string, role: string) {
-  //   this.shared
-  //     .getSearchedPlatformsByRole(
-  //       serchedTerm,
-  //       this.selectedPage,
-  //       this.selectedPageSize
-  //     )
-  //     .subscribe({
-  //       next: (response: any) => {
-  //         this.platformList = response.response;
-  //         this.totalDataCount = response.rowCount;
-  //         if (this.totalDataCount > 0) {
-  //           this.updateTable();
-  //           this.loadingInProgress = false;
-  //         } else {
-  //           this.alertService.warningSweetAlertMessage(
-  //             this.appService.popUpMessageConfig[0].NoDataNotificationMessage,
-  //             "No Data!",
-  //             4000
-  //           );
-  //           this.getAllPlatforms();
-  //         }
-  //       },
-  //       error: (error: any) => {
-  //         this.alertService.sideErrorAlert(
-  //           "Error",
-  //           this.appService.popUpMessageConfig[0]
-  //             .GetPlatformListErrorSideAlertMessage
-  //         );
-
-  //         this.platformList = [];
-  //         this.totalDataCount = 0;
-
-  //         this.updateTable();
-  //         this.loadingInProgress = false;
-  //       },
-  //     });
-  // }
 
   postPlatform(platform: any) {
     console.log("Add", platform);
