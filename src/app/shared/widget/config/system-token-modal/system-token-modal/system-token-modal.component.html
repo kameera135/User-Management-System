@@ -1,0 +1,81 @@
+<div class="modal-header">
+    <h5 class="modal-title fs-4" id="addReadingsModal">{{ modalTitle }}</h5>
+    <button
+      id="btnCommonModalClose"
+      type="button"
+      class="bg-transparent border-0"
+      aria-label="Close"
+      (click)="activeModal.dismiss('Cross click')">
+
+      <span aria-hidden="true">
+        <i class="bi bi-x-lg text-dark"></i>
+      </span>
+    </button>
+</div>
+
+<!-- <form #form="ngForm" (ngSubmit)="onFormSubmit()">
+    <div class="col modal-body">
+        <div class="col-9" >
+            <div class="mb-3">
+              <label class="col-form-label">Token*</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="token"
+                name="token"
+                [disabled]="type == 'View'"
+            />
+              <div class="input-group"></div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-success btn-label mt-3">
+                <i class="bi {{ buttonIcon }} label-icon align-middle fs-16 me-2"></i>{{ buttonName }}
+            </button>
+        </div>
+    </div>
+</form> -->
+
+<form #form="ngForm" (ngSubmit)="onFormSubmit()">
+    <div class="col modal-body">
+        <label class="col-form-label me-3">Token*</label>
+        <div class="row">
+            <div class="col-lg-10 float-left" [ngClass]="{'col-12': type === 'View', 'col-9': type !== 'View' }">
+                <div class="mb-3 d-flex align-items-start">
+                    <input
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="token"
+                        name="token"
+                        [disabled]="type == 'View'"
+                    />
+                </div>
+            </div>
+
+            <div class="col-2" >
+                <div *ngIf="type != 'View'">
+                    <button type="button" class="btn btn-info btn-label float-end" (click)="generateToken()">
+                        <i class="bi bi-key label-icon align-middle fs-8"></i>Generate
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 mx-auto">
+            <div class="d-flex justify-content-end">
+              <button type="submit" class="btn btn-success btn-label mt-3">
+                <i class="bi {{ buttonIcon }} label-icon align-middle fs-16 me-2"></i>{{ buttonName }}
+              </button>
+      
+              <!--Cancel button-->
+              <button type="button" class="btn btn-danger btn-label mt-3 ms-2" (click)="activeModal.dismiss()">
+                <i class="bi {{ cancelButtonIcon }} label-icon align-middle fs-16 me-2"></i>{{ cancelButtonName }}
+              </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<div class="modal-footer"></div>

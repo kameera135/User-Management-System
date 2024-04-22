@@ -1,0 +1,99 @@
+<!-- ==============New================== -->
+
+<!-- <div class="row align-items-center" *ngIf="loadingInProgress">
+  <app-waiting-circle></app-waiting-circle>
+</div> -->
+
+<!-- <div class="row mb-4 mx-1  {{ loadingInProgress ? 'hidden' : '' }}"> -->
+<div class="row mb-3 mx-1">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-5 col-lg-4 col-md-6 col-sm-6 mt-1 d-flex flex-column">
+          <h2>Permissions</h2>
+        </div>
+
+        <div
+          class="col-2 col-lg-2 col-md-6 col-sm-6 mt-2 justify-content-start"
+        >
+          <ng-select
+            [(ngModel)]="selectedPlatform"
+            [multiple]="false"
+            (change)="loadData()"
+            placeholder="Select Platform"
+            name="comboBox"
+            [clearable]="false"
+          >
+            <ng-option *ngFor="let item of platformList" [value]="item.id">
+              {{ item.value }}
+            </ng-option>
+          </ng-select>
+        </div>
+
+        <div
+          class="col-4 col-lg-3 col-md-6 col-sm-6 d-flex flex-column justify-content-end"
+        >
+          <button
+            [disabled]="!selectedPlatform"
+            class="btn btn-primary float-end"
+            style="margin-right: 3"
+            (click)="onAddPermissionButtonClicked()"
+          >
+            <i
+              class="bi bi-plus-square-fill label-icon align-middle fs-16 me-2"
+            ></i>
+            Add Permission
+          </button>
+        </div>
+
+        <!-- <div class="col-2 col-lg-2 mt-1">
+            <select
+              class="form-select"
+              aria-label="Platform"
+              [(ngModel)]="selectedRole"
+              (change)="loadData()"
+            >
+              <option *ngFor="let item of roleList" [value]="item.value">
+                {{ item.value }}
+              </option>
+            </select>
+          </div> -->
+
+        <div
+          class="form-outline col-3 col-lg-3 col-md-6 col-sm-6 mt-2 d-flex flex-column"
+        >
+          <input
+            (keyup)="getSearchTerm($event)"
+            [(ngModel)]="searchTerm"
+            type="text"
+            id="searchKey"
+            class="form-control input-sm"
+            placeholder="Search Permission"
+            [disabled]="!selectedPlatform"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body pb-3">
+      <app-table
+        *ngIf="!loadingInProgress"
+        [headArray]="headArray"
+        [dataArray]="tableData"
+        [dataTableOptions]="permissionConfigTableOptions"
+        [totalRowsInSelection]="totalDataCount"
+        [selectedPageSize]="selectedPageSize"
+        [selectedPage]="selectedPage"
+        (onPaginationChanged)="onPaginationChange($event)"
+        (onPagesizeChanged)="onPagesizeChange($event)"
+        (onEdit)="onEditButtonClicked($event)"
+        (onDelete)="deletePermission($event)"
+        (onApproval)="activatePermissions($event)"
+        (onReject)="deactivatePermissions($event)"
+        (onRowDoubleClick)="onViewButtonClicked($event)"
+        (dblClick)="onViewButtonClicked($event)"
+      >
+      </app-table>
+    </div>
+  </div>
+</div>

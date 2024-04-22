@@ -1,0 +1,147 @@
+<div class="row align-items-center" *ngIf="loadingInProgress">
+  mt-1
+  <app-waiting-circle></app-waiting-circle>
+</div>
+
+<div class="row mb-3 mx-1  {{ loadingInProgress ? 'hidden' : '' }}">
+  <!-- <div class="row mb-3 mx-1"> -->
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-3 col-lg-3 mt-1"><h2>Activity Logs</h2></div>
+
+        <div class="col-9 col-lg-9 mt-1">
+          <div class="row">
+            <div class="col-2 col-lg-2">
+              <div class="col-12">
+                <div class="input-group">
+                  <input
+                    class="form-control"
+                    placeholder="From"
+                    name="dp_from"
+                    [(ngModel)]="model_from"
+                    ngbDatepicker
+                    #dFrom="ngbDatepicker"
+                    [placement]="placement"
+                    [positionTarget]="buttonElFrom"
+                    (dateSelect)="onFromDateClicked()"
+                    [maxDate]="{
+                      year: model_to.year,
+                      month: model_to.month,
+                      day: model_to.day - 1
+                    }"
+                  />
+                  <button
+                    #buttonElFrom
+                    class="btn btn-outline-secondary bi bi-calendar3"
+                    (click)="dFrom.toggle()"
+                    type="button"
+                  ></button>
+                </div>
+              </div>
+            </div>
+            <div class="col-2 col-lg-2">
+              <div class="col-12">
+                <div class="input-group">
+                  <input
+                    class="form-control"
+                    placeholder="To"
+                    name="dp_to"
+                    [(ngModel)]="model_to"
+                    ngbDatepicker
+                    #dTo="ngbDatepicker"
+                    [placement]="placement"
+                    [positionTarget]="buttonElTo"
+                    (dateSelect)="onToDateClicked()"
+                    [minDate]="{
+                      year: model_from.year,
+                      month: model_from.month,
+                      day: model_from.day + 1
+                    }"
+                  />
+                  <button
+                    #buttonElTo
+                    class="btn btn-outline-secondary bi bi-calendar3"
+                    (click)="dTo.toggle()"
+                    type="button"
+                  ></button>
+                </div>
+              </div>
+            </div>
+            <div class="col-3 col-lg-3">
+              <ng-select
+                [(ngModel)]="selectedUser"
+                [multiple]="false"
+                (change)="loadData()"
+                [placeholder]="userListDefault[0].value"
+                name="users-comboBox"
+                [clearable]="false"
+              >
+                <ng-option
+                  *ngFor="let item of userListDefault"
+                  [value]="item.id"
+                >
+                  {{ item.value }}
+                </ng-option>
+              </ng-select>
+            </div>
+            <div class="col-3 col-lg-3">
+              <ng-select
+                [(ngModel)]="selectedPlatform"
+                [multiple]="false"
+                (change)="onPlatformSelect()"
+                [placeholder]="platformListDefault[0].value"
+                name="platform-comboBox"
+                [clearable]="false"
+              >
+                <ng-option
+                  *ngFor="let item of platformListDefault"
+                  [value]="item.id"
+                >
+                  {{ item.value }}
+                </ng-option>
+              </ng-select>
+            </div>
+            <div class="col-2 col-lg-2">
+              <ng-select
+                [(ngModel)]="selectedRole"
+                [multiple]="false"
+                (change)="loadData()"
+                [placeholder]="roleListDefault[0].value"
+                name="role-comboBox"
+                [clearable]="false"
+                [disabled]="
+                  selectedPlatform == 0 || selectedPlatform == undefined
+                "
+              >
+                <ng-option
+                  *ngFor="let item of roleListDefault"
+                  [value]="item.id"
+                >
+                  {{ item.value }}
+                </ng-option>
+              </ng-select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body pb-3">
+      <app-table
+        *ngIf="!loadingInProgress"
+        [headArray]="headArray"
+        [dataArray]="tableData"
+        [dataTableOptions]="usersViewTableOptions"
+        [totalRowsInSelection]="totalDataCount"
+        [selectedPageSize]="selectedPageSize"
+        [selectedPage]="selectedPage"
+        (onPaginationChanged)="onPaginationChange($event)"
+        (onPagesizeChanged)="onPagesizeChange($event)"
+        (onRowDoubleClick)="onViewButtonClicked($event)"
+        (onReportGenerateClick)="downloadExcel()"
+      >
+      </app-table>
+    </div>
+  </div>
+</div>

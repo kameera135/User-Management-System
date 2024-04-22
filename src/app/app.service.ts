@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable, OnDestroy } from "@angular/core";
 import { Subject, firstValueFrom } from "rxjs";
 import { environment } from "src/environments/environment";
@@ -7,6 +7,7 @@ import { toastServicePopUpConfigurations } from "./shared/models/Configurations/
 import { approvalStatusConfigurations } from "./shared/models/Configurations/approvalStatusConfigurations";
 import { AuthService } from "./auth/auth.service";
 import { User } from "./shared/models/User";
+import { auth } from "./shared/models/Cams-new/auth";
 
 @Injectable({
   providedIn: "root",
@@ -22,7 +23,7 @@ export class AppService implements OnDestroy {
 
   approvalStatusConfig: approvalStatusConfigurations[] = [];
 
-  constructor(private http: HttpClient, private auth: AuthService) {
+  constructor(private httpClient: HttpClient, private auth: AuthService) {
     this.destroy$ = new Subject<void>();
 
     if (!this.appSettings) {
@@ -41,15 +42,15 @@ export class AppService implements OnDestroy {
   //This method loads the configuration values from the configuration json file
   async loadConfig() {
     await firstValueFrom(
-      this.http.get("/assets/configurations/appConfiguration.json")
+      this.httpClient.get("/assets/configurations/appConfiguration.json")
     ).then((value: any) => {
-      environment.signOn = value.signOn;
-      environment.apiBase = value.apiUrl;
+      //environment.signOn = value.signOn;
+      //environment.apiBase = value.apiUrl;
       this.appConfig[0] = value as appSettingModel;
     });
 
     await firstValueFrom(
-      this.http.get(
+      this.httpClient.get(
         "/assets/configurations/toastServicePopUpConfigurations.json"
       )
     ).then((value: any) => {
@@ -57,7 +58,7 @@ export class AppService implements OnDestroy {
     });
 
     await firstValueFrom(
-      this.http.get("/assets/configurations/approvalStatus.json")
+      this.httpClient.get("/assets/configurations/approvalStatus.json")
     ).then((value: any) => {
       this.approvalStatusConfig[0] = value as approvalStatusConfigurations;
     });
@@ -73,15 +74,23 @@ export class AppService implements OnDestroy {
   }
 
   get user() {
-    //remove this line
-    const userDetails =
-      '{"id":2000,"fName":"John","lName":"Doe","email":null,"platforms":[{"id":1068,"name":"Config","url":"http://localhost:4200","security":null,"connectivity":null,"extraData":null,"sortingIndex":null}],"token":"8jO29OmjMDR6OiJg25mdXZwnBJbbcI2kOCnt3W6EJ24mIfHuwcB5m28jWBAAMlge","permissions":[],"role":"facility_manager"}';
+    // //remove this line
+    // const userDetails =
+    //   '{"id":2000,"fName":"John","lName":"Doe","email":null,"platforms":[{"id":1068,"name":"Config","url":"http://localhost:4200","security":null,"connectivity":null,"extraData":null,"sortingIndex":null}],"token":"8jO29OmjMDR6OiJg25mdXZwnBJbbcI2kOCnt3W6EJ24mIfHuwcB5m28jWBAAMlge","permissions":[],"role":"facility_manager"}';
 
-    let tempUser = JSON.parse(userDetails);
-    tempUser = new User(tempUser);
-    return tempUser;
+    // let tempUser = JSON.parse(userDetails);
+    // tempUser = new User(tempUser);
+    // return tempUser;
 
     //use this in production
-    //return this.auth.getUser();
+    return this.auth.getUser();
   }
+
+  // login(model: auth){
+  //   let queryParams = new HttpParams();
+
+  //   return this.httpClient.post(`${this.apiUrl}/api/user/login`,model,{
+  //     params:queryParams
+  //   });
+  // }
 }

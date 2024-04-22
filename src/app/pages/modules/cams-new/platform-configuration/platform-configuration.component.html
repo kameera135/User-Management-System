@@ -1,0 +1,72 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div class="row align-items-center" *ngIf="loadingInProgress">
+  <app-waiting-circle></app-waiting-circle>
+</div>
+
+<div class="row mb-3 mx-1  {{ loadingInProgress ? 'hidden' : '' }}">
+<div class="row mb-3 mx-1">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-12 col-sm-10 col-lg-5 mt-1"><h2>Platforms</h2></div>
+
+        <div class="col-8 col-sm-5 col-lg-4 mt-1 mb-sm-10">
+          <a
+            class="btn btn-primary float-end"
+            style="margin-right: 3"
+            (click)="onAddPlatformButtonClicked()"
+          >
+            <i
+              class="bi bi-plus-square-fill label-icon align-middle fs-16 fs-sm-14 me-2"
+            ></i>
+            Add Platform</a
+          >
+        </div>
+
+        <!-- <div class="col-2 col-lg-2 mt-1">
+          <select
+            class="form-select"
+            aria-label="Platform"
+            [(ngModel)]="selectedRole"
+            (change)="loadData()"
+          >
+            <option *ngFor="let item of roleList" [value]="item.value">
+              {{ item.value }}
+            </option>
+          </select>
+        </div> -->
+
+        <div class="form-outline col-4 col-sm-6 col-lg-3 mt-1">
+          <input
+            (keyup)="getSearchTerm($event)"
+            [(ngModel)]="searchTerm"
+            type="text"
+            id="searchKey"
+            class="form-control input-sm"
+            placeholder="Search Platform"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body pb-3">
+      <app-table
+        *ngIf="!loadingInProgress"
+        [headArray]="headArray"
+        [dataArray]="tableData"
+        [dataTableOptions]="platformConfigTableOptions"
+        [totalRowsInSelection]="totalDataCount"
+        [selectedPageSize]="selectedPageSize"
+        [selectedPage]="selectedPage"
+        (onPaginationChanged)="onPaginationChange($event)"
+        (onPagesizeChanged)="onPagesizeChange($event)"
+        (onEdit)="onEditButtonClicked($event)"
+        (onDelete)="deletePlatforms($event)"
+        (onRowDoubleClick)="onViewButtonClicked($event)"
+        (dblClick)="onViewButtonClicked($event)"
+        (onViewPlaformUsers)="onViewPlatformUsers($event)"
+      >
+      </app-table>
+    </div>
+  </div>
+</div>

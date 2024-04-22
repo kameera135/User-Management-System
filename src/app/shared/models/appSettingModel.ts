@@ -1,12 +1,14 @@
 import { dateFormat } from "./dateFormat";
 
 export interface appSettingModel {
-
+  PlatformList: any;
   version: string;
 
   apiUrl: string;
 
   signOn: boolean;
+
+  clientURI: string; // Client URI for OAuth2.0
 
   configModule: string;
 
@@ -28,7 +30,7 @@ export interface appSettingModel {
 
   maximumYearRangeForReport: number;
 
-  maximumYearRangeForMeterInfo: number;
+  maximumYearRange: number;
 
   billingDate: number;
 
@@ -39,4 +41,12 @@ export interface appSettingModel {
   consumptionReportName: any[];
 
   consumptionSheetName: any[];
+
+  roleList: any[];
+
+  platformList: any[];
+
+  months: any[];
+
+  passwordPolicyTimeUnitList: any[];
 }

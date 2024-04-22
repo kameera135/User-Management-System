@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,8 +10,17 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent {
   title = 'azbil';
 
-
-  constructor(private http: HttpClient) {
-
+  constructor(private http: HttpClient, private router: Router) 
+  {
+    /*window.onbeforeunload = function (e) {
+      window.onunload = function () {
+              window.localStorage.getItem;
+      }
+      return undefined;
+    };
+  
+    window.onload = function () {
+        window.localStorage.clear;
+    };*/
   }
 }

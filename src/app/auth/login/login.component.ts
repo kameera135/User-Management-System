@@ -3,6 +3,12 @@ import { AuthService } from '../auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { UserInformationService } from '../user-information.service';
+import { HorizontalComponent } from 'src/app/layouts/theme/theme.component';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { auth } from 'src/app/shared/models/Cams-new/auth';
+import { AppService } from 'src/app/app.service';
+import { UserProfile } from 'firebase/auth';
+import { UserProfileService } from 'src/app/core/services/user.service';
 // import { AsseteTreeService } from 'src/app/services/Modules/aes/assete-tree.service';
 // import { MapperService } from 'src/app/services/Modules/aes/mapper.service';
 
@@ -13,15 +19,38 @@ import { UserInformationService } from '../user-information.service';
 })
 export class LoginComponent {
 
-  error!: string;
   loading!: boolean;
-  submitted!: boolean;
+
+  successMessage!: string;
+  errorMessage!: string;
+  showSuccess!: boolean;
+  showError!: boolean;
 
   isDarkMode: boolean = true;
 
+  credentials!: auth;
+
+  
+  type: string = 'password';
+  isText: boolean = false;
+  eyeIcon: string = 'fa-eye-slash';
+
+  loginForm!: FormGroup;
+
+  isLoginActive: boolean = true;
+  loginLeft: number = 4;
+  registerRight: number = -520;
+  loginOpacity: number = 1;
+  registerOpacity: number = 0;
+  decodedJwt: any;
+
+  hidePassword: boolean = true;
+  visible: boolean = true
+
   constructor(
     private auth: AuthService, private router: Router,
-    private actRoute: ActivatedRoute,
+    private fb: FormBuilder,
+    private userInfo: UserProfileService,
     // private asseteTreeService: AsseteTreeService,
     // private mapper: MapperService,
     private userInforService: UserInformationService) { }
@@ -43,43 +72,149 @@ export class LoginComponent {
   ngOnInit(): void {
 
     this.loading = true;
-    this.auth.checkSingleSignOn('/').subscribe(res => {
-      if (res) {
 
-        let loggedUser = this.auth.getUser();
+    if(this.userInforService.isLoggedIn()){
+      this.router.navigate(['/dashboard']);
+    }
 
-        this.router.navigate([this.auth.lastUrl]);
-        // this.userInforService.basicUserInfo(loggedUser.id, loggedUser.fName, loggedUser.lName, loggedUser.role, loggedUser.email).subscribe({
+    // this.auth.checkSingleSignOn('/').subscribe(res => {
+    //   if (res) {
 
-        //   next: (response: any) => {
+    //     let loggedUser = this.auth.getUser();
 
-        //     if (response != null) {
+    //     this.router.navigate([this.auth.lastUrl]);
+    //     this.userInforService.basicUserInfo(loggedUser.id, loggedUser.fName, loggedUser.lName, loggedUser.role, loggedUser.email).subscribe({
 
-        //       const configurations = JSON.parse(JSON.stringify(response));
+    //       next: (response: any) => {
 
-        //       this.asseteTreeService.setTree(configurations.lstAsseteTree);
+    //         if (response != null) {
 
-        //       this.mapper.setApprovalRequirements(configurations.fmApprovalRequired, configurations.tmApprovalRequired);
+    //           const configurations = JSON.parse(JSON.stringify(response));
 
-        //       this.router.navigate([this.auth.lastUrl]);
+    //           //this.asseteTreeService.setTree(configurations.lstAsseteTree);
 
-        //     }
+    //           //this.mapper.setApprovalRequirements(configurations.fmApprovalRequired, configurations.tmApprovalRequired);
 
-        //   },
-        //   error: (error: any) => { },
-        //   complete() { }
-        // });
+    //           this.router.navigate([this.auth.lastUrl]);
 
-      }
-      else {
-        this.loading = false;
-        window.location.href = environment.signOn;
-      }
+    //         }
+
+    //       },
+    //       error: (error: any) => { },
+    //       complete() { }
+    //     });
+
+    //   }
+    //   else {
+    //     this.loading = false;
+    //     window.location.href = environment.signOn;
+    //   }
+    // });
+
+    this.loginForm = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
     });
 
     this.isDarkMode = this.getCookie('aes-app-theme') == 'dark' ? true : false;
 
   }
+  
+  togglePasswordVisibility(): void {
+    this.hidePassword = !this.hidePassword;
+    this.visible = !this.visible;
+  }
 
+  
 
+  // onSubmit() {
+  //   if (this.loginForm.valid) {
+  //     console.log(this.loginForm.value);
+  //     this.auth.login(this.loginForm.value).subscribe({
+  //       next: (res) => {
+  //         console.log(res.message);
+  //         this.loginForm.reset();
+  //         this.auth.storeToken(res.accessToken);
+  //         this.auth.storeRefreshToken(res.refreshToken);
+  //         const tokenPayload = this.auth.decodedToken();
+  //         this.userStore.setFullNameForStore(tokenPayload.name);
+  //         this.userStore.setRoleForStore(tokenPayload.role);
+  //         this.toast.success({detail:"SUCCESS", summary:res.message, duration: 5000});
+  //         this.router.navigate(['dashboard'])
+  //       },
+  //       error: (err) => {
+  //         this.toast.error({detail:"ERROR", summary:"Something when wrong!", duration: 5000});
+  //         console.log(err);
+  //       },
+  //     });
+  //   } else {
+  //     ValidateForm.validateAllFormFields(this.loginForm);
+  //   }
+  // }
+
+  login() {
+    this.credentials = this.loginForm.value;
+
+    this.loginLeft = 4;
+    this.registerRight = -520;
+    this.isLoginActive = true;
+    this.loginOpacity = 1;
+    this.registerOpacity = 0;
+
+    //this.credentials = new auth();
+
+    if(this.loginForm.valid){
+
+      this.showError = this.showSuccess = false;
+
+      this.userInfo.login(this.credentials).subscribe({
+        next:(response:any) => {
+          console.log(response);
+          const jwtToken = response.token;
+          const sessionToken = response.session_id;
+  
+          // Store the JWT in local storage or a secure cookie
+          localStorage.setItem('user', jwtToken);
+          localStorage.setItem("sessionId", sessionToken);
+  
+          // Check if there's a stored URL
+          const lastVisitedPage = localStorage.getItem('lastVisitedPage');
+          if (lastVisitedPage) {
+            // Redirect to the last visited page
+            this.router.navigateByUrl(lastVisitedPage);
+            // Remove the stored URL
+            localStorage.removeItem('lastVisitedPage');
+            
+          } else {
+            // If there's no stored URL, redirect to the default dashboard page
+            this.router.navigate(['dashboard']);
+          }
+          this.showSuccess = true;
+          this.successMessage = "Authentication has been Success.";
+        },
+        error: (error: any) => {
+          // Handle authentication error
+          this.showError = true;
+          this.errorMessage = "Authentication has been failed. Please check your username and password.";
+          console.error('Authentication failed:', error);
+        }
+      });
+    }
+  }
+
+  handleSessionExpired() {
+    // Store the current URL before redirecting to the login page
+    localStorage.setItem('lastVisitedPage', this.router.url);
+    this.router.navigate(['login']);
+}
+
+  validateControl = (controlName: string) => {
+    const control = this.loginForm.get(controlName);
+    return control ? control.invalid && control.touched : false;
+  }
+
+  hasError = (controlName: string, errorName: string) => {
+    const control = this.loginForm.get(controlName);
+    return control ? control.hasError(errorName) : false;
+  }
 }

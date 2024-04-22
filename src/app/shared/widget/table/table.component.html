@@ -16,7 +16,8 @@
                   <div
                     *ngIf="
                       allowCheckBoxes &&
-                      head.FieldName == '' && head.ColumnType == 'CheckBox'
+                      head.FieldName == '' &&
+                      head.ColumnType == 'CheckBox'
                     "
                   >
                     <input
@@ -88,7 +89,8 @@
                   <div
                     *ngIf="
                       allowCheckBoxes &&
-                      head.FieldName == '' && head.ColumnType == 'CheckBox' &&
+                      head.FieldName == '' &&
+                      head.ColumnType == 'CheckBox' &&
                       item['isRejecteableOrApprovableRecord']
                     "
                   >
@@ -179,19 +181,33 @@
                     <div class="hstack gap-2 justify-content-end">
                       <button
                         *ngIf="allowtoView"
-                        class="btn btn-sm btn-soft-info edit-list"
+                        class="btn btn-sm btn-info edit-list"
                         data-bs-toggle="modal"
                         data-bs-target="#createTask"
                         data-edit-id="15"
                         (click)="LoadDataOnRowDoubleClick(item)"
                         Generate="View"
+                        ngbTooltip="View"
                       >
-                        <i class="bi bi-eye fs-5"></i>
+                        <i class="bi bi-eye-fill text-muted"></i>
+                      </button>
+
+                      <button
+                        *ngIf="allowtoViewActions"
+                        class="btn btn-sm btn-info edit-list"
+                        data-bs-toggle="modal"
+                        data-bs-target="#createTask"
+                        data-edit-id="15"
+                        (click)="LoadDataOnRowDoubleClick(item)"
+                        Generate="View"
+                        ngbTooltip="View"
+                      >
+                        <i class="bi bi-list text-muted"></i>
                       </button>
 
                       <button
                         *ngIf="allowtoApprove"
-                        class="btn btn-sm btn-soft-success remove-list"
+                        class="btn btn-sm btn-success remove-list"
                         data-bs-toggle="modal"
                         data-bs-target="#removeTaskItemModal"
                         data-remove-id="15"
@@ -204,7 +220,7 @@
 
                       <button
                         *ngIf="allowtoReject"
-                        class="btn btn-sm btn-soft-danger remove-list"
+                        class="btn btn-sm btn-danger remove-list"
                         data-bs-toggle="modal"
                         data-bs-target="#removeTaskItemModal"
                         data-remove-id="15"
@@ -225,26 +241,54 @@
                         Generate="Edit"
                         ngbTooltip="Edit"
                       >
-                        <i class="bi bi-pencil-fill text-dark"></i>
+                        <i class="bi bi-pencil-fill text-muted"></i>
                       </button>
 
-                      <!-- Acknowledge -->
+                      <!--Show users in respective platforms button-->
                       <button
-                        *ngIf="allowtoAcknowledge && !item['changeButton']"
+                        *ngIf="allowToViewPlatformUsers"
+                        class="btn btn-sm btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#createTask"
+                        data-edit-id="15"
+                        (click)="showPlatformUserView(item)"
+                        Generate="User"
+                        ngbTooltip="User"
+                      >
+                        <i class="bi bi-people-fill text-muted"></i>
+                      </button>
+
+                      <!--Show permissions-->
+                      <button
+                        *ngIf="allowToViewPermissions"
+                        class="btn btn-sm btn-success"
+                        data-bs-toggle="modal"
+                        data-bs-target="#showPermission"
+                        data-edit-id="15"
+                        (click)="loadPermissionData(item)"
+                        Generate="Permissions"
+                        ngbTooltip="Permissions"
+                      >
+                        <i class="bi bi-shield-fill text-muted"></i>
+                      </button>
+
+                      <!-- Unassign permissions from role -->
+                      <button
+                        *ngIf="allowtoAcknowledge"
                         style="
                           padding-left: 16px !important;
                           padding-right: 16px !important;
                           margin-right: 10%;
                         "
-                        class="btn btn-sm btn-success btn-block"
+                        class="btn btn-sm btn-danger btn-block"
                         data-bs-toggle="modal"
                         data-bs-target="#removeTaskItemModal"
                         data-remove-id="15"
-                        (click)="confirm(appoveModal, item, '')"
-                        Generate="Approve"
-                        [disabled]="item['isRejecteableOrApprovableRecord']"
+                        ngbTooltip="Remove"
+                        (click)="removeData(item)"
+                        Generate="Delete"
                       >
-                        Acknowledge
+                        Remove
                       </button>
                       <button
                         *ngIf="
@@ -255,7 +299,7 @@
                           padding-right: 12px !important;
                           margin-right: 10%;
                         "
-                        class="btn btn-sm btn-soft-danger remove-list"
+                        class="btn btn-sm btn-danger remove-list"
                         data-bs-toggle="modal"
                         data-bs-target="#removeTaskItemModal"
                         data-remove-id="15"
@@ -377,6 +421,46 @@
 
               <button
                 type="button"
+                [disabled]="!bulkApprovalAllowed"
+                *ngIf="allowtoApprove && userAllowBulkApproveButton"
+                (click)="confirm(appoveModal, -1, 'Approve')"
+                class="btn btn-success btn-label"
+                ngbTooltip="Bulk Approval"
+              >
+                <i
+                  class="bi bi-check-lg label-icon align-middle fs-16 me-2"
+                ></i>
+                Approve
+              </button>
+
+              <button
+                type="button"
+                [disabled]="!bulkActivationAllowed"
+                *ngIf="allowtoBulkActivate && userAllowBulkActivateButton"
+                (click)="confirm(appoveModal, -1, 'Approve')"
+                class="btn btn-success btn-label"
+                ngbTooltip="Activate selected items"
+              >
+                <i
+                  class="bi bi-check-lg label-icon align-middle fs-16 me-2"
+                ></i>
+                Activate
+              </button>
+
+              <button
+                type="button"
+                [disabled]="!bulkDeactivationAllowed"
+                *ngIf="allowtoBulkDeactivate && userAllowBulkDeactivateButton"
+                (click)="confirm(rejectModal, -1, 'Reject')"
+                class="btn btn-warning btn-label"
+                ngbTooltip="Deactivate selected items"
+              >
+                <i class="bi bi-x-lg label-icon align-middle fs-16 me-2"></i>
+                Deactivate
+              </button>
+
+              <button
+                type="button"
                 [disabled]="!bulkDeleteAllowed"
                 *ngIf="allowtoDelete && userAllowBulkDeleteButton"
                 (click)="confirm(deleteModal, -1, 'Delete')"
@@ -385,6 +469,22 @@
               >
                 <i class="bi bi-trash label-icon align-middle fs-16 me-2"></i>
                 Delete
+              </button>
+
+              <!--- Un assign user button ---->
+              <button
+                type="button"
+                [disabled]="!bulkDeleteAllowed"
+                *ngIf="unAssignUser"
+                (click)="confirm(deleteModal, -1, 'Delete')"
+                class="btn btn-danger btn-label"
+                Generate="Bulk Delete"
+                ngbTooltip="Remove from the platform"
+              >
+                <i
+                  class="bi bi-dash-square label-icon align-middle fs-16 me-2"
+                ></i>
+                Remove
               </button>
             </div>
           </div>
@@ -523,7 +623,7 @@
           type="button"
           class="btn w-sm btn-success"
           id="delete-product"
-          (click)="acknowledgeConfirm(selectedDataRow)"
+          (click)="confirmRecord(selectedDataRow)"
         >
           Yes
         </button>
@@ -559,7 +659,7 @@
           type="button"
           class="btn w-sm btn-success"
           id="delete-product"
-          (click)="removeConfirm(selectedDataRow)"
+          (click)="rejectRecord(selectedDataRow)"
         >
           Yes
         </button>
@@ -574,7 +674,6 @@
       </div>
     </div>
   </div>
-  <!-- /.modal-content -->
 
   <!-- rowItemDisplayModal -->
   <ng-template #rowItemDisplayModal let-modal>

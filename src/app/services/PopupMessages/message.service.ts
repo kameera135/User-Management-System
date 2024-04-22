@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { NgToastService } from "ng-angular-popup";
 import { AppService } from "src/app/app.service";
 import Swal from "sweetalert2";
 
@@ -6,7 +7,10 @@ import Swal from "sweetalert2";
   providedIn: "root",
 })
 export class MessageService {
-  constructor(private appConfigService: AppService) {}
+  constructor(
+    private appConfigService: AppService,
+    private notifierService: NgToastService
+  ) {}
 
   successSweetAlertMessage(
     messageText: any,
@@ -73,6 +77,46 @@ export class MessageService {
       willClose: () => {
         clearInterval(messageDuration);
       },
+    });
+  }
+
+  sideSuccessAlert(detail: string, summary: string) {
+    this.notifierService.success({
+      detail: detail,
+      summary: summary,
+      duration:
+        this.appConfigService.popUpMessageConfig[0]
+          .messageDurationInMiliSeconds,
+    });
+  }
+
+  sideErrorAlert(detail: string, summary: string) {
+    this.notifierService.error({
+      detail: detail,
+      summary: summary,
+      duration:
+        this.appConfigService.popUpMessageConfig[0]
+          .messageDurationInMiliSeconds,
+    });
+  }
+
+  sideWarningAlert(detail: string, summary: string) {
+    this.notifierService.warning({
+      detail: detail,
+      summary: summary,
+      duration:
+        this.appConfigService.popUpMessageConfig[0]
+          .messageDurationInMiliSeconds,
+    });
+  }
+
+  sideInfoAlert(detail: string, summary: string) {
+    this.notifierService.info({
+      detail: detail,
+      summary: summary,
+      duration:
+        this.appConfigService.popUpMessageConfig[0]
+          .messageDurationInMiliSeconds,
     });
   }
 }

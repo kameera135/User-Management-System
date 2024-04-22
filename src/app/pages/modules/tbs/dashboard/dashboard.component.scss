@@ -1,0 +1,16 @@
+.dashboard-tile {
+  background-image: url('/assets/images/background.jpg');
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+    height: 100px; 
+  }
+
+  .container{
+    //background-image: url('/assets/images/background.jpg');
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    overflow: hidden;
+    position:relative;
+  }

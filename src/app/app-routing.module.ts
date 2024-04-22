@@ -3,12 +3,22 @@ import { RouterModule, Routes } from "@angular/router";
 
 import { LayoutComponent } from "./layouts/layout.component";
 import { AuthGuard } from "./auth/auth.guard";
+import { LoginComponent } from "./auth/login/login.component";
 
 // Auth
 
 const use_login = false;
 
 const routes: Routes = [
+  {
+    path: "",
+    redirectTo:use_login? "": "login", // Redirect to login component by default
+    pathMatch: "full",
+  },
+  {
+    path: "login",
+    component: LoginComponent,
+  },
   {
     path: "",
     component: LayoutComponent,

@@ -7,9 +7,11 @@ import {
   QueryList,
   ViewChildren,
 } from "@angular/core";
+import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgToastService } from "ng-angular-popup";
 import { AppService } from "src/app/app.service";
+import { MessageService } from "src/app/services/PopupMessages/message.service";
 
 // Sweet Alert
 import Swal from "sweetalert2";
@@ -36,14 +38,11 @@ export class TableComponent {
 
   @Input() loadingInProgress: boolean = false;
 
-  @Input() displayPagination: boolean = true;
+  //@Input() displayPagination: boolean = false;
 
   @Input() selectedPageSize: number = 5;
 
   @Input() pageSizeArray: any[] = ["5", "10", "20", "50", "100"];
-
-
-
 
   @Output() onEdit = new EventEmitter(); //Handles Edit click
 
@@ -73,11 +72,24 @@ export class TableComponent {
 
   @Output() onRemove = new EventEmitter();
 
+  @Output() onViewPermission = new EventEmitter();
+
+  @Output() onViewPlaformUsers = new EventEmitter();
+
   selectedItemArray: any[] = [];
 
   testArray: any[] = [];
 
   selectedDataRow: any;
+
+  //To show platform users
+  allowToViewPlatformUsers: boolean = false;
+
+  //To show permissions
+  allowToViewPermissions: boolean = false;
+
+  //now if displayPlagination want value has been true in page
+  displayPagination: boolean = false;
 
   currentSortedColumn: string = "";
 
@@ -103,17 +115,29 @@ export class TableComponent {
 
   allowtoDelete: boolean = false;
 
+  unAssignUser: boolean = false;
+
   allowExportAsExcel: boolean = false;
 
   allowtoView: boolean = false;
+
+  allowtoViewActions: boolean = false;
 
   allowtoApprove: boolean = false;
 
   allowtoReject: boolean = false;
 
-  allowtoDisplayAcknowledged: boolean = false
+  allowtoBulkActivate: boolean = false;
 
-  allowtoAcknowledge: boolean = false
+  allowtoBulkDeactivate: boolean = false;
+
+  bulkActivationAllowed: boolean = false;
+
+  bulkDeactivationAllowed: boolean = false;
+
+  allowtoDisplayAcknowledged: boolean = false;
+
+  allowtoAcknowledge: boolean = false;
 
   allowtoGenerate: boolean = false;
 
@@ -134,6 +158,10 @@ export class TableComponent {
   allowtoAddFacilityManager: boolean = false;
 
   allowtoRemoveFacilityManager: boolean = false;
+
+  userAllowBulkActivateButton: boolean = false;
+
+  userAllowBulkDeactivateButton: boolean = false;
 
   titleOfTable: string = "";
 
@@ -167,17 +195,21 @@ export class TableComponent {
 
   reject_single_record_permission: string = "";
 
+  recordDeactivateConfirmationMessage: string = "";
+
+  recordActivateConfirmationMessage: string = "";
 
   constructor(
     private modalService: NgbModal,
     private notifierService: NgToastService,
     private appService: AppService,
+    private sweetAlert: MessageService,
+    private router: Router
   ) {
     this.collectionSize = this.dataArray.length;
   }
 
   ngOnInit(): void {
-
     if (
       this.dataArray == undefined ||
       this.dataArray == null ||
@@ -211,32 +243,53 @@ export class TableComponent {
 
   //This method set the properties for the datatable
   setTableOptions() {
-
     if (this.dataTableOptions != undefined && this.dataTableOptions != null) {
+      this.view_single_record_permission =
+        this.dataTableOptions.view_single_Record_permission;
 
-      this.view_single_record_permission = this.dataTableOptions.view_single_Record_permission;
+      //assign in platform user showing button
+      this.allowToViewPlatformUsers =
+        this.dataTableOptions.allowToViewPlatformUsers;
 
-      this.approve_single_record_permission = this.dataTableOptions.approve_single_record_permission;
+      //assign view permission button
+      this.allowToViewPermissions =
+        this.dataTableOptions.allowToViewPermissions;
 
-      this.reject_single_record_permission = this.dataTableOptions.reject_single_record_permission;
+      this.approve_single_record_permission =
+        this.dataTableOptions.approve_single_record_permission;
+
+      this.reject_single_record_permission =
+        this.dataTableOptions.reject_single_record_permission;
 
       this.allowtoUpdate = this.dataTableOptions.allowUpdateButton;
 
-      this.allowtoUpdateMeterReset = this.dataTableOptions.allowUpdateMeterResetButton;
+      this.displayPagination = this.dataTableOptions.displayPagination;
+
+      this.allowtoUpdateMeterReset =
+        this.dataTableOptions.allowUpdateMeterResetButton;
 
       this.allowtoAdd = this.dataTableOptions.allowAddButton;
 
       this.allowtoView = this.dataTableOptions.allowViewButton;
 
+      this.allowtoViewActions = this.dataTableOptions.allowViewActionsButton;
+
       this.allowtoDelete = this.dataTableOptions.allowDeleteButton;
+
+      this.unAssignUser = this.dataTableOptions.unAssignUserButton;
 
       this.allowtoApprove = this.dataTableOptions.allowApproveButton;
 
       this.allowtoAcknowledge = this.dataTableOptions.allowAcknowledgeButton;
 
-      this.allowtoDisplayAcknowledged = this.dataTableOptions.allowDisplayAcknowledgedButton;
+      this.allowtoDisplayAcknowledged =
+        this.dataTableOptions.allowDisplayAcknowledgedButton;
 
       this.allowtoReject = this.dataTableOptions.allowRejectButton;
+
+      this.allowtoBulkActivate = this.dataTableOptions.allowActivateButton;
+
+      this.allowtoBulkDeactivate = this.dataTableOptions.allowDeactivateButton;
 
       this.allowCheckBoxes = this.dataTableOptions.allowCheckbox;
 
@@ -248,7 +301,8 @@ export class TableComponent {
 
       this.allowExportAsExcel = this.dataTableOptions.allowExportAsExcel;
 
-      this.allowtoAddTenantManager = this.dataTableOptions.allowtoAddTenantManager;
+      this.allowtoAddTenantManager =
+        this.dataTableOptions.allowtoAddTenantManager;
 
       this.allowtoAddFacilityManager =
         this.dataTableOptions.allowtoAddFacilityManager;
@@ -261,6 +315,12 @@ export class TableComponent {
 
       this.userAllowBulkRejectButton =
         this.dataTableOptions.allowBulkRejectButton;
+
+      this.userAllowBulkActivateButton =
+        this.dataTableOptions.allowBulkActivateButton;
+
+      this.userAllowBulkDeactivateButton =
+        this.dataTableOptions.allowBulkDeactivateButton;
 
       // this.userAllowBulkDeleteButton =
       //   this.dataTableOptions.allowBulkApproveButton;
@@ -283,6 +343,9 @@ export class TableComponent {
       this.recordDeletedNotificationMessage =
         this.dataTableOptions.recordDeletedNotificationMessage;
 
+      this.recordDeactivateConfirmationMessage =
+        this.dataTableOptions.recordDeactivateConfirmationMessage;
+
       this.recordUpdatedNotificationMessage =
         this.dataTableOptions.recordUpdatedNotificationMessage;
 
@@ -291,7 +354,20 @@ export class TableComponent {
 
       this.recordRejectedNotificationMessage =
         this.dataTableOptions.recordRejectedNotificationMessage;
+
+      this.recordActivateConfirmationMessage =
+        this.dataTableOptions.recordActivateConfirmationMessage;
     }
+  }
+
+  //show users in respective platforms
+  showPlatformUserView(item: any) {
+    this.onViewPlaformUsers.emit(item);
+    this.router.navigate(["/platform-users/:id", item]);
+  }
+
+  loadPermissionData(id: any) {
+    this.onViewPermission.emit(id);
   }
 
   //Method handles update buttton click on the grid
@@ -301,18 +377,44 @@ export class TableComponent {
     this.onEdit.emit(id);
   }
 
+  removeData(id:any){
+    this.modalService.dismissAll("close click"); //Hide update confirmation modal
+
+    this.onAcknowledge.emit(id);
+  }
+
   //Method handles acknowledge buttton click on the grid
   acknowledgeConfirm(id: any) {
     this.modalService.dismissAll("close click"); //Hide update confirmation modal
 
-    this.onAcknowledge.emit(id);
+    if (id == -1) {
+      //Bulk selection
+      this.onRemove.emit(this.selectedItemArray);
+    } //Single item selection
+    else {
+      let tempSelectedItemArray = [];
+
+      tempSelectedItemArray.push(id);
+
+      this.onRemove.emit(tempSelectedItemArray);
+    }
   }
 
   //Method handles remove buttton click on the grid
   removeConfirm(id: any) {
     this.modalService.dismissAll("close click"); //Hide update confirmation modal
 
-    this.onRemove.emit(id);
+    if (id == -1) {
+      //Bulk selection
+      this.onRemove.emit(this.selectedItemArray);
+    } //Single item selection
+    else {
+      let tempSelectedItemArray = [];
+
+      tempSelectedItemArray.push(id);
+
+      this.onRemove.emit(tempSelectedItemArray);
+    }
   }
 
   //Load and Display delete confirmation modal
@@ -425,31 +527,6 @@ export class TableComponent {
 
       this.onDelete.emit(tempSelectedItemArray);
     }
-
-    this.notifierService.success({
-      type: "success",
-      detail: "Deleted",
-      summary: "Successfully deleted",
-      duration: 2000,
-    });
-
-    Swal.fire({
-      title: "Deleted!",
-
-      text: this.recordDeletedNotificationMessage,
-
-      icon: "success",
-
-      confirmButtonColor: "#299cdb",
-
-      timer: this.appService.popUpMessageConfig[0].messageDurationInMiliSeconds,
-
-      timerProgressBar: true,
-
-      willClose: () => {
-        clearInterval(timerInterval);
-      },
-    });
   }
 
   //Approve Record
@@ -552,15 +629,23 @@ export class TableComponent {
     ) {
       this.bulkApprovalAllowed = true;
 
+      this.bulkActivationAllowed = true;
+
       this.bulkDeleteAllowed = true;
 
       this.bulkRejectAllowed = true;
+
+      this.bulkDeactivationAllowed = true;
     } else {
       this.bulkApprovalAllowed = false;
+
+      this.bulkActivationAllowed = false;
 
       this.bulkDeleteAllowed = false;
 
       this.bulkRejectAllowed = false;
+
+      this.bulkDeactivationAllowed = false;
     }
   }
 
@@ -578,12 +663,10 @@ export class TableComponent {
   }
 
   sortData(column: string, order: string) {
-
     this.currentSortedColumn = column;
 
     this.currentSortedOrder = order;
 
     this.onSort.emit([column, order]);
-
   }
 }

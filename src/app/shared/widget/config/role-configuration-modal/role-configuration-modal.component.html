@@ -1,0 +1,213 @@
+<div class="modal-header">
+  <h5 class="modal-title fs-4" id="addReadingsModal">{{ modalTitle }}</h5>
+  <button
+    id="btnCommonModalClose"
+    type="button"
+    class="bg-transparent border-0"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">
+      <i class="bi bi-x-lg text-dark"></i>
+    </span>
+  </button>
+</div>
+
+<form #form="ngForm" (ngSubmit)="onFormSubmit()">
+  <div class="row modal-body">
+    <div class="col-6" *ngIf="type != 'Add' && type != 'Edit'">
+      <div class="mb-3">
+        <label class="col-form-label">Role Code*</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="roleCode"
+          name="roleCode"
+          [disabled]="type == 'View' || type == 'Permission'"
+        />
+        <div class="input-group"></div>
+      </div>
+    </div>
+
+    <div  [ngClass]="{'col-12': type === 'Add' || type === 'Edit', 'col-6': type !== 'Add' && type !== 'Edit'}">
+      <div class="mb-3">
+        <label class="col-form-label">Role Name*</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="roleName"
+          name="roleName"
+          [disabled]="type == 'View' || type == 'Permission'"
+        />
+      </div>
+    </div>
+
+    <div class="col-12" *ngIf="type == 'Permission'">
+      <div class="mb-3"> 
+        <label class="col-form-label">Platform Name</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="platformName"
+          name="platformName"
+          [disabled]="type == 'Permission'"
+          />
+      </div>
+    </div>
+
+    <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
+      <div class="mb-0">
+        <label class="col-form-label">Permissions</label>
+        <!--use acknowledge button to the unassign permission-->
+        <app-table
+          *ngIf="!loadingInProgress"
+          [headArray]="headArray"
+          [dataArray]="tableData"
+          [dataTableOptions]="roleConfigModalTableOptions"
+          (onAcknowledge)="unassignPermissionFromRole($event)"
+        >
+        </app-table>
+      </div>
+    </div>
+
+    <div class="col-12" *ngIf="type != 'View' && type != 'Permission'">
+      <div class="mb-3">
+        <label class="col-form-label">Platform</label>
+        <ng-select
+        [(ngModel)]="platfromIds"
+        [multiple]="true"
+        *ngIf="type === 'Edit'"
+        [placeholder]="platformName"
+        name="platformName"
+        [clearable]="true"
+      >
+        <ng-option
+          *ngFor="let item of platformListDefault"
+          [value]="item.id"
+        >
+          {{ item.value }}
+        </ng-option>
+      </ng-select>
+
+      <ng-select
+      [(ngModel)]="platfromIds"
+      [multiple]="true"
+      *ngIf="type !== 'Edit'"
+      [placeholder]="platformListDefault.length > 0 ? platformListDefault[0].value : 'No Platforms'"
+      name="platformName"
+      [clearable]="true">
+
+        <ng-option
+          *ngFor="let item of platformListDefault"
+          [value]="item.id"
+        >
+          {{ item.value }}
+        </ng-option>
+      </ng-select>
+      </div>
+      <div class="form-text text-muted" *ngIf="type == 'Edit'">Select the platform</div>
+    </div>
+
+    <!-- <div class="col-12" *ngIf="type != 'Add' && type != 'Edit' && type != 'View'">
+        <div class="mb-3">
+            <label class="col-form-label">Permissions</label>
+            <div class="input-group">
+                <textarea 
+                    class="form-control" 
+                    name="permission"
+                    [ngModel]="permissionsAsString"
+                    [disabled]="!isEditable || type === 'View' || type == 'Permission'" 
+                    cols="30" 
+                    rows="15">
+                </textarea>
+                <div class="input-group-append" *ngIf="type != 'View'">
+                    <button class="btn btn-outline-secondary edit-button" type="button" (click)="toggleListItems()">
+                      <i class="fas fa-plus"></i> 
+                    </button>
+                </div>
+            </div>
+        </div> -->
+        <!-- Box to display list items -->
+        <!-- <div class="list-items-box" *ngIf="showListItems">
+            <ul>
+                <li *ngFor="let item of listItems">
+                    <label>
+                        <input type="checkbox" [(ngModel)]="item.selected" [ngModelOptions]="{standalone: true}"/>
+                        {{ item.name }}
+                    </label>
+                </li>
+            </ul>
+            <button class="btn btn-primary" (click)="addSelectedItems()">Done</button>
+        </div>
+    </div> -->
+
+    <div class="col-6" *ngIf="type != 'Add' && type != 'Edit' && type != 'Permission'">
+      <div class="mb-3">
+        <label class="col-form-label">Created Date*</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="createdDate"
+          name="createdDate"
+          [disabled]="type == 'View'"
+        />
+      </div>
+    </div>
+
+    <div class="col-6" *ngIf="type != 'Add' && type != 'Permission' && type != 'Edit'">
+      <div class="mb-3">
+        <label class="col-form-label">Status</label>
+        <ng-select
+        [(ngModel)]="statusName"
+        [multiple]="false"
+        name="status"
+        [clearable]="false"
+        [disabled]="type === 'View'">
+        
+        <ng-option
+          *ngFor="let item of statusOptions"
+          [value]="item.label"
+        >
+          {{ item.value }}
+        </ng-option>
+      </ng-select>
+      </div>
+    </div>
+
+    <div>
+      <div class="input-group-append" *ngIf="type == 'Permission'">
+        <button type="button" class="btn btn-success btn-label mt-3" (click)="toggleListItems()">
+          <i class="bi {{ buttonIcon }} label-icon align-middle fs-16 me-2"></i>{{ buttonName }}
+        </button>
+      </div>
+      <!-- Box to display list items -->
+      <div class="list-items-box" *ngIf="showListItems">
+        <ul>
+            <li *ngFor="let item of listItems">
+                <label>
+                    <input type="checkbox" [(ngModel)]="item.selected" [ngModelOptions]="{standalone: true}"/>
+                    {{ item.name }}
+                </label>
+            </li>
+        </ul>
+        <button type="submit" class="btn btn-primary align-items-center" style="margin-right: 30px;"  [disabled]="!atLeastOneItemSelected()" (click)="loadSelectedRecords()">Done</button>
+        <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+      </div>
+    </div>
+
+    <div class="col-12 mx-auto">
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-success btn-label mt-3" *ngIf="type != 'Permission'">
+          <i class="bi {{ buttonIcon }} label-icon align-middle fs-16 me-2"></i>{{ buttonName }}
+        </button>
+
+        <!--Cancel button-->
+        <button type="button" class="btn btn-danger btn-label mt-3 ms-2" (click)="activeModal.dismiss()">
+          <i class="bi {{ cancelButtonIcon }} label-icon align-middle fs-16 me-2"></i>{{ cancelButtonName }}
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="modal-footer"></div>

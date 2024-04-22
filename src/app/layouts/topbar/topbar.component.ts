@@ -11,6 +11,9 @@ import { LanguageService } from '../../core/services/language.service';
 
 import { AppService } from 'src/app/app.service';
 import { Title } from '@angular/platform-browser';
+import { AuthService } from 'src/app/auth/auth.service';
+import { Route, Router } from '@angular/router';
+import { UserAccountService } from 'src/app/services/cams-new/user-account.service';
 
 @Component({
   selector: 'app-topbar',
@@ -29,12 +32,20 @@ export class TopbarComponent implements OnInit {
   userData: any;
   current_theme = this.getCookie('aes-app-theme');
 
+  tempuser= this.auth.getUser();
+  private sessionToken : string | any = localStorage.getItem('sessionId');
+
   module: string = "moduleName";
   organization: string = "company_name";
 
+
   constructor(@Inject(DOCUMENT) private document: any, private eventService: EventService, public languageService: LanguageService,
-    public _cookiesService: CookieService, private app: AppService,
-    private titleService: Title
+    public _cookiesService: CookieService, 
+    private app: AppService,
+    private auth: AuthService,
+    private titleService: Title,
+    private router: Router,
+    private shared: UserAccountService
   ) { }
 
   ngOnInit(): void {
@@ -94,6 +105,12 @@ export class TopbarComponent implements OnInit {
   }
 
 
+  //Navigate to user account
+  navigateToUserAccount() {
+    this.router.navigate(['/user-account']);
+  }
+
+
   /**
   * Topbar Light-Dark Mode Change
   */
@@ -122,16 +139,26 @@ export class TopbarComponent implements OnInit {
    * Logout the user
    */
   logout() {
-    this.app.logout();
+
+    this.shared.deleteSessionToken(this.tempuser?.id, this.sessionToken).subscribe({
+      next: (response) =>{
+        console.log(response);
+      },
+      error:(error)=>{
+        alert("Error while logging out!");
+      }
+    })
+
+    this.auth.logout();
   }
 
   get manageProfileUrl() {
     return environment.signOn + "/account/profile";
   }
 
-  get role() {
-    return this.app.user?.role.replace("_", " ");
-  }
+  // get role() {
+  //   return this.app.user?.roles.replace("_", " ");
+  // }
 
   get user() {
     return this.app.user?.fName;
@@ -151,14 +178,31 @@ export class TopbarComponent implements OnInit {
   }
 
   windowScroll() {
-    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-      (document.getElementById("back-to-top") as HTMLElement).style.display = "block";
-      document.getElementById('page-topbar')?.classList.add('topbar-shadow');
-    } else {
-      (document.getElementById("back-to-top") as HTMLElement).style.display = "none";
-      document.getElementById('page-topbar')?.classList.remove('topbar-shadow');
+    const body = document.body;
+    const documentElement = document.documentElement;
+  
+    if (body && documentElement) {
+      if (body.scrollTop > 100 || documentElement.scrollTop > 100) {
+        const backToTopElement = document.getElementById("back-to-top") as HTMLElement;
+        if (backToTopElement) {
+          backToTopElement.style.display = "block";
+        }
+  
+        const pageTopbarElement = document.getElementById('page-topbar');
+        if (pageTopbarElement) {
+          pageTopbarElement.classList.add('topbar-shadow');
+        }
+      } else {
+        const backToTopElement = document.getElementById("back-to-top") as HTMLElement;
+        if (backToTopElement) {
+          backToTopElement.style.display = "none";
+        }
+  
+        const pageTopbarElement = document.getElementById('page-topbar');
+        if (pageTopbarElement) {
+          pageTopbarElement.classList.remove('topbar-shadow');
+        }
+      }
     }
   }
-
-
 }

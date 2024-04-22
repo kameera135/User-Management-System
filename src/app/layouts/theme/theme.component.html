@@ -1,20 +1,18 @@
 <div id="layout-wrapper">
-    <!-- Top Bar -->
-    <app-topbar (mobileMenuButtonClicked)="onToggleMobileMenu()"></app-topbar>
+  <!-- Top Bar -->
+  <app-topbar (mobileMenuButtonClicked)="onToggleMobileMenu()"></app-topbar>
 
-    <!-- Navigation Bar -->
-    <app-navbar></app-navbar>
+  <!-- Navigation Bar -->
+  <app-navbar></app-navbar>
 
-    <div class="main-content">
-        <div class="page-content pb-1">
-            <div class="container-fluid">
-
-                <!-- Main Content -->
-                <router-outlet></router-outlet>
-
-            </div>
-        </div>
-        <!-- Footer -->
-        <app-footer></app-footer>
+  <div class="main-content" [class.with-watermark]="activateWatermark">
+    <div class="page-content pb-1">
+      <div class="container-fluid">
+        <!-- Main Content -->
+        <router-outlet></router-outlet>
+      </div>
     </div>
+    <!-- Footer -->
+    <app-footer></app-footer>
+  </div>
 </div>

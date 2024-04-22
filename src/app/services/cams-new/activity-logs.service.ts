@@ -1,28 +1,73 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
 import { AppService } from "src/app/app.service";
-import { AuthService } from "src/app/auth/auth.service";
+import { ActivityLogData } from "src/app/shared/models/Cams-new/ActivityLogData";
+import { PaginatedResponse } from "src/app/shared/models/Cams-new/PaginatedResponse";
 
 @Injectable({
   providedIn: "root",
 })
 export class ActivityLogsService {
-  constructor(
-    private appService: AppService,
-    private httpClient: HttpClient,
-    private authService: AuthService
-  ) {}
+  constructor(private appService: AppService, private httpClient: HttpClient) {}
 
-  baseUrl = this.appService.appConfig[0].apiUrl;
-  user = this.appService.user.id;
+  apiUrl = this.appService.appConfig[0].apiUrl;
+  user = this.appService.user;
 
-  getAcknowledgeAlert(): Observable<any> {
+  getUserList() {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("userID", this.user);
+    //queryParams = queryParams.append("viewedBy", this.user?.id);
 
-    return this.httpClient.get(`${this.baseUrl}/api/activity-logss/Ack-Alert`, {
-      params: queryParams,
-    });
+    const url = `${this.apiUrl}/api/users/combobox`;
+    return this.httpClient.get(url, { params: queryParams });
+  }
+
+  getPlatformList() {
+    let queryParams = new HttpParams();
+    //queryParams = queryParams.append("viewedBy", this.user?.id);
+
+    const url = `${this.apiUrl}/api/configuration/platforms/combobox`;
+    return this.httpClient.get(url, { params: queryParams });
+  }
+
+  getRoleList(platformId: number) {
+    let queryParams = new HttpParams();
+    //queryParams = queryParams.append("viewedBy", this.user?.id);
+
+    const url = `${this.apiUrl}/api/configuration/roles/combobox/${platformId}`;
+    return this.httpClient.get(url, { params: queryParams });
+  }
+
+  getActivityLogs(
+    page: number,
+    pageSize: number,
+    platformId: number,
+    roleId: number,
+    firstDate: Date,
+    lastDate: Date,
+    userId: number
+  ) {
+    let queryParams = new HttpParams();
+    // queryParams = queryParams.append("viewedBy", this.user?.id);
+    queryParams = queryParams.append("platformId", platformId);
+    queryParams = queryParams.append("roleId", roleId);
+    queryParams = queryParams.append("userId", userId);
+    queryParams = queryParams.append(
+      "firstDateString",
+      this.convertToStartOfDay(firstDate.toISOString())
+    );
+    queryParams = queryParams.append(
+      "lastDateString",
+      this.convertToStartOfDay(lastDate.toISOString())
+    );
+
+    // const url = `${this.apiUrl}/api/activity_logs/${year}/${month}/${page}/${pageSize}`;
+    const url = `${this.apiUrl}/api/activity_logs/${page}/${pageSize}`;
+    return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
+  }
+
+  convertToStartOfDay(dateTimeString: string): string {
+    const date = new Date(dateTimeString);
+    date.setUTCHours(0, 0, 0, 0);
+    return date.toISOString();
   }
 }

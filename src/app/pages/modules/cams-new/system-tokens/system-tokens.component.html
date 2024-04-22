@@ -1,0 +1,126 @@
+<div class="row align-items-center" *ngIf="loadingInProgress">
+  <app-waiting-circle></app-waiting-circle>
+</div>
+
+<div class="row mb-4 mx-1  {{ loadingInProgress ? 'hidden' : '' }}">
+    <div class="row mb-3 mx-1">
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-2 col-lg-4 mt-1"><h2>API Tokens</h2></div>
+      
+              <div class="col-10 col-lg-8 mt-1">
+                <a
+                  class="btn btn-primary float-end"
+                  (click)="onAddTokenButtonClicked()"
+                >
+                  <i
+                    class="bi bi-plus-square-fill label-icon align-middle fs-16 me-2"
+                  ></i>
+                  Add Token</a
+                >
+              </div>
+
+              <!-- <div class="col-2 col-lg-2 mt-1">
+                <div class="col-12">
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      placeholder="From"
+                      name="dp_from"
+                      [(ngModel)]="model_from"
+                      ngbDatepicker
+                      #dFrom="ngbDatepicker"
+                      [placement]="placement"
+                      [positionTarget]="buttonElFrom"
+                      (dateSelect)="onFromDateClicked()"
+                      [maxDate]="{
+                        year: model_to.year,
+                        month: model_to.month,
+                        day: model_to.day - 1
+                      }"
+                    />
+                    <button
+                      #buttonElFrom
+                      class="btn btn-outline-secondary bi bi-calendar3"
+                      (click)="dFrom.toggle()"
+                      type="button"
+                    ></button>
+                  </div>
+                </div>
+              </div> -->
+              <!-- <div class="col-2 col-lg-2 mt-1">
+                <div class="col-12">
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      placeholder="To"
+                      name="dp_to"
+                      [(ngModel)]="model_to"
+                      ngbDatepicker
+                      #dTo="ngbDatepicker"
+                      [placement]="placement"
+                      [positionTarget]="buttonElTo"
+                      (dateSelect)="onToDateClicked()"
+                      [minDate]="{
+                        year: model_from.year,
+                        month: model_from.month,
+                        day: model_from.day 
+                      }"
+                    />
+                    <button
+                      #buttonElTo
+                      class="btn btn-outline-secondary bi bi-calendar3"
+                      (click)="dTo.toggle()"
+                      type="button"
+                    ></button>
+                  </div>
+                </div>
+              </div> -->
+      
+              <!-- <div class="col-2 col-lg-2 mt-1">
+                <select
+                  class="form-select"
+                  aria-label="Platform"
+                  [(ngModel)]="selectedRole"
+                  (change)="loadData()"
+                >
+                  <option *ngFor="let item of roleList" [value]="item.value">
+                    {{ item.value }}
+                  </option>
+                </select>
+              </div> -->
+      
+              <!-- <div class="form-outline col-3 col-lg-3 mt-1">
+                <input
+                  (keyup)="getSearchTerm($event)"
+                  [(ngModel)]="searchTerm"
+                  type="text"
+                  id="searchKey"
+                  class="form-control input-sm"
+                  placeholder="Search Tokens"
+                />
+              </div> -->
+
+            </div>
+          </div>
+      
+          <div class="card-body pb-3">
+            <app-table
+            *ngIf="!loadingInProgress"
+            [headArray]="headArray"
+            [dataArray]="tableData"
+            [dataTableOptions]="tokenConfigTableOptions"
+            [totalRowsInSelection]="totalDataCount"
+            [selectedPageSize]="selectedPageSize"
+            [selectedPage]="selectedPage"
+            (onPaginationChanged)="onPaginationChange($event)"
+            (onPagesizeChanged)="onPagesizeChange($event)"
+            (onEdit)="onEditButtonClicked($event)"
+            (onDelete)="deleteTokens($event)"
+            (onRowDoubleClick)="onViewButtonClicked($event)"
+            (dblClick)="onViewButtonClicked($event)">
+            </app-table>
+          </div>
+        </div>
+      </div>

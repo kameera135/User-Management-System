@@ -11,7 +11,7 @@ export class MenuService {
     {
       id: 100,
       label: "Users",
-      icon: "bi-receipt",
+      icon: "bi-people",
       module: "1",
       subItems: [
         {
@@ -53,16 +53,48 @@ export class MenuService {
         },
         {
           id: 4,
-          label: "Feature Configuration",
-          link: "/feature-configuration",
+          label: "Role Configuration",
+          link: "/role-configuration",
           parentId: 100,
           module: "1",
         },
         {
           id: 6,
-          label: "Profile Configuration",
-          link: "/profile-configuration",
+          label: "Permission Configuration",
+          link: "/permission-configuration",
           parentId: 100,
+          module: "1",
+        },
+      ],
+    },
+    {
+      id: 400,
+      label: "Password Policy",
+      collapseid: "sidebarDashboards",
+      icon: "bi-file-earmark-lock",
+      module: "1",
+      subItems: [
+        {
+          id: 4,
+          label: "Password Policy",
+          link: "/password-policy",
+          parentId: 102,
+          module: "1",
+        },
+      ],
+    },
+    {
+      id: 500,
+      label: "Tokens",
+      collapseid: "sidebarDashboards",
+      icon: "bi-shield-lock",
+      module: "1",
+      subItems: [
+        {
+          id: 2,
+          label: "API Tokens",
+          link: "/system-tokens",
+          parentId: 102,
           module: "1",
         },
       ],
@@ -71,7 +103,7 @@ export class MenuService {
       id: 300,
       label: "Activity Logs",
       collapseid: "sidebarDashboards",
-      icon: "bi-speedometer2",
+      icon: "bi-activity",
       module: "1",
       subItems: [
         {
@@ -104,22 +136,22 @@ export class MenuService {
         // },
       ],
     },
-    {
-      id: 300,
-      label: "User Account",
-      collapseid: "sidebarDashboards",
-      icon: "bi-speedometer2",
-      module: "1",
-      subItems: [
-        {
-          id: 4,
-          label: "User Account",
-          link: "/user-account",
-          parentId: 102,
-          module: "1",
-        },
-      ],
-    },
+    // {
+    //   id: 300,
+    //   label: "User Account",
+    //   collapseid: "sidebarDashboards",
+    //   icon: "bi-person-circle",
+    //   module: "1",
+    //   subItems: [
+    //     {
+    //       id: 2,
+    //       label: "User Account",
+    //       link: "/user-account",
+    //       parentId: 102,
+    //       module: "1",
+    //     },
+    //   ],
+    // },
   ];
 
   constructor() {}

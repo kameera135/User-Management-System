@@ -1,0 +1,128 @@
+<div class="modal-header">
+    <h5 class="modal-title fs-4" id="addReadingsModal">{{ modalTitle }}</h5>
+
+    <div class="form-outline col-lg-3 mr-10" *ngIf="type != 'View' && type != 'Edit'">
+        <input
+          (keyup)="getSearchTerm($event)"
+          [(ngModel)]="searchTerm"
+          type="text"
+          id="searchKey"
+          class="form-control input-sm"
+          placeholder="Search User"
+        />
+    </div>
+
+    <button
+      id="btnCommonModalClose"
+      type="button"
+      class="bg-transparent border-0"
+      aria-label="Close"
+      (click)="activeModal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">
+        <i class="bi bi-x-lg text-dark"></i>
+      </span>
+    </button>
+</div>
+
+
+<div class="card-body pb-3" *ngIf="type !== 'View' && type !=='Edit'">
+    <div class="mx-4">
+        <app-table
+        *ngIf="!loadingInProgress"
+        [headArray]="headArray"
+        [dataArray]="tableData"
+        [dataTableOptions]="platformUserModelViewTableOption" 
+        >
+        </app-table>
+    </div>
+</div>
+  
+<form #form="ngForm" (ngSubmit)="onFormSubmit()">
+    <div class="col modal-body col-12">
+        <div class="col-12" *ngIf="type !== 'Add'">
+            <div class="mb-3">
+                <label class="col-form-label">User Name*</label>
+                <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="userName"
+                name="userName"
+                [disabled]="type == 'View' || type == 'Edit'"
+                />
+                <div class="input-group"></div>
+            </div>
+        </div>
+
+        <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
+            <div class="mb-3">
+              <label class="col-form-label">Roles & Permissions</label>
+              <app-table
+                *ngIf="!loadingInProgress"
+                [headArray]="headArrayRolePermission"
+                [dataArray]="rolePermissionTableData"
+              >
+              </app-table>
+            </div>
+          </div>
+
+        <div class="col-12" *ngIf="type != 'Add' && type != 'View'">
+            <div class="mb-0">
+              <label class="col-form-label">Roles</label>
+              <!--use acknowledge button to the unassign permission-->
+              <app-table
+                *ngIf="!loadingInProgress"
+                [headArray]="headArrayRole"
+                [dataArray]="roleTable"
+                [dataTableOptions]="platformUserModelViewTableOption"
+                (onAcknowledge)="unassignRoleFromUser($event)"
+              >
+              </app-table>
+            </div>
+        </div>
+          
+        <div>
+            <div class="input-group-append" *ngIf="type == 'Edit'">
+              <button type="button" class="btn btn-success btn-label mt-3" (click)="toggleListItems()">
+                <i class="bi {{ buttonIcon }} label-icon align-middle fs-16 me-2"></i>{{ buttonName }}
+              </button>
+            </div>
+            <!-- Box to display list items -->
+            <div class="list-items-box" *ngIf="showListItems">
+              <ul>
+                  <li *ngFor="let item of listItems">
+                      <label>
+                          <input type="checkbox" [(ngModel)]="item.selected" [ngModelOptions]="{standalone: true}"/>
+                          {{ item.name }}
+                      </label>
+                  </li>
+              </ul>
+              <div>
+                <button type="submit" class="btn btn-primary" style="margin-right: 20px;" [disabled]="!atLeastOneItemSelected()" (click)="loadRoles()">Done</button>
+                <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+        <div class="col-12 mx-auto">
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-success btn-label mt-3" *ngIf="type !== 'Edit'">
+                <i class="bi {{ buttonIcon }} label-icon align-middle fs-16 me-2"></i
+                >{{ buttonName }}
+                </button>
+
+                <!--Cancel button-->
+                <button
+                type="button"
+                class="btn btn-danger btn-label mt-3 ms-2"
+                (click)="activeModal.dismiss()">
+                
+                <i class="bi {{ cancelButtonIcon }} label-icon align-middle fs-16 me-2"></i>{{ cancelButtonName }}
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+  
+<div class="modal-footer"></div>
+  

@@ -19,7 +19,7 @@ import {
 
 import { TableComponent } from "./table/table.component";
 import { FlatpickrModule } from "angularx-flatpickr";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTreeModule } from "@angular/material/tree";
@@ -45,6 +45,15 @@ import { DashboardCardComponent } from "./dashboard-card/dashboard-card.componen
 import { UserViewModalComponent } from "./config/user-view-modal/user-view-modal.component";
 import { ActivityLogsModalComponent } from "./config/activity-logs-modal/activity-logs-modal.component";
 import { MatRadioModule } from "@angular/material/radio";
+import { UpdateConfirmationModalComponent } from "./config/update-confirmation-modal/update-confirmation-modal.component";
+import { SidebarComponent } from "./sidebar/sidebar.component";
+import { PlatformConfigurationModalComponent } from "./config/platform-configuration-modal/platform-configuration-modal.component";
+import { PermissionConfigurationModalComponent } from "./config/permission-configuration-modal/permission-configuration-modal.component";
+import { RoleConfigurationModalComponent } from "./config/role-configuration-modal/role-configuration-modal.component";
+import { SystemTokenModalComponent } from "./config/system-token-modal/system-token-modal/system-token-modal.component";
+import { PlatformUserModalComponent } from "./config/platform-user-modal/platform-user-modal.component";
+import { AddBulkUsersModalComponent } from "./config/add-bulk-users-modal/add-bulk-users-modal.component";
+import { UserAccountModalComponent } from './config/user-account-modal/user-account-modal.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +68,15 @@ import { MatRadioModule } from "@angular/material/radio";
     DashboardCardComponent,
     UserViewModalComponent,
     ActivityLogsModalComponent,
+    UpdateConfirmationModalComponent,
+    SidebarComponent,
+    PlatformConfigurationModalComponent,
+    PermissionConfigurationModalComponent,
+    RoleConfigurationModalComponent,
+    SystemTokenModalComponent,
+    PlatformUserModalComponent,
+    AddBulkUsersModalComponent,
+    UserAccountModalComponent,
   ],
   imports: [
     CommonModule,
@@ -93,7 +111,9 @@ import { MatRadioModule } from "@angular/material/radio";
     NgxPaginationModule,
     MatRadioModule,
     MatButtonModule,
+    ReactiveFormsModule,
   ],
+
   exports: [
     TableComponent,
     TreeviewCheckboxComponent,
