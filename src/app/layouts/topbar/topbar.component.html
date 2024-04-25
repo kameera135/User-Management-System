@@ -42,9 +42,9 @@
                             <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
                                 <span class="d-flex align-items-center">
-                                    <img class="rounded-circle header-profile-user avatar-sm" src="{{ profileImage }}"
-                                        alt="User Avatar">
+                                    <img class="rounded-circle header-profile-user avatar-sm" [src]="profileImage" alt="User Avatar">
                                 </span>
+                                
                             </button>
                             <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
                                 <div class="px-3 py-2 align-middle">

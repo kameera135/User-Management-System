@@ -14,6 +14,7 @@ import { Title } from '@angular/platform-browser';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Route, Router } from '@angular/router';
 import { UserAccountService } from 'src/app/services/cams-new/user-account.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-topbar',
@@ -32,6 +33,8 @@ export class TopbarComponent implements OnInit {
   userData: any;
   current_theme = this.getCookie('aes-app-theme');
 
+  imageUrl!: string;
+
   tempuser= this.auth.getUser();
   private sessionToken : string | any = localStorage.getItem('sessionId');
 
@@ -45,7 +48,8 @@ export class TopbarComponent implements OnInit {
     private auth: AuthService,
     private titleService: Title,
     private router: Router,
-    private shared: UserAccountService
+    private shared: UserAccountService,
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
@@ -164,17 +168,25 @@ export class TopbarComponent implements OnInit {
     return this.app.user?.fName;
   }
 
-  get profileImage() {
-    // let image = this.app.user?.profileImage;
-    // image = image.replace("localhost", this.app.appConfig[0].camsBackEnd);
-    // console.log(image);
-    // debugger;
-    // if (image == 'http://54.199.228.15:85/' || image == null || image == undefined || image == "") {
-    //   return "assets/images/user.png";
-    // }
-    // return image;
+  // get profileImage() {
+  //   let image = this.app.user?.profileImage;
+  //   image = image.replace("localhost", this.app.appConfig[0].camsBackEnd);
+  //   console.log(image);
+  //   debugger;
+  //   if (image == 'http://54.199.228.15:85/' || image == null || image == undefined || image == "") {
+  //     return "assets/images/user.png";
+  //   }
+  //   return image;
 
-    return "assets/images/user.png";
+  //   return "assets/images/user.png";
+  // }
+
+  //add the profile image
+  get profileImage(){
+
+    const fullName = this.app.user?.fullName || 'John Doe'
+
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}`;
   }
 
   windowScroll() {
