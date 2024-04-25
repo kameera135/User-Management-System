@@ -12,6 +12,7 @@ import { BreadcrumbService } from "src/app/services/breadcrumb/breadcrumb.servic
 import { UserAccountService } from "src/app/services/cams-new/user-account.service";
 import { User } from "src/app/shared/models/Cams-new/User";
 import { tableOptions } from "src/app/shared/models/tableOptions";
+import { ChangeProfilePicModalComponent } from "src/app/shared/widget/config/change-profile-pic-modal/change-profile-pic-modal.component";
 import { UserAccountModalComponent } from "src/app/shared/widget/config/user-account-modal/user-account-modal.component";
 
 @Component({
@@ -128,6 +129,18 @@ export class UserAccountComponent {
       row.password,
       row.confirmPassword
     );
+  }
+
+  changeImage(row:any){
+
+    const modalRef = this.modalService.open(ChangeProfilePicModalComponent,{
+      size: "s",
+      centered: true,
+      backdrop: "static",
+      keyboard: false,
+    });
+
+    
   }
 
 
