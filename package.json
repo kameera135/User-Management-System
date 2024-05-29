@@ -36,6 +36,7 @@
     "body-parser": "^1.20.2",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.2",
+    "boxicons": "^2.1.4",
     "cross-storage": "^1.0.0",
     "crypto-js": "^4.1.1",
     "exceljs": "^4.3.0",
