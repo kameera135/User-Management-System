@@ -15,6 +15,8 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { Route, Router } from '@angular/router';
 import { UserAccountService } from 'src/app/services/cams-new/user-account.service';
 import { HttpClient } from '@angular/common/http';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ChangeProfilePicModalComponent } from 'src/app/shared/widget/config/change-profile-pic-modal/change-profile-pic-modal.component';
 
 @Component({
   selector: 'app-topbar',
@@ -49,7 +51,9 @@ export class TopbarComponent implements OnInit {
     private titleService: Title,
     private router: Router,
     private shared: UserAccountService,
-    private http: HttpClient
+    private http: HttpClient,
+    private modalService: NgbModal,
+    
   ) { }
 
   ngOnInit(): void {
@@ -187,6 +191,21 @@ export class TopbarComponent implements OnInit {
     const fullName = this.app.user?.fullName || 'John Doe'
 
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}`;
+  }
+
+  changeImage(row:any){
+
+    const modalRef = this.modalService.open(ChangeProfilePicModalComponent,{
+      size: "l",
+      centered: true,
+      backdrop: "static",
+      keyboard: false,
+    });
+
+    modalRef.componentInstance.type = "profile";
+    modalRef.componentInstance.modalType = "Update Profile Picture";
+
+    
   }
 
   windowScroll() {

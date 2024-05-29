@@ -1,1 +1,30 @@
-<p>change-profile-pic-modal works!</p>
+<div class="modal-header">
+    <h5 class="ps-2 modal-title fs-4 mt-2" id="myExtraLargeModalLabel">
+      Change Profile Picture
+    </h5>
+  
+    <button
+      type="button"
+      class="bg-transparent border-0"
+      aria-label="Close"
+      (click)="activeModal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">
+        <i class="bi bi-x-lg text-dark"></i>
+      </span>
+    </button>
+</div>
+
+<div class="modal-body">
+    <span class="d-flex align-items-center">
+        <img class="rounded-circle header-profile-user avatar-xl" [src]="profileImage" alt="User Avatar">
+    </span>
+
+    <button type="submit" class="btn btn-success btn-label mt-3">
+        <i
+          class="bi bi-camera-fill label-icon align-middle fs-16 me-2"
+        ></i
+        >Upload Profile Picture
+    </button>
+    
+</div>
