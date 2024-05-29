@@ -33,19 +33,19 @@ export class TopbarComponent implements OnInit {
   moduleColor: string = this.app.appConfig[0].moduleNameColor;
 
   userData: any;
-  current_theme = this.getCookie('aes-app-theme');
+  current_theme = this.getCookie('app-theme');
 
   imageUrl!: string;
 
-  tempuser= this.auth.getUser();
-  private sessionToken : string | any = localStorage.getItem('sessionId');
+  tempuser = this.auth.getUser();
+  private sessionToken: string | any = localStorage.getItem('sessionId');
 
   module: string = "moduleName";
   organization: string = "company_name";
 
 
   constructor(@Inject(DOCUMENT) private document: any, private eventService: EventService, public languageService: LanguageService,
-    public _cookiesService: CookieService, 
+    public _cookiesService: CookieService,
     private app: AppService,
     private auth: AuthService,
     private titleService: Title,
@@ -53,7 +53,7 @@ export class TopbarComponent implements OnInit {
     private shared: UserAccountService,
     private http: HttpClient,
     private modalService: NgbModal,
-    
+
   ) { }
 
   ngOnInit(): void {
@@ -129,16 +129,16 @@ export class TopbarComponent implements OnInit {
       case 'light':
         document.body.setAttribute('data-layout-mode', "light");
         document.body.setAttribute('data-sidebar', "light");
-        this.setCookie("aes-app-theme", "light", 90);
+        this.setCookie("app-theme", "light", 90);
         break;
       case 'dark':
         document.body.setAttribute('data-layout-mode', "dark");
         document.body.setAttribute('data-sidebar', "dark");
-        this.setCookie("aes-app-theme", "dark", 90);
+        this.setCookie("app-theme", "dark", 90);
         break;
       default:
         document.body.setAttribute('data-layout-mode', "light");
-        this.setCookie("aes-app-theme", "light", 90);
+        this.setCookie("app-theme", "light", 90);
         break;
     }
   }
@@ -149,10 +149,10 @@ export class TopbarComponent implements OnInit {
   logout() {
 
     this.shared.deleteSessionToken(this.tempuser?.id, this.sessionToken).subscribe({
-      next: (response) =>{
+      next: (response) => {
         console.log(response);
       },
-      error:(error)=>{
+      error: (error) => {
         alert("Error while logging out!");
       }
     })
@@ -186,16 +186,16 @@ export class TopbarComponent implements OnInit {
   // }
 
   //add the profile image
-  get profileImage(){
+  get profileImage() {
 
     const fullName = this.app.user?.fullName || 'John Doe'
 
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}`;
   }
 
-  changeImage(row:any){
+  changeImage(row: any) {
 
-    const modalRef = this.modalService.open(ChangeProfilePicModalComponent,{
+    const modalRef = this.modalService.open(ChangeProfilePicModalComponent, {
       size: "l",
       centered: true,
       backdrop: "static",
@@ -205,20 +205,20 @@ export class TopbarComponent implements OnInit {
     modalRef.componentInstance.type = "profile";
     modalRef.componentInstance.modalType = "Update Profile Picture";
 
-    
+
   }
 
   windowScroll() {
     const body = document.body;
     const documentElement = document.documentElement;
-  
+
     if (body && documentElement) {
       if (body.scrollTop > 100 || documentElement.scrollTop > 100) {
         const backToTopElement = document.getElementById("back-to-top") as HTMLElement;
         if (backToTopElement) {
           backToTopElement.style.display = "block";
         }
-  
+
         const pageTopbarElement = document.getElementById('page-topbar');
         if (pageTopbarElement) {
           pageTopbarElement.classList.add('topbar-shadow');
@@ -228,7 +228,7 @@ export class TopbarComponent implements OnInit {
         if (backToTopElement) {
           backToTopElement.style.display = "none";
         }
-  
+
         const pageTopbarElement = document.getElementById('page-topbar');
         if (pageTopbarElement) {
           pageTopbarElement.classList.remove('topbar-shadow');
