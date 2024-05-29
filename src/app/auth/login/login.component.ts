@@ -26,10 +26,57 @@ export class LoginComponent implements OnInit {
 
 
   ngOnInit(): void {
+    //read saved logins
+    let savedUsername: any = this.getCookie("username");
+    let savedLogin: boolean = true;
+    if (savedUsername == undefined || savedUsername == null) {
+      savedUsername = '';
+      savedLogin = false;
+    }
+
     this.loginForm = this.fb.group({
-      username: ['', Validators.required],
+      username: [savedUsername, Validators.required],
       password: ['', Validators.required],
+      remember_login: [savedLogin]
     });
+  }
+
+  saveUserNameAndPassword(username: string, password: string): void {
+    this.setCookie("username", username, 90);
+  }
+
+  removeUserNameAndPassword(username: string): void {
+    const currentUsername = this.getCookie("username");
+    if (currentUsername == username) {
+      this.setCookie("username", '', 0);
+    }
+  }
+
+  setCookie(cookieName: string, cookieValue: string, expiryDays: number) {
+    var expiryDate = new Date();
+    expiryDate.setDate(expiryDate.getDate() + expiryDays);
+
+    var cookieValueEncoded = encodeURIComponent(cookieValue);
+    var cookieString = cookieName + "=" + cookieValueEncoded + "; expires=" + expiryDate.toUTCString() + "; path=/";
+
+    document.cookie = cookieString;
+  }
+
+  getCookie(cookieName: string) {
+    var cookieValue = undefined;
+    var cookieArray = document.cookie.split(";");
+
+    for (var i = 0; i < cookieArray.length; i++) {
+      var cookiePair = cookieArray[i].split("=");
+      var name = cookiePair[0].trim();
+
+      if (name === cookieName) {
+        cookieValue = decodeURIComponent(cookiePair[1]);
+        break;
+      }
+    }
+
+    return cookieValue;
   }
 
   togglePasswordVisibility(): void {
@@ -51,7 +98,6 @@ export class LoginComponent implements OnInit {
     });
 
     this.credentials = this.loginForm.value;
-    console.log(this.credentials)
 
     if (this.credentials.username == '' && this.credentials.password == '') {
       Toast.fire({
@@ -73,6 +119,9 @@ export class LoginComponent implements OnInit {
     }
 
     if (this.loginForm.valid) {
+      if (this.loginForm.value.remember_login) this.saveUserNameAndPassword(this.credentials.username, this.credentials.password);
+      else this.removeUserNameAndPassword(this.credentials.username);
+
       this.userInfo.login(this.credentials).subscribe({
         next: (response: any) => {
           const jwtToken = response.token;

@@ -17,7 +17,9 @@
             </div>
 
             <div class="remember-forget">
-                <label><input type="checkbox" name="remember-forget" id="remember-forget"> Remember me</label>
+                <label><input type="checkbox" formControlName="remember_login" name="remember_login"
+                        id="remember_login">
+                    Remember Username</label>
                 <a [routerLink]="['/auth/forgot-password']">Forget Password?</a>
             </div>
 
