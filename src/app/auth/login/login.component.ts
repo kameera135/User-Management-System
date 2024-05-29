@@ -1,182 +1,89 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
-import { UserInformationService } from '../user-information.service';
-import { HorizontalComponent } from 'src/app/layouts/theme/theme.component';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { auth } from 'src/app/shared/models/Cams-new/auth';
-import { AppService } from 'src/app/app.service';
-import { UserProfile } from 'firebase/auth';
 import { UserProfileService } from 'src/app/core/services/user.service';
-// import { AsseteTreeService } from 'src/app/services/Modules/aes/assete-tree.service';
-// import { MapperService } from 'src/app/services/Modules/aes/mapper.service';
+import { auth } from 'src/app/shared/models/Cams-new/auth';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
-
-  loading!: boolean;
-
-  successMessage!: string;
-  errorMessage!: string;
-  showSuccess!: boolean;
-  showError!: boolean;
-
-  isDarkMode: boolean = true;
-
-  credentials!: auth;
-
-  
-  type: string = 'password';
-  isText: boolean = false;
-  eyeIcon: string = 'fa-eye-slash';
-
+export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
-
-  isLoginActive: boolean = true;
-  loginLeft: number = 4;
-  registerRight: number = -520;
-  loginOpacity: number = 1;
-  registerOpacity: number = 0;
-  decodedJwt: any;
-
-  hidePassword: boolean = true;
-  visible: boolean = true
+  hidePassword = true;
+  visible = true;
+  credentials!: auth;
+  errorMessage = '';
+  successMessage = '';
 
   constructor(
-    private auth: AuthService, private router: Router,
+    private auth: AuthService,
+    private router: Router,
     private fb: FormBuilder,
-    private userInfo: UserProfileService,
-    // private asseteTreeService: AsseteTreeService,
-    // private mapper: MapperService,
-    private userInforService: UserInformationService) { }
-
-  getCookie(cookieName: string) {
-    var cookieValue = "light";
-    var cookieArray = document.cookie.split(";");
-    for (var i = 0; i < cookieArray.length; i++) {
-      var cookiePair = cookieArray[i].split("=");
-      var name = cookiePair[0].trim();
-      if (name === cookieName) {
-        cookieValue = decodeURIComponent(cookiePair[1]);
-        break;
-      }
-    }
-    return cookieValue;
-  }
+    private userInfo: UserProfileService
+  ) { }
+  
 
   ngOnInit(): void {
-
-    this.loading = true;
-
-    if(this.userInforService.isLoggedIn()){
-      this.router.navigate(['/dashboard']);
-    }
-
-    // this.auth.checkSingleSignOn('/').subscribe(res => {
-    //   if (res) {
-
-    //     let loggedUser = this.auth.getUser();
-
-    //     this.router.navigate([this.auth.lastUrl]);
-    //     this.userInforService.basicUserInfo(loggedUser.id, loggedUser.fName, loggedUser.lName, loggedUser.role, loggedUser.email).subscribe({
-
-    //       next: (response: any) => {
-
-    //         if (response != null) {
-
-    //           const configurations = JSON.parse(JSON.stringify(response));
-
-    //           //this.asseteTreeService.setTree(configurations.lstAsseteTree);
-
-    //           //this.mapper.setApprovalRequirements(configurations.fmApprovalRequired, configurations.tmApprovalRequired);
-
-    //           this.router.navigate([this.auth.lastUrl]);
-
-    //         }
-
-    //       },
-    //       error: (error: any) => { },
-    //       complete() { }
-    //     });
-
-    //   }
-    //   else {
-    //     this.loading = false;
-    //     window.location.href = environment.signOn;
-    //   }
-    // });
-
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
     });
-
-    this.isDarkMode = this.getCookie('aes-app-theme') == 'dark' ? true : false;
-
   }
-  
+
   togglePasswordVisibility(): void {
     this.hidePassword = !this.hidePassword;
     this.visible = !this.visible;
   }
 
-  
-
-  // onSubmit() {
-  //   if (this.loginForm.valid) {
-  //     console.log(this.loginForm.value);
-  //     this.auth.login(this.loginForm.value).subscribe({
-  //       next: (res) => {
-  //         console.log(res.message);
-  //         this.loginForm.reset();
-  //         this.auth.storeToken(res.accessToken);
-  //         this.auth.storeRefreshToken(res.refreshToken);
-  //         const tokenPayload = this.auth.decodedToken();
-  //         this.userStore.setFullNameForStore(tokenPayload.name);
-  //         this.userStore.setRoleForStore(tokenPayload.role);
-  //         this.toast.success({detail:"SUCCESS", summary:res.message, duration: 5000});
-  //         this.router.navigate(['dashboard'])
-  //       },
-  //       error: (err) => {
-  //         this.toast.error({detail:"ERROR", summary:"Something when wrong!", duration: 5000});
-  //         console.log(err);
-  //       },
-  //     });
-  //   } else {
-  //     ValidateForm.validateAllFormFields(this.loginForm);
-  //   }
-  // }
-
   login() {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "bottom-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    });
+
     this.credentials = this.loginForm.value;
+    console.log(this.credentials)
 
-    this.loginLeft = 4;
-    this.registerRight = -520;
-    this.isLoginActive = true;
-    this.loginOpacity = 1;
-    this.registerOpacity = 0;
+    if(this.credentials.username == '' && this.credentials.password == ''){
+      Toast.fire({
+        icon: "error",
+        title: "Please enter a username and password."
+      });
+    }
+    else if(this.credentials.username == ''){
+      Toast.fire({
+        icon: "error",
+        title: "Please enter a username."
+      });
+    }
+    else if(this.credentials.password == ''){
+      Toast.fire({
+        icon: "error",
+        title: "Please enter a password."
+      });
+    }
 
-    //this.credentials = new auth();
-
-    if(this.loginForm.valid){
-
-      this.showError = this.showSuccess = false;
-
+    if (this.loginForm.valid) {
       this.userInfo.login(this.credentials).subscribe({
-        next:(response:any) => {
-          console.log(response);
+        next: (response: any) => {
           const jwtToken = response.token;
           const sessionToken = response.session_id;
-  
+
           // Store the JWT in local storage or a secure cookie
           localStorage.setItem('user', jwtToken);
-          localStorage.setItem("sessionId", sessionToken);
-  
+          localStorage.setItem('sessionId', sessionToken);
+
           // Check if there's a stored URL
           const lastVisitedPage = localStorage.getItem('lastVisitedPage');
           if (lastVisitedPage) {
@@ -184,36 +91,33 @@ export class LoginComponent {
             this.router.navigateByUrl(lastVisitedPage);
             // Remove the stored URL
             localStorage.removeItem('lastVisitedPage');
-            
           } else {
             // If there's no stored URL, redirect to the default dashboard page
             this.router.navigate(['dashboard']);
           }
-          this.showSuccess = true;
-          this.successMessage = "Authentication has been Success.";
+          Toast.fire({
+            icon: "success",
+            title: "Authentication has been successful."
+          });
         },
         error: (error: any) => {
           // Handle authentication error
-          this.showError = true;
-          this.errorMessage = "Authentication has been failed. Please check your username and password.";
+          Toast.fire({
+            icon: "error",
+            title: "Username or password does not matched."
+          });
           console.error('Authentication failed:', error);
         }
       });
     }
   }
 
-  handleSessionExpired() {
-    // Store the current URL before redirecting to the login page
-    localStorage.setItem('lastVisitedPage', this.router.url);
-    this.router.navigate(['login']);
-}
-
-  validateControl = (controlName: string) => {
+  validateControl(controlName: string): boolean {
     const control = this.loginForm.get(controlName);
     return control ? control.invalid && control.touched : false;
   }
 
-  hasError = (controlName: string, errorName: string) => {
+  hasError(controlName: string, errorName: string): boolean {
     const control = this.loginForm.get(controlName);
     return control ? control.hasError(errorName) : false;
   }
