@@ -58,7 +58,7 @@ export class PermissionConfigurationComponent {
   totalDataCount!: number;
   serchedTerm!: string;
   searchTerm!: string;
-  selectedPlatform!: number;
+  selectedPlatform: number = 1;
 
   selectedPermission: string = "All";
   selectedPage: number = 1;
