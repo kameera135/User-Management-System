@@ -1,21 +1,26 @@
 <div class="page">
     <div class="wrapper">
         <form [formGroup]="loginForm" (ngSubmit)="login()" autocomplete="off" novalidate>
-            <h1>Login</h1>
+            <div class="logo">
+                <img src="/assets/images/logo.png" alt="Logo">
+            </div>
             <div class="input-box">
-                <input type="text" name="username" id="username" formControlName="username" placeholder="Username" autofocus>
+                <input type="text" name="username" id="username" formControlName="username" placeholder="Username"
+                    autofocus>
                 <i class='bx bx-user'></i>
             </div>
             <div class="input-box">
-                <input type="{{ hidePassword ? 'password' : 'text' }}" formControlName="password" name="password" id="password" placeholder="Password">
-                <i (click)="togglePasswordVisibility()" class="pw-toggle bx {{ hidePassword ? 'bx-hide' : 'bx-show' }}"></i>
+                <input type="{{ hidePassword ? 'password' : 'text' }}" formControlName="password" name="password"
+                    id="password" placeholder="Password">
+                <i (click)="togglePasswordVisibility()"
+                    class="pw-toggle bx {{ hidePassword ? 'bx-hide' : 'bx-show' }}"></i>
             </div>
-            
+
             <div class="remember-forget">
                 <label><input type="checkbox" name="remember-forget" id="remember-forget"> Remember me</label>
                 <a [routerLink]="['/auth/forgot-password']">Forget Password?</a>
             </div>
-            
+
             <button type="submit" class="button">Sign in</button>
         </form>
     </div>

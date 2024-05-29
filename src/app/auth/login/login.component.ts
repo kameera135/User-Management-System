@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
 import { UserProfileService } from 'src/app/core/services/user.service';
 import { auth } from 'src/app/shared/models/Cams-new/auth';
 import Swal from 'sweetalert2';
@@ -20,12 +19,11 @@ export class LoginComponent implements OnInit {
   successMessage = '';
 
   constructor(
-    private auth: AuthService,
     private router: Router,
     private fb: FormBuilder,
     private userInfo: UserProfileService
   ) { }
-  
+
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -55,19 +53,19 @@ export class LoginComponent implements OnInit {
     this.credentials = this.loginForm.value;
     console.log(this.credentials)
 
-    if(this.credentials.username == '' && this.credentials.password == ''){
+    if (this.credentials.username == '' && this.credentials.password == '') {
       Toast.fire({
         icon: "error",
         title: "Please enter a username and password."
       });
     }
-    else if(this.credentials.username == ''){
+    else if (this.credentials.username == '') {
       Toast.fire({
         icon: "error",
         title: "Please enter a username."
       });
     }
-    else if(this.credentials.password == ''){
+    else if (this.credentials.password == '') {
       Toast.fire({
         icon: "error",
         title: "Please enter a password."
