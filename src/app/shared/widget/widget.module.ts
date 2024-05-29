@@ -54,6 +54,7 @@ import { SystemTokenModalComponent } from "./config/system-token-modal/system-to
 import { PlatformUserModalComponent } from "./config/platform-user-modal/platform-user-modal.component";
 import { AddBulkUsersModalComponent } from "./config/add-bulk-users-modal/add-bulk-users-modal.component";
 import { UserAccountModalComponent } from './config/user-account-modal/user-account-modal.component';
+import { ChangeProfilePicModalComponent } from './config/change-profile-pic-modal/change-profile-pic-modal.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { UserAccountModalComponent } from './config/user-account-modal/user-acco
     PlatformUserModalComponent,
     AddBulkUsersModalComponent,
     UserAccountModalComponent,
+    ChangeProfilePicModalComponent,
   ],
   imports: [
     CommonModule,
