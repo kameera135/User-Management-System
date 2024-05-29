@@ -1,7 +1,6 @@
 import { dateFormat } from "./dateFormat";
 
 export interface appSettingModel {
-  PlatformList: any;
   version: string;
 
   apiUrl: string;
@@ -22,25 +21,17 @@ export interface appSettingModel {
 
   moduleNameColor: string;
 
+  signInButtonColor: string;
+
   datePickerDateFormat: dateFormat;
 
   pageSizeArray: number[];
 
-  maximumYearRangeForInvoice: number;
-
-  maximumYearRangeForReport: number;
-
   maximumYearRange: number;
-
-  billingDate: number;
 
   servicesList: JSON;
 
   reportFillColor: string;
-
-  consumptionReportName: any[];
-
-  consumptionSheetName: any[];
 
   roleList: any[];
 

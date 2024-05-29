@@ -1,0 +1,128 @@
+{
+  "version": "1.0.0",
+  "apiUrl": "https://localhost:8745",
+  "clientURI": "http://localhost:4200/auth/reset-password",
+  "allowedDomains": "localhost:4200",
+  "nameOfOrganization": "Company Name",
+  "footerMessage": "Designed & Developed by SapiX",
+  "moduleName": "User Management System",
+  "moduleNameColor": "#B29A39",
+  "signInButtonColor:": "#B29A39",
+  "datePickerDateFormat": {
+    "year": "numeric",
+    "month": "short",
+    "day": "numeric"
+  },
+  "pageSizeArray": [
+    "5",
+    "10",
+    "20",
+    "50",
+    "100"
+  ],
+  "maximumYearRangeForInvoice": 10,
+  "maximumYearRangeForReport": 10,
+  "maximumYearRange": 10,
+  "months": [
+    {
+      "value": "January",
+      "id": 1
+    },
+    {
+      "value": "February",
+      "id": 2
+    },
+    {
+      "value": "March",
+      "id": 3
+    },
+    {
+      "value": "April",
+      "id": 4
+    },
+    {
+      "value": "May",
+      "id": 5
+    },
+    {
+      "value": "June",
+      "id": 6
+    },
+    {
+      "value": "July",
+      "id": 7
+    },
+    {
+      "value": "August",
+      "id": 8
+    },
+    {
+      "value": "September",
+      "id": 9
+    },
+    {
+      "value": "October",
+      "id": 10
+    },
+    {
+      "value": "November",
+      "id": 11
+    },
+    {
+      "value": "December",
+      "id": 12
+    }
+  ],
+  "billingDate": "5",
+  "reportFillColor": "79CBDF",
+  "roleList": [
+    {
+      "value": "Tenant",
+      "id": 2
+    },
+    {
+      "value": "TM",
+      "id": 3
+    },
+    {
+      "value": "FM",
+      "id": 4
+    }
+  ],
+  "status": [
+    {
+      "value": "Active",
+      "id": 2
+    },
+    {
+      "value": "Deactivate",
+      "id": 3
+    }
+  ],
+  "passwordPolicyTimeUnitList": [
+    {
+      "id": "SC",
+      "value": "Seconds"
+    },
+    {
+      "id": "MI",
+      "value": "Minutes"
+    },
+    {
+      "id": "HO",
+      "value": "Hours"
+    },
+    {
+      "id": "DY",
+      "value": "Days"
+    },
+    {
+      "id": "WK",
+      "value": "Weeks"
+    },
+    {
+      "id": "YR",
+      "value": "Years"
+    }
+  ]
+}

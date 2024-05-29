@@ -4,10 +4,7 @@ import { Subject, firstValueFrom } from "rxjs";
 import { environment } from "src/environments/environment";
 import { appSettingModel } from "./shared/models/appSettingModel";
 import { toastServicePopUpConfigurations } from "./shared/models/Configurations/toastServicePopUpConfigurations";
-import { approvalStatusConfigurations } from "./shared/models/Configurations/approvalStatusConfigurations";
 import { AuthService } from "./auth/auth.service";
-import { User } from "./shared/models/User";
-import { auth } from "./shared/models/Cams-new/auth";
 
 @Injectable({
   providedIn: "root",
@@ -20,8 +17,6 @@ export class AppService implements OnDestroy {
   appConfig: appSettingModel[] = [];
 
   popUpMessageConfig: toastServicePopUpConfigurations[] = [];
-
-  approvalStatusConfig: approvalStatusConfigurations[] = [];
 
   constructor(private httpClient: HttpClient, private auth: AuthService) {
     this.destroy$ = new Subject<void>();
@@ -42,10 +37,8 @@ export class AppService implements OnDestroy {
   //This method loads the configuration values from the configuration json file
   async loadConfig() {
     await firstValueFrom(
-      this.httpClient.get("/assets/configurations/appConfiguration.json")
+      this.httpClient.get("/assets/config.json")
     ).then((value: any) => {
-      //environment.signOn = value.signOn;
-      //environment.apiBase = value.apiUrl;
       this.appConfig[0] = value as appSettingModel;
     });
 
@@ -55,12 +48,6 @@ export class AppService implements OnDestroy {
       )
     ).then((value: any) => {
       this.popUpMessageConfig[0] = value as toastServicePopUpConfigurations;
-    });
-
-    await firstValueFrom(
-      this.httpClient.get("/assets/configurations/approvalStatus.json")
-    ).then((value: any) => {
-      this.approvalStatusConfig[0] = value as approvalStatusConfigurations;
     });
   }
 
