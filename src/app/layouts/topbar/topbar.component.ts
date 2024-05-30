@@ -17,6 +17,7 @@ import { UserAccountService } from 'src/app/services/cams-new/user-account.servi
 import { HttpClient } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ChangeProfilePicModalComponent } from 'src/app/shared/widget/config/change-profile-pic-modal/change-profile-pic-modal.component';
+import { MessageService } from 'src/app/services/PopupMessages/message.service';
 
 @Component({
   selector: 'app-topbar',
@@ -53,6 +54,7 @@ export class TopbarComponent implements OnInit {
     private shared: UserAccountService,
     private http: HttpClient,
     private modalService: NgbModal,
+    private alertService: MessageService
 
   ) { }
 
@@ -148,16 +150,26 @@ export class TopbarComponent implements OnInit {
    */
   logout() {
 
-    this.shared.deleteSessionToken(this.tempuser?.id, this.sessionToken).subscribe({
-      next: (response) => {
-        console.log(response);
-      },
-      error: (error) => {
-        alert("Error while logging out!");
-      }
-    })
+    try {
+      this.shared.deleteSessionToken(this.tempuser?.id, this.sessionToken).subscribe({
+        next: (response) => {
+          console.log(response);
+        },
+        error: (error) => {
+          alert("Error while logging out!");
+        }
+      })
 
-    this.auth.logout();
+      this.auth.logout();
+
+      this.alertService.sideSuccessAlert(
+        "Logout Success",
+        "You are logged out from your account.",
+      );
+    }
+    catch (e) {
+      console.log(e);
+    }
   }
 
   get manageProfileUrl() {
