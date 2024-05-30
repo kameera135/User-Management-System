@@ -10,7 +10,7 @@ export class MessageService {
   constructor(
     private appConfigService: AppService,
     private notifierService: NgToastService
-  ) {}
+  ) { }
 
   successSweetAlertMessage(
     messageText: any,
@@ -84,6 +84,7 @@ export class MessageService {
     this.notifierService.success({
       detail: detail,
       summary: summary,
+      position: "bottomRight",
       duration:
         this.appConfigService.popUpMessageConfig[0]
           .messageDurationInMiliSeconds,
@@ -94,6 +95,7 @@ export class MessageService {
     this.notifierService.error({
       detail: detail,
       summary: summary,
+      position: "bottomRight",
       duration:
         this.appConfigService.popUpMessageConfig[0]
           .messageDurationInMiliSeconds,
@@ -104,6 +106,7 @@ export class MessageService {
     this.notifierService.warning({
       detail: detail,
       summary: summary,
+      position: "bottomRight",
       duration:
         this.appConfigService.popUpMessageConfig[0]
           .messageDurationInMiliSeconds,
@@ -114,6 +117,7 @@ export class MessageService {
     this.notifierService.info({
       detail: detail,
       summary: summary,
+      position: "bottomRight",
       duration:
         this.appConfigService.popUpMessageConfig[0]
           .messageDurationInMiliSeconds,
