@@ -5,6 +5,7 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { resetPassword } from 'src/app/shared/models/Cams-new/resetPassword';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserProfileService } from 'src/app/core/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-reset-password',
@@ -54,6 +55,18 @@ export class ResetPasswordComponent {
 
   resetPassword(){
 
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "bottom-end",
+      showConfirmButton: false,
+      timer: 5000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    });
+
     this.credentials = {
       password: this.resetPasswordForm.value.password,
       confirmPassword: this.resetPasswordForm.value.confirm,
@@ -61,20 +74,47 @@ export class ResetPasswordComponent {
       token: this.token
     }
 
-    this.showError = this.showSuccess = false;
+    
+    if(this.credentials.password == '' && this.credentials.confirmPassword == ''){
+      Toast.fire({
+        icon: "error",
+        title: "Please enter a password and confirm the password"
+      });
+      return;
+    }
 
-    this.userInfo.resetPassword(this.credentials).subscribe({
-      next: (response:any) => {
-        console.log('Response from server: ', response);
-        this.showSuccess = true;
-      },
-      error: (err: HttpErrorResponse) => {
+    if(this.credentials.password == ''){
+      Toast.fire({
+        icon: "error",
+        title: "Please enter a password"
+      });
+      return;
+    }
 
-        this.showError = true;
-        this.errorMessage = "Please enter same password";
-        console.log(this.errorMessage);
-      }
-    })
+    if(this.credentials.password != this.credentials.confirmPassword){
+      Toast.fire({
+        icon: "error",
+        title: "Password confirmation not match. Enter same password"
+      });
+      return;
+    }
+
+    if(this.resetPasswordForm.valid){
+      this.userInfo.resetPassword(this.credentials).subscribe({
+        next: (response:any) => {
+          console.log('Response from server: ', response);
+          this.showSuccess = true;
+        },
+        error: (err: HttpErrorResponse) => {
+  
+          Toast.fire({
+            icon: "error",
+            title: "There is an error in password reset. Contact system administrater"
+          });
+          console.log(this.errorMessage);
+        }
+      })
+    }
   }
 
   togglePasswordVisibility(): void {
