@@ -64,15 +64,15 @@ export class AuthService {
 
     let user: User | null = null;
     try {
-        const jwtToken = localStorage.getItem('user');
-        if (jwtToken && this.isJWTValid()) {
-          const decodedToken = this.decodeToken(jwtToken);
-          if (decodedToken) {
-            user = new User(decodedToken);
-            console.log(user);
-          }
+      const jwtToken = localStorage.getItem('user');
+      if (jwtToken && this.isJWTValid()) {
+        const decodedToken = this.decodeToken(jwtToken);
+        if (decodedToken) {
+          user = new User(decodedToken);
+          console.log(user);
+        }
       }
-      else{
+      else {
         localStorage.clear();
         //this.router.navigate(['/login']);
       }
@@ -87,61 +87,61 @@ export class AuthService {
 
   private decodeToken(token: string): any {
 
-    if(token){
+    if (token) {
       const payload = token.split('.')[1];
       const decodedPayload = atob(payload);
       const parsedPayload = JSON.parse(decodedPayload);
 
       if (parsedPayload.UserDetails) {
-          let userDetails = parsedPayload.UserDetails;
-          
-          // If userDetails is not an array, convert it to an array with a single element
-          if (!Array.isArray(userDetails)) {
-              userDetails = [userDetails];
+        let userDetails = parsedPayload.UserDetails;
+
+        // If userDetails is not an array, convert it to an array with a single element
+        if (!Array.isArray(userDetails)) {
+          userDetails = [userDetails];
+        }
+
+        // Remove the "UserDetails" claim from the parsed payload
+        delete parsedPayload.UserDetails;
+
+        // Deserialize each user detail JSON string within the array
+        userDetails = userDetails.map((userDetailJson: string) => {
+          try {
+            return JSON.parse(userDetailJson);
+          } catch (error) {
+            console.warn('Invalid user details data in JWT payload.');
+            return {};
           }
+        });
 
-          // Remove the "UserDetails" claim from the parsed payload
-          delete parsedPayload.UserDetails;
-
-          // Deserialize each user detail JSON string within the array
-          userDetails = userDetails.map((userDetailJson: string) => {
-              try {
-                  return JSON.parse(userDetailJson);
-              } catch (error) {
-                  console.warn('Invalid user details data in JWT payload.');
-                  return {};
-              }
-          });
-
-          // Combine the parsed payload and the deserialized user details
-          return { ...parsedPayload, UserDetails: userDetails };
+        // Combine the parsed payload and the deserialized user details
+        return { ...parsedPayload, UserDetails: userDetails };
       } else {
-          return parsedPayload;
+        return parsedPayload;
       }
     }
   }
 
-  private userPayload:any;
+  private userPayload: any;
 
 
   //to store token in session
   private setSession(authResult: any) {
-    const expiresAt = moment().add(authResult.expiresIn,'second');
+    const expiresAt = moment().add(authResult.expiresIn, 'second');
 
     localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()) );
-  }  
+    localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()));
+  }
 
   logout(): void {
-   localStorage.clear();
+    localStorage.clear();
     // Clear session storage
     sessionStorage.clear();
 
     // Redirect to the login page without adding the logout action to the browser's history
     const navigationExtras: NavigationExtras = {
-      skipLocationChange: true
+      skipLocationChange: false
     };
-    
+
     this.router.navigate(['/login'], navigationExtras);
   }
 
@@ -164,8 +164,8 @@ export class AuthService {
     if (!sessionToken) {
       return false; // Session token not found, consider it as not expired
     }
-    else{
-        return true;
+    else {
+      return true;
     }
   }
 
@@ -175,7 +175,7 @@ export class AuthService {
 
   getExpiration(): moment.Moment | null {
     const expiration = localStorage.getItem("expires_at");
-  
+
     if (expiration) {
       const expiresAt = JSON.parse(expiration);
       return moment(expiresAt);
@@ -184,17 +184,17 @@ export class AuthService {
     return null;
   }
 
-  storeToken(tokenValue: string){
+  storeToken(tokenValue: string) {
     localStorage.setItem('token', tokenValue)
   }
-  storeRefreshToken(tokenValue: string){
+  storeRefreshToken(tokenValue: string) {
     localStorage.setItem('refreshToken', tokenValue)
   }
 
-  getToken(){
+  getToken() {
     return localStorage.getItem('token')
   }
-  getRefreshToken(){
+  getRefreshToken() {
     return localStorage.getItem('refreshToken')
   }
 
@@ -209,14 +209,14 @@ export class AuthService {
   //   return jwtHelper.decodeToken(token)
   // }
 
-  getfullNameFromToken(){
-    if(this.userPayload)
-    return this.userPayload.name;
+  getfullNameFromToken() {
+    if (this.userPayload)
+      return this.userPayload.name;
   }
 
-  getRoleFromToken(){
-    if(this.userPayload)
-    return this.userPayload.role;
+  getRoleFromToken() {
+    if (this.userPayload)
+      return this.userPayload.role;
   }
 
   // renewToken(tokenApi : TokenApiModel){
