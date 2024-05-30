@@ -102,8 +102,8 @@ export class PlatformUsersComponent {
 
     //get platform name and platformId from the platform configuration component
     this.route.params.subscribe((params) => {
-      this.platformName = params["PlatformName"];
-      this.platformId = params['PlatformId'];
+      this.platformId = params['id'];
+      this.platformName = params['name'];
     });
 
     //For call loadData() in platformUserModalComponent
@@ -356,32 +356,7 @@ export class PlatformUsersComponent {
         },
       });
   }
-
-  // getUsersByRole(role: string) {
-  //   this.shared
-  //     .getUsersByRole(role, this.selectedPage, this.selectedPageSize)
-  //     .subscribe({
-  //       next: (response) => {
-  //         this.userList = response.response;
-  //         this.totalDataCount = response.rowCount;
-  //         this.updateTable();
-  //         this.loadingInProgress = false;
-  //       },
-  //       error: (error) => {
-  //         this.alertService.sideErrorAlert(
-  //           "Error",
-  //           this.appService.popUpMessageConfig[0]
-  //             .GetUserListErrorSideAlertMessage
-  //         );
-
-  //         this.userList = [];
-  //         this.totalDataCount = 0;
-
-  //         this.updateTable();
-  //         this.loadingInProgress = false;
-  //       },
-  //     });
-  // }
+  
 
   searchUsers(serchedTerm: string) {
     this.shared

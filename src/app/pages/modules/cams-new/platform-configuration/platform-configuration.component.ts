@@ -28,13 +28,7 @@ export class PlatformConfigurationComponent {
   selectedPageSize: number = 20;
 
   searchTerm!: string;
-
-  // roleList: any[] = [{ value: "All", id: 1 }];
-  //selectedRole: string = "All";
-
   platformUpdatedNotificationMessage!: string;
-
-  //serchedTerm!: string;
 
   platformConfigTableOptions: tableOptions = new tableOptions();
 
@@ -63,20 +57,12 @@ export class PlatformConfigurationComponent {
   ) {}
 
   ngOnInit(): void {
-    // var roles = this.appService.appConfig[0].roleList;
-    // for (let i = 0; i < roles.length; i++) {
-    //   this.roleList.push(roles[i]);
-    // }
 
     this.platformConfigTableOptions.allowCheckbox = true;
     this.platformConfigTableOptions.allowBulkDeleteButton = true;
     this.platformConfigTableOptions.allowDeleteButton = true;
     this.platformConfigTableOptions.allowUpdateButton = true;
     this.platformConfigTableOptions.allowViewButton = true;
-    // this.platformConfigTableOptions.allowActivateButton = true;
-    // this.platformConfigTableOptions.allowBulkActivateButton = true;
-    // this.platformConfigTableOptions.allowDeactivateButton = true;
-    // this.platformConfigTableOptions.allowBulkDeactivateButton = true;
 
     //for display paginations. It is not default.
     this.platformConfigTableOptions.displayPagination = true;
@@ -163,18 +149,10 @@ export class PlatformConfigurationComponent {
   }
 
   //pass platform detials to platform-user component
-  // onViewPlatformUsers(row: any) {
-  //   this.router.navigate([
-  //     "/platform-users/:id",
-  //     row.PlatformName,
-  //     row.PlatformId,
-  //   ]);
-  // }
   onViewPlatformUsers(row: any) {
-    console.log(">>>>>", row);
-    this.router.navigate(["/platform-users/:id", row.PlatformName, row.PlatformId]);
 
-    //var x = this.eventService.broadcast("PlatformId", row.PlatformId);
+    this.router.navigate([`/platform-users/${row.PlatformId}/${row.PlatformName}`]);
+
   }
 
   onViewButtonClicked(row: any) {
@@ -380,7 +358,6 @@ export class PlatformConfigurationComponent {
           this.appService.popUpMessageConfig[0]
             .PlatformAddedErrorSideAlertMessage
         );
-        //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
       },
     });
   }
@@ -411,7 +388,6 @@ export class PlatformConfigurationComponent {
           this.appService.popUpMessageConfig[0]
             .PlatformUpdatedErrorSideAlertMessage
         );
-        //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
       },
     });
   }
@@ -454,95 +430,4 @@ export class PlatformConfigurationComponent {
       },
     });
   }
-
-  // activatePlatforms(items: any): void {
-  //   let ids: number[] = [];
-
-  //   items[0].forEach((element: any) => {
-  //     ids.push(element.id);
-  //   });
-
-  //   console.log(ids);
-
-  //   this.activatePlatform(ids);
-  // }
-
-  // deactivatePlatforms(items: any): void {
-  //   let ids: number[] = [];
-
-  //   items[0].forEach((element: any) => {
-  //     ids.push(element.id);
-  //   });
-
-  //   console.log(ids);
-
-  //   this.deactivatePlatform(ids);
-  // }
-
-  // activatePlatform(ids: number[]): void {
-  //   this.shared.activatePlatform(ids).subscribe({
-  //     next: (response: any) => {
-  //       console.log("Activating a Platform: ");
-  //       console.log(response);
-  //       this.alertService.sideSuccessAlert(
-  //         "Success",
-  //         this.appService.popUpMessageConfig[0]
-  //           .PlatformActivatedSuccessSideAlertMessage
-  //       );
-  //       this.alertService.successSweetAlertMessage(
-  //         this.appService.popUpMessageConfig[0]
-  //           .PlatformActivateNotificationMessage,
-  //         "Actvated!",
-  //         4000
-  //       );
-
-  //       this.loadData();
-  //     },
-
-  //     error: (error: any) => {
-  //       console.log("Activating a Platform: error");
-  //       console.log(error);
-  //       this.alertService.sideErrorAlert(
-  //         "Error",
-  //         this.appService.popUpMessageConfig[0]
-  //           .PlatformActivatedErrorSideAlertMessage
-  //       );
-  //       //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
-  //     },
-  //   });
-  // }
-
-  // deactivatePlatform(ids: number[]): void {
-  //   this.shared.deactivatePlatform(ids).subscribe({
-  //     next: (response: any) => {
-  //       console.log("Deactivating a Platform: ");
-  //       console.log(response);
-
-  //       this.alertService.sideSuccessAlert(
-  //         "Success",
-  //         this.appService.popUpMessageConfig[0]
-  //           .PlatformDeactivatedSuccessSideAlertMessage
-  //       );
-  //       this.alertService.successSweetAlertMessage(
-  //         this.appService.popUpMessageConfig[0]
-  //           .PlatformDeactivateNotificationMessage,
-  //         "Deactvated!",
-  //         4000
-  //       );
-
-  //       this.loadData();
-  //     },
-
-  //     error: (error: any) => {
-  //       console.log("Deactivating a Platform: error");
-  //       console.log(error);
-  //       this.alertService.sideErrorAlert(
-  //         "Error",
-  //         this.appService.popUpMessageConfig[0]
-  //           .PlatformDeactivatedErrorSideAlertMessage
-  //       );
-  //       //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
-  //     },
-  //   });
-  // }
 }

@@ -62,7 +62,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: "platform-users/:id",
+    path: "platform-users/:id/:name",
     component: PlatformUsersComponent,
     canActivate: [AuthGuard]
   },

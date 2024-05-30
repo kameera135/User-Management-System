@@ -363,7 +363,7 @@ export class TableComponent {
   //show users in respective platforms
   showPlatformUserView(item: any) {
     this.onViewPlaformUsers.emit(item);
-    this.router.navigate(["/platform-users/:id", item]);
+    this.router.navigate([`/platform-users/${item.PlatformId}/${item.PlatformName}`]);
   }
 
   loadPermissionData(id: any) {
