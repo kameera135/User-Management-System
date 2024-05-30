@@ -6,6 +6,7 @@ import { resetPassword } from 'src/app/shared/models/Cams-new/resetPassword';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserProfileService } from 'src/app/core/services/user.service';
 import Swal from 'sweetalert2';
+import { MessageService } from 'src/app/services/PopupMessages/message.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -29,7 +30,7 @@ export class ResetPasswordComponent {
   private token!: string;
   private email!: string;
   
-  constructor(private auth: AuthService, private router: ActivatedRoute, private userInfo: UserProfileService) { }
+  constructor(private auth: AuthService, private router: ActivatedRoute, private userInfo: UserProfileService, private alertService: MessageService) { }
   
   ngOnInit(): void {
     this.resetPasswordForm = new FormGroup({
@@ -76,26 +77,26 @@ export class ResetPasswordComponent {
 
     
     if(this.credentials.password == '' && this.credentials.confirmPassword == ''){
-      Toast.fire({
-        icon: "error",
-        title: "Please enter a password and confirm the password"
-      });
+      this.alertService.sideErrorAlert(
+        "Missing Info",
+        "Please enter a password and confirm the password",
+      );
       return;
     }
 
     if(this.credentials.password == ''){
-      Toast.fire({
-        icon: "error",
-        title: "Please enter a password"
-      });
+      this.alertService.sideErrorAlert(
+        "Missing Info",
+        "Please enter a password",
+      );
       return;
     }
 
     if(this.credentials.password != this.credentials.confirmPassword){
-      Toast.fire({
-        icon: "error",
-        title: "Password confirmation not match. Enter same password"
-      });
+      this.alertService.sideErrorAlert(
+        "Missing Info",
+        "Password confirmation not match. Enter same password",
+      );
       return;
     }
 
@@ -103,14 +104,16 @@ export class ResetPasswordComponent {
       this.userInfo.resetPassword(this.credentials).subscribe({
         next: (response:any) => {
           console.log('Response from server: ', response);
-          this.showSuccess = true;
+          this.alertService.sideSuccessAlert(
+            "Password Reset Success",
+            "Password is reset successfully. Log in using the new password",
+          );
         },
         error: (err: HttpErrorResponse) => {
-  
-          Toast.fire({
-            icon: "error",
-            title: "There is an error in password reset. Contact system administrater"
-          });
+          this.alertService.sideErrorAlert(
+            "Password Reset Failed",
+            "There is an error in password reset. Contact system administrater",
+          );
           console.log(this.errorMessage);
         }
       })
