@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "v2.1",
   "apiUrl": "https://localhost:8745",
   "clientURI": "http://localhost:4200/auth/reset-password",
   "allowedDomains": "localhost:4200",

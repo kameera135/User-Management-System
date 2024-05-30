@@ -121,5 +121,27 @@
         width: 100%;
         text-align: center;
     }
+}
 
+.footer {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    height: 30px;
+    background-color: transparent;
+
+    p {
+        text-align: center;
+        padding: 5px 0;
+        margin: 0;
+        width: 100%;
+        font-size: smaller;
+        color: rgba(255, 255, 255, .3);
+    }
 }

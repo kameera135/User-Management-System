@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AppService } from 'src/app/app.service';
 import { UserProfileService } from 'src/app/core/services/user.service';
 import { auth } from 'src/app/shared/models/Cams-new/auth';
 import Swal from 'sweetalert2';
@@ -17,8 +18,11 @@ export class LoginComponent implements OnInit {
   credentials!: auth;
   errorMessage = '';
   successMessage = '';
+  version: string = this.app.appConfig[0].version;
+  moduleName: string = this.app.appConfig[0].moduleName;
 
   constructor(
+    private app: AppService,
     private router: Router,
     private fb: FormBuilder,
     private userInfo: UserProfileService
