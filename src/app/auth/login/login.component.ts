@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { UserProfileService } from 'src/app/core/services/user.service';
+import { MessageService } from 'src/app/services/PopupMessages/message.service';
 import { auth } from 'src/app/shared/models/Cams-new/auth';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +25,8 @@ export class LoginComponent implements OnInit {
     private app: AppService,
     private router: Router,
     private fb: FormBuilder,
-    private userInfo: UserProfileService
+    private userInfo: UserProfileService,
+    private alertService: MessageService
   ) { }
 
 
@@ -89,37 +90,25 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: "bottom-end",
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.onmouseenter = Swal.stopTimer;
-        toast.onmouseleave = Swal.resumeTimer;
-      }
-    });
-
     this.credentials = this.loginForm.value;
 
     if (this.credentials.username == '' && this.credentials.password == '') {
-      Toast.fire({
-        icon: "error",
-        title: "Please enter a username and password."
-      });
+      this.alertService.sideErrorAlert(
+        "Missing Info",
+        "Please enter a username and password.",
+      );
     }
     else if (this.credentials.username == '') {
-      Toast.fire({
-        icon: "error",
-        title: "Please enter a username."
-      });
+      this.alertService.sideErrorAlert(
+        "Missing Info",
+        "Please enter a username.",
+      );
     }
     else if (this.credentials.password == '') {
-      Toast.fire({
-        icon: "error",
-        title: "Please enter a password."
-      });
+      this.alertService.sideErrorAlert(
+        "Missing Info",
+        "Please enter a password.",
+      );
     }
 
     if (this.loginForm.valid) {
@@ -146,17 +135,17 @@ export class LoginComponent implements OnInit {
             // If there's no stored URL, redirect to the default dashboard page
             this.router.navigate(['dashboard']);
           }
-          Toast.fire({
-            icon: "success",
-            title: "Authentication has been successful."
-          });
+          this.alertService.sideSuccessAlert(
+            "Login Success",
+            "Authentication has been successful.",
+          );
         },
         error: (error: any) => {
           // Handle authentication error
-          Toast.fire({
-            icon: "error",
-            title: "Username or password does not matched."
-          });
+          this.alertService.sideErrorAlert(
+            "Login Failed",
+            "Username or password does not matched.",
+          );
           console.error('Authentication failed:', error);
         }
       });
