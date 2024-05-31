@@ -8,13 +8,13 @@
             <div class="input-box">
                 <input type="text" name="username" id="username" formControlName="username" placeholder="Username"
                     autofocus>
-                <i class='bx bx-user'></i>
+                <i class='bi bi-person'></i>
             </div>
             <div class="input-box">
                 <input type="{{ hidePassword ? 'password' : 'text' }}" formControlName="password" name="password"
                     id="password" placeholder="Password">
                 <i (click)="togglePasswordVisibility()"
-                    class="pw-toggle bx {{ hidePassword ? 'bx-hide' : 'bx-show' }}"></i>
+                    class="pw-toggle bi {{ hidePassword ? 'bi-eye-slash' : 'bi-eye' }}"></i>
             </div>
 
             <div class="remember-forget">
