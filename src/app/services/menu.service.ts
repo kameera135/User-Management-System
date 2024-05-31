@@ -9,6 +9,14 @@ export class MenuService {
 
   MENU: MenuItem[] = [
     {
+      id: 10,
+      label: "Dashboard",
+      icon: "bi-speedometer2",
+      module: "1",
+      link: "/dashboard",
+      subItems: [],
+    },
+    {
       id: 100,
       label: "Users",
       icon: "bi-people",
@@ -20,21 +28,7 @@ export class MenuService {
           link: "/users-view",
           parentId: 800,
           module: "1",
-        },
-        // {
-        //   id: 3,
-        //   label: "View Invoice",
-        //   link: "/view-invoice",
-        //   parentId: 101,
-        //   module: "1",
-        // },
-        // {
-        //   id: 4,
-        //   label: "Send Invoice",
-        //   link: "/send-invoice",
-        //   parentId: 102,
-        //   module: "1",
-        // },
+        }
       ],
     },
     {
@@ -112,49 +106,12 @@ export class MenuService {
           link: "/activity-logs",
           parentId: 800,
           module: "1",
-        },
-        // {
-        //   id: 3,
-        //   label: "Meter Compensate",
-        //   link: "/meter-compensate",
-        //   parentId: 800,
-        //   module: "1",
-        // },
-        // {
-        //   id: 4,
-        //   label: "Meter Daily Summary",
-        //   link: "/meter-daily-summary",
-        //   parentId: 800,
-        //   module: "1",
-        // },
-        // {
-        //   id: 5,
-        //   label: "Manual Meter Readings",
-        //   link: "/manual-meter-readings",
-        //   parentId: 800,
-        //   module: "1",
-        // },
+        }
       ],
-    },
-    // {
-    //   id: 300,
-    //   label: "User Account",
-    //   collapseid: "sidebarDashboards",
-    //   icon: "bi-person-circle",
-    //   module: "1",
-    //   subItems: [
-    //     {
-    //       id: 2,
-    //       label: "User Account",
-    //       link: "/user-account",
-    //       parentId: 102,
-    //       module: "1",
-    //     },
-    //   ],
-    // },
+    }
   ];
 
-  constructor() {}
+  constructor() { }
 
   setModuleID(module: any) {
     this.moduleID = module;
