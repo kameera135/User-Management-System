@@ -184,6 +184,10 @@ export class TopbarComponent implements OnInit {
     return this.app.user?.fName;
   }
 
+  get role() {
+    return this.app.user?.roles;
+  }
+
   // get profileImage() {
   //   let image = this.app.user?.profileImage;
   //   image = image.replace("localhost", this.app.appConfig[0].camsBackEnd);

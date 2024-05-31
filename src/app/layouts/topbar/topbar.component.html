@@ -42,23 +42,26 @@
                             <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
                                 <span class="d-flex align-items-center">
-                                    <img class="rounded-circle header-profile-user avatar-sm" [src]="profileImage" alt="User Avatar">
+                                    <img class="rounded-circle header-profile-user avatar-sm" [src]="profileImage"
+                                        alt="User Avatar">
                                 </span>
-                                
+
                             </button>
                             <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
                                 <div class="align-items-center position-relative">
                                     <!-- Profile Picture -->
-                                    <img class="rounded-circle header-profile-user avatar-sm img " [src]="profileImage" alt="User Avatar">
+                                    <img class="rounded-circle header-profile-user avatar-sm img " [src]="profileImage"
+                                        alt="User Avatar">
                                     <!-- Pencil Icon -->
                                     <a (click)="changeImage($event)" type="button">
-                                        <i class="bi bi-pencil-fill position-absolute bottom-0 end-0 rounded-circle" style="font-size: 1rem; margin-bottom: -23px; margin-right: -2px;"></i>
+                                        <i class="bi bi-pencil-fill position-absolute bottom-0 end-0 rounded-circle"
+                                            style="font-size: 1rem; margin-bottom: -23px; margin-right: -2px;"></i>
                                     </a>
                                 </div>
                                 <div class="px-3 py-2 align-middle">
                                     <span class="fw-bold">&nbsp;Hi, {{ user }}</span>
                                     <br>
-                                    <!-- <span style="font-size: 0.8em;">&nbsp;{{ role }}</span> -->
+                                    <span style="font-size: 0.8em;">&nbsp;{{ role }}</span>
                                 </div>
                                 <div class="dropdown-divider"></div>
                                 <button type="button" class="btn light-dark-mode dropdown-item">
