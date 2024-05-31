@@ -1,10 +1,22 @@
 .db-card {
   border-radius: 10px;
+  margin: 0;
+  padding: 0;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
+  max-width: min-content;
+  // height: 100%;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 }
 
-.db-card:hover {
-  transform: scale(1.05);
+.card-img-top {
+  width: 100px;
+  height: auto;
 }
 
+.platform-name {
+  text-align: center;
+}

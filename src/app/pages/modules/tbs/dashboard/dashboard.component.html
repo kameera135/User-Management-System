@@ -3,12 +3,30 @@
     <app-waiting-circle></app-waiting-circle>
   </div>
   <div class="row mb-3 mx-1  {{ loadingInProgress ? 'hidden' : '' }}">
-    <div class="container mx-6">
-      <div class="row">
-        <div class="col-md-3" *ngFor="let menu of menuItems">
-          <div class="dashboard-card">
-            <app-dashboard-card [subMenus]="menu.subItems"></app-dashboard-card>
+    <div class="container">
+      <div class="row px-1 px-md-5">
+        <div class="profile mt-5">
+          <div class="mb-2">
+            <img class="rounded-circle header-profile-user avatar-md" [src]="profileImage" alt="User Avatar">
           </div>
+          <h4 class="greeting">{{greetBasedOnTime}},</h4>
+          <div class="name">
+            <h3 class="pe-2 m-0">{{userName}}</h3>
+            <a [routerLink]="['/user-account']" class="edit-btn bg-dark text-white rounded-pill">
+              <i class='bi bi-pencil-fill'></i> Edit
+            </a>
+          </div>
+          <div class="role">
+            <p class="pe-2 m-0 fw-normal">You are logged in as {{userRole}}</p>
+            <span (click)="logout()" class="logout-btn bg-danger text-white rounded-pill">
+              <i class='bi bi-box-arrow-right'></i> Sign out
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="mt-5 d-flex flex-wrap justify-content-around">
+        <div class="g-3" *ngFor="let menu of menuItems">
+          <app-dashboard-card [subMenus]="menu.subItems[0]"></app-dashboard-card>
         </div>
       </div>
     </div>

@@ -4,6 +4,8 @@ import { AuthService } from "src/app/auth/auth.service";
 import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
 import { UserAccountService } from "src/app/services/cams-new/user-account.service";
 import { Observable, catchError, map, of, tap } from "rxjs";
+import { AppService } from "src/app/app.service";
+import { MessageService } from "src/app/services/PopupMessages/message.service";
 
 @Component({
   selector: "app-dashboard",
@@ -18,8 +20,36 @@ export class DashboardComponent {
 
   menuItems: any[] = [];
 
-  sessionId = localStorage.getItem("sessionId");
+  sessionId: any = localStorage.getItem("sessionId");
   user = this.auth.getUser();
+
+  get profileImage() {
+
+    const fullName = this.app.user?.fullName || 'John Doe'
+
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}`;
+  }
+
+  get greetBasedOnTime(): string {
+    const currentDate = new Date();
+    const currentHour = currentDate.getHours();
+
+    if (currentHour < 12) {
+      return "Good Morning";
+    } else {
+      return "Good Afternoon";
+    }
+  }
+
+  tempuser: any = this.auth.getUser()
+
+  get userName() {
+    return this.tempuser?.fName + " " + this.tempuser?.lName;
+  }
+
+  get userRole() {
+    return this.tempuser?.roles;
+  }
 
 
   generatePlatformMenuItems(): any[] {
@@ -62,26 +92,39 @@ export class DashboardComponent {
     return platformList.map(platform => ({ subItems: [platform] }));
   }
 
-  // menus: any = [
-  //   {
-  //     subItems: [
-  //       {
-  //         label: "My Profile",
-  //         path: "/user-account",
-  //         description: "View My Account",
-  //         iconPath: "assets/icons/profile-icon.png",
-  //       },
-  //     ],
-  //   },
-  // ];
-
   constructor(
     private breadcrumbService: BreadcrumbService,
     private auth: AuthService,
+    private app: AppService,
     private router: Router,
     private route: ActivatedRoute,
-    private shared: UserAccountService
+    private shared: UserAccountService,
+    private alertService: MessageService
   ) { }
+
+
+  logout() {
+    try {
+      this.shared.deleteSessionToken(this.tempuser?.id, this.sessionId).subscribe({
+        next: (response) => {
+          console.log(response);
+        },
+        error: (error) => {
+          alert("Error while logging out!");
+        }
+      })
+
+      this.auth.logout();
+
+      this.alertService.sideSuccessAlert(
+        "Logout Success",
+        "You are logged out from your account.",
+      );
+    }
+    catch (e) {
+      console.log(e);
+    }
+  }
 
   ngOnInit(): void {
     //const loginUser = this.route.snapshot.queryParams["user"];
