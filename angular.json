@@ -38,7 +38,6 @@
               "src/styles.scss",
               "src/assets/scss/config/creative/bootstrap.scss",
               "src/assets/scss/config/creative/app.scss",
-              "src/assets/scss/icons.scss",
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css"
             ],
             "scripts": [
