@@ -30,6 +30,11 @@ export class DashboardComponent {
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}`;
   }
 
+   //If avatar image is not loading
+   fallbackImage(event: Event) {
+    (event.target as HTMLImageElement).src = 'assets/images/user1.png';
+  }
+
   get greetBasedOnTime(): string {
     const currentDate = new Date();
     const currentHour = currentDate.getHours();

@@ -7,7 +7,7 @@
       <div class="row px-1 px-md-5">
         <div class="profile mt-5">
           <div class="mb-2">
-            <img class="rounded-circle header-profile-user avatar-md" [src]="profileImage" alt="User Avatar">
+            <img class="rounded-circle header-profile-user avatar-md" [src]="profileImage" (error)="fallbackImage($event)" alt="User Avatar">
           </div>
           <h4 class="greeting">{{greetBasedOnTime}},</h4>
           <div class="name">
