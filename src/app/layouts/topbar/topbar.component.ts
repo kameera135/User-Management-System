@@ -18,6 +18,7 @@ import { HttpClient } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ChangeProfilePicModalComponent } from 'src/app/shared/widget/config/change-profile-pic-modal/change-profile-pic-modal.component';
 import { MessageService } from 'src/app/services/PopupMessages/message.service';
+import { promises } from 'dns';
 
 @Component({
   selector: 'app-topbar',
@@ -120,6 +121,11 @@ export class TopbarComponent implements OnInit {
     this.router.navigate(['/user-account']);
   }
 
+  //Navigate to dashboard
+  gotoHome() {
+    this.router.navigate(['/dashboard']);
+  }
+
 
   /**
   * Topbar Light-Dark Mode Change
@@ -207,6 +213,11 @@ export class TopbarComponent implements OnInit {
     const fullName = this.app.user?.fullName || 'John Doe'
 
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}`;
+  }
+
+  //If avatar image is not loading
+  fallbackImage(event: Event) {
+    (event.target as HTMLImageElement).src = 'assets/images/user1.png';
   }
 
   changeImage(row: any) {
