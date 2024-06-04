@@ -24,4 +24,9 @@ export class ChangeProfilePicModalComponent {
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}`;
   }
 
+   //If avatar image is not loading
+   fallbackImage(event: Event) {
+    (event.target as HTMLImageElement).src = 'assets/images/user1.png';
+  }
+
 }

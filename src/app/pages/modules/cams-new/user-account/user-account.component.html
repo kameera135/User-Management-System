@@ -201,6 +201,10 @@
                     <i class="bi bi-pencil-fill label-icon align-middle fs-16 me-2"></i>
                     {{ isEditMode ? 'Save' : 'Edit' }} Account
                   </button>
+                  <button *ngIf="isEditMode" (click)="onUndoClicked()" type="button" class="btn btn-info btn-label mt-2 ms-2">
+                    <i class="bi bi-arrow-counterclockwise label-icon align-middle fs-16 me-2"></i>
+                    Undo
+                  </button>
                 </div>
               </div>
             </div>

@@ -32,6 +32,7 @@ export class UserAccountComponent {
   phoneNumber!: string;
 
   tempuser: any = {};
+  originalUser: any = {};
   userModal!: User
 
   isEditMode: boolean = false; 
@@ -113,6 +114,7 @@ export class UserAccountComponent {
       next: (response) => {
         console.log(response);
         this.tempuser = response;
+        this.originalUser = {...response};
       },
       error: (error) =>{
         console.log(error);
@@ -153,8 +155,15 @@ export class UserAccountComponent {
     // Implement save functionality
     this.tempuser.userId = this.user?.id
     this.putUser(this.tempuser);
+    this.originalUser = {...this.tempuser};
     this.isEditMode = false; // Disable edit mode
   }
+
+  onUndoClicked() {
+    this.tempuser = { ...this.originalUser }; // Restore the original user data
+    this.isEditMode = false; // Exit edit mode
+  }
+  
 
   onPhoneNumberChanged() {
     // Update validation flags based on phone number value
