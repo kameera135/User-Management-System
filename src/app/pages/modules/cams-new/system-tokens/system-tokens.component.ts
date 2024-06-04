@@ -143,56 +143,6 @@ export class SystemTokensComponent {
       this.getAllTokens();
       this.alertService.sideErrorAlert("Error", "Could not retrive data");
     }
-    // if (
-    //   (this.serchedTerm == undefined ||
-    //     this.serchedTerm == null ||
-    //     this.serchedTerm == "") &&
-    //   (this.selectedRole == undefined ||
-    //     this.selectedRole == null ||
-    //     this.selectedRole == "All" ||
-    //     this.selectedRole == "")
-    // ) {
-    //   this.getAllRoles();
-    // } else if (
-    //   (this.serchedTerm != undefined ||
-    //     this.serchedTerm != null ||
-    //     this.serchedTerm != "") &&
-    //   (this.selectedRole == undefined ||
-    //     this.selectedRole == null ||
-    //     this.selectedRole == "All" ||
-    //     this.selectedRole == "")
-    // ) {
-    //   this.searchRoles(this.serchedTerm);
-    // } else {
-    //   this.getAllRoles();
-    //   this.alertService.sideErrorAlert("Error", "Could not retrive data");
-    // } 
-    // else if (
-    //   (this.serchedTerm == undefined ||
-    //     this.serchedTerm == null ||
-    //     this.serchedTerm == "") &&
-    //   (this.selectedRole != undefined ||
-    //     this.selectedRole != null ||
-    //     this.selectedRole != "All" ||
-    //     this.selectedRole != "")
-    // ){}
-    // ) {
-    //   this.getPlatformsByRole(this.serchedTerm);
-    // } else if (
-    //   (this.serchedTerm != undefined ||
-    //     this.serchedTerm != null ||
-    //     this.serchedTerm != "") &&
-    //   (this.selectedRole != undefined ||
-    //     this.selectedRole != null ||
-    //     this.selectedRole != "All" ||
-    //     this.selectedRole != "")
-    // ) {
-    //   this.searchPlatformsByRole(this.serchedTerm, this.selectedRole);
-    // } else {
-      //  this.getAllTokens();
-    //   this.alertService.sideErrorAlert("Error", "Could not retrive data");
-    // }
-      
   }
   
   searchTokens(firstDate: Date, lastDate: Date) {
@@ -212,11 +162,6 @@ export class SystemTokensComponent {
             this.updateTable();
             this.loadingInProgress = false;
           } else {
-            this.alertService.warningSweetAlertMessage(
-              this.appService.popUpMessageConfig[0].NoDataNotificationMessage,
-              "No Data!",
-              4000
-            );
             this.getAllTokens();
           }
         },
@@ -557,73 +502,6 @@ export class SystemTokensComponent {
     return jsDate;
   }
 
-  // getDateTime() {
-  //   var today = new Date();
-  //   var date =
-  //     today.getFullYear() +
-  //     "-" +
-  //     (today.getMonth() + 1).toString().padStart(2, "0") +
-  //     "-" +
-  //     today.getDate().toString().padStart(2, "0");
-  //   var time =
-  //     today.getHours().toString().padStart(2, "0") +
-  //     ":" +
-  //     today.getMinutes().toString().padStart(2, "0") +
-  //     ":" +
-  //     today.getSeconds().toString().padStart(2, "0");
-  //   this.dateTime = date + " " + time;
-  // }
-
-  // downloadExcel() {
-  //   var reportName =
-  //     this.appService.appConfig[0].consumptionReportName[0]
-  //       .consumption_history +
-  //     ` ${this.selectedYear}-${this.selectedMonth.padStart(2, "0")} (${
-  //       this.unitCode
-  //     })`;
-  //   //var sheetName = `${this.unitName}`;
-  //   var sheetName =
-  //     this.appService.appConfig[0].consumptionSheetName[0].consumption_history;
-
-  //   var headArray = this.reportHeadArray;
-
-  //   var arrayOfArrayData = [
-  //     [this.nameOfOrganization + " - " + this.moduleName],
-  //     [],
-  //     ["Consumption History Report"],
-  //     [],
-  //     ["Unit Id", `${this.unitId}`],
-  //     ["Unit Name", `${this.unitName}`],
-  //     ["Year and Month", `${this.selectedYear} - ${this.reportMonth}`],
-  //     [],
-  //     headArray,
-  //   ];
-
-  //   for (var i = 0; i < this.tableData.length; i++) {
-  //     var rowData: any = [
-  //       this.tableData[i].Date,
-  //       this.tableData[i].Water,
-  //       this.tableData[i].Electricity,
-  //       this.tableData[i].AC,
-  //       this.tableData[i].Gas,
-  //     ];
-
-  //     rowData = rowData.filter((value: any) => value !== undefined);
-
-  //     arrayOfArrayData.push(rowData);
-  //   }
-
-  //   this.getDateTime();
-  //   arrayOfArrayData.push([], ["Generated At : " + `${this.dateTime}`]);
-  //   console.log("dd", arrayOfArrayData);
-
-  //   this.reportService.generateExcelFile(
-  //     arrayOfArrayData,
-  //     sheetName,
-  //     reportName
-  //   );
-  // }
-
   deleteTokens(items: any): void {
     let ids: number[] = [];
 
@@ -664,96 +542,4 @@ export class SystemTokensComponent {
       },
     });
   }
-
-  // activateRoles(items: any): void {
-  //   let ids: number[] = [];
-
-  //   items[0].forEach((element: any) => {
-  //     ids.push(element.id);
-  //   });
-
-  //   console.log(ids);
-
-  //   this.activateRole(ids);
-  // }
-
-  // deactivateRoles(items: any): void {
-  //   let ids: number[] = [];
-
-  //   items[0].forEach((element: any) => {
-  //     ids.push(element.id);
-  //   });
-
-  //   console.log(ids);
-
-  //   this.deactivateRole(ids);
-  // }
-
-  // activateRole(ids: number[]): void {
-  //   this.shared.activateRoles(ids).subscribe({
-  //     next: (response: any) => {
-  //       console.log("Activating a Platform: ");
-  //       console.log(response);
-  //       this.alertService.sideSuccessAlert(
-  //         "Success",
-  //         this.appService.popUpMessageConfig[0]
-  //           .RoleActivatedSuccessSideAlertMessage
-  //       );
-  //       this.alertService.successSweetAlertMessage(
-  //         this.appService.popUpMessageConfig[0]
-  //           .RoleActivateNotificationMessage,
-  //         "Actvated!",
-  //         4000
-  //       );
-
-  //       this.loadData();
-  //     },
-
-  //     error: (error: any) => {
-  //       console.log("Activating a Platform: error");
-  //       console.log(error);
-  //       this.alertService.sideErrorAlert(
-  //         "Error",
-  //         this.appService.popUpMessageConfig[0]
-  //           .RoleActivatedErrorSideAlertMessage
-  //       );
-  //       //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
-  //     },
-  //   });
-  // }
-
-  // deactivateRole(ids: number[]): void {
-  //   this.shared.deactivateRoles(ids).subscribe({
-  //     next: (response: any) => {
-  //       console.log("Deactivating a Platform: ");
-  //       console.log(response);
-
-  //       this.alertService.sideSuccessAlert(
-  //         "Success",
-  //         this.appService.popUpMessageConfig[0]
-  //           .RoleDeactivatedSuccessSideAlertMessage
-  //       );
-  //       this.alertService.successSweetAlertMessage(
-  //         this.appService.popUpMessageConfig[0]
-  //           .RoleDeactivateNotificationMessage,
-  //         "Deactvated!",
-  //         4000
-  //       );
-
-  //       this.loadData();
-  //     },
-
-  //     error: (error: any) => {
-  //       console.log("Deactivating a Platform: error");
-  //       console.log(error);
-  //       this.alertService.sideErrorAlert(
-  //         "Error",
-  //         this.appService.popUpMessageConfig[0]
-  //           .RoleDeactivatedErrorSideAlertMessage
-  //       );
-  //       //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
-  //     },
-  //   });
-  // }
-
 }

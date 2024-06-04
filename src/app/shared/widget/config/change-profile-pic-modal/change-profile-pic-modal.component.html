@@ -17,7 +17,7 @@
 
 <div class="modal-body">
     <span class="d-flex align-items-center">
-        <img class="rounded-circle header-profile-user avatar-xl" [src]="profileImage" alt="User Avatar">
+        <img class="rounded-circle header-profile-user avatar-xl" [src]="profileImage"  (error)="fallbackImage($event)" alt="User Avatar">
     </span>
 
     <button type="submit" class="btn btn-success btn-label mt-3">
