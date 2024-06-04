@@ -1,8 +1,6 @@
-<div class="card w-auto db-card pt-3 px-2 border shadow-lg m-2" (click)="goToPage(subMenus.path)">
-  <img *ngIf="subMenus.iconPath" class="card-img-top mx-auto" [src]="subMenus.iconPath" alt="Icon">
-  <div class="card-body">
-    <p class="card-text platform-name bg-secondary text-white fw-bold rounded p-1 px-3">
-      {{ subMenus.label }}
-    </p>
+<div (click)="goToPage(subMenus.path)">
+  <div class="application-icon">
+    <img *ngIf="subMenus.iconPath" [src]="subMenus.iconPath" alt="Icon">
   </div>
+  <div class="application-name text-secondary">{{ subMenus.label }}</div>
 </div>

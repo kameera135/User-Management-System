@@ -30,8 +30,8 @@ export class DashboardComponent {
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}`;
   }
 
-   //If avatar image is not loading
-   fallbackImage(event: Event) {
+  //If avatar image is not loading
+  fallbackImage(event: Event) {
     (event.target as HTMLImageElement).src = 'assets/images/user1.png';
   }
 
@@ -81,7 +81,7 @@ export class DashboardComponent {
           label: platformName,
           path: `${platformURL}/login?session=${this.sessionId}&platformId=${platformId}`,
           description: platformName,
-          iconPath: `${platformURL}/assets/icons/logo/svg/sign-in-logo.svg`,
+          iconPath: `${platformURL}/assets/icons/sign-in-logo.png`,
         });
       }
     };
