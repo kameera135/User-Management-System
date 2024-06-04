@@ -3,7 +3,7 @@ import { BreadcrumbService } from "src/app/services/breadcrumb/breadcrumb.servic
 import { AuthService } from "src/app/auth/auth.service";
 import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
 import { UserAccountService } from "src/app/services/cams-new/user-account.service";
-import { Observable, catchError, map, of, tap } from "rxjs";
+import { Observable, catchError, map, of, switchMap, tap } from "rxjs";
 import { AppService } from "src/app/app.service";
 import { MessageService } from "src/app/services/PopupMessages/message.service";
 
@@ -17,6 +17,7 @@ export class DashboardComponent {
 
   hasAlert: boolean = false;
   showAddTile: boolean = true;
+  validImageUrl: string = "";
 
   menuItems: any[] = [];
 
@@ -56,7 +57,6 @@ export class DashboardComponent {
     return this.tempuser?.roles;
   }
 
-
   generatePlatformMenuItems(): any[] {
 
     // Return an empty array or handle the case when user or platforms is undefined
@@ -77,11 +77,15 @@ export class DashboardComponent {
       }
       if (platformName && platformURL && !uniquePlatforms.has(platformName)) {
         uniquePlatforms.add(platformName);
+
+        let imageUrl = `${platformURL}/assets/icons/sign-in-logo.png`;
+        let defaultImageUrl = '/assets/icons/platform.png';
+
         platformList.push({
           label: platformName,
           path: `${platformURL}/login?session=${this.sessionId}&platformId=${platformId}`,
           description: platformName,
-          iconPath: `${platformURL}/assets/icons/sign-in-logo.png`,
+          iconPath: imageUrl,
         });
       }
     };

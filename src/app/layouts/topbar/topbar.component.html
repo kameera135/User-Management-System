@@ -32,14 +32,14 @@
 
                     <div class="d-flex align-items-center">
                         <div style="width: 300px; text-align: right;" class="d-none d-lg-block">
-                            <span class="fs-5 fw-bold me-1" [style.color]="moduleColor">
+                            <span class="fs-5 fw-bold me-3" [style.color]="moduleColor">
                                 {{ module }}
                             </span>
                         </div>
                         <!--For Logo-->
-                        <!-- <div>
-                            <img src="assets/icons/logo/svg/sign-in-logo.svg" alt="aes logo" class="avatar-sm">
-                        </div> -->
+                        <div>
+                            <img src="assets/icons/sign-in-logo.png" alt="app logo" class="avatar-sm">
+                        </div>
                         <!-- <h5>[LOGO]</h5> -->
                     </div>
                     <div class="d-flex align-items-center">
@@ -48,16 +48,16 @@
                             <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
                                 <span class="d-flex align-items-center">
-                                    <img class="rounded-circle header-profile-user avatar-sm" [src]="profileImage" (error)="fallbackImage($event)"
-                                        alt="User Avatar">
+                                    <img class="rounded-circle header-profile-user avatar-sm" [src]="profileImage"
+                                        (error)="fallbackImage($event)" alt="User Avatar">
                                 </span>
                             </button>
 
                             <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
                                 <div class="align-items-center position-relative">
                                     <!-- Profile Picture -->
-                                    <img class="rounded-circle header-profile-user avatar-sm img " [src]="profileImage" (error)="fallbackImage($event)"
-                                        alt="User Avatar"/>
+                                    <img class="rounded-circle header-profile-user avatar-sm img " [src]="profileImage"
+                                        (error)="fallbackImage($event)" alt="User Avatar" />
                                     <!-- Pencil Icon -->
                                     <!-- <a (click)="changeImage($event)" type="button">
                                         <i class="bi bi-pencil-fill position-absolute bottom-0 end-0 rounded-circle"

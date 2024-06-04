@@ -6,8 +6,7 @@
   "nameOfOrganization": "Company Name",
   "footerMessage": "Designed & Developed by SapiX",
   "moduleName": "User Management System",
-  "moduleNameColor": "#B29A39",
-  "signInButtonColor:": "#B29A39",
+  "moduleNameColor": "#4285F4",
   "datePickerDateFormat": {
     "year": "numeric",
     "month": "short",

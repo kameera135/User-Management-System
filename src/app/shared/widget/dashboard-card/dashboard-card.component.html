@@ -1,6 +1,6 @@
 <div (click)="goToPage(subMenus.path)">
   <div class="application-icon">
-    <img *ngIf="subMenus.iconPath" [src]="subMenus.iconPath" alt="Icon">
+    <img [src]="subMenus.iconPath" onerror="this.src='/assets/icons/platform.png'" alt="Icon">
   </div>
   <div class="application-name text-secondary">{{ subMenus.label }}</div>
 </div>

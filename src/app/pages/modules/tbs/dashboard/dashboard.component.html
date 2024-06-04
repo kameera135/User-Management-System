@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row px-1 px-md-5">
-    <div class="profile mt-5 mb-5">
+    <div class="profile mt-3 mb-4">
       <div class="mb-2">
         <img class="rounded-circle header-profile-user avatar-md" [src]="profileImage" (error)="fallbackImage($event)"
           alt="User Avatar">
@@ -21,8 +21,8 @@
     </div>
   </div>
 
-  <div class="applications-grid">
-    <div class="bg-light application-tile border border-1 border-secondary" *ngFor="let menu of menuItems">
+  <div class="applications-grid mb-5">
+    <div class="bg-soft-secondary application-tile border border-1 border-secondary" *ngFor="let menu of menuItems">
       <app-dashboard-card [subMenus]="menu.subItems[0]"></app-dashboard-card>
     </div>
   </div>
