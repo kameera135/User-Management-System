@@ -8,7 +8,7 @@ export const environment = {
   // apiBase: 'http://13.229.243.107:97/api',
   apiBase: 'https://localhost:8745', //WANT TO ADD TO CONFIG FILE
   defaultauth: 'fackbackend',
-  appName: 'CMS',
+  appName: 'UMS UI',
   storage: 'localStorage',
   firebaseConfig: {
     apiKey: '',
