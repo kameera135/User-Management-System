@@ -39,7 +39,7 @@ export class TopbarComponent implements OnInit {
 
   imageUrl!: string;
 
-  tempuser = this.auth.getUser();
+  tempUser = this.auth.getUser();
   private sessionToken: string | any = localStorage.getItem('sessionId');
 
   module: string = "moduleName";
@@ -157,7 +157,7 @@ export class TopbarComponent implements OnInit {
   logout() {
 
     try {
-      this.shared.deleteSessionToken(this.tempuser?.id, this.sessionToken).subscribe({
+      this.shared.deleteSessionToken(this.tempUser?.id, this.sessionToken).subscribe({
         next: (response) => {
           console.log(response);
         },

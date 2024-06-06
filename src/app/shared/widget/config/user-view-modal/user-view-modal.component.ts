@@ -59,20 +59,10 @@ export class UserViewModalComponent {
     private fb: FormBuilder
   ) {
     this.form = this.fb.group({
-      phoneNumber: ['', [Validators.required, this.phoneNumberValidator]],
+      phoneNumber: ['', [Validators.required]],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
     });
-  }
-
-  phoneNumberValidator(control: AbstractControl): { [key: string]: boolean } | null {
-    const phoneNumberRegex = /^[6|8|9]\d{7}$/; // Adjust the regex based on your requirements
-
-    if (control.value && !phoneNumberRegex.test(control.value)) {
-      return { 'invalidPhoneNumber': true };
-    }
-
-    return null;
   }
 
   showPasswordFields: boolean = false;
@@ -117,43 +107,26 @@ export class UserViewModalComponent {
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
       phoneNumber: new FormControl('', [
-        Validators.required,
-        Validators.pattern(/^\d+$/), // Only allow numeric input
-        this.sgPhoneNumberValidator(), // Custom validator for Singapore phone number
+        Validators.required
       ],
       ),
-      email: new FormControl('', [Validators.required,Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
+      email: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
       password: new FormControl(),
-      confirmPassword : new FormControl(),
+      confirmPassword: new FormControl(),
     });
   }
 
-   // Define a custom validator for Singapore phone number
-   sgPhoneNumberValidator(): (control: AbstractControl) => ValidationErrors | null {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const value = control.value;
-      // Use a regular expression to check if it's a Singapore phone number
-      const singaporePhoneNumberPattern = /^65\d{8}$/; // Customize the pattern as needed
-
-      if (value && !singaporePhoneNumberPattern.test(value)) {
-        return { invalidPhoneNumber: true };
-      }
-
-      return null;
-    };
-  }
-
-  isControlInvalid(controlName: string): boolean | null{
+  isControlInvalid(controlName: string): boolean | null {
     const control = this.form?.get(controlName);
-    return !!control && (control.dirty||control.touched) && control.invalid;
+    return !!control && (control.dirty || control.touched) && control.invalid;
   }
 
   //show hide password value
-  togglePasswordVisibility(){
+  togglePasswordVisibility() {
     this.hidePassword = !this.hidePassword;
     this.visible = !this.visible
   }
-  
+
 
   getRolesAndPlatforms(userId: number) {
     this.loadingInProgress = true;
@@ -189,12 +162,12 @@ export class UserViewModalComponent {
   }
 
   onFormSubmit() {
-    if (this.form.value.userName == ""||
+    if (this.form.value.userName == "" ||
       this.form.value.firstName == "" ||
       this.form.value.lastName == "" ||
       this.form.value.email == "" ||
-      this.form.value.phoneNumber == "" 
-      ) {
+      this.form.value.phoneNumber == ""
+    ) {
       this.notifierService.warning({
         detail: 'Warning',
         summary: 'Please fill required fields',

@@ -1,12 +1,7 @@
 <div class="modal-header">
   <h5 class="modal-title fs-4" id="addReadingsModal">{{ modalTitle }}</h5>
-  <button
-    id="btnCommonModalClose"
-    type="button"
-    class="bg-transparent border-0"
-    aria-label="Close"
-    (click)="activeModal.dismiss('Cross click')"
-  >
+  <button id="btnCommonModalClose" type="button" class="bg-transparent border-0" aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">
       <i class="bi bi-x-lg text-dark"></i>
     </span>
@@ -35,114 +30,87 @@
             <label class="col-form-label">User Name
               <span class="required-star" *ngIf="type == 'Add'  || type == 'Edit'">*</span>
             </label>
-            <input
-              type="text"
-              class="form-control"
-              [(ngModel)]="userName"
-              name="userName"
-              [readonly]="type == 'View'"
-              formControlName="userName"
-            />
+            <input type="text" class="form-control" [(ngModel)]="userName" name="userName" [readonly]="type == 'View'"
+              formControlName="userName" />
             <div *ngIf="isControlInvalid('userName')">
               <span class="error-text">User name is required.</span>
             </div>
             <div class="input-group"></div>
           </div>
         </div>
-  
+
         <div class="col-6">
           <div class="mb-3">
             <label class="col-form-label">First Name
               <span class="required-star" *ngIf="type == 'Add'  || type == 'Edit'">*</span>
             </label>
-            <input
-              type="text"
-              class="form-control"
-              [(ngModel)]="firstName"
-              name="firstName"
-              [readonly]="type == 'View'"
-              formControlName="firstName"
-            />
+            <input type="text" class="form-control" [(ngModel)]="firstName" name="firstName" [readonly]="type == 'View'"
+              formControlName="firstName" />
             <div *ngIf="isControlInvalid('firstName')">
               <span class="error-text">First name is required.</span>
             </div>
           </div>
         </div>
-  
+
         <div class="col-6">
           <div class="mb-3">
             <label class="col-form-label">Last Name
               <span class="required-star" *ngIf="type == 'Add'  || type == 'Edit'">*</span>
             </label>
-            <input
-              type="text"
-              class="form-control"
-              [(ngModel)]="lastName"
-              name="lastName"
-              [readonly]="type == 'View'"
-              formControlName="lastName"
-            />
+            <input type="text" class="form-control" [(ngModel)]="lastName" name="lastName" [readonly]="type == 'View'"
+              formControlName="lastName" />
             <div *ngIf="isControlInvalid('lastName')">
               <span class="error-text">Last name is required.</span>
             </div>
           </div>
         </div>
-  
+
         <div class="col-12">
           <div class="mb-3">
             <label class="col-form-label">Phone Number
               <span class="required-star" *ngIf="type == 'Add'  || type == 'Edit'">*</span>
             </label>
-            <input
-              type="text"
-              class="form-control"
-              [(ngModel)]="phoneNumber"
-              name="phoneNumber"
-              [readonly]="type == 'View'"
-              formControlName="phoneNumber"
-              placeholder="e.g., 6512345678"
-            />
+            <input type="text" class="form-control" [(ngModel)]="phoneNumber" name="phoneNumber"
+              [readonly]="type == 'View'" formControlName="phoneNumber" placeholder="0112345678" />
             <div *ngIf="isControlInvalid('phoneNumber')">
               <div *ngIf="form.controls['phoneNumber']?.hasError('required')">
                 <span class="error-text">Phone Number is required.</span>
               </div>
-              <div *ngIf="form.controls['phoneNumber']?.hasError('pattern') && form.controls['phoneNumber']?.dirty && !form.controls['phoneNumber']?.hasError('required')">
+              <div
+                *ngIf="form.controls['phoneNumber']?.hasError('pattern') && form.controls['phoneNumber']?.dirty && !form.controls['phoneNumber']?.hasError('required')">
                 <span class="error-text">Invalid phone number. Please enter only numeric values.</span>
               </div>
-              <div *ngIf="form.controls['phoneNumber']?.hasError('invalidPhoneNumber') && form.controls['phoneNumber']?.dirty && !form.controls['phoneNumber']?.hasError('required') && !form.controls['phoneNumber']?.hasError('pattern')">
+              <div
+                *ngIf="form.controls['phoneNumber']?.hasError('invalidPhoneNumber') && form.controls['phoneNumber']?.dirty && !form.controls['phoneNumber']?.hasError('required') && !form.controls['phoneNumber']?.hasError('pattern')">
                 <span class="error-text">Invalid phone number type.</span>
               </div>
             </div>
-            <div class="form-text text-muted" *ngIf="type == 'Add'">Please enter the phone number in the format: 65xxxxxxxx</div>
+            <div class="form-text text-muted" *ngIf="type == 'Add'">Please enter the phone number.</div>
           </div>
         </div>
-      
+
         <div class="col-12">
           <div class="mb-3">
             <label class="col-form-label">Email
               <span class="required-star" *ngIf="type == 'Add'  || type == 'Edit'">*</span>
             </label>
-            <input
-              type="email"
-              class="form-control"
-              [(ngModel)]="email"
-              name="email"
-              [readonly]="type == 'View'"
-              formControlName="email"
-            />
+            <input type="email" class="form-control" [(ngModel)]="email" name="email" [readonly]="type == 'View'"
+              formControlName="email" />
             <div *ngIf="isControlInvalid('email')">
               <div *ngIf="form.controls['email']?.hasError('required')">
                 <span class="error-text">Email is required.</span>
               </div>
-              <div *ngIf="form.controls['email']?.hasError('pattern') && form.controls['email']?.dirty && !form.controls['email']?.hasError('required')">
+              <div
+                *ngIf="form.controls['email']?.hasError('pattern') && form.controls['email']?.dirty && !form.controls['email']?.hasError('required')">
                 <span class="error-text">Invalid email address. Please enter a valid email.</span>
               </div>
             </div>
-            <div class="form-text text-muted" *ngIf="type == 'Add'">Please enter a valid email address in the format:johndoe@example.com</div>
+            <div class="form-text text-muted" *ngIf="type == 'Add'">Please enter a valid email address in the
+              format:johndoe@example.com</div>
           </div>
         </div>
-  
-          <!-- <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
+
+        <!-- <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
           <div class="mb-3">
             <label class="col-form-label">Platform*</label>
             <ng-select
@@ -160,15 +128,11 @@
             </ng-select>
           </div>
         </div> -->
-  
+
         <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
           <div class="mb-3">
             <label class="col-form-label">Platforms and Roles</label>
-            <app-table
-              *ngIf="!loadingInProgress"
-              [headArray]="headArray"
-              [dataArray]="tableData"
-            >
+            <app-table *ngIf="!loadingInProgress" [headArray]="headArray" [dataArray]="tableData">
             </app-table>
           </div>
         </div>
@@ -176,15 +140,8 @@
         <div class="col-12 mx-auto" *ngIf="type != 'View' && isFormValid()">
           <div class="d-flex justify-content-end">
             <!--Next button-->
-            <button
-              type="button"
-              class="btn btn-secondary btn-label mt-3 ms-2"
-              (click)="showPasswordPage()"
-            >
-              <i
-                class="bi bi-arrow-up-right-circle-fill label-icon align-middle fs-16 me-2"
-              ></i
-              >Next
+            <button type="button" class="btn btn-secondary btn-label mt-3 ms-2" (click)="showPasswordPage()">
+              <i class="bi bi-arrow-up-right-circle-fill label-icon align-middle fs-16 me-2"></i>Next
             </button>
           </div>
         </div>
@@ -192,81 +149,56 @@
         <div class="col-12 mx-auto" *ngIf="type == 'View'">
           <div class="d-flex justify-content-end">
             <button type="submit" class="btn btn-success btn-label mt-3">
-              <i
-                class="bi {{ buttonIcon }} label-icon align-middle fs-16 me-2"
-              ></i
-              >{{ buttonName }}
+              <i class="bi {{ buttonIcon }} label-icon align-middle fs-16 me-2"></i>{{ buttonName }}
             </button>
-  
+
             <!--Cancel button-->
-            <button
-              type="button"
-              class="btn btn-danger btn-label mt-3 ms-2"
-              (click)="activeModal.dismiss()"
-            >
-              <i
-                class="bi {{
+            <button type="button" class="btn btn-danger btn-label mt-3 ms-2" (click)="activeModal.dismiss()">
+              <i class="bi {{
                   cancelButtonIcon
-                }} label-icon align-middle fs-16 me-2"
-              ></i
-              >{{ cancelButtonName }}
+                }} label-icon align-middle fs-16 me-2"></i>{{ cancelButtonName }}
             </button>
           </div>
         </div>
       </div>
 
-      <div class="row" *ngIf="(showPasswordFields && isFormValid() && type === 'Add') || (showPasswordFields && type === 'Edit')">
+      <div class="row"
+        *ngIf="(showPasswordFields && isFormValid() && type === 'Add') || (showPasswordFields && type === 'Edit')">
         <div class="col-12">
           <div class="mb-3">
             <label class="col-form-label">Password</label>
-            <input
-              type="{{ hidePassword ? 'password' : 'text' }}"
-              class="form-control"
-              name="password"
-              formControlName="password"
-            />
+            <input type="{{ hidePassword ? 'password' : 'text' }}" class="form-control" name="password"
+              formControlName="password" />
             <span class="eyeicon">
-              <i class="bi bi-eye-fill h5" (click)="togglePasswordVisibility()" [ngClass]="visible?'bi bi-eye-fill':'bi bi-eye-slash-fill'"></i>
-          </span>
+              <i class="bi bi-eye-fill h5" (click)="togglePasswordVisibility()"
+                [ngClass]="visible?'bi bi-eye-fill':'bi bi-eye-slash-fill'"></i>
+            </span>
           </div>
         </div>
-  
+
         <div class="col-12">
           <div class="mb-3">
             <label class="col-form-label">Confirm Password</label>
-            <input
-              type="{{ hidePassword ? 'password' : 'text' }}"
-              class="form-control"
-              name="confirmPassword"
-              formControlName="confirmPassword"
-            />
+            <input type="{{ hidePassword ? 'password' : 'text' }}" class="form-control" name="confirmPassword"
+              formControlName="confirmPassword" />
             <span class="eyeicon">
-              <i class="bi bi-eye-fill h5" (click)="togglePasswordVisibility()" [ngClass]="visible?'bi bi-eye-fill':'bi bi-eye-slash-fill'"></i>
-          </span>
+              <i class="bi bi-eye-fill h5" (click)="togglePasswordVisibility()"
+                [ngClass]="visible?'bi bi-eye-fill':'bi bi-eye-slash-fill'"></i>
+            </span>
           </div>
         </div>
 
         <div class="col-12 mx-auto">
           <div class="d-flex justify-content-end">
             <button type="submit" class="btn btn-success btn-label mt-3">
-              <i
-                class="bi {{ buttonIcon }} label-icon align-middle fs-16 me-2"
-              ></i
-              >{{ buttonName }}
+              <i class="bi {{ buttonIcon }} label-icon align-middle fs-16 me-2"></i>{{ buttonName }}
             </button>
-  
+
             <!--Cancel button-->
-            <button
-              type="button"
-              class="btn btn-danger btn-label mt-3 ms-2"
-              (click)="activeModal.dismiss()"
-            >
-              <i
-                class="bi {{
+            <button type="button" class="btn btn-danger btn-label mt-3 ms-2" (click)="activeModal.dismiss()">
+              <i class="bi {{
                   cancelButtonIcon
-                }} label-icon align-middle fs-16 me-2"
-              ></i
-              >{{ cancelButtonName }}
+                }} label-icon align-middle fs-16 me-2"></i>{{ cancelButtonName }}
             </button>
           </div>
         </div>

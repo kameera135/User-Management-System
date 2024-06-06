@@ -31,11 +31,11 @@ export class UserAccountComponent {
   email!: string;
   phoneNumber!: string;
 
-  tempuser: any = {};
+  tempUser: any = {};
   originalUser: any = {};
   userModal!: User
 
-  isEditMode: boolean = false; 
+  isEditMode: boolean = false;
 
 
   isDirty: boolean = false; // Flag to track if field is dirty (has been touched)
@@ -46,16 +46,16 @@ export class UserAccountComponent {
 
   extensionTableOptions: tableOptions = new tableOptions();
 
-  
-  constructor(private breadcrumbService: BreadcrumbService, 
-              private auth: AuthService,
-              private shared: UserAccountService,
-              private modalService: NgbModal,
-              private alertService: MessageService,
-              private appService: AppService,
-              private notifierService: NgToastService,
-              private route: ActivatedRoute,
-              private router: Router) { }
+
+  constructor(private breadcrumbService: BreadcrumbService,
+    private auth: AuthService,
+    private shared: UserAccountService,
+    private modalService: NgbModal,
+    private alertService: MessageService,
+    private appService: AppService,
+    private notifierService: NgToastService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   user = this.auth.getUser();
 
@@ -82,7 +82,7 @@ export class UserAccountComponent {
     this.getUserDetails(this.user?.id);
   }
 
-  handleSessionValidationResponse(response: any): void{
+  handleSessionValidationResponse(response: any): void {
     if (response.statusCode === 200 && response.token) {
       const token = response.token;
       // Check if the token is a valid JWT
@@ -109,21 +109,21 @@ export class UserAccountComponent {
 
 
   getUserDetails(userId: any) {
-    
+
     this.shared.getUserDetails(userId).subscribe({
       next: (response) => {
         console.log(response);
-        this.tempuser = response;
-        this.originalUser = {...response};
+        this.tempUser = response;
+        this.originalUser = { ...response };
       },
-      error: (error) =>{
+      error: (error) => {
         console.log(error);
       }
     });
 
   }
 
-  changePassword(row:any) {
+  changePassword(row: any) {
     this.openModal(
       "Password",
       "Change Password",
@@ -133,16 +133,16 @@ export class UserAccountComponent {
     );
   }
 
-  changeImage(row:any){
+  changeImage(row: any) {
 
-    const modalRef = this.modalService.open(ChangeProfilePicModalComponent,{
+    const modalRef = this.modalService.open(ChangeProfilePicModalComponent, {
       size: "s",
       centered: true,
       backdrop: "static",
       keyboard: false,
     });
 
-    
+
   }
 
 
@@ -153,17 +153,17 @@ export class UserAccountComponent {
 
   onSaveClicked() {
     // Implement save functionality
-    this.tempuser.userId = this.user?.id
-    this.putUser(this.tempuser);
-    this.originalUser = {...this.tempuser};
+    this.tempUser.userId = this.user?.id
+    this.putUser(this.tempUser);
+    this.originalUser = { ...this.tempUser };
     this.isEditMode = false; // Disable edit mode
   }
 
   onUndoClicked() {
-    this.tempuser = { ...this.originalUser }; // Restore the original user data
+    this.tempUser = { ...this.originalUser }; // Restore the original user data
     this.isEditMode = false; // Exit edit mode
   }
-  
+
 
   onPhoneNumberChanged() {
     // Update validation flags based on phone number value
@@ -174,12 +174,12 @@ export class UserAccountComponent {
   }
 
   openModal(
-    type:string,
-    modalType:string,
-    userId:number,
-    password:string,
-    confirmPassword:string
-  ):void{
+    type: string,
+    modalType: string,
+    userId: number,
+    password: string,
+    confirmPassword: string
+  ): void {
 
     const modalRef = this.modalService.open(
       UserAccountModalComponent,
@@ -197,38 +197,38 @@ export class UserAccountComponent {
     modalRef.componentInstance.password = password;
     modalRef.componentInstance.confirmPassword = confirmPassword;
 
-    modalRef.result.then((result) =>{
-      if(result){
+    modalRef.result.then((result) => {
+      if (result) {
         console.log(result);
         this.userModal = result;
-        if(this.userModal.password != this.userModal.confirmPassword){
+        if (this.userModal.password != this.userModal.confirmPassword) {
           this.notifierService.warning({
             detail: "Warning",
             summary: "Please confirm the password",
             duration: 2000,
           });
         }
-        else{
+        else {
           this.postPassword(this.userModal);
         }
 
       }
     })
-    .catch((error) => {
-      console.log(error);
-    });
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
-  postPassword(user:any){
+  postPassword(user: any) {
     user.userId = this.user?.id;
-    user.userName = this.tempuser.userName;
-    user.firstName = this.tempuser.firstName;
-    user.lastName = this.tempuser.lastName;
-    user.phone = this.tempuser.phone;
-    user.email = this.tempuser.email;
+    user.userName = this.tempUser.userName;
+    user.firstName = this.tempUser.firstName;
+    user.lastName = this.tempUser.lastName;
+    user.phone = this.tempUser.phone;
+    user.email = this.tempUser.email;
 
     this.shared.putUser(user).subscribe({
-      next:(res)=>{
+      next: (res) => {
         console.log(res)
         this.alertService.sideSuccessAlert(
           "Success",
@@ -269,7 +269,7 @@ export class UserAccountComponent {
         );
       },
       error: (error) => {
-        console.log("error: ",error);
+        console.log("error: ", error);
         this.alertService.sideErrorAlert(
           "Error",
           this.appService.popUpMessageConfig[0].UserUpdatedErrorSideAlertMessage

@@ -47,14 +47,14 @@ export class DashboardComponent {
     }
   }
 
-  tempuser: any = this.auth.getUser()
+  tempUser: any = this.auth.getUser()
 
   get userName() {
-    return this.tempuser?.fName + " " + this.tempuser?.lName;
+    return this.tempUser?.fName + " " + this.tempUser?.lName;
   }
 
   get userRole() {
-    return this.tempuser?.roles;
+    return this.tempUser?.roles;
   }
 
   generatePlatformMenuItems(): any[] {
@@ -114,7 +114,7 @@ export class DashboardComponent {
 
   logout() {
     try {
-      this.shared.deleteSessionToken(this.tempuser?.id, this.sessionId).subscribe({
+      this.shared.deleteSessionToken(this.tempUser?.id, this.sessionId).subscribe({
         next: (response) => {
           console.log(response);
         },
