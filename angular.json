@@ -6,7 +6,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "UMS_UI": {
+    "velzon": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {

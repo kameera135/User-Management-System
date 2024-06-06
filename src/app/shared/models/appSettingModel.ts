@@ -23,6 +23,8 @@ export interface appSettingModel {
 
   signInButtonColor: string;
 
+  defaultPlatformIcons: string[];
+
   datePickerDateFormat: dateFormat;
 
   pageSizeArray: number[];

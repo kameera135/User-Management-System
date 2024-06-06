@@ -1,6 +1,7 @@
 <div (click)="goToPage(subMenus.path)">
   <div class="application-icon">
-    <img [src]="subMenus.iconPath" onerror="this.src='/assets/icons/platform.png'" alt="Icon">
+    <img [src]="subMenus.iconPath" (error)="handleError($event, subMenus.label)"
+      onerror="this.src='/assets/icons/platform.png'" alt="Icon">
   </div>
   <div class="application-name text-secondary">{{ subMenus.label }}</div>
 </div>

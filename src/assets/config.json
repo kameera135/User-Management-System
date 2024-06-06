@@ -7,6 +7,14 @@
   "footerMessage": "Designed & Developed by SapiX",
   "moduleName": "User Management System",
   "moduleNameColor": "#4285F4",
+  "defaultPlatformIcons": [
+    "Aircon Extension System",
+    "Tenant Billing System",
+    "Energy Management System",
+    "Facility Booking System",
+    "System Configuration",
+    "Configuration Module"
+  ],
   "datePickerDateFormat": {
     "year": "numeric",
     "month": "short",
