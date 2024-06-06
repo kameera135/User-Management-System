@@ -49,6 +49,7 @@ export class UsersViewComponent {
     { Head: "First Name", FieldName: "FirstName", ColumnType: "Data" },
     { Head: "Last Name", FieldName: "LastName", ColumnType: "Data" },
     { Head: "Email", FieldName: "Email", ColumnType: "Data" },
+    { Head: "Phone", FieldName: "PhoneNumber", ColumnType: "Data" },
     { Head: "", FieldName: "", ColumnType: "Action" },
   ];
   usersViewService: any;
@@ -62,7 +63,7 @@ export class UsersViewComponent {
     private appService: AppService,
     private alertService: MessageService,
     private http: HttpClient
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getPlatformList();
@@ -164,7 +165,7 @@ export class UsersViewComponent {
   }
 
   onAddUserButtonClicked(): void {
-    this.openModal("Add", "New User Account", "", "","", "", "", "", "", "", "");
+    this.openModal("Add", "New User Account", "", "", "", "", "", "", "", "", "");
   }
 
   onEditButtonClicked(row: any) {
@@ -209,7 +210,7 @@ export class UsersViewComponent {
     email: string,
     phoneNumber: string,
     password: string,
-    confirmPassword:string,
+    confirmPassword: string,
     userId: string
   ): void {
     const modalRef = this.modalService.open(UserViewModalComponent, {
@@ -482,8 +483,8 @@ export class UsersViewComponent {
 
         this.loadData();
       },
-      error: (error:any) => {
-        if(error.error){
+      error: (error: any) => {
+        if (error.error) {
           this.alertService.warningSweetAlertMessage(
             error.error,
             "Error!",
@@ -548,7 +549,7 @@ export class UsersViewComponent {
         this.loadData();
       },
       error: (error) => {
-        if(error.error){
+        if (error.error) {
           this.alertService.warningSweetAlertMessage(
             error.error,
             "Error!",
