@@ -23,8 +23,15 @@
                     Remember Username</label>
                 <a [routerLink]="['/auth/forgot-password']">Forget Password?</a>
             </div>
-
-            <button type="submit" class="button">Sign in</button>
+            <button type="submit" class="btn btn-primary border-0 w-100 btn-load rounded-pill"
+                [disabled]="startLoginInProcess">
+                <span class="d-flex align-items-center">
+                    <span id="btnLoginText" class="flex-grow-1">
+                        {{startLoginInProcess ? 'Signing in...' : 'Sign in'}}
+                    </span>
+                    <span *ngIf="this.startLoginInProcess" role="status" class="spinner-border flex-shrink-0"></span>
+                </span>
+            </button>
         </form>
     </div>
     <div class="footer">

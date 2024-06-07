@@ -91,27 +91,6 @@
             }
         }
     }
-
-    .button {
-        width: 100%;
-        height: 45px;
-        border: none;
-        outline: none;
-        border-radius: 40px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-        cursor: pointer;
-        color: #1DA1F2;
-        background-color: #fff;
-        font-weight: 600;
-        font-size: 16px;
-        transition: color 0.3s;
-        transition: background-color 0.3s;
-
-        &:hover {
-            background: #1DA1F2;
-            color: rgb(251, 251, 251);
-        }
-    }
 }
 
 .footer {

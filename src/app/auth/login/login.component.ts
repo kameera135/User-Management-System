@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
   successMessage = '';
   version: string = this.app.appConfig[0].version;
   moduleName: string = this.app.appConfig[0].moduleName;
+  startLoginInProcess: boolean = false;
 
   constructor(
     private app: AppService,
@@ -92,26 +93,32 @@ export class LoginComponent implements OnInit {
   login() {
     this.credentials = this.loginForm.value;
 
+    this.startLoginInProcess = true;
+
     if (this.credentials.username == '' && this.credentials.password == '') {
       this.alertService.sideErrorAlert(
         "Missing Info",
         "Please enter a username and password.",
       );
+      this.startLoginInProcess = false;
     }
     else if (this.credentials.username == '') {
       this.alertService.sideErrorAlert(
         "Missing Info",
         "Please enter a username.",
       );
+      this.startLoginInProcess = false;
     }
     else if (this.credentials.password == '') {
       this.alertService.sideErrorAlert(
         "Missing Info",
         "Please enter a password.",
       );
+      this.startLoginInProcess = false;
     }
 
     if (this.loginForm.valid) {
+
       if (this.loginForm.value.remember_login) this.saveUserNameAndPassword(this.credentials.username, this.credentials.password);
       else this.removeUserNameAndPassword(this.credentials.username);
 
@@ -147,6 +154,7 @@ export class LoginComponent implements OnInit {
             "Username or password does not matched.",
           );
           console.error('Authentication failed:', error);
+          this.startLoginInProcess = false;
         }
       });
     }
