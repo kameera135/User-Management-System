@@ -6,6 +6,7 @@
   "nameOfOrganization": "Company Name",
   "footerMessage": "Designed & Developed by SapiX",
   "moduleName": "User Management System",
+  "showTrialModeBanner": false,
   "moduleNameColor": "#4285F4",
   "defaultPlatformIcons": [
     "Aircon Extension System",

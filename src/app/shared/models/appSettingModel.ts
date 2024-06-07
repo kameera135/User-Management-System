@@ -15,6 +15,8 @@ export interface appSettingModel {
 
   nameOfOrganization: string;
 
+  showTrialModeBanner: boolean;
+
   footerMessage: string;
 
   moduleName: string;

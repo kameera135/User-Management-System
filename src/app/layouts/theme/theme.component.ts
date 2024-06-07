@@ -16,6 +16,8 @@ export class HorizontalComponent implements OnInit {
   // colorTheme:string="light";
   showTopbar: boolean = true;
 
+  showTrialModeBanner: boolean = this.appService.appConfig[0].showTrialModeBanner === true;
+
   constructor(private appService: AppService, private auth: AuthService) { }
 
   @ViewChild(NavbarComponent) childHorizontalTopBar!: NavbarComponent;

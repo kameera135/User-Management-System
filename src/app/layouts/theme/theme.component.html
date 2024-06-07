@@ -2,9 +2,6 @@
   <!-- Top Bar -->
   <app-topbar (mobileMenuButtonClicked)="onToggleMobileMenu()"></app-topbar>
 
-  <!-- Trial Mode Bar  -->
-  <app-trial-mode-bar *ngIf="isTrialMode"></app-trial-mode-bar>
-
   <!-- Navigation Bar -->
   <app-navbar></app-navbar>
 
@@ -18,5 +15,8 @@
     </div>
     <!-- Footer -->
     <app-footer></app-footer>
+
+    <!-- Trial Mode Bar  -->
+    <app-trial-mode-bar *ngIf="isTrialMode && showTrialModeBanner"></app-trial-mode-bar>
   </div>
 </div>
