@@ -16,19 +16,19 @@ export class HorizontalComponent implements OnInit {
   // colorTheme:string="light";
   showTopbar: boolean = true;
 
-  constructor(private appService: AppService, private auth: AuthService) {}
+  constructor(private appService: AppService, private auth: AuthService) { }
 
   @ViewChild(NavbarComponent) childHorizontalTopBar!: NavbarComponent;
 
   user = this.auth.getUser();
-  
-  
+
+
   licenseType = this.user?.license
-  activateWatermark: boolean = true;
+  isTrialMode: boolean = true;
 
   ngOnInit(): void {
     if (this.licenseType == "demo" || this.licenseType == "full") {
-      this.activateWatermark = false;
+      this.isTrialMode = false;
     }
 
     document.documentElement.setAttribute("data-layout", "horizontal");

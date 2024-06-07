@@ -2,10 +2,14 @@
   <!-- Top Bar -->
   <app-topbar (mobileMenuButtonClicked)="onToggleMobileMenu()"></app-topbar>
 
+  <!-- Trial Mode Bar  -->
+  <app-trial-mode-bar *ngIf="isTrialMode"></app-trial-mode-bar>
+
   <!-- Navigation Bar -->
   <app-navbar></app-navbar>
 
-  <div class="main-content" [class.with-watermark]="activateWatermark">
+
+  <div class="main-content">
     <div class="page-content pb-1">
       <div class="container-fluid">
         <!-- Main Content -->

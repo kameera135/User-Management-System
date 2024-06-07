@@ -16,6 +16,7 @@ import { SharedModule } from "../shared/shared.module";
 import { TopbarComponent } from "./topbar/topbar.component";
 import { WidgetModule } from "../shared/widget/widget.module";
 import { AuthModule } from "../auth/auth.module";
+import { TrialModeBarComponent } from "../layout/trial-mode-bar/trial-mode-bar.component";
 
 @NgModule({
     declarations: [
@@ -24,6 +25,7 @@ import { AuthModule } from "../auth/auth.module";
         FooterComponent,
         HorizontalComponent,
         NavbarComponent,
+        TrialModeBarComponent
     ],
     providers: [LanguageService],
     imports: [

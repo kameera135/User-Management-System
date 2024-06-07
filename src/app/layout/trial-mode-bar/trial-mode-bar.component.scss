@@ -1,0 +1,50 @@
+.trial-banner {
+  position: fixed;
+  bottom: -100px;
+  /* Start hidden below the viewport */
+  left: 0;
+  width: 100%;
+  background-color: #e74c3c;
+  /* Reddish color */
+  color: #fff;
+  text-align: center;
+  padding: 8.5px 0;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: slideUp 1.5s forwards;
+  z-index: 9999;
+  cursor: pointer;
+  /* Slide up animation */
+}
+
+.trial-banner p {
+  margin: 0;
+  padding: 0 10px;
+  font-size: 14px;
+}
+
+@keyframes slideUp {
+  from {
+    bottom: -100px;
+  }
+
+  to {
+    bottom: 0;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    bottom: 0;
+  }
+
+  to {
+    bottom: -100px;
+  }
+}
+
+.hide-banner {
+  animation: slideDown 1.5s forwards;
+}
