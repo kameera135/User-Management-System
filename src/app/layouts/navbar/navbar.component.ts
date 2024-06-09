@@ -67,13 +67,13 @@ export class NavbarComponent implements OnInit {
   user = this.auth.getUser();
 
   ngOnInit(): void {
-    // // Assuming this.user is already assigned the decoded response
+    // Assuming this.user is already assigned the decoded response
     if (this.user) {
       // Initialize showNavbar as false
       this.showNavbar = false;
 
       // Check if any detail object matches the specified conditions
-      if (this.user.permissions.includes("ums_admin")) {
+      if (this.user.roles.includes("Administrator")) {
         this.showNavbar = true;
       }
     }
