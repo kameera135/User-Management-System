@@ -56,10 +56,10 @@ export class PlatformUserModalComponent {
   selectedUsers: PlatformUser[] = [];
 
   roleTable: any = [];
-  
+
   showListItems: boolean = false;
-  
-  listItems: ListItem[] = []; 
+
+  listItems: ListItem[] = [];
   rolesNotAssignUserArray: any = [];
 
   roleDetailsArray: any = [];
@@ -90,11 +90,11 @@ export class PlatformUserModalComponent {
     private appService: AppService,
     private shared: PlatformUsersService,
     private alertService: MessageService,
-  ) {}
+  ) { }
 
   //FOR UNASSIGN USER TABLE
   headArray = [
-  
+
     { Head: "", FieldName: "", ColumnType: "CheckBox" },
     { Head: "User Name", FieldName: "UserName", ColumnType: "Data" },
     { Head: "First Name", FieldName: "FirstName", ColumnType: "Data" },
@@ -106,7 +106,7 @@ export class PlatformUserModalComponent {
   headArrayRolePermission = [
 
     { Head: "Role", FieldName: "RoleName", ColumnType: "Data" },
-    { Head: "Permissions", FieldName: "Permission", ColumnType: "Data"}
+    { Head: "Permissions", FieldName: "Permission", ColumnType: "Data" }
   ];
 
   //FOR ROLE TABLE
@@ -123,9 +123,9 @@ export class PlatformUserModalComponent {
       this.buttonIcon = "bi-person-plus-fill";
       this.platformUserModelViewTableOption.allowCheckbox = true;
       this.platformUserModelViewTableOption.displayPagination = true;
-      
+
     } else if (this.type == "Edit") {
-      this.buttonName = "Assign_roles";
+      this.buttonName = "Assign Roles";
       this.buttonIcon = "bi-floppy2-fill";
       this.getPlatformUserRoles();
       this.platformUserModelViewTableOption.displayPagination = false;
@@ -138,16 +138,16 @@ export class PlatformUserModalComponent {
     this.cancelButtonIcon;
     this.cancelButtonName;
 
-    if(this.type == 'View'){
+    if (this.type == 'View') {
       this.getUserRolesPermissions();
     }
-    else if(this.type == 'Edit'){
+    else if (this.type == 'Edit') {
       this.getPlatformUserRoles();
     }
-    else{
+    else {
       this.loadData();
     }
-    
+
   }
 
   //Disable when user not select role in the list
@@ -156,7 +156,7 @@ export class PlatformUserModalComponent {
   }
 
   cancel() {
-  this.showListItems = false;
+    this.showListItems = false;
   }
 
   onFormSubmit() {
@@ -174,14 +174,14 @@ export class PlatformUserModalComponent {
     this.activeModal.close(user);
 
     //FOR ASSIGN USER BUTTON CLICK FUNCTION
-    if(this.type == "Add"){
+    if (this.type == "Add") {
       this.loadSelectedRecords();
     }
   }
 
 
 
-  loadData(){
+  loadData() {
     this.loadingInProgress = true;
     if (
       this.searchTerm == undefined ||
@@ -203,7 +203,7 @@ export class PlatformUserModalComponent {
           .CouldNotRetriveDataErrorSideAlertMessage
       );
     }
-    
+
   }
 
   updateTable() {
@@ -214,17 +214,17 @@ export class PlatformUserModalComponent {
       Email: item.email,
       FirstName: item.firstName,
       LastName: item.lastName,
-      isRejecteableOrApprovableRecord:true
+      isRejecteableOrApprovableRecord: true
 
     }));
     this.tableData = this.userDetailsArray;
   }
 
   //FOR ROLE PERMISSION TABLE
-  updateRolePermissionTable(){
-    this.rolePermissionArray = this.rolePermission.map((item) =>({
+  updateRolePermissionTable() {
+    this.rolePermissionArray = this.rolePermission.map((item) => ({
       RoleId: item.roleId,
-      RoleName : item.roleName,
+      RoleName: item.roleName,
       PermissionId: item.permissionId,
       Permission: item.permission
     }));
@@ -233,8 +233,8 @@ export class PlatformUserModalComponent {
   }
 
   //FOR ROLES TABLE
-  updateRoleTable(){
-    this.roleDetailsArray = this.userList.map((item)=>({
+  updateRoleTable() {
+    this.roleDetailsArray = this.userList.map((item) => ({
       RoleId: item.roleId,
       RoleName: item.role,
     }));
@@ -253,7 +253,7 @@ export class PlatformUserModalComponent {
     this.shared
       .getAllUsers(this.platformId)
       .subscribe({
-        
+
         next: (response) => {
           this.userList = response.response;
           this.totalDataCount = response.rowCount;
@@ -276,11 +276,11 @@ export class PlatformUserModalComponent {
       });
   }
 
-  getSearchedUsers(searchedTerm:string){
+  getSearchedUsers(searchedTerm: string) {
     this.shared
-      .getSearchedUnassignUsers(searchedTerm,this.platformId)
-     .subscribe({
-        
+      .getSearchedUnassignUsers(searchedTerm, this.platformId)
+      .subscribe({
+
         next: (response) => {
           this.userList = response.response;
           this.totalDataCount = response.rowCount;
@@ -303,10 +303,10 @@ export class PlatformUserModalComponent {
       });
   }
 
-  getUserRolesPermissions(){
+  getUserRolesPermissions() {
     this.loadingInProgress = true;
-    this.shared.getUserRolesPermissions(this.userId,this.platformId).subscribe({
-      next: (response:any) => {
+    this.shared.getUserRolesPermissions(this.userId, this.platformId).subscribe({
+      next: (response: any) => {
         this.rolePermission = response;
         this.updateRolePermissionTable();
         this.loadingInProgress = false;
@@ -329,8 +329,8 @@ export class PlatformUserModalComponent {
   getAllPlatformUsersRoles() {
     this.shared
       .getAllPlatformUsersRoles(this.selectedPage, this.selectedPageSize)
-     .subscribe({
-        
+      .subscribe({
+
         next: (response) => {
           this.userList = response.response;
           this.totalDataCount = response.rowCount;
@@ -354,15 +354,15 @@ export class PlatformUserModalComponent {
   }
 
   //FOR LOAD ROLE LIST FOR ASSIGN
-  loadRoles(){
-    this.selectedItemArray = this.listItems.filter((item: { selected: any; })=> item.selected);
+  loadRoles() {
+    this.selectedItemArray = this.listItems.filter((item: { selected: any; }) => item.selected);
     this.assignRoleToUser(this.selectedItemArray);
     this.selectedItemArray = [];
   }
 
   assignRoleToUser(items: any) {
     let ids: number[] = []
-    
+
     items.forEach((element: any) => {
       ids.push(element.roleId);
     });
@@ -371,10 +371,10 @@ export class PlatformUserModalComponent {
 
 
   assignRolesToUser(ids: number[]) {
-    this.shared.assigRoleToUser(this.userId,ids).subscribe({
-      next: (response: any) =>{
+    this.shared.assigRoleToUser(this.userId, ids).subscribe({
+      next: (response: any) => {
         console.log(response);
-        this.showListItems = false;  
+        this.showListItems = false;
 
         this.alertService.sideSuccessAlert(
           "Success",
@@ -388,7 +388,7 @@ export class PlatformUserModalComponent {
           4000
         );
 
-        this.updateTable(); 
+        this.updateTable();
       },
       error: (error: any) => {
         this.alertService.sideErrorAlert(
@@ -409,29 +409,29 @@ export class PlatformUserModalComponent {
         this.selectedItemArray.push(entry);
       }
     }
-    if(this.selectedItemArray.length == 0){
+    if (this.selectedItemArray.length == 0) {
       this.alertService.warningSweetAlertMessage(
         this.appService.popUpMessageConfig[0].UserNotAssigndNotificationMessage,
         "Error!",
         4000
       );
-    }else{
+    } else {
       this.assignUser(this.selectedItemArray);
       this.selectedItemArray = [];
     }
   }
 
-  assignUser(items: any){
+  assignUser(items: any) {
     let ids: number[] = []
-    
+
     items.forEach((element: any) => {
       ids.push(element.UserId);
     });
     this.assignUsers(ids);
   }
 
-  assignUsers(id:number[]){
-      this.shared.assignUsers(this.platformId, id).subscribe({
+  assignUsers(id: number[]) {
+    this.shared.assignUsers(this.platformId, id).subscribe({
       next: (response) => {
         console.log(response);
 
@@ -458,9 +458,9 @@ export class PlatformUserModalComponent {
     });
   }
 
-  unassignRoleFromUser(item: any){
-    const id = (item as {RoleId: number}).RoleId;
-    this.shared.unassignRoleFromUser(this.userId,id).subscribe({
+  unassignRoleFromUser(item: any) {
+    const id = (item as { RoleId: number }).RoleId;
+    this.shared.unassignRoleFromUser(this.userId, id).subscribe({
       next: (response: any) => {
         console.log(response);
         this.alertService.sideSuccessAlert(
@@ -489,7 +489,7 @@ export class PlatformUserModalComponent {
     });
   }
 
-  getPlatformUserRoles(){
+  getPlatformUserRoles() {
     this.loadingInProgress = true;
     this.shared.getPlatformUserRoles(this.userId, this.platformId).subscribe({
       next: (response: any) => {
@@ -510,13 +510,13 @@ export class PlatformUserModalComponent {
     });
   }
 
-  getRolesNotAssignUsers(){
+  getRolesNotAssignUsers() {
 
-    this.shared.getRolesNotAssignUsers(this.userId,this.platformId).subscribe({
+    this.shared.getRolesNotAssignUsers(this.userId, this.platformId).subscribe({
       next: (response: any) => {
         if (Array.isArray(response)) {
-          
-          this.listItems = response.map(item => ({roleId:item.roleId, name: item.role, selected: false }));
+
+          this.listItems = response.map(item => ({ roleId: item.roleId, name: item.role, selected: false }));
           this.rolesNotAssignUserArray = response;
         } else {
           console.error('Invalid API response format:', response);
@@ -529,10 +529,10 @@ export class PlatformUserModalComponent {
   }
 
   toggleListItems() {
-      // Toggle the visibility of list items view
-      if (this.type !== 'View') {
-        this.getRolesNotAssignUsers();
-        this.showListItems = !this.showListItems;
-      }
+    // Toggle the visibility of list items view
+    if (this.type !== 'View') {
+      this.getRolesNotAssignUsers();
+      this.showListItems = !this.showListItems;
+    }
   }
 }

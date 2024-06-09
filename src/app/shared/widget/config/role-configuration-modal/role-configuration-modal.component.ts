@@ -38,7 +38,7 @@ export class RoleConfigurationModalComponent {
   @Input() permissionId!: number;
   @Input() permission!: string;
   @Input() platfromIds: any = [];
-  
+
   @Input() platformName: any = [];
 
   selectedItemArray: any = [];  //selected items for add or remove in the list
@@ -65,7 +65,7 @@ export class RoleConfigurationModalComponent {
   permissionsForRoleArray: any = [];
   permissionsForRoleList!: PermissionsForRole[];
   list: any = [];
-  
+
   permissionsNotInRoleArray: any = [];
   permissionsNotInRoleList!: PermissionsForRole[];
 
@@ -73,7 +73,7 @@ export class RoleConfigurationModalComponent {
   tableData2: any = [];
 
   showListItems: boolean = false;
-  
+
   roleConfigModalTableOptions: tableOptions = new tableOptions();
 
   // Array to hold the dropdown options
@@ -88,7 +88,7 @@ export class RoleConfigurationModalComponent {
     private appService: AppService,
     private shared: RoleConfigurationService,
     private alertService: MessageService
-  ) {}
+  ) { }
 
   values: string[] = ['Value1', 'Value2', 'Value3'];
   newRoleName: string = '';
@@ -108,15 +108,14 @@ export class RoleConfigurationModalComponent {
     } else if (this.type == "Edit") {
       this.buttonName = "Save";
       this.buttonIcon = "bi-floppy2-fill";
-    } else if(this.type == "Permission")
-    {
-      this.buttonName = "Assign_Permissions";
+    } else if (this.type == "Permission") {
+      this.buttonName = "Assign Permissions";
       this.buttonIcon = "bi-floppy2-fill";
       this.roleConfigModalTableOptions.displayPagination = false;
       this.roleConfigModalTableOptions.allowAcknowledgeButton = true;
-      this.getPermissionsForRoles(); 
+      this.getPermissionsForRoles();
     }
-     else {
+    else {
       this.buttonName = "Edit";
       this.buttonIcon = "bi-pencil-fill";
       this.getPermissionsForRoles();
@@ -125,22 +124,22 @@ export class RoleConfigurationModalComponent {
     this.getPlatformList();
 
 
-    }
+  }
 
-    //Disable when user not select permission in the list
-    atLeastOneItemSelected(): boolean {
-      return this.listItems.some(item => item.selected);
-    }
+  //Disable when user not select permission in the list
+  atLeastOneItemSelected(): boolean {
+    return this.listItems.some(item => item.selected);
+  }
 
-    cancel() {
-      this.showListItems = false;
-    }
+  cancel() {
+    this.showListItems = false;
+  }
 
   onFormSubmit() {
 
-    if ( 
+    if (
       this.roleCode == null ||
-      this.roleName == "" 
+      this.roleName == ""
     ) {
       this.notifierService.warning({
         detail: "Warning",
@@ -149,13 +148,13 @@ export class RoleConfigurationModalComponent {
       });
       return;
     }
-    else if(this.type == "Add" && (this.roleName == "" || this.platfromIds == 0)){
+    else if (this.type == "Add" && (this.roleName == "" || this.platfromIds == 0)) {
       this.notifierService.warning({
         detail: "Warning",
         summary: "Please fill required fields",
         duration: 2000,
       });
-      return; 
+      return;
     }
 
     const role = new Role();
@@ -184,7 +183,7 @@ export class RoleConfigurationModalComponent {
       Platform: item.platform,
       PermissionId: item.permissionId,
       Permission: item.permission,
-      isRejecteableOrApprovableRecord:true
+      isRejecteableOrApprovableRecord: true
     }));
     this.tableData = this.permissionsForRoleArray;
 
@@ -198,7 +197,7 @@ export class RoleConfigurationModalComponent {
       // Platform: item.platform,
       PermssionId: item.permissionId,
       Permission: item.permission,
-      isRejecteableOrApprovableRecord:true
+      isRejecteableOrApprovableRecord: true
     }));
     this.tableData2 = this.permissionsNotInRoleArray;
 
@@ -208,10 +207,10 @@ export class RoleConfigurationModalComponent {
     this.loadingInProgress = true;
     this.shared.getPermissionsForRoles(this.roleCode, this.platformId).subscribe({
       next: (response: any) => {
-       console.log("Response from permissions for roles : ", response);
+        console.log("Response from permissions for roles : ", response);
         this.permissionsForRoleList = response;
         this.updateTable();
-       // this.permissionsAsString = this.getPermissionsAsString(response);
+        // this.permissionsAsString = this.getPermissionsAsString(response);
         this.loadingInProgress = false;
       },
       error: (error) => {
@@ -226,18 +225,18 @@ export class RoleConfigurationModalComponent {
 
   getUnassignPermissionsForRoles() {
     this.loadingInProgress = true;
-    this.shared.getPermissionsNotInRole(this.platformId,this.roleCode).subscribe({
+    this.shared.getPermissionsNotInRole(this.platformId, this.roleCode).subscribe({
       next: (response: any) => {
         console.log("Response from permissions not for roles : ", response);
         this.permissionsNotInRoleList = response;
-       // this.updateTable2();
+        // this.updateTable2();
         //this.permissionsAsString = this.getPermissionsAsString(response);
         this.loadingInProgress = false;
       },
       error: (error) => {
 
         this.permissionsNotInRoleList = [];
-       // this.updateTable2();
+        // this.updateTable2();
         //this.permissionsAsString = '';
         this.loadingInProgress = false;
       },
@@ -255,16 +254,16 @@ export class RoleConfigurationModalComponent {
 
   //get permissions that not assign to roles
   getListItemsFromAPI() {
-    
+
     // Make an API request to fetch the list items
-    this.shared.getPermissionsNotInRole(this.platformId,this.roleCode).subscribe({
+    this.shared.getPermissionsNotInRole(this.platformId, this.roleCode).subscribe({
       next: (response: any) => {
-        
+
         // Check if the response is an array before mapping
         if (Array.isArray(response)) {
-          
+
           // Assuming your API response has a structure like [{ permissionId: number, permission: string }, ...]
-          this.listItems = response.map(item => ({permissionId:item.permissionId, name: item.permission, selected: false }));
+          this.listItems = response.map(item => ({ permissionId: item.permissionId, name: item.permission, selected: false }));
           this.permissionsNotInRoleArray = response;
 
         } else {
@@ -299,24 +298,24 @@ export class RoleConfigurationModalComponent {
 
   //FOR GET SELECTED PERMISSION TO ASSIGN ROLES
   loadSelectedRecords() {
-    this.selectedItemArray = this.listItems.filter((item: { selected: any; })=> item.selected);
+    this.selectedItemArray = this.listItems.filter((item: { selected: any; }) => item.selected);
     this.assignPermissionToRole(this.selectedItemArray);
   }
 
-  assignPermissionToRole(items: any){
+  assignPermissionToRole(items: any) {
     let ids: number[] = []
-    
+
     items.forEach((element: any) => {
       ids.push(element.permissionId);
     });
     this.assignPermissionsToRoles(ids);
   }
 
-  assignPermissionsToRoles(id:number[]){
-    this.shared.assignPermissionsToRole(this.roleCode,id).subscribe({
-      next: (response: any) =>{
+  assignPermissionsToRoles(id: number[]) {
+    this.shared.assignPermissionsToRole(this.roleCode, id).subscribe({
+      next: (response: any) => {
         console.log(response);
-        this.showListItems = false;  
+        this.showListItems = false;
 
         this.alertService.sideSuccessAlert(
           "Success",
@@ -330,7 +329,7 @@ export class RoleConfigurationModalComponent {
           4000
         );
         this.permissionsForRoleList = response;
-        this.updateTable(); 
+        this.updateTable();
       },
       error: (error: any) => {
         this.alertService.sideErrorAlert(
@@ -344,10 +343,10 @@ export class RoleConfigurationModalComponent {
     // permission.preventDefault();
   }
 
-  unassignPermissionFromRole(item: any){
+  unassignPermissionFromRole(item: any) {
 
-    const id = (item as {PermissionId: number}).PermissionId;
-    this.shared.unassignPermissionsFromRole(this.roleCode,id).subscribe({
+    const id = (item as { PermissionId: number }).PermissionId;
+    this.shared.unassignPermissionsFromRole(this.roleCode, id).subscribe({
       next: (response: any) => {
         console.log(response);
         this.alertService.sideSuccessAlert(
