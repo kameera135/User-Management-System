@@ -66,24 +66,24 @@ export class DashboardComponent {
     const uniquePlatforms = new Set(); // Set to keep track of unique platforms
 
     // Function to add platform details to the platform list
-    const addPlatform = (platform: string | { platformName: string; platformURL: string; platformId: string; }) => {
-      let platformId, platformName, platformURL;
+    const addPlatform = (platform: string | { platformName: string; platformURL: string; platformId: string; platformAuthURL: string }) => {
+      let platformId, platformName, platformURL, platformAuthURL;
       if (typeof platform === 'string') {
-        [platformName, platformURL, platformId] = platform.split(" || ");
+        [platformName, platformURL, platformId, platformAuthURL] = platform.split(" || ");
       } else {
         platformId = platform.platformId;
         platformName = platform.platformName;
         platformURL = platform.platformURL;
+        platformAuthURL = platform.platformAuthURL;
       }
       if (platformName && platformURL && !uniquePlatforms.has(platformName)) {
         uniquePlatforms.add(platformName);
 
         let imageUrl = `${platformURL}/assets/icons/sign-in-logo.png`;
-        let defaultImageUrl = '/assets/icons/platform.png';
 
         platformList.push({
           label: platformName,
-          path: `${platformURL}/login?session=${this.sessionId}&platformId=${platformId}`,
+          path: platformAuthURL,
           description: platformName,
           iconPath: imageUrl,
         });

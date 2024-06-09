@@ -4,4 +4,5 @@ export class Platform {
   platformName!: string;
   description!: string;
   platformUrl!: string;
+  externalLink!: boolean;
 }

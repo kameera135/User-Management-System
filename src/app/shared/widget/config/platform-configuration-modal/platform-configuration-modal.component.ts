@@ -21,7 +21,7 @@ export class PlatformConfigurationModalComponent {
   @Input() platformName!: string;
   @Input() description!: string;
   @Input() platformUrl!: string;
-  // @Input() status!: string;
+  externalLink: boolean = false;
 
   buttonName!: string;
   buttonIcon!: string;
@@ -38,7 +38,7 @@ export class PlatformConfigurationModalComponent {
     public activeModal: NgbActiveModal,
     private notifierService: NgToastService,
     private appService: AppService
-  ) {}
+  ) { }
 
   ngOnInit() {
     if (this.type == "Add") {
@@ -57,6 +57,10 @@ export class PlatformConfigurationModalComponent {
     this.cancelButtonName;
   }
 
+  checkExternalLink(event: any) {
+    this.externalLink = event.target.checked;
+  }
+
   onFormSubmit() {
     if (this.type == 'Add' && (this.platformName == "" || this.description == "" || this.platformUrl == "")) {
       this.notifierService.warning({
@@ -73,6 +77,7 @@ export class PlatformConfigurationModalComponent {
     platform.platformName = this.platformName;
     platform.description = this.description;
     platform.platformUrl = this.platformUrl;
+    platform.externalLink = this.externalLink
 
     this.activeModal.close(platform);
   }
