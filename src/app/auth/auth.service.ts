@@ -88,7 +88,8 @@ export class AuthService {
 
     if (token) {
       const payload = token.split('.')[1];
-      const decodedPayload = atob(payload);
+      const base64Payload = payload.replace(/-/g, "+").replace(/_/g, "/");
+      const decodedPayload = atob(base64Payload);
       const parsedPayload = JSON.parse(decodedPayload);
 
       if (parsedPayload.UserDetails) {
