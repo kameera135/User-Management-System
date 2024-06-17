@@ -17,3 +17,9 @@
     transform: translateY(-50%);
     z-index: 1; /* Ensure the button is above the textarea */
   }
+
+  .scrollable-table {
+    max-height: 200px; /* Adjust the height as needed */
+    overflow-y: auto;
+  }
+  

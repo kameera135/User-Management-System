@@ -114,6 +114,7 @@ export class RoleConfigurationModalComponent {
       this.roleConfigModalTableOptions.displayPagination = false;
       this.roleConfigModalTableOptions.allowCheckbox = true;
       this.roleConfigModalTableOptions.unAssignPermissionButton = true
+      this.roleConfigModalTableOptions.rowDeleteConfirmationMessage = this.appService.popUpMessageConfig[0].UnassignPermissionConfirmationMessage;
       this.getPermissionsForRoles();
     }
     else {

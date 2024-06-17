@@ -408,6 +408,7 @@ export class RoleConfigurationComponent {
         centered: true,
         backdrop: "static",
         keyboard: false,
+        
       }
     );
 

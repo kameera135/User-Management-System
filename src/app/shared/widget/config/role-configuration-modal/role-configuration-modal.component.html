@@ -58,8 +58,7 @@
     <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
       <div class="mb-0">
         <label class="col-form-label">Permissions</label>
-        <!--use acknowledge button to the unassign permission-->
-        <app-table
+          <app-table
           *ngIf="!loadingInProgress"
           [headArray]="headArray"
           [dataArray]="tableData"

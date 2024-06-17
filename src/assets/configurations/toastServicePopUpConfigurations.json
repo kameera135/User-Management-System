@@ -142,6 +142,7 @@
   "RoleAssigndNotificationMessage": "Role/s assigened successfully! ",
   "RoleAssignedSuccessSideAlertMessage": "Role/s assigned successfully !",
   "RoleAssignedErrorSideAlertMessage"  : "Roles could not be assigned. Please check your input values and try again.",
+  "UnassignPermissionConfirmationMessage": "You want to unassign permission/s?",
   "RoleUnassignedNotificationMessage": "Role Unassigned succesfully!",
   "RoleUnassignedSuccessSideAlertMessage": "Role unassigned successfully !",
   "RoleUnassignedErrorSideAlertMessage": "Could not unassign Role."
