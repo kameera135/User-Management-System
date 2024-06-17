@@ -112,7 +112,8 @@ export class RoleConfigurationModalComponent {
       this.buttonName = "Assign Permissions";
       this.buttonIcon = "bi-floppy2-fill";
       this.roleConfigModalTableOptions.displayPagination = false;
-      this.roleConfigModalTableOptions.allowAcknowledgeButton = true;
+      this.roleConfigModalTableOptions.allowCheckbox = true;
+      this.roleConfigModalTableOptions.unAssignPermissionButton = true
       this.getPermissionsForRoles();
     }
     else {
@@ -226,7 +227,6 @@ export class RoleConfigurationModalComponent {
     this.loadingInProgress = true;
     this.shared.getPermissionsNotInRole(this.platformId, this.roleCode).subscribe({
       next: (response: any) => {
-        console.log("Response from permissions not for roles : ", response);
         this.permissionsNotInRoleList = response;
         // this.updateTable2();
         //this.permissionsAsString = this.getPermissionsAsString(response);
@@ -342,9 +342,19 @@ export class RoleConfigurationModalComponent {
     // permission.preventDefault();
   }
 
-  unassignPermissionFromRole(item: any) {
+  unassignPermissions(items: any){
 
-    const id = (item as { PermissionId: number }).PermissionId;
+    let ids: number[] = []
+    
+    items.forEach((element: any) => {
+      ids.push(element.PermissionId);
+    });
+    this.unassignPermissionFromRole(ids);
+  }
+
+  unassignPermissionFromRole(id:number[]) {
+
+    //const id = (item as { PermissionId: number }).PermissionId;
     this.shared.unassignPermissionsFromRole(this.roleCode, id).subscribe({
       next: (response: any) => {
         console.log("unassign permissions from role: "+response);
