@@ -207,7 +207,6 @@ export class RoleConfigurationModalComponent {
     this.loadingInProgress = true;
     this.shared.getPermissionsForRoles(this.roleCode, this.platformId).subscribe({
       next: (response: any) => {
-        console.log("Response from permissions for roles : ", response);
         this.permissionsForRoleList = response;
         this.updateTable();
         // this.permissionsAsString = this.getPermissionsAsString(response);
@@ -348,7 +347,7 @@ export class RoleConfigurationModalComponent {
     const id = (item as { PermissionId: number }).PermissionId;
     this.shared.unassignPermissionsFromRole(this.roleCode, id).subscribe({
       next: (response: any) => {
-        console.log(response);
+        console.log("unassign permissions from role: "+response);
         this.alertService.sideSuccessAlert(
           "Success",
           this.appService.popUpMessageConfig[0]
