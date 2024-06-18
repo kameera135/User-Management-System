@@ -27,28 +27,6 @@ export class PermissionConfigurationService {
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
-  // getPermissionsByRole(role: string, page: number, pageSize: number) {
-  //   let queryParams = new HttpParams();
-  //   queryParams = queryParams.append("viewedBy", this.user?.id);
-  //   queryParams = queryParams.append("role", role);
-  //   queryParams = queryParams.append("page", page);
-  //   queryParams = queryParams.append("pageSize", pageSize);
-
-  //   const url = `${this.apiUrl}/end-point`;
-  //   return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
-  // }
-
-  // getSearchedPermissions(searchedTerm: string, page: number, pageSize: number) {
-  //   let queryParams = new HttpParams();
-  //   queryParams = queryParams.append("viewedBy", this.user?.id);
-  //   queryParams = queryParams.append("searchedTerm", searchedTerm);
-  //   queryParams = queryParams.append("page", page);
-  //   queryParams = queryParams.append("pageSize", pageSize);
-
-  //   const url = `${this.apiUrl}/end-point`;
-  //   return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
-  // }
-
   getSearchedPermissions(
     searchedTerm: string,
     page: number,
@@ -63,23 +41,6 @@ export class PermissionConfigurationService {
     const url = `${this.apiUrl}/api/configuration/permissions/${page}/${page_size}`;
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
-
-  // getSearchelPermissionsByRole(
-  //   searchedTerm: string,
-  //   role: string,
-  //   page: number,
-  //   pageSize: number
-  // ) {
-  //   let queryParams = new HttpParams();
-  //   queryParams = queryParams.append("viewedBy", this.user?.id);
-  //   queryParams = queryParams.append("searchedTerm", searchedTerm);
-  //   queryParams = queryParams.append("role", role);
-  //   queryParams = queryParams.append("page", page);
-  //   queryParams = queryParams.append("pageSize", pageSize);
-
-  //   const url = `${this.apiUrl}/end-point`;
-  //   return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
-  // }
 
   postPermission(model: Permission) {
     let queryParams = new HttpParams();

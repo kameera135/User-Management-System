@@ -145,6 +145,7 @@
   "UnassignPermissionConfirmationMessage": "You want to unassign permission/s?",
   "RoleUnassignedNotificationMessage": "Role Unassigned succesfully!",
   "RoleUnassignedSuccessSideAlertMessage": "Role unassigned successfully !",
-  "RoleUnassignedErrorSideAlertMessage": "Could not unassign Role."
+  "RoleUnassignedErrorSideAlertMessage": "Could not unassign Role.",
+  "UnassignRoleConfirmationMessage": "You want to unassign Role/s?"
 }
 

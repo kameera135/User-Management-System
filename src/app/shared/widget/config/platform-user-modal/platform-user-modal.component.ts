@@ -129,7 +129,9 @@ export class PlatformUserModalComponent {
       this.buttonIcon = "bi-floppy2-fill";
       this.getPlatformUserRoles();
       this.platformUserModelViewTableOption.displayPagination = false;
-      this.platformUserModelViewTableOption.allowAcknowledgeButton = true;
+      this.platformUserModelViewTableOption.allowCheckbox = true;
+      this.platformUserModelViewTableOption.unAssignPermissionButton = true;  //For unassing roles from user. Use same for unassing permissions from user.
+      this.platformUserModelViewTableOption.rowDeleteConfirmationMessage = this.appService.popUpMessageConfig[0].UnassignRoleConfirmationMessage;
     } else {
       this.buttonName = "Edit";
       this.buttonIcon = "bi-pencil-fill";
@@ -237,6 +239,7 @@ export class PlatformUserModalComponent {
     this.roleDetailsArray = this.userList.map((item) => ({
       RoleId: item.roleId,
       RoleName: item.role,
+      isRejecteableOrApprovableRecord: true
     }));
     this.roleTable = this.roleDetailsArray;
   }
@@ -458,8 +461,18 @@ export class PlatformUserModalComponent {
     });
   }
 
-  unassignRoleFromUser(item: any) {
-    const id = (item as { RoleId: number }).RoleId;
+  unassignRoles(items: any){
+
+    let ids: number[] = []
+    
+    items.forEach((element: any) => {
+      ids.push(element.RoleId);
+    });
+    this.unassignRoleFromUser(ids);
+  }
+
+  unassignRoleFromUser(id: number[]) {
+    //const id = (item as { RoleId: number }).RoleId;
     this.shared.unassignRoleFromUser(this.userId, id).subscribe({
       next: (response: any) => {
         console.log(response);

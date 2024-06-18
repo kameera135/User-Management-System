@@ -56,15 +56,15 @@
     </div>
 
     <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
-      <div class="mb-0">
+      <div class="mb-0 scrollable-table-container">
         <label class="col-form-label">Permissions</label>
           <app-table
-          *ngIf="!loadingInProgress"
-          [headArray]="headArray"
-          [dataArray]="tableData"
-          [dataTableOptions]="roleConfigModalTableOptions"
-          (onDelete)="unassignPermissions($event)"
-        >
+            *ngIf="!loadingInProgress"
+            [headArray]="headArray"
+            [dataArray]="tableData"
+            [dataTableOptions]="roleConfigModalTableOptions"
+            (onDelete)="unassignPermissions($event)"
+          >
         </app-table>
       </div>
     </div>
@@ -107,38 +107,6 @@
       <div class="form-text text-muted" *ngIf="type == 'Edit'">Select the platform</div>
     </div>
 
-    <!-- <div class="col-12" *ngIf="type != 'Add' && type != 'Edit' && type != 'View'">
-        <div class="mb-3">
-            <label class="col-form-label">Permissions</label>
-            <div class="input-group">
-                <textarea 
-                    class="form-control" 
-                    name="permission"
-                    [ngModel]="permissionsAsString"
-                    [disabled]="!isEditable || type === 'View' || type == 'Permission'" 
-                    cols="30" 
-                    rows="15">
-                </textarea>
-                <div class="input-group-append" *ngIf="type != 'View'">
-                    <button class="btn btn-outline-secondary edit-button" type="button" (click)="toggleListItems()">
-                      <i class="fas fa-plus"></i> 
-                    </button>
-                </div>
-            </div>
-        </div> -->
-        <!-- Box to display list items -->
-        <!-- <div class="list-items-box" *ngIf="showListItems">
-            <ul>
-                <li *ngFor="let item of listItems">
-                    <label>
-                        <input type="checkbox" [(ngModel)]="item.selected" [ngModelOptions]="{standalone: true}"/>
-                        {{ item.name }}
-                    </label>
-                </li>
-            </ul>
-            <button class="btn btn-primary" (click)="addSelectedItems()">Done</button>
-        </div>
-    </div> -->
 
     <div class="col-6" *ngIf="type != 'Add' && type != 'Edit' && type != 'Permission'">
       <div class="mb-3">
@@ -182,12 +150,12 @@
       <!-- Box to display list items -->
       <div class="list-items-box" *ngIf="showListItems">
         <ul>
-            <li *ngFor="let item of listItems">
-                <label>
-                    <input type="checkbox" [(ngModel)]="item.selected" [ngModelOptions]="{standalone: true}"/>
-                    {{ item.name }}
-                </label>
-            </li>
+          <div *ngFor="let item of listItems" class="list-item">
+            <label>
+              <input type="checkbox" [(ngModel)]="item.selected" [ngModelOptions]="{standalone: true}"/>
+              {{ item.name }}
+            </label>
+          </div>
         </ul>
         <button type="submit" class="btn btn-primary align-items-center" style="margin-right: 30px;"  [disabled]="!atLeastOneItemSelected()" (click)="loadSelectedRecords()">Done</button>
         <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
@@ -195,7 +163,7 @@
     </div>
 
     <div class="col-12 mx-auto">
-      <div class="d-flex justify-content-end">
+      <div class="d-flex justify-content-end w-auto">
         <button type="submit" class="btn btn-success btn-label mt-3" *ngIf="type != 'Permission'">
           <i class="bi {{ buttonIcon }} label-icon align-middle fs-16 me-2"></i>{{ buttonName }}
         </button>
