@@ -110,25 +110,6 @@
           </div>
         </div>
 
-        <!-- <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
-          <div class="mb-3">
-            <label class="col-form-label">Platform*</label>
-            <ng-select
-              [(ngModel)]="platform"
-              [multiple]="false"
-              [placeholder]="platform ? platform : 'Select'"
-              name="selectRole"
-              style="width: auto"
-              [clearable]="false"
-              [disabled]="type == 'View'"
-            >
-              <ng-option *ngFor="let role of roleList" [value]="role.value">
-                {{ role.value }}
-              </ng-option>
-            </ng-select>
-          </div>
-        </div> -->
-
         <div class="col-12" *ngIf="type != 'Add' && type != 'Edit'">
           <div class="mb-3">
             <label class="col-form-label">Platforms and Roles</label>
@@ -166,7 +147,7 @@
         *ngIf="(showPasswordFields && isFormValid() && type === 'Add') || (showPasswordFields && type === 'Edit')">
         <div class="col-12">
           <div class="mb-3">
-            <label class="col-form-label">Password</label>
+            <label class="col-form-label">New Password</label>
             <input type="{{ hidePassword ? 'password' : 'text' }}" class="form-control" name="password"
               formControlName="password" />
             <span class="eyeicon">
@@ -178,11 +159,11 @@
 
         <div class="col-12">
           <div class="mb-3">
-            <label class="col-form-label">Confirm Password</label>
-            <input type="{{ hidePassword ? 'password' : 'text' }}" class="form-control" name="confirmPassword"
+            <label class="col-form-label">Retype new Password</label>
+            <input type="{{ hideConfirmPassword ? 'password' : 'text' }}" class="form-control" name="confirmPassword"
               formControlName="confirmPassword" />
             <span class="eyeicon">
-              <i class="bi bi-eye-fill h5" (click)="togglePasswordVisibility()"
+              <i class="bi bi-eye-fill h5" (click)="togglePasswordVisibilityNew()"
                 [ngClass]="visible?'bi bi-eye-fill':'bi bi-eye-slash-fill'"></i>
             </span>
           </div>
