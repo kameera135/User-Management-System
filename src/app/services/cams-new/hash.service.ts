@@ -8,8 +8,9 @@ export class HashService {
   constructor() { }
 
   async generateHash(value: string): Promise<string> {
+    const now = new Date().toISOString(); //Get date value
     const encoder = new TextEncoder();
-    const data = encoder.encode(value);
+    const data = encoder.encode(now);
 
     // Use a new SubtleCrypto instance to generate SHA-256 hash
     const subtleCrypto = crypto.subtle || (<any>crypto).webkitSubtle;
