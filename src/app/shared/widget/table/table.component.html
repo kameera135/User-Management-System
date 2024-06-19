@@ -5,7 +5,7 @@
   <div id="apiKeyList">
     <div style="padding: 10px">
       <div class="row modalContentBorder">
-        <div class="table-responsive" style="padding: 0">
+        <div [ngClass]="{'scrollable-table-container': scrollable}" class="table-responsive" style="padding: 0">
           <table
             class="table align-middle table-nowrap mb-0"
             *ngIf="!noDataFound"

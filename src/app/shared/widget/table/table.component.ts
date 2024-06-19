@@ -44,6 +44,8 @@ export class TableComponent {
 
   @Input() pageSizeArray: any[] = ["5", "10", "20", "50", "100"];
 
+  @Input() scrollable: boolean = false;
+
   @Output() onEdit = new EventEmitter(); //Handles Edit click
 
   @Output() onDelete = new EventEmitter(); //Handles Delete Click
@@ -75,6 +77,8 @@ export class TableComponent {
   @Output() onViewPermission = new EventEmitter();
 
   @Output() onViewPlaformUsers = new EventEmitter();
+
+
 
   selectedItemArray: any[] = [];
 
