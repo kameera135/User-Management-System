@@ -29,10 +29,49 @@
   }
 }
 
+// .applications-grid {
+//   display: grid;
+//   justify-content: center;
+//   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+//   gap: 20px;
+// }
+
 .applications-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap; /* To allow items to wrap to the next line */
   gap: 20px;
+}
+
+.applications-grid > * {
+  flex: 1 1 200px; /* Allows items to grow, shrink, and have a minimum width of 200px */
+  max-width: calc(33.33% - 40px); /* Assuming you want three items per row with a gap of 20px */
+  box-sizing: border-box; /* Ensures padding and border are included in the width */
+}
+
+/* Media queries for responsiveness */
+@media (min-width: 1200px) {
+  .applications-grid > * {
+    max-width: calc(33.33% - 20px); /* 3 items per row on large screens */
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .applications-grid > * {
+    max-width: calc(33.33% - 20px); /* 3 items per row on medium screens */
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .applications-grid > * {
+    max-width: calc(50% - 20px); /* 2 items per row on small screens */
+  }
+}
+
+@media (max-width: 767.98px) {
+  .applications-grid > * {
+    max-width: calc(100% - 20px); /* 1 item per row on extra small screens */
+  }
 }
 
 .application-tile {
