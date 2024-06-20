@@ -361,11 +361,11 @@ export class SystemTokensComponent {
         this.alertService.sideSuccessAlert(
           "Success",
           this.appService.popUpMessageConfig[0]
-            .TokenAddedSuccessSideAlertMessage
+            .TokenUpdatedSuccessSideAlertMessage
         );
         this.alertService.successSweetAlertMessage(
           this.appService.popUpMessageConfig[0]
-            .TokenAddedNotificationMessage,
+            .TokenUpdatedNotificationMessage,
           "Updated!",
           4000
         );
@@ -376,7 +376,7 @@ export class SystemTokensComponent {
         this.alertService.sideErrorAlert(
           "Error",
           this.appService.popUpMessageConfig[0]
-            .TokenAddedErrorSideAlertMessage
+            .TokenUpdatedErrorSideAlertMessage
         );
         //this.alertService.warningSweetAlertMessage(error.error, "Error!", 4000);
       },

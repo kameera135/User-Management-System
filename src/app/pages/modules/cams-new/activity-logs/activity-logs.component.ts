@@ -66,7 +66,7 @@ export class ActivityLogsComponent {
     { Head: "Activity Type", FieldName: "ActivityType", ColumnType: "Data" },
     { Head: "Description", FieldName: "Description", ColumnType: "Data" },
     { Head: "Time", FieldName: "CreatedAt", ColumnType: "Data" },
-    { Head: "Actions", FieldName: "", ColumnType: "Action" },
+    // { Head: "Actions", FieldName: "", ColumnType: "Action" },
   ];
 
   tableData: any = [];
