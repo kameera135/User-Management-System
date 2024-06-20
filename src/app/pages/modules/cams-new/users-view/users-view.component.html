@@ -8,18 +8,8 @@
     <div class="card">
       <div class="card-header">
         <div class="row h-auto">
-          <div class="col-lg-2 d-flex align-items-center">
+          <div class="col-lg-5 d-flex align-items-center">
             <h2 class="p-0 m-0">Users</h2>
-          </div>
-
-          <div class="col-lg-5">
-            <button type="button" class="btn btn-primary float-end" (click)="onBulkUsersClicked()">
-              <i class="bi bi-people-fill label-icon align-middle fs-16 me-2"></i>
-              Add Bulk Users</button>
-
-            <button type="button" class="btn btn-primary float-end me-4" (click)="onAddUserButtonClicked()">
-              <i class="bi bi-person-plus-fill label-icon align-middle fs-16 me-2"></i>
-              Add User</button>
           </div>
 
           <div class="col-lg-2">
@@ -34,6 +24,16 @@
           <div class="col-lg-3">
             <input (keyup)="getSearchTerm($event)" [(ngModel)]="searchTerm" type="text" id="searchKey"
               class="form-control input-sm" placeholder="Search User" />
+          </div>
+
+          <div class="col-lg-3 p-0 w-auto">
+            <button type="button" class="btn btn-primary float-end" (click)="onBulkUsersClicked()">
+              <i class="bi bi-people-fill label-icon align-middle fs-16 me-2"></i>
+              Add Bulk Users</button>
+
+            <button type="button" class="btn btn-primary float-end me-3" (click)="onAddUserButtonClicked()">
+              <i class="bi bi-person-plus-fill label-icon align-middle fs-16 me-2"></i>
+              Add User</button>
           </div>
         </div>
       </div>

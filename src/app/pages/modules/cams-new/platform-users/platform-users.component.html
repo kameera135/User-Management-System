@@ -7,33 +7,7 @@
         <div class="card">
           <div class="card-header">
             <div class="row">
-              <div class="col-5 col-lg-4 mt-1"><h3>{{platformName}} Users</h3></div>
-      
-              <div class="col-4 col-lg-5 mt-1">
-                <a
-                  class="btn btn-primary float-end"
-                  style="margin-right: 3"
-                  (click)="onAddUserButtonClicked()"
-                >
-                  <i
-                    class="bi bi-person-plus-fill label-icon align-middle fs-16 me-2"
-                  ></i>
-                  Assign Users</a
-                >
-              </div>
-      
-              <!-- <div class="col-2 col-lg-2 mt-1">
-                <select
-                  class="form-select"
-                  aria-label="Platform"
-                  [(ngModel)]="selectedRole"
-                  (change)="loadData()">
-                  <option selected value="">Select...</option>
-                  <option *ngFor="let item of platformList" [value]="item.value">
-                    {{ item.value }}
-                  </option>
-                </select>
-              </div> -->
+              <div class="col-5 col-lg-8 mt-1"><h3>{{platformName}} Users</h3></div>
       
               <div class="form-outline col-3 col-lg-3 mt-1">
                 <input
@@ -44,6 +18,19 @@
                   class="form-control input-sm"
                   placeholder="Search User"
                 />
+              </div>
+
+              <div class="col-4 w-auto mt-1 p-0">
+                <a
+                  class="btn btn-primary float-end"
+                  style="margin-right: 3"
+                  (click)="onAddUserButtonClicked()"
+                >
+                  <i
+                    class="bi bi-person-plus-fill label-icon align-middle fs-16 me-2"
+                  ></i>
+                  Assign Users</a
+                >
               </div>
             </div>
           </div>

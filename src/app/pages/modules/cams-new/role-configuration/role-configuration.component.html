@@ -9,33 +9,7 @@
     <div class="card">
       <div class="card-header">
         <div class="row">
-          <div class="col-2 col-lg-3 mt-1"><h2>Roles</h2></div>
-  
-          <div class="col-4 col-lg-4 mt-1">
-            <a
-              class="btn btn-primary float-end"
-              style="margin-right: 3"
-              (click)="onAddRoleButtonClicked()"
-            >
-              <i
-                class="bi bi-plus-square-fill label-icon align-middle fs-16 me-2"
-              ></i>
-              Add Role</a
-            >
-          </div>
-  
-          <!-- <div class="col-2 col-lg-2 mt-1">
-            <select
-              class="form-select"
-              aria-label="Platform"
-              [(ngModel)]="selectedRole"
-              (change)="loadData()"
-            >
-              <option *ngFor="let item of roleList" [value]="item.value">
-                {{ item.value }}
-              </option>
-            </select>
-          </div> -->
+          <div class="col-2 col-lg-6 mt-1"><h2>Roles</h2></div>
 
           <div class="col-2 col-lg-2 mt-2">
             <ng-select
@@ -64,6 +38,18 @@
               class="form-control input-sm"
               placeholder="Search Role"
             />
+          </div>
+          <div class="col-4 col-lg-4 mt-1 w-auto">
+            <a
+              class="btn btn-primary float-end"
+              style="margin-right: 3"
+              (click)="onAddRoleButtonClicked()"
+            >
+              <i
+                class="bi bi-plus-square-fill label-icon align-middle fs-16 me-2"
+              ></i>
+              Add Role</a
+            >
           </div>
         </div>
       </div>

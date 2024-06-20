@@ -7,36 +7,10 @@
 <div class="row mb-3 mx-1">
   <div class="card">
     <div class="card-header">
-      <div class="row">
-        <div class="col-12 col-sm-10 col-lg-5 mt-1"><h2>Platforms</h2></div>
+      <div class="row d-flex">
+        <div class="col-lg-8 mt-1"><h2>Platforms</h2></div>
 
-        <div class="col-8 col-sm-5 col-lg-4 mt-1 mb-sm-10">
-          <a
-            class="btn btn-primary float-end"
-            style="margin-right: 3"
-            (click)="onAddPlatformButtonClicked()"
-          >
-            <i
-              class="bi bi-plus-square-fill label-icon align-middle fs-16 fs-sm-14 me-2"
-            ></i>
-            Add Platform</a
-          >
-        </div>
-
-        <!-- <div class="col-2 col-lg-2 mt-1">
-          <select
-            class="form-select"
-            aria-label="Platform"
-            [(ngModel)]="selectedRole"
-            (change)="loadData()"
-          >
-            <option *ngFor="let item of roleList" [value]="item.value">
-              {{ item.value }}
-            </option>
-          </select>
-        </div> -->
-
-        <div class="form-outline col-4 col-sm-6 col-lg-3 mt-1">
+        <div class="form-outline col-sm-6 w-25 mt-1 mx-0">
           <input
             (keyup)="getSearchTerm($event)"
             [(ngModel)]="searchTerm"
@@ -45,6 +19,19 @@
             class="form-control input-sm"
             placeholder="Search Platform"
           />
+        </div>
+
+        <div class="col-2 w-auto col-sm-5 mt-1 p-0 m-0 mb-sm-10">
+          <a
+            class="btn btn-primary float-end"
+            style="margin-right: 2"
+            (click)="onAddPlatformButtonClicked()"
+          >
+            <i
+              class="bi bi-plus-square-fill label-icon align-middle fs-16 fs-sm-14 me-1"
+            ></i>
+            Add Platform</a
+          >
         </div>
       </div>
     </div>
