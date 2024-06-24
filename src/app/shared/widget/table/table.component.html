@@ -377,7 +377,21 @@
                 <i
                   class="bi bi-download label-icon align-middle fs-16 me-2"
                 ></i>
-                Export
+                Export Page
+              </button>
+
+              <!--Export all activity log details-->
+              <button
+                type="button"
+                *ngIf="allowtoExport"
+                (click)="ExportAllReportButtonPress()"
+                class="btn btn-primary btn-label"
+                Generate="Generate Report"
+              >
+                <i
+                  class="bi bi-download label-icon align-middle fs-16 me-2"
+                ></i>
+                Export All
               </button>
 
               <button

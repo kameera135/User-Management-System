@@ -62,6 +62,8 @@ export class TableComponent {
 
   @Output() onReportGenerateClick = new EventEmitter(); //Handles Row double click
 
+  @Output() onExportALLClick = new EventEmitter(); //Export all details of activity logs
+
   @Output() onAddTMClick = new EventEmitter(); //Handle Clicking Tenant Manager
 
   @Output() onAddFMClick = new EventEmitter(); //Handle Clicking Facility Manager
@@ -487,6 +489,10 @@ export class TableComponent {
 
   GenerateReportButtonPress() {
     this.onReportGenerateClick.emit();
+  }
+
+  ExportAllReportButtonPress() {
+    this.onExportALLClick.emit();
   }
 
   selectPage(page: string) {
