@@ -320,6 +320,8 @@
                         (click)="confirm(updateModel, item, '')"
                         Generate="Edit"
                         ngbTooltip="Edit"
+                        data-placement="top"
+                        data-toggle="tooltip"
                         [disabled]="item['isRejecteableOrApprovableRecord']"
                       >
                         <i class="bi bi-pencil-fill text-muted"></i>
@@ -333,6 +335,8 @@
                         (click)="confirm(updateModel, item, '')"
                         Generate="Edit"
                         ngbTooltip="Edit"
+                        data-toggle="tooltip"
+                        data-placement="top"
                         [disabled]="!item['isRejecteableOrApprovableRecord']"
                       >
                         <i class="bi bi-pencil-fill text-dark"></i>

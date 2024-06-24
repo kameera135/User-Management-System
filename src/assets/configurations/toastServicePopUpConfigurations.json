@@ -102,18 +102,18 @@
   "RoleDeactivateNotificationMessage": "Roles have been deactivated.",
   "RoleDeactivatedErrorSideAlertMessage": "Deactivation failed.",
 
-  "UpdateTokenConfirmationMessage": "You want to update Token details?",
-  "DeleteTokenConfirmationMessage": "You want to delete Token/s?",
+  "UpdateTokenConfirmationMessage": "You want to update token details?",
+  "DeleteTokenConfirmationMessage": "You want to delete token/s?",
   "GetTokenListErrorSideAlertMessage": "Could not retrieve the data list.",
   "TokenAddedSuccessSideAlertMessage": "Token added successfully !",
   "TokenAddedNotificationMessage": "Token has been added",
-  "TokenAddedErrorSideAlertMessage": "Could not add a Token.",
+  "TokenAddedErrorSideAlertMessage": "Could not add a token.",
   "TokenUpdatedSuccessSideAlertMessage": "Token updated successfully !",
   "TokenUpdatedNotificationMessage": "Token has been updated",
-  "TokenUpdatedErrorSideAlertMessage": "Could not update Token.",
+  "TokenUpdatedErrorSideAlertMessage": "Could not update token.",
   "TokenDeletedSuccessSideAlertMessage": "Tokens deleted successfully !",
   "TokenDeletedNotificationMessage": "Token/s have been deleted",
-  "TokenDeletedErrorSideAlertMessage": "Could not delete Tokens.",
+  "TokenDeletedErrorSideAlertMessage": "Could not delete tokens.",
 
   "GetActivityLogsErrorSideAlertMessage": "Could not retrieve activity logs.",
 
