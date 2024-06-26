@@ -7,12 +7,12 @@
   <div class="row mb-3 mx-1">
     <div class="card">
       <div class="card-header">
-        <div class="row h-auto">
-          <div class="col-lg-3 col-xl-3 col-xxl-4 d-flex align-items-center">
+        <div class="row">
+          <div class="col-lg-2 col-xl-4 d-flex align-items-center">
             <h2 class="p-0 m-0">Users</h2>
           </div>
 
-          <div class="col-lg-2 col-xl-2 col-xxl-2">
+          <div class="col-12 col-md-12 col-lg-2 mt-2">
             <select [(ngModel)]="selectedPlatform" [multiple]="false" (change)="onPlatformSelect()" name="comboBox"
               class="form-select">
               <option *ngFor="let item of platformListDefault" [value]="item.id">
@@ -21,22 +21,34 @@
             </select>
           </div>
 
-          <div class="col-lg-3 col-xl-3 col-xxl-3 p-0">
+          <div class="col-lg-2 p-0 mt-2">
             <input (keyup)="getSearchTerm($event)" [(ngModel)]="searchTerm" type="text" id="searchKey"
               class="form-control input-sm" placeholder="Search user by name" />
           </div>
 
-          <div class="p-0 col-lg-4 col-xl-4 col-xxl-3 d-flex flex-row justify-content-end">
+          <div class="col-12 col-lg-3 col-xl-2 col-md-12 col-sm-12 mt-sm-2 mt-md-2 mt-sm-2 mt-2 d-flex flex-column justify-content-end">
+            <button type="button" class="btn btn-primary me-2" (click)="onAddUserButtonClicked()">
+              <i class="bi bi-person-plus-fill label-icon align-middle fs-16"></i>
+              Add User</button>
+          </div>
 
-            <button type="button" class="btn btn-primary float-end me-2" (click)="onAddUserButtonClicked()">
+          <div class = "col-12 col-lg-3 col-xl-2 col-md-12 col-sm-12 mt-sm-2 mt-md-2 mt-sm-2 mt-2 d-flex flex-column justify-content-end">
+            <button type="button" class="btn btn-primary" (click)="onBulkUsersClicked()">
+              <i class="bi bi-people-fill label-icon align-middle fs-16 me-0"></i>
+              Add Bulk Users</button>
+          </div>
+
+          <!-- <div class="col-12 mt-2 col-sm-6 col-lg-5 col-xl-4 d-flex flex-row justify-content-between bg-success">
+
+            <button type="button" class="btn btn-primary me-2" (click)="onAddUserButtonClicked()">
               <i class="bi bi-person-plus-fill label-icon align-middle fs-16 me-2"></i>
               Add User</button>
 
-            <button type="button" class="btn btn-primary float-end" (click)="onBulkUsersClicked()">
-              <i class="bi bi-people-fill label-icon align-middle fs-16 me-1"></i>
+            <button type="button" class="btn btn-primary" (click)="onBulkUsersClicked()">
+              <i class="bi bi-people-fill label-icon align-middle fs-16 me-0"></i>
               Add Bulk Users</button>
 
-          </div>
+          </div> -->
         </div>
       </div>
 

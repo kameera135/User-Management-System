@@ -9,9 +9,9 @@
     <div class="card">
       <div class="card-header">
         <div class="row">
-          <div class="col-2 col-md-7 col-lg-5 mt-1"><h2>Roles</h2></div>
+          <div class="col-12 col-sm-12 col-md-7 col-lg-5 mt-1"><h2>Roles</h2></div>
 
-          <div class="col-2 col-md-6 col-lg-2 mt-2">
+          <div class="col-12 col-sm-6 col-md-6 col-lg-2 mt-2">
             <ng-select
               [(ngModel)]="selectedPlatform"
               [multiple]="false"
@@ -29,7 +29,7 @@
             </ng-select>
           </div>
   
-          <div class="form-outline col-3 col-md-4 col-lg-3 mt-2">
+          <div class="form-outline col-12 col-sm-6 col-md-6 col-lg-3 mt-2">
             <input
               (keyup)="getSearchTerm($event)"
               [(ngModel)]="searchTerm"
@@ -39,7 +39,7 @@
               placeholder="Search role by name"
             />
           </div>
-          <div class="col-4 col-lg-2 col-md-4 col-sm-6 d-flex flex-column justify-content-end">
+          <div class="col-12 col-lg-2 col-md-12 col-sm-12 mt-md-2 mt-sm-2 mt-2 d-flex flex-column justify-content-end">
             <a
               class="btn btn-primary float-end"
               style="margin-right: 3"
