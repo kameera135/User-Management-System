@@ -57,7 +57,7 @@ export class ActivityLogsService {
     );
     queryParams = queryParams.append(
       "lastDateString",
-      this.convertToStartOfDay(lastDate.toISOString())
+      this.convertToStartOfDay(lastDate.toISOString(),true)
     );
 
     // const url = `${this.apiUrl}/api/activity_logs/${year}/${month}/${page}/${pageSize}`;
@@ -65,9 +65,50 @@ export class ActivityLogsService {
     return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
   }
 
-  convertToStartOfDay(dateTimeString: string): string {
+  convertToStartOfDay(dateTimeString: string, addOneDay: boolean = false): string {
     const date = new Date(dateTimeString);
-    date.setUTCHours(0, 0, 0, 0);
+    
+    // Get the local timezone offset in minutes
+    const timezoneOffset = date.getTimezoneOffset();
+    
+    // Set the time to 00:00:00 in local time
+    date.setHours(0, 0, 0, 0);
+
+    if (addOneDay) {
+      date.setDate(date.getDate() + 1);
+    }
+    
+    // Adjust for the timezone offset to get the correct start of the day in UTC
+    date.setMinutes(date.getMinutes() - timezoneOffset);
+    
     return date.toISOString();
   }
+
+  //For export all activity logs data
+  exportAll(
+    platformId: number,
+    roleId: number,
+    firstDate: Date,
+    lastDate: Date,
+    userId: number
+  ) {
+    let queryParams = new HttpParams();
+    // queryParams = queryParams.append("viewedBy", this.user?.id);
+    queryParams = queryParams.append("platformId", platformId);
+    queryParams = queryParams.append("roleId", roleId);
+    queryParams = queryParams.append("userId", userId);
+    queryParams = queryParams.append(
+      "firstDateString",
+      this.convertToStartOfDay(firstDate.toISOString())
+    );
+    queryParams = queryParams.append(
+      "lastDateString",
+      this.convertToStartOfDay(lastDate.toISOString(),true)
+    );
+
+    // const url = `${this.apiUrl}/api/activity_logs/${year}/${month}/${page}/${pageSize}`;
+    const url = `${this.apiUrl}/api/activity_logs/exportAll`;
+    return this.httpClient.get<PaginatedResponse>(url, { params: queryParams });
+  }
+  
 }

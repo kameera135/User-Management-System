@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h5 class="modal-title fs-4" id="addReadingsModal">{{ modalTitle }}</h5>
+    <h5 class="modal-title fs-4" id="addReadingsModal">{{ modalType }}</h5>
     <button
       id="btnCommonModalClose"
       type="button"
@@ -15,51 +15,82 @@
 
 <form #form = "ngForm" (ngSubmit)="onFormSubmit()">
     <div class="row modal-body">
-        <div class="col-12">
-            <div class="mb-3">
-              <label class="col-form-label">Password</label>
-              <input
-                type="{{ hidePassword ? 'password' : 'text' }}"
-                class="form-control"
-                [(ngModel)]="password"
-                name="password"
-                [disabled]="false"
-              />
-              <span class="eyeicon">
-                <i class="bi bi-eye-fill h5" (click)="togglePasswordVisibility()" [ngClass]="visible?'bi bi-eye-fill':'bi bi-eye-slash-fill'"></i>
-              </span>
-              <div class="input-group"></div>
-            </div>
+      <div class="col-12">
+        <div class="mb-3">
+          <label class="col-form-label">Current Password</label>
+          <input
+            type="{{ hideOldPassword ? 'password' : 'text' }}"
+            class="form-control"
+            [(ngModel)]="oldPassword"
+            name="password"
+            [disabled]="false"
+          />
+          <span class="eyeicon">
+            <i class="bi bi-eye-fill h5" (click)="togglePasswordVisibility()" [ngClass]="visible?'bi bi-eye-fill':'bi bi-eye-slash-fill'"></i>
+          </span>
+          <div class="input-group"></div>
         </div>
+    </div>
+      <div class="col-12">
+          <div class="mb-3">
+            <label class="col-form-label">New Password</label>
+            <input
+              type="{{ hidePassword ? 'password' : 'text' }}"
+              class="form-control"
+              [(ngModel)]="password"
+              name="password"
+              [disabled]="false"
+            />
+            <span class="eyeicon">
+              <i class="bi bi-eye-fill h5" (click)="togglePasswordVisibilityNew()" [ngClass]="visible?'bi bi-eye-fill':'bi bi-eye-slash-fill'"></i>
+            </span>
+            <div class="input-group"></div>
+          </div>
+      </div>
 
-        <div class="col-12">
-            <div class="mb-3">
-              <label class="col-form-label">Confirm Password</label>
-              <input
-                type="{{ hidePassword ? 'password' : 'text' }}"
-                class="form-control"
-                [(ngModel)]="confirmPaswword"
-                name="password"
-                [disabled]="false"
-              />
-              <span class="eyeicon">
-                <i class="bi bi-eye-fill h5" (click)="togglePasswordVisibility()" [ngClass]="visible?'bi bi-eye-fill':'bi bi-eye-slash-fill'"></i>
-              </span>
-              <div class="input-group"></div>
-            </div>
-        </div>
+      <div class="col-12">
+          <div class="mb-3">
+            <label class="col-form-label">Retype New Password</label>
+            <input
+              type="{{ hideConfirmPassword ? 'password' : 'text' }}"
+              class="form-control"
+              [(ngModel)]="confirmPaswword"
+              name="password"
+              [disabled]="false"
+            />
+            <span class="eyeicon">
+              <i class="bi bi-eye-fill h5" (click)="togglePasswordVisibilityReNew()" [ngClass]="visible?'bi bi-eye-fill':'bi bi-eye-slash-fill'"></i>
+            </span>
+            <div class="input-group"></div>
+          </div>
+      </div>
 
-        <div class="col-12 mx-auto">
-            <div class="d-flex justify-content-end">
-              <button type="submit" class="btn btn-success btn-label mt-3">
-                <i class="bi {{ buttonIcon }} label-icon align-middle fs-16 me-2"></i>{{ buttonName }}
-              </button>
-      
-              <!--Cancel button-->
-              <button type="button" class="btn btn-danger btn-label mt-3 ms-2" (click)="activeModal.dismiss()">
-                <i class="bi {{ cancelButtonIcon }} label-icon align-middle fs-16 me-2"></i>{{ cancelButtonName }}
-              </button>
-            </div>
+      <div class="col-12">
+        <div class="mb-3 mt-3">
+          <h6>Password Policy</h6>
+          <ul>
+            <li>Your new password must be at least 8 characters long and contain at least 3 of the following:</li>
+            <ul>
+              <li>Upper case letters</li>
+              <li>Lower case letters</li>
+              <li>Numbers</li>
+              <li>Special characters</li>
+            </ul>
+          </ul>
         </div>
+      </div>
+
+      <div class="col-12 mx-auto">
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-success btn-label mt-3">
+              <i class="bi {{ buttonIcon }} label-icon align-middle fs-16 me-2"></i>{{ buttonName }}
+            </button>
+    
+            <!--Cancel button-->
+            <button type="button" class="btn btn-danger btn-label mt-3 ms-2" (click)="activeModal.dismiss()">
+              <i class="bi {{ cancelButtonIcon }} label-icon align-middle fs-16 me-2"></i>{{ cancelButtonName }}
+            </button>
+          </div>
+      </div>
     </div>
 </form>

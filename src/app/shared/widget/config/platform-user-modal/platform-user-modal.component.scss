@@ -18,9 +18,12 @@
     padding: 5px;
     z-index: 1; /* Ensure it's above other elements */
     /* Adjust the following properties for position as needed */
-    top: 317px; /* Example top position */
-    left: 25%; /* Example left position */
-    width: 200px; /* Example width */
+    top: 65px; /* Example top position */
+    left: 15%; /* Example left position */
+    width: 260px; /* Example width */
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc; 
 }
 
   

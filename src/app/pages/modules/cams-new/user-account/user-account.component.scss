@@ -6,3 +6,8 @@
 .error-text {
   color: red;
 }
+
+.custom-border:hover {
+  background-color: #686566; /* Use a dark background color */
+  color: #ffffff; /* Ensure the text color is readable */
+}

@@ -53,6 +53,8 @@ export class tableOptions {
 
   unAssignUserButton: boolean = false;
 
+  unAssignPermissionButton: boolean = false;
+
   tableTitle: string = ""; //Display the title of the table above the table
 
   rowDeleteConfirmationMessage: string = "";

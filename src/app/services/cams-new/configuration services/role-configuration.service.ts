@@ -162,16 +162,22 @@ export class RoleConfigurationService {
       params: queryParams,
     });
   }
+  
+  unassignPermissionsFromRole(roleId: number, list: number[]){
 
-  unassignPermissionsFromRole(roleId: number, permissionId: number){
+    let queryParams = new HttpParams();
 
-  let queryParams = new HttpParams();
+    const requestBody = {
+      roleId: roleId,
+      permissionIds: list
+    }
 
-  queryParams = queryParams.append("roleId", roleId);
-  queryParams = queryParams.append("permissionId",permissionId);
-  queryParams = queryParams.append("createdBy",this.user?.id);
+    queryParams = queryParams.append("deletedBy", this.user?.id);
 
-  const url = `${this.apiUrl}/api/configuration/permissions/role/unassign`;
-  return this.httpClient.delete(url, {params :queryParams});
+    return this.httpClient.delete(`${this.apiUrl}/api/configuration/permissions/role/unassign`,
+    {
+      params: queryParams,
+      body: requestBody
+    });
   }
 }

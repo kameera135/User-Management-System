@@ -557,7 +557,7 @@ export class PermissionConfigurationComponent {
         );
         this.alertService.successSweetAlertMessage(
           this.appService.popUpMessageConfig[0].PermissionActivateNotificationMessage,
-          "Actvated!",
+          "Activated!",
           4000
         );
 
@@ -592,7 +592,7 @@ export class PermissionConfigurationComponent {
         this.alertService.successSweetAlertMessage(
           this.appService.popUpMessageConfig[0]
             .PermissionDeactivateNotificationMessage,
-          "Deactvated!",
+          "Deactivated!",
           4000
         );
 

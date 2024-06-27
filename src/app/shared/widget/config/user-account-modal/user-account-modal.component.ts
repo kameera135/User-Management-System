@@ -12,13 +12,16 @@ import { User } from 'src/app/shared/models/Cams-new/User';
 export class UserAccountModalComponent {
 
   @Input() type!: string;
-  @Input() modalTitle!: string;
+  @Input() modalType!: string;
   @Input() userId!:number
   @Input() password!:string;
+  @Input() oldPassword!:string;
   @Input() confirmPaswword!:string;
 
 
   hidePassword: boolean = true;
+  hideOldPassword: boolean = true;
+  hideConfirmPassword: boolean = true;
   visible: boolean = true;
 
 
@@ -41,6 +44,8 @@ export class UserAccountModalComponent {
 
   onFormSubmit() {
     if(
+      this.oldPassword == "" ||
+      this.oldPassword == undefined ||
       this.password == "" ||
       this.password == undefined ||
       this.confirmPaswword == undefined ||
@@ -73,7 +78,17 @@ export class UserAccountModalComponent {
 
   //toggle for password visibility
   togglePasswordVisibility(){
+    this.hideOldPassword = !this.hideOldPassword;
+    this.visible = !this.visible
+  }
+  
+  togglePasswordVisibilityNew(){
     this.hidePassword = !this.hidePassword;
+    this.visible = !this.visible
+  }
+
+  togglePasswordVisibilityReNew(){
+    this.hideConfirmPassword = !this.hideConfirmPassword;
     this.visible = !this.visible
   }
 }

@@ -46,6 +46,7 @@ export class UserViewModalComponent {
   showRequiredMessage = false;
 
   hidePassword: boolean = true;
+  hideConfirmPassword: boolean = true;
   visible: boolean = true;
 
   rolesViewTableOptions: tableOptions = new tableOptions();
@@ -127,6 +128,10 @@ export class UserViewModalComponent {
     this.visible = !this.visible
   }
 
+  togglePasswordVisibilityNew() {
+    this.hideConfirmPassword = !this.hideConfirmPassword;
+    this.visible = !this.visible
+  }
 
   getRolesAndPlatforms(userId: number) {
     this.loadingInProgress = true;
@@ -171,7 +176,7 @@ export class UserViewModalComponent {
       this.notifierService.warning({
         detail: 'Warning',
         summary: 'Please fill required fields',
-        duration: 2000,
+        duration: 2500,
       });
       return;
     }
@@ -179,7 +184,7 @@ export class UserViewModalComponent {
     if ((this.form.value.password) != this.form.value.confirmPassword) {
       this.notifierService.warning({
         detail: "Warning",
-        summary: "Please confirm the correct password",
+        summary: "Two password fields are does not match. Enter same password",
         duration: 2000,
       });
       return;

@@ -40,43 +40,43 @@ export class MenuService {
       subItems: [
         {
           id: 3,
-          label: "Platform Configuration",
+          label: "Platforms",
           link: "/platform-configuration",
           parentId: 100,
           module: "1",
         },
         {
           id: 4,
-          label: "Role Configuration",
+          label: "Roles",
           link: "/role-configuration",
           parentId: 100,
           module: "1",
         },
         {
           id: 6,
-          label: "Permission Configuration",
+          label: "Permissions",
           link: "/permission-configuration",
           parentId: 100,
           module: "1",
         },
       ],
     },
-    {
-      id: 400,
-      label: "Password Policy",
-      collapseid: "sidebarDashboards",
-      icon: "bi-file-earmark-lock",
-      module: "1",
-      subItems: [
-        {
-          id: 4,
-          label: "Password Policy",
-          link: "/password-policy",
-          parentId: 102,
-          module: "1",
-        },
-      ],
-    },
+    // {
+    //   id: 400,
+    //   label: "Password Policy",
+    //   collapseid: "sidebarDashboards",
+    //   icon: "bi-file-earmark-lock",
+    //   module: "1",
+    //   subItems: [
+    //     {
+    //       id: 4,
+    //       label: "Password Policy",
+    //       link: "/password-policy",
+    //       parentId: 102,
+    //       module: "1",
+    //     },
+    //   ],
+    // },
     {
       id: 500,
       label: "Tokens",

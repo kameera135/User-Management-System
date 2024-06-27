@@ -50,7 +50,7 @@ import { PlatformUsersComponent } from "./modules/cams-new/platform-users/platfo
     PasswordPolicyComponent,
     SystemTokensComponent,
     PlatformUsersComponent
-  ],
+  ],  
   imports: [
     CommonModule,
     FormsModule,

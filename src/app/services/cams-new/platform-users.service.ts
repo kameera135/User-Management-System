@@ -205,14 +205,32 @@ export class PlatformUsersService {
     });
   }
 
-  unassignRoleFromUser(userId:number,roleId:number) {
+  // unassignRoleFromUser(userId:number,roleId:number) {
+  //   let queryParams = new HttpParams();
+
+  //   queryParams = queryParams.append("userId", userId);
+  //   queryParams = queryParams.append("roleId",roleId);
+  //   queryParams = queryParams.append("deletedBy",this.user?.id);
+
+  //   const url = `${this.apiUrl}/api/user/roles`;
+  //   return this.httpClient.delete(url, {params :queryParams});
+  // }
+
+  unassignRoleFromUser(userId: number, list: number[]){
+
     let queryParams = new HttpParams();
 
-    queryParams = queryParams.append("userId", userId);
-    queryParams = queryParams.append("roleId",roleId);
-    queryParams = queryParams.append("deletedBy",this.user?.id);
+    const requestBody = {
+      userId: userId,
+      roleIds: list
+    }
 
-    const url = `${this.apiUrl}/api/user/roles`;
-    return this.httpClient.delete(url, {params :queryParams});
+    queryParams = queryParams.append("deletedBy", this.user?.id);
+
+    return this.httpClient.delete(`${this.apiUrl}/api/user/roles`,
+    {
+      params: queryParams,
+      body: requestBody
+    });
   }
 }

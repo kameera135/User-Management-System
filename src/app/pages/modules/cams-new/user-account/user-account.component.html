@@ -12,174 +12,117 @@
           </div>
         </div>
 
-        <div class="card-body pb-3">
-          <div class="row">
-            <div class="card-body">
-              <div class="row align-items-end">
-                <div>
-                  <div class="row mb-4 align-items-baseline">
-                    <div class="col-3">
-                      <label class="form-label">Username*</label>
+        <form #userForm = "ngForm">
+          <div class="card-body pb-3">
+            <div class="row">
+              <div class="card-body">
+                <div class="row align-items-end">
+                  <div>
+                    <div class="row mb-4 align-items-baseline">
+                      <div class="col-3">
+                        <label class="form-label">Username*</label>
+                      </div>
+                      <div class="col-9">
+                        <input type="text" class="form-control" [(ngModel)]="tempUser.userName" name="userName"
+                          required="true"
+                          [disabled]="!isEditMode" />
+                      </div>
                     </div>
-                    <div class="col-9">
-                      <input type="text" class="form-control" [(ngModel)]="tempUser.userName" name="userName"
-                        [disabled]="!isEditMode" />
+  
+                    <div class="row mb-4 align-items-baseline">
+                      <div class="col-3">
+                        <label class="form-label">Password*</label>
+                      </div>
+                      <div class="col-9">
+                        <div>
+                          <button (click)="changePassword($event)" type="button"
+                            class="btn btn-light btn-label mt-2 custom-border" style="width: 100%"
+                            [disabled]="!isEditMode">
+                            <i class="bi bi-key label-icon align-middle fs-16 me-2"></i>Change Password
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-
-                  <div class="row mb-4 align-items-baseline">
-                    <div class="col-3">
-                      <label class="form-label">Password*</label>
+  
+                    <div class="row mb-4 align-items-baseline">
+                      <div class="col-3">
+                        <label class="form-label">First Name*</label>
+                      </div>
+                      <div class="col-9">
+                        <input type="text" class="form-control" [(ngModel)]="tempUser.firstName" name="firstName"
+                          [disabled]="!isEditMode"
+                          required="true" />
+                      </div>
                     </div>
-                    <div class="col-9">
-                      <div>
-                        <button (click)="changePassword($event)" type="button"
-                          class="btn btn-light btn-label mt-2 custom-border" style="width: 100%"
-                          [disabled]="!isEditMode">
-                          <i class="bi bi-key label-icon align-middle fs-16 me-2"></i>Change Password
-                        </button>
+  
+                    <div class="row mb-4 align-items-baseline">
+                      <div class="col-3">
+                        <label class="form-label">Last Name*</label>
+                      </div>
+                      <div class="col-9">
+                        <input type="text" class="form-control" [(ngModel)]="tempUser.lastName" name="lastName"
+                          [disabled]="!isEditMode" 
+                          required="true" />
+                      </div>
+                    </div>
+  
+                    <div class="row mb-4 align-items-baseline">
+                      <div class="col-3">
+                        <label class="form-label">Email*</label>
+                      </div>
+                      <div class="col-9">
+                        <input type="text" class="form-control" [(ngModel)]="tempUser.email" name="email" #email="ngModel"
+                          required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" [disabled]="!isEditMode" />
+                        <div *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+                          <div *ngIf="email?.errors?.['required']">
+                            <span class="error-text">Email is required.</span>
+                          </div>
+                          <div *ngIf="email?.errors?.[ 'pattern' ]">
+                            <span class="error-text">Invalid Email. Please check the email format.</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+  
+                    <div class="row mb-4 align-items-baseline">
+                      <div class="col-3">
+                        <label class="form-label">Phone Number</label>
+                      </div>
+                      <div class="col-9">
+                        <input type="text" class="form-control" [(ngModel)]="tempUser.phone" name="phone" #phone="ngModel"
+                          required pattern="^65\d{8}$" [disabled]="!isEditMode" />
+                        <div *ngIf="phone?.invalid && (phone?.dirty || phone?.touched)">
+                          <div *ngIf="phone?.errors?.['required']">
+                            <span class="error-text">Phone Number is required.</span>
+                          </div>
+                          <div *ngIf="phone?.errors?.[ 'pattern' ]">
+                            <span class="error-text">Invalid phone number. Please enter only numeric values or check the
+                              number length or format.</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-
-                  <!-- <div class="row mb-4 align-items-baseline">
-                  <div class="col-3">
-                    <label class="form-label">Profile Picture</label>
-                  </div>
-                  <div class="col-9">
-                    <div>
-                      <button
-                        (click)="changeImage($event)"
-                        type="button"
-                        class="btn btn-light btn-label mt-2 custom-border"
-                        style="width: 100%"
-                        [disabled]="!isEditMode"
-                      >
-                        <i
-                          class="bi-person-circle label-icon align-middle fs-16 me-2"
-                        ></i
-                        >Upload Profile Picture
+  
+                  <div class="col-12 d-flex justify-content-end">
+                    <div class="mb-2">
+                      <button (click)="isEditMode ? onSaveClicked() : onEditClicked()" type="button"
+                        class="btn btn-primary btn-label mt-2" [disabled]="isEditMode && !userForm.valid">
+                        <i class="bi bi-pencil-fill label-icon align-middle fs-16 me-2"></i>
+                        {{ isEditMode ? 'Save' : 'Edit' }} Account
+                      </button>
+                      <button *ngIf="isEditMode" (click)="onUndoClicked()" type="button"
+                        class="btn btn-info btn-label mt-2 ms-2">
+                        <i class="bi bi-arrow-counterclockwise label-icon align-middle fs-16 me-2"></i>
+                        Undo
                       </button>
                     </div>
-                  </div>
-                </div> -->
-
-                  <div class="row mb-4 align-items-baseline">
-                    <div class="col-3">
-                      <label class="form-label">First Name*</label>
-                    </div>
-                    <div class="col-9">
-                      <input type="text" class="form-control" [(ngModel)]="tempUser.firstName" name="firstName"
-                        [disabled]="!isEditMode" />
-                    </div>
-                  </div>
-
-                  <div class="row mb-4 align-items-baseline">
-                    <div class="col-3">
-                      <label class="form-label">Last Name*</label>
-                    </div>
-                    <div class="col-9">
-                      <input type="text" class="form-control" [(ngModel)]="tempUser.lastName" name="lastName"
-                        [disabled]="!isEditMode" />
-                    </div>
-                  </div>
-
-                  <!-- <div class="row mb-4 align-items-baseline">
-                  <div class="col-3">
-                    <label class="form-label">Role*</label>
-                  </div>
-                  <div class="col-9">
-                    <input
-                      type="text"
-                      class="form-control"
-                      [(ngModel)]="role"
-                      name="role"
-                      [disabled]="!isEditMode"
-                    />
-                  </div>
-                </div> -->
-
-                  <div class="row mb-4 align-items-baseline">
-                    <div class="col-3">
-                      <label class="form-label">Email*</label>
-                    </div>
-                    <div class="col-9">
-                      <input type="text" class="form-control" [(ngModel)]="tempUser.email" name="email" #email="ngModel"
-                        required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" [disabled]="!isEditMode" />
-                      <div *ngIf="email?.invalid && (email?.dirty || email?.touched)">
-                        <div *ngIf="email?.errors?.['required']">
-                          <span class="error-text">Email is required.</span>
-                        </div>
-                        <div *ngIf="email?.errors?.[ 'pattern' ]">
-                          <span class="error-text">Invalid Email. Please check the email format.</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row mb-4 align-items-baseline">
-                    <div class="col-3">
-                      <label class="form-label">Phone Number</label>
-                    </div>
-                    <div class="col-9">
-                      <input type="text" class="form-control" [(ngModel)]="tempUser.phone" name="phone" #phone="ngModel"
-                        required pattern="^65\d{8}$" [disabled]="!isEditMode" />
-                      <div *ngIf="phone?.invalid && (phone?.dirty || phone?.touched)">
-                        <div *ngIf="phone?.errors?.['required']">
-                          <span class="error-text">Phone Number is required.</span>
-                        </div>
-                        <div *ngIf="phone?.errors?.[ 'pattern' ]">
-                          <span class="error-text">Invalid phone number. Please enter only numeric values or check the
-                            number length or format.</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- <div class="row mb-4 align-items-baseline">
-                  <div class="col-3">
-                    <label class="form-label">User Profile</label>
-                  </div>
-                  <div class="col-9">
-                    <input
-                      type="text"
-                      class="form-control"
-                      [(ngModel)]="userProfile"
-                      name="firstName"
-                      [disabled]="false"
-                    />
-                  </div>
-                </div> -->
-                </div>
-
-                <div class="col-12 d-flex justify-content-end">
-                  <div class="mb-2">
-                    <!-- <button
-                    (click)="onEditClicked()"
-                    type="button"
-                    class="btn btn-primary btn-label mt-2"
-                  >
-                    <i
-                      class="bi bi-pencil-fill label-icon align-middle fs-16 me-2"
-                    ></i
-                    >Edit Account
-                  </button> -->
-                    <button (click)="isEditMode ? onSaveClicked() : onEditClicked()" type="button"
-                      class="btn btn-primary btn-label mt-2">
-                      <i class="bi bi-pencil-fill label-icon align-middle fs-16 me-2"></i>
-                      {{ isEditMode ? 'Save' : 'Edit' }} Account
-                    </button>
-                    <button *ngIf="isEditMode" (click)="onUndoClicked()" type="button"
-                      class="btn btn-info btn-label mt-2 ms-2">
-                      <i class="bi bi-arrow-counterclockwise label-icon align-middle fs-16 me-2"></i>
-                      Undo
-                    </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </form>
       </div>
       <!-- </div> -->
 

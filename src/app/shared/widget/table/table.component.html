@@ -5,7 +5,7 @@
   <div id="apiKeyList">
     <div style="padding: 10px">
       <div class="row modalContentBorder">
-        <div class="table-responsive" style="padding: 0">
+        <div [ngClass]="{'scrollable-table-container': scrollable}" class="table-responsive" style="padding: 0">
           <table
             class="table align-middle table-nowrap mb-0"
             *ngIf="!noDataFound"
@@ -240,6 +240,8 @@
                         (click)="confirm(updateModel, item, '')"
                         Generate="Edit"
                         ngbTooltip="Edit"
+                        placement="top"
+                        container="body"
                       >
                         <i class="bi bi-pencil-fill text-muted"></i>
                       </button>
@@ -254,6 +256,8 @@
                         (click)="showPlatformUserView(item)"
                         Generate="User"
                         ngbTooltip="User"
+                        placement="top"
+                        container="body"
                       >
                         <i class="bi bi-people-fill text-muted"></i>
                       </button>
@@ -268,6 +272,8 @@
                         (click)="loadPermissionData(item)"
                         Generate="Permissions"
                         ngbTooltip="Permissions"
+                        placement="top"
+                        container="body"
                       >
                         <i class="bi bi-shield-fill text-muted"></i>
                       </button>
@@ -320,6 +326,8 @@
                         (click)="confirm(updateModel, item, '')"
                         Generate="Edit"
                         ngbTooltip="Edit"
+                        placement="top"
+                        container="body"
                         [disabled]="item['isRejecteableOrApprovableRecord']"
                       >
                         <i class="bi bi-pencil-fill text-muted"></i>
@@ -331,9 +339,11 @@
                         data-bs-target="#createTask"
                         data-edit-id="15"
                         (click)="confirm(updateModel, item, '')"
+                        [disabled]="!item['isRejecteableOrApprovableRecord']"
                         Generate="Edit"
                         ngbTooltip="Edit"
-                        [disabled]="!item['isRejecteableOrApprovableRecord']"
+                        placement="top"
+                        container="body"
                       >
                         <i class="bi bi-pencil-fill text-dark"></i>
                       </button>
@@ -377,7 +387,21 @@
                 <i
                   class="bi bi-download label-icon align-middle fs-16 me-2"
                 ></i>
-                Export
+                Export Page
+              </button>
+
+              <!--Export all activity log details-->
+              <button
+                type="button"
+                *ngIf="allowtoExport"
+                (click)="ExportAllReportButtonPress()"
+                class="btn btn-primary btn-label"
+                Generate="Generate Report"
+              >
+                <i
+                  class="bi bi-download label-icon align-middle fs-16 me-2"
+                ></i>
+                Export All
               </button>
 
               <button
@@ -486,6 +510,22 @@
                 ></i>
                 Remove
               </button>
+
+              <!--unassign permissions button-->
+              <button
+              type="button"
+              [disabled]="!bulkDeleteAllowed"
+              *ngIf="unAssignPermission"
+              (click)="confirm(deleteModal, -1, 'Delete')"
+              class="btn btn-danger btn-label"
+              Generate="Bulk Delete"
+              ngbTooltip="Remove"
+            >
+              <i
+                class="bi bi-dash-square label-icon align-middle fs-16 me-2"
+              ></i>
+              Remove
+            </button>
             </div>
           </div>
         </div>

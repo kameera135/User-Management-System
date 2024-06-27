@@ -408,6 +408,7 @@ export class RoleConfigurationComponent {
         centered: true,
         backdrop: "static",
         keyboard: false,
+        
       }
     );
 
@@ -650,7 +651,7 @@ export class RoleConfigurationComponent {
         this.alertService.successSweetAlertMessage(
           this.appService.popUpMessageConfig[0]
             .RoleActivateNotificationMessage,
-          "Actvated!",
+          "Activated!",
           4000
         );
 
@@ -684,7 +685,7 @@ export class RoleConfigurationComponent {
         this.alertService.successSweetAlertMessage(
           this.appService.popUpMessageConfig[0]
             .RoleDeactivateNotificationMessage,
-          "Deactvated!",
+          "Deactivated!",
           4000
         );
 

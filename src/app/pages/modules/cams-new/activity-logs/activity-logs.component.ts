@@ -31,6 +31,7 @@ export class ActivityLogsComponent {
   monthList: any[] = [];
 
   activityLogList!: ActivityLogData[];
+  exportAllList!: ActivityLogData[];
   activityLogsArray: any = [];
 
   totalDataCount!: number;
@@ -66,10 +67,11 @@ export class ActivityLogsComponent {
     { Head: "Activity Type", FieldName: "ActivityType", ColumnType: "Data" },
     { Head: "Description", FieldName: "Description", ColumnType: "Data" },
     { Head: "Time", FieldName: "CreatedAt", ColumnType: "Data" },
-    { Head: "Actions", FieldName: "", ColumnType: "Action" },
+    // { Head: "Actions", FieldName: "", ColumnType: "Action" },
   ];
 
   tableData: any = [];
+  tableAllData: any = [];
 
   constructor(
     private breadcrumbService: BreadcrumbService,
@@ -101,6 +103,7 @@ export class ActivityLogsComponent {
 
   ngOnInit(): void {
     this.usersViewTableOptions.allowExportButton = true;
+    this.usersViewTableOptions.displayPagination = true;
 
     this.model_from = this.initialFromDate;
 
@@ -144,6 +147,13 @@ export class ActivityLogsComponent {
           this.lastDate,
           0
         );
+        this.exportAll(
+          0,
+          0,
+          this.firstDate,
+          this.lastDate,
+          0
+        );
       } else if (
         this.selectedPlatform != 0 &&
         this.selectedPlatform != undefined &&
@@ -152,6 +162,13 @@ export class ActivityLogsComponent {
         this.getActivityLogs(
           this.selectedPage,
           this.selectedPageSize,
+          this.selectedPlatform,
+          0,
+          this.firstDate,
+          this.lastDate,
+          0
+        );
+        this.exportAll(
           this.selectedPlatform,
           0,
           this.firstDate,
@@ -173,12 +190,26 @@ export class ActivityLogsComponent {
           this.lastDate,
           0
         );
+        this.exportAll(
+          this.selectedPlatform,
+          this.selectedRole,
+          this.firstDate,
+          this.lastDate,
+          0
+        );
       }
     } else {
       if (this.selectedPlatform == 0 || this.selectedPlatform == undefined) {
         this.getActivityLogs(
           this.selectedPage,
           this.selectedPageSize,
+          0,
+          0,
+          this.firstDate,
+          this.lastDate,
+          this.selectedUser
+        );
+        this.exportAll(
           0,
           0,
           this.firstDate,
@@ -199,6 +230,13 @@ export class ActivityLogsComponent {
           this.lastDate,
           this.selectedUser
         );
+        this.exportAll(
+          this.selectedPlatform,
+          0,
+          this.firstDate,
+          this.lastDate,
+          this.selectedUser
+        );
       } else if (
         this.selectedPlatform != 0 &&
         this.selectedPlatform != undefined &&
@@ -208,6 +246,13 @@ export class ActivityLogsComponent {
         this.getActivityLogs(
           this.selectedPage,
           this.selectedPageSize,
+          this.selectedPlatform,
+          this.selectedRole,
+          this.firstDate,
+          this.lastDate,
+          this.selectedUser
+        );
+        this.exportAll(
           this.selectedPlatform,
           this.selectedRole,
           this.firstDate,
@@ -231,6 +276,22 @@ export class ActivityLogsComponent {
       CreatedAt: this.convertDateFormat(item.createdAt),
     }));
     this.tableData = this.activityLogsArray;
+  }
+
+  //For export all activities
+  updateAllTable(){
+    this.activityLogsArray = this.exportAllList.map((item) => ({
+      LogId: item.logId,
+      UserName: item.userName,
+      PlatformName: item.platformName,
+      PlatformId: item.platformId,
+      RoleName: item.roleName,
+      ActivityType: item.activityType,
+      Description: item.description,
+      Details: item.details,
+      CreatedAt: this.convertDateFormat(item.createdAt),
+    }));
+    this.tableAllData = this.activityLogsArray;
   }
 
   onPaginationChange(page: number): void {
@@ -402,6 +463,43 @@ export class ActivityLogsComponent {
       });
   }
 
+  //For export all activity logs
+  exportAll(
+    platformId: number,
+    roleId: number,
+    firstDate: Date,
+    lastDate: Date,
+    userId: number
+  ) {
+    this.shared
+      .exportAll(
+        platformId,
+        roleId,
+        firstDate,
+        lastDate,
+        userId
+      )
+      .subscribe({
+        next: (response: any) => {
+          this.exportAllList = response;
+          this.updateAllTable();
+          this.loadingInProgress = false;
+        },
+        error: (error: any) => {
+          this.alertService.sideErrorAlert(
+            "Error",
+            //"Could not retrieve the data list."
+            this.appService.popUpMessageConfig[0]
+              .GetActivityLogsErrorSideAlertMessage
+          );
+
+          this.exportAllList = [];
+          this.updateAllTable();
+          this.loadingInProgress = false;
+        },
+      });
+    }
+
   //"2024-01-17T02:56:10.733 -> Jan 17, 2024, 2:56:10 AM
   convertDateFormat(inputDate: string): string {
     const inputDateTime = new Date(inputDate);
@@ -505,6 +603,74 @@ export class ActivityLogsComponent {
         this.tableData[i].ActivityType,
         this.tableData[i].Description,
         this.tableData[i].CreatedAt,
+      ];
+      arrayOfArrayData.push(rowData);
+    }
+
+    this.getDateTime();
+    arrayOfArrayData.push([], ["Generated On : ", `${this.exportDateTime}`]);
+
+    this.reportService.generateExcelFile(
+      arrayOfArrayData,
+      sheetName,
+      reportName
+    );
+  }
+
+  //Handle the export all activities
+  downloadExcelAll() {
+    var reportName = `Activity Logs (${this.formatDate(
+      this.firstDate
+    )} - ${this.formatDate(this.lastDate)})`;
+    var sheetName = `Activity Logs`;
+
+    var arrayOfArrayData = [
+      ["Activity Logs"],
+      [],
+      [`From`, `${this.formatDate(this.firstDate)}`],
+      [`To`, `${this.formatDate(this.lastDate)}`],
+      [
+        `User`,
+        `${
+          this.getSelectedUserName(this.selectedUser) ||
+          this.userListDefault[0].value
+        }`,
+      ],
+      [
+        `Platform`,
+        `${
+          this.getSelectedPlatformName(this.selectedPlatform) ||
+          this.platformListDefault[0].value
+        }`,
+      ],
+      [
+        `Role`,
+        `${
+          this.getSelectedRoleName(this.selectedRole) ||
+          this.roleListDefault[0].value
+        }`,
+      ],
+      [],
+      [
+        "Log Id",
+        "Username",
+        "Platform",
+        "Role",
+        "Activity Type",
+        "Description",
+        "Time",
+      ],
+    ];
+
+    for (var i = 0; i < this.tableAllData.length; i++) {
+      var rowData: any = [
+        this.tableAllData[i].LogId,
+        this.tableAllData[i].UserName,
+        this.tableAllData[i].PlatformName,
+        this.tableAllData[i].RoleName,
+        this.tableAllData[i].ActivityType,
+        this.tableAllData[i].Description,
+        this.tableAllData[i].CreatedAt,
       ];
       arrayOfArrayData.push(rowData);
     }

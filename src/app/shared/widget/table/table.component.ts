@@ -44,6 +44,8 @@ export class TableComponent {
 
   @Input() pageSizeArray: any[] = ["5", "10", "20", "50", "100"];
 
+  @Input() scrollable: boolean = false;
+
   @Output() onEdit = new EventEmitter(); //Handles Edit click
 
   @Output() onDelete = new EventEmitter(); //Handles Delete Click
@@ -60,6 +62,8 @@ export class TableComponent {
 
   @Output() onReportGenerateClick = new EventEmitter(); //Handles Row double click
 
+  @Output() onExportALLClick = new EventEmitter(); //Export all details of activity logs
+
   @Output() onAddTMClick = new EventEmitter(); //Handle Clicking Tenant Manager
 
   @Output() onAddFMClick = new EventEmitter(); //Handle Clicking Facility Manager
@@ -75,6 +79,8 @@ export class TableComponent {
   @Output() onViewPermission = new EventEmitter();
 
   @Output() onViewPlaformUsers = new EventEmitter();
+
+
 
   selectedItemArray: any[] = [];
 
@@ -116,6 +122,8 @@ export class TableComponent {
   allowtoDelete: boolean = false;
 
   unAssignUser: boolean = false;
+
+  unAssignPermission: boolean = false;
 
   allowExportAsExcel: boolean = false;
 
@@ -277,6 +285,8 @@ export class TableComponent {
       this.allowtoDelete = this.dataTableOptions.allowDeleteButton;
 
       this.unAssignUser = this.dataTableOptions.unAssignUserButton;
+
+      this.unAssignPermission =  this.dataTableOptions.unAssignPermissionButton;
 
       this.allowtoApprove = this.dataTableOptions.allowApproveButton;
 
@@ -479,6 +489,10 @@ export class TableComponent {
 
   GenerateReportButtonPress() {
     this.onReportGenerateClick.emit();
+  }
+
+  ExportAllReportButtonPress() {
+    this.onExportALLClick.emit();
   }
 
   selectPage(page: string) {
