@@ -48,6 +48,9 @@ export class PlatformUserModalComponent {
   cancelButtonIcon: string = "bi-x-circle-fill";
   cancelButtonName: string = "Cancel";
 
+  selectAll: boolean = true;
+  selectAllButtonLabel: string = 'Select All';
+
   userList!: PlatformUser[];
   userModal!: PlatformUser;
   rolePermission!: UserRolePermissions[];
@@ -159,6 +162,17 @@ export class PlatformUserModalComponent {
 
   cancel() {
     this.showListItems = false;
+  }
+
+  toggleSelectAll() {
+    this.listItems.forEach(item => item.selected = this.selectAll);
+    this.selectAllButtonLabel = this.selectAll ? 'Unselect All' : 'Select All';
+    this.selectAll = !this.selectAll;
+  }
+
+  //Check list of permissions are emplty or not.
+  isListEmpty() {
+    return this.listItems.length === 0;
   }
 
   onFormSubmit() {

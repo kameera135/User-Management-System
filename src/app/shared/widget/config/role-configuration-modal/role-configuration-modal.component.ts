@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { ChangeDetectorRef, Component, Input } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgToastService } from "ng-angular-popup";
 import { AppService } from "src/app/app.service";
@@ -74,6 +74,9 @@ export class RoleConfigurationModalComponent {
 
   showListItems: boolean = false;
 
+  selectAll: boolean = true;
+  selectAllButtonLabel: string = 'Select All';
+
   roleConfigModalTableOptions: tableOptions = new tableOptions();
 
   // Array to hold the dropdown options
@@ -87,7 +90,8 @@ export class RoleConfigurationModalComponent {
     private notifierService: NgToastService,
     private appService: AppService,
     private shared: RoleConfigurationService,
-    private alertService: MessageService
+    private alertService: MessageService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   values: string[] = ['Value1', 'Value2', 'Value3'];
@@ -135,6 +139,17 @@ export class RoleConfigurationModalComponent {
 
   cancel() {
     this.showListItems = false;
+  }
+
+  toggleSelectAll() {
+    this.listItems.forEach(item => item.selected = this.selectAll);
+    this.selectAllButtonLabel = this.selectAll ? 'Unselect All' : 'Select All';
+    this.selectAll = !this.selectAll;
+  }
+
+  //Check list of permissions are emplty or not.
+  isListEmpty() {
+    return this.listItems.length === 0;
   }
 
   onFormSubmit() {
