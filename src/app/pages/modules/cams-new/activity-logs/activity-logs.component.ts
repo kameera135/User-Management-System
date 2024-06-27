@@ -33,6 +33,7 @@ export class ActivityLogsComponent {
   activityLogList!: ActivityLogData[];
   exportAllList!: ActivityLogData[];
   activityLogsArray: any = [];
+  allActivityLogsArray: any = [];
 
   totalDataCount!: number;
   selectedPage: number = 1;
@@ -280,7 +281,7 @@ export class ActivityLogsComponent {
 
   //For export all activities
   updateAllTable(){
-    this.activityLogsArray = this.exportAllList.map((item) => ({
+    this.allActivityLogsArray = this.exportAllList.map((item) => ({
       LogId: item.logId,
       UserName: item.userName,
       PlatformName: item.platformName,
@@ -291,7 +292,7 @@ export class ActivityLogsComponent {
       Details: item.details,
       CreatedAt: this.convertDateFormat(item.createdAt),
     }));
-    this.tableAllData = this.activityLogsArray;
+    this.tableAllData = this.allActivityLogsArray;
   }
 
   onPaginationChange(page: number): void {
