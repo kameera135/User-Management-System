@@ -7,10 +7,19 @@
   /* Adjust the following properties for position as needed */
   top: 65px; 
   left: 10%; 
-  width: 260px; 
+  width: 270px; 
   max-height: 200px;
   overflow-y: auto;
   border: 1px solid #ccc; 
+}
+
+.button-container {
+  position: sticky;
+  bottom: 0;
+  background-color: #fff;
+  z-index: 2; /* Ensure the button container is above the list items */
+  padding: 5px;
+  border-bottom: 1px solid #ccc; /* Optional: Add a border to separate the buttons from the list */
 }
 
 .edit-button {

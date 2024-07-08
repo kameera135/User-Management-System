@@ -141,8 +141,13 @@
                   </label>
                 </div>
               </ul>
-              <button type="submit" class="btn btn-primary align-items-center" style="margin-right: 80px;"  [disabled]="!atLeastOneItemSelected()" (click)="loadRoles()">Done</button>
-              <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+              <!-- <button type="submit" class="btn btn-primary align-items-center" style="margin-right: 80px;"  [disabled]="!atLeastOneItemSelected()" (click)="loadRoles()">Done</button>
+              <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button> -->
+              <div class="button-container d-flex justify-content-around">
+                <button type="button" class="btn btn-secondary btn-sm" [disabled]="isListEmpty()"(click)="toggleSelectAll()">{{ selectAllButtonLabel }}</button>
+                <button type="submit" class="btn btn-primary btn-sm" [disabled]="!atLeastOneItemSelected()" (click)="loadRoles()">Done</button>
+                <button type="button" class="btn btn-danger btn-sm" (click)="cancel()">Cancel</button>
+              </div>
             </div>
     
             <!--Cancel button-->
