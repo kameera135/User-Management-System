@@ -108,7 +108,8 @@ export class UserViewModalComponent {
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
       phoneNumber: new FormControl('', [
-        Validators.required
+        Validators.required,
+        Validators.pattern(/^\d+$/)
       ],
       ),
       email: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
