@@ -311,6 +311,10 @@ export class UsersViewComponent {
     }
   }
 
+  searchOnClick() {
+    this.loadData();
+  }
+
   onBulkUsersClicked() {
     const modalRef = this.modalService.open(AddBulkUsersModalComponent, {
       size: "s",

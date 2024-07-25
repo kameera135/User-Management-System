@@ -259,10 +259,15 @@ export class PlatformConfigurationComponent {
 
   getSearchTerm($event: KeyboardEvent) {
     this.selectedPage = 1;
-    if ($event.key === "Enter") {
+    if ($event.key === "Enter" || this.searchTerm === "") {
       this.loadData();
     }
   }
+
+  searchOnClick() {
+    this.loadData();
+  }
+  
 
   getAllPlatforms() {
     this.shared

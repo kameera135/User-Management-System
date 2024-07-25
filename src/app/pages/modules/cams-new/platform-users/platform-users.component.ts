@@ -331,6 +331,10 @@ export class PlatformUsersComponent {
     }
   }
 
+  searchOnClick() {
+    this.loadData();
+  }
+
   getAllUsers() {
     this.shared
       .getAllPlatformUsers(this.platformId,this.selectedPage, this.selectedPageSize)
