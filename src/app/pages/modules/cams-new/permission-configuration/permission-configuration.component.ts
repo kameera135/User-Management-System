@@ -22,6 +22,7 @@ import { ActivityLogsService } from "src/app/services/cams-new/activity-logs.ser
   styleUrls: ["./permission-configuration.component.scss"],
 })
 export class PermissionConfigurationComponent {
+
   asseteTreeData: any = {};
   userId: number = 0;
   tenantName: string = "Name of the Tenant";
@@ -475,9 +476,13 @@ export class PermissionConfigurationComponent {
 
   getSearchTerm($event: KeyboardEvent) {
     this.selectedPage = 1;
-    if ($event.key === "Enter") {
+    if ($event.key === "Enter" || this.searchTerm =="") {
       this.loadData();
     }
+  }
+
+  searchOnClick() {
+    this.loadData();
   }
 
   deletePermission(items: any): void {

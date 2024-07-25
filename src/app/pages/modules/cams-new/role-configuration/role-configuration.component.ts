@@ -241,6 +241,10 @@ export class RoleConfigurationComponent {
       this.loadData();
     }
   }
+
+  searchOnClick() {
+    this.loadData();
+  }
   
   searchRoles(serchedTerm: string) {
     this.shared
@@ -344,7 +348,7 @@ export class RoleConfigurationComponent {
   onViewPermissionButtonClicked(row: any) {
     this.openModal(
       "Permission",
-      "Add Permissions",
+      "Assign Permissions",
       row.RoleCode,
       row.RoleName,
       row.PlatformId,
