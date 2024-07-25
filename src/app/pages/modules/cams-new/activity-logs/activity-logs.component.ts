@@ -330,10 +330,10 @@ export class ActivityLogsComponent {
     this.lastDate = this.convertToObjectToDate(this.model_to);
 
     if (this.firstDate >= this.lastDate) {
-      this.model_from = this.initialFromDate;
-      this.model_to = this.initialToDate;
-      this.firstDate = this.convertToObjectToDate(this.model_from);
-      this.lastDate = this.convertToObjectToDate(this.model_to);
+      // this.model_from = this.initialFromDate;
+      // this.model_to = this.initialToDate;
+      // this.firstDate = this.convertToObjectToDate(this.model_from);
+      // this.lastDate = this.convertToObjectToDate(this.model_to);
 
       this.alertService.sideErrorAlert("Error", "Select a valid date");
     }
@@ -345,10 +345,10 @@ export class ActivityLogsComponent {
     this.firstDate = this.convertToObjectToDate(this.model_from);
     this.lastDate = this.convertToObjectToDate(this.model_to);
     if (this.firstDate >= this.lastDate) {
-      this.model_from = this.initialFromDate;
-      this.model_to = this.initialToDate;
-      this.firstDate = this.convertToObjectToDate(this.model_from);
-      this.lastDate = this.convertToObjectToDate(this.model_to);
+      // this.model_from = this.initialFromDate;
+      // this.model_to = this.initialToDate;
+      // this.firstDate = this.convertToObjectToDate(this.model_from);
+      // this.lastDate = this.convertToObjectToDate(this.model_to);
 
       this.alertService.sideErrorAlert("Error", "Select a valid date range");
     }
@@ -444,6 +444,7 @@ export class ActivityLogsComponent {
         next: (response: any) => {
           this.activityLogList = response.response;
           this.totalDataCount = response.rowCount;
+          console.log(response);
           this.updateTable();
           this.loadingInProgress = false;
         },
