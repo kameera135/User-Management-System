@@ -71,6 +71,7 @@ export interface toastServicePopUpConfigurations {
   PlatformUpdatedErrorSideAlertMessage: string;
   PlatformDeletedSuccessSideAlertMessage: string;
   PlatformDeletedNotificationMessage: string;
+  PlatformsDeletedNotificationMessage: string;
   PlatformDeletedErrorSideAlertMessage: string;
   ActivatePlatformConfirmationMessage: string;
   DeactivatePlatformConfirmationMessage: string;
@@ -92,6 +93,7 @@ export interface toastServicePopUpConfigurations {
   PermissionUpdatedErrorSideAlertMessage: string;
   PermissionDeletedSuccessSideAlertMessage: string;
   PermissionDeletedNotificationMessage: string;
+  PermissionsDeletedNotificationMessage: string;
   PermissionDeletedErrorSideAlertMessage: string;
   ActivatePermissionConfirmationMessage: string;
   DeactivatePermissionConfirmationMessage: string;
@@ -113,6 +115,7 @@ export interface toastServicePopUpConfigurations {
   RoleUpdatedErrorSideAlertMessage: string;
   RoleDeletedSuccessSideAlertMessage: string;
   RoleDeletedNotificationMessage: string;
+  RolesDeletedNotificationMessage: string;
   RoleDeletedErrorSideAlertMessage: string;
   ActivateRoleConfirmationMessage: string;
   DeactivateRoleConfirmationMessage: string;

@@ -597,12 +597,23 @@ export class RoleConfigurationComponent {
           this.appService.popUpMessageConfig[0]
             .RoleDeletedSuccessSideAlertMessage
         );
-        this.alertService.successSweetAlertMessage(
-          this.appService.popUpMessageConfig[0]
-            .RoleDeletedNotificationMessage,
-          "Deleted!",
-          4000
-        );
+
+        if(ids.length > 1){
+          this.alertService.successSweetAlertMessage(
+            this.appService.popUpMessageConfig[0]
+              .RolesDeletedNotificationMessage,
+            "Deleted!",
+            4000
+          );
+        }
+        else{
+          this.alertService.successSweetAlertMessage(
+            this.appService.popUpMessageConfig[0]
+              .RoleDeletedNotificationMessage,
+            "Deleted!",
+            4000
+          );
+        }
 
         this.loadData();
       },
