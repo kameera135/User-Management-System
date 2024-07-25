@@ -505,12 +505,23 @@ export class PermissionConfigurationComponent {
           this.appService.popUpMessageConfig[0]
             .PermissionDeletedSuccessSideAlertMessage
         );
-        this.alertService.successSweetAlertMessage(
-          this.appService.popUpMessageConfig[0]
-            .PermissionDeletedNotificationMessage,
-          "Deleted!",
-          4000
-        );
+
+        if(ids.length > 1){
+          this.alertService.successSweetAlertMessage(
+            this.appService.popUpMessageConfig[0]
+              .PermissionsDeletedNotificationMessage,
+            "Deleted!",
+            4000
+          );
+        }
+        else{
+          this.alertService.successSweetAlertMessage(
+            this.appService.popUpMessageConfig[0]
+              .PermissionDeletedNotificationMessage,
+            "Deleted!",
+            4000
+          );
+        }
 
         this.loadData();
       },

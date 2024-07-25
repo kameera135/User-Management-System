@@ -415,12 +415,22 @@ export class PlatformConfigurationComponent {
           this.appService.popUpMessageConfig[0]
             .PlatformDeletedSuccessSideAlertMessage
         );
-        this.alertService.successSweetAlertMessage(
-          this.appService.popUpMessageConfig[0]
-            .PlatformDeletedNotificationMessage,
-          "Deleted!",
-          4000
-        );
+        if(ids.length > 1){
+          this.alertService.successSweetAlertMessage(
+            this.appService.popUpMessageConfig[0]
+              .PlatformsDeletedNotificationMessage,
+            "Deleted!",
+            4000
+          );
+        }
+        else{
+          this.alertService.successSweetAlertMessage(
+            this.appService.popUpMessageConfig[0]
+              .PlatformDeletedNotificationMessage,
+            "Deleted!",
+            4000
+          );
+        }
           
         this.loadData();
       },
