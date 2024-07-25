@@ -165,13 +165,13 @@ export class UserAccountComponent {
   }
 
 
-  onPhoneNumberChanged() {
-    // Update validation flags based on phone number value
-    this.isDirty = true;
-    this.isPhoneNumberRequired = this.phoneNumber.trim() === '';
-    this.isInvalidPattern = !/^\d+$/.test(this.phoneNumber.trim());
-    this.isInvalidPhoneNumberType = false; // Implement validation logic for phone number type
-  }
+  // onPhoneNumberChanged() {
+  //   // Update validation flags based on phone number value
+  //   this.isDirty = true;
+  //   this.isPhoneNumberRequired = this.phoneNumber.trim() === '';
+  //   this.isInvalidPattern = !/^\d+$/.test(this.phoneNumber.trim());
+  //   this.isInvalidPhoneNumberType = false; // Implement validation logic for phone number type
+  // }
 
   openModal(
     type: string,
