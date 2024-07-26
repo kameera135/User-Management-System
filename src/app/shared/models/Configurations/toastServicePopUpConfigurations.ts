@@ -99,9 +99,11 @@ export interface toastServicePopUpConfigurations {
   DeactivatePermissionConfirmationMessage: string;
   PermissionActivatedSuccessSideAlertMessage: string;
   PermissionActivateNotificationMessage: string;
+  PermissionsActivateNotificationMessage: string;
   PermissionActivatedErrorSideAlertMessage: string;
   PermissionDeactivatedSuccessSideAlertMessage: string;
   PermissionDeactivateNotificationMessage: string;
+  PermissionsDeactivateNotificationMessage: string;
   PermissionDeactivatedErrorSideAlertMessage: string;
 
   UpdateRoleConfirmationMessage: string;
@@ -121,9 +123,11 @@ export interface toastServicePopUpConfigurations {
   DeactivateRoleConfirmationMessage: string;
   RoleActivatedSuccessSideAlertMessage: string;
   RoleActivateNotificationMessage: string;
+  RolesActivateNotificationMessage: string;
   RoleActivatedErrorSideAlertMessage: string;
   RoleDeactivatedSuccessSideAlertMessage: string;
   RoleDeactivateNotificationMessage: string;
+  RolesDeactivateNotificationMessage: string;
   RoleDeactivatedErrorSideAlertMessage: string;
 
   UpdateTokenConfirmationMessage: string;
