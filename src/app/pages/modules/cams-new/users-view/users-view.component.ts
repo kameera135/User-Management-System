@@ -45,11 +45,11 @@ export class UsersViewComponent {
 
   headArray = [
     { Head: "", FieldName: "", ColumnType: "CheckBox" },
-    { Head: "User Name", FieldName: "UserName", ColumnType: "Data" },
+    { Head: "Username", FieldName: "UserName", ColumnType: "Data" },
     { Head: "First Name", FieldName: "FirstName", ColumnType: "Data" },
     { Head: "Last Name", FieldName: "LastName", ColumnType: "Data" },
     { Head: "Email", FieldName: "Email", ColumnType: "Data" },
-    { Head: "Phone", FieldName: "PhoneNumber", ColumnType: "Data" },
+    { Head: "Phone Number", FieldName: "PhoneNumber", ColumnType: "Data" },
     { Head: "", FieldName: "", ColumnType: "Action" },
   ];
   usersViewService: any;
