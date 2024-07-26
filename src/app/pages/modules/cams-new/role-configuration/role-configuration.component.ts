@@ -663,12 +663,23 @@ export class RoleConfigurationComponent {
           this.appService.popUpMessageConfig[0]
             .RoleActivatedSuccessSideAlertMessage
         );
-        this.alertService.successSweetAlertMessage(
-          this.appService.popUpMessageConfig[0]
-            .RoleActivateNotificationMessage,
-          "Activated!",
-          4000
-        );
+
+        if(ids.length > 1){
+          this.alertService.successSweetAlertMessage(
+            this.appService.popUpMessageConfig[0]
+              .RolesActivateNotificationMessage,
+            "Activated!",
+            4000
+          );
+        }
+        else{
+          this.alertService.successSweetAlertMessage(
+            this.appService.popUpMessageConfig[0]
+              .RoleActivateNotificationMessage,
+            "Activated!",
+            4000
+          );
+        }
 
         this.loadData();
       },
@@ -697,13 +708,23 @@ export class RoleConfigurationComponent {
           this.appService.popUpMessageConfig[0]
             .RoleDeactivatedSuccessSideAlertMessage
         );
-        this.alertService.successSweetAlertMessage(
-          this.appService.popUpMessageConfig[0]
-            .RoleDeactivateNotificationMessage,
-          "Deactivated!",
-          4000
-        );
 
+        if(ids.length>1){
+          this.alertService.successSweetAlertMessage(
+            this.appService.popUpMessageConfig[0]
+              .RolesDeactivateNotificationMessage,
+            "Deactivated!",
+            4000
+          );  
+        }
+        else{
+          this.alertService.successSweetAlertMessage(
+            this.appService.popUpMessageConfig[0]
+              .RoleDeactivateNotificationMessage,
+            "Deactivated!",
+            4000
+          );  
+        }
         this.loadData();
       },
 
