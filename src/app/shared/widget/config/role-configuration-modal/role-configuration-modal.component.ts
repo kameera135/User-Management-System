@@ -108,13 +108,13 @@ export class RoleConfigurationModalComponent {
 
     if (this.type == "Add") {
       this.buttonName = "Add";
-      this.buttonIcon = "bi-person-plus-fill";
+      this.buttonIcon = "bi-plus-lg";
     } else if (this.type == "Edit") {
       this.buttonName = "Save";
       this.buttonIcon = "bi-floppy2-fill";
     } else if (this.type == "Permission") {
       this.buttonName = "Assign Permissions";
-      this.buttonIcon = "bi-floppy2-fill";
+      this.buttonIcon = "bi-paperclip";
       this.roleConfigModalTableOptions.displayPagination = false;
       this.roleConfigModalTableOptions.allowCheckbox = true;
       this.roleConfigModalTableOptions.unAssignPermissionButton = true
@@ -156,7 +156,7 @@ export class RoleConfigurationModalComponent {
 
     if (
       this.roleCode == null ||
-      this.roleName == ""
+      this.roleName == "" 
     ) {
       this.notifierService.warning({
         detail: "Warning",
@@ -169,6 +169,14 @@ export class RoleConfigurationModalComponent {
       this.notifierService.warning({
         detail: "Warning",
         summary: "Please fill required fields",
+        duration: 2000,
+      });
+      return;
+    }
+    else if (this.type == "Edit" && (this.roleName == "" || this.platfromIds == 0)) {
+      this.notifierService.warning({
+        detail: "Warning",
+        summary: "Please select the platform",
         duration: 2000,
       });
       return;

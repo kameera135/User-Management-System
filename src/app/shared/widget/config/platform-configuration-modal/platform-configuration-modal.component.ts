@@ -44,7 +44,7 @@ export class PlatformConfigurationModalComponent {
     if (this.type == "Add") {
       //main button
       this.buttonName = "Add";
-      this.buttonIcon = "bi-person-plus-fill";
+      this.buttonIcon = "bi-plus-lg";
     } else if (this.type == "Edit") {
       this.buttonName = "Save";
       this.buttonIcon = "bi-floppy2-fill";
