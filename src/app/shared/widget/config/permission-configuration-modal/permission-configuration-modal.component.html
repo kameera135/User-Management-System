@@ -75,7 +75,7 @@
     <div class="col-12" *ngIf="type == 'View'">
       <div class="mb-3">
         <label class="col-form-label">Status</label>
-        <ng-select
+        <!-- <ng-select
           [(ngModel)]="status"
           [multiple]="false"
           name="status"
@@ -85,7 +85,14 @@
           <ng-option *ngFor="let item of statusOptions" [value]="item.value">
             {{ item.label }}
           </ng-option>
-        </ng-select>
+        </ng-select> -->
+        <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="status"
+        name="status"
+        [disabled]="type == 'View'"
+      />
       </div>
     </div>
 

@@ -77,22 +77,22 @@ export class MenuService {
     //     },
     //   ],
     // },
-    {
-      id: 500,
-      label: "Tokens",
-      collapseid: "sidebarDashboards",
-      icon: "bi-shield-lock",
-      module: "1",
-      subItems: [
-        {
-          id: 2,
-          label: "API Tokens",
-          link: "/system-tokens",
-          parentId: 102,
-          module: "1",
-        },
-      ],
-    },
+    // {
+    //   id: 500,
+    //   label: "Tokens",
+    //   collapseid: "sidebarDashboards",
+    //   icon: "bi-shield-lock",
+    //   module: "1",
+    //   subItems: [
+    //     {
+    //       id: 2,
+    //       label: "API Tokens",
+    //       link: "/system-tokens",
+    //       parentId: 102,
+    //       module: "1",
+    //     },
+    //   ],
+    // },
     {
       id: 300,
       label: "Activity Logs",

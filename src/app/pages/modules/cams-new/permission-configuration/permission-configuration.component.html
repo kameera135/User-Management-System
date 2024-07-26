@@ -42,6 +42,12 @@
             placeholder="Search permission by name"
             [disabled]="!selectedPlatform"
           />
+
+          <i
+            class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-4"
+            (click)="searchOnClick()"
+            style="cursor: pointer;"
+          ></i>
         </div>
 
         <div

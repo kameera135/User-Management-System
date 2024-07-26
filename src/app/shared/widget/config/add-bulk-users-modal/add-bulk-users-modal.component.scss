@@ -1,0 +1,14 @@
+:root {
+  --background-light: #eff2f7;
+  --background-dark: #2c2f33;
+}
+
+.custom-bg {
+  background-color: var(--background-light);
+}
+
+@media (prefers-color-scheme: dark) {
+  .custom-bg {
+    background-color: var(--background-dark);
+  }
+}
