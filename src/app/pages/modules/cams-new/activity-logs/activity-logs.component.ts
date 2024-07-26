@@ -58,6 +58,10 @@ export class ActivityLogsComponent {
 
   exportDateTime!: string;
 
+  user!: number
+  platform!: number
+  role!: number
+
   usersViewTableOptions: tableOptions = new tableOptions();
 
   headArray = [
@@ -137,131 +141,37 @@ export class ActivityLogsComponent {
   loadData() {
     this.loadingInProgress = true;
 
-    if (this.selectedUser == 0 || this.selectedUser == undefined) {
-      if (this.selectedPlatform == 0 || this.selectedPlatform == undefined) {
-        this.getActivityLogs(
-          this.selectedPage,
-          this.selectedPageSize,
-          0,
-          0,
-          this.firstDate,
-          this.lastDate,
-          0
-        );
-        this.exportAll(
-          0,
-          0,
-          this.firstDate,
-          this.lastDate,
-          0
-        );
-      } else if (
-        this.selectedPlatform != 0 &&
-        this.selectedPlatform != undefined &&
-        (this.selectedRole == 0 || this.selectedRole == undefined)
-      ) {
-        this.getActivityLogs(
-          this.selectedPage,
-          this.selectedPageSize,
-          this.selectedPlatform,
-          0,
-          this.firstDate,
-          this.lastDate,
-          0
-        );
-        this.exportAll(
-          this.selectedPlatform,
-          0,
-          this.firstDate,
-          this.lastDate,
-          0
-        );
-      } else if (
-        this.selectedPlatform != 0 &&
-        this.selectedPlatform != undefined &&
-        this.selectedRole != 0 &&
-        this.selectedRole != undefined
-      ) {
-        this.getActivityLogs(
-          this.selectedPage,
-          this.selectedPageSize,
-          this.selectedPlatform,
-          this.selectedRole,
-          this.firstDate,
-          this.lastDate,
-          0
-        );
-        this.exportAll(
-          this.selectedPlatform,
-          this.selectedRole,
-          this.firstDate,
-          this.lastDate,
-          0
-        );
-      }
-    } else {
-      if (this.selectedPlatform == 0 || this.selectedPlatform == undefined) {
-        this.getActivityLogs(
-          this.selectedPage,
-          this.selectedPageSize,
-          0,
-          0,
-          this.firstDate,
-          this.lastDate,
-          this.selectedUser
-        );
-        this.exportAll(
-          0,
-          0,
-          this.firstDate,
-          this.lastDate,
-          this.selectedUser
-        );
-      } else if (
-        this.selectedPlatform != 0 &&
-        this.selectedPlatform != undefined &&
-        (this.selectedRole == 0 || this.selectedRole == undefined)
-      ) {
-        this.getActivityLogs(
-          this.selectedPage,
-          this.selectedPageSize,
-          this.selectedPlatform,
-          0,
-          this.firstDate,
-          this.lastDate,
-          this.selectedUser
-        );
-        this.exportAll(
-          this.selectedPlatform,
-          0,
-          this.firstDate,
-          this.lastDate,
-          this.selectedUser
-        );
-      } else if (
-        this.selectedPlatform != 0 &&
-        this.selectedPlatform != undefined &&
-        this.selectedRole != 0 &&
-        this.selectedRole != undefined
-      ) {
-        this.getActivityLogs(
-          this.selectedPage,
-          this.selectedPageSize,
-          this.selectedPlatform,
-          this.selectedRole,
-          this.firstDate,
-          this.lastDate,
-          this.selectedUser
-        );
-        this.exportAll(
-          this.selectedPlatform,
-          this.selectedRole,
-          this.firstDate,
-          this.lastDate,
-          this.selectedUser
-        );
-      }
-    }
+    this.user = this.selectedUser || 0;
+    this.platform = this.selectedPlatform || 0;
+    this.role = this.selectedRole || 0;
+
+    this.getActivityLogs(
+        this.selectedPage,
+        this.selectedPageSize,
+        this.platform,
+        this.role,
+        this.firstDate,
+        this.lastDate,
+        this.user
+    );
+
+    // this.exportAll(
+    //     platform,
+    //     role,
+    //     this.firstDate,
+    //     this.lastDate,
+    //     user
+    // );
+  }
+
+  exportAllToExcel(){
+    this.exportAll(
+      this.platform,
+      this.role,
+      this.firstDate,
+      this.lastDate,
+      this.user
+    );
   }
 
   updateTable() {
@@ -330,10 +240,6 @@ export class ActivityLogsComponent {
     this.lastDate = this.convertToObjectToDate(this.model_to);
 
     if (this.firstDate >= this.lastDate) {
-      // this.model_from = this.initialFromDate;
-      // this.model_to = this.initialToDate;
-      // this.firstDate = this.convertToObjectToDate(this.model_from);
-      // this.lastDate = this.convertToObjectToDate(this.model_to);
 
       this.alertService.sideErrorAlert("Error", "Select a valid date");
     }
@@ -345,11 +251,6 @@ export class ActivityLogsComponent {
     this.firstDate = this.convertToObjectToDate(this.model_from);
     this.lastDate = this.convertToObjectToDate(this.model_to);
     if (this.firstDate >= this.lastDate) {
-      // this.model_from = this.initialFromDate;
-      // this.model_to = this.initialToDate;
-      // this.firstDate = this.convertToObjectToDate(this.model_from);
-      // this.lastDate = this.convertToObjectToDate(this.model_to);
-
       this.alertService.sideErrorAlert("Error", "Select a valid date range");
     }
 
@@ -444,7 +345,6 @@ export class ActivityLogsComponent {
         next: (response: any) => {
           this.activityLogList = response.response;
           this.totalDataCount = response.rowCount;
-          console.log(response);
           this.updateTable();
           this.loadingInProgress = false;
         },
@@ -484,6 +384,7 @@ export class ActivityLogsComponent {
       .subscribe({
         next: (response: any) => {
           this.exportAllList = response;
+          console.log(response);
           this.updateAllTable();
           this.loadingInProgress = false;
         },
@@ -621,6 +522,7 @@ export class ActivityLogsComponent {
 
   //Handle the export all activities
   downloadExcelAll() {
+
     var reportName = `Activity Logs (${this.formatDate(
       this.firstDate
     )} - ${this.formatDate(this.lastDate)})`;
@@ -663,6 +565,14 @@ export class ActivityLogsComponent {
         "Time",
       ],
     ];
+
+    this.exportAll(
+      this.platform,
+      this.role,
+      this.firstDate,
+      this.lastDate,
+      this.user
+    );
 
     for (var i = 0; i < this.tableAllData.length; i++) {
       var rowData: any = [
