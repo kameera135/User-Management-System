@@ -22,6 +22,7 @@ import { ActivityLogsService } from "src/app/services/cams-new/activity-logs.ser
   styleUrls: ["./permission-configuration.component.scss"],
 })
 export class PermissionConfigurationComponent {
+
   asseteTreeData: any = {};
   userId: number = 0;
   tenantName: string = "Name of the Tenant";
@@ -475,9 +476,13 @@ export class PermissionConfigurationComponent {
 
   getSearchTerm($event: KeyboardEvent) {
     this.selectedPage = 1;
-    if ($event.key === "Enter") {
+    if ($event.key === "Enter" || this.searchTerm =="") {
       this.loadData();
     }
+  }
+
+  searchOnClick() {
+    this.loadData();
   }
 
   deletePermission(items: any): void {
@@ -500,12 +505,23 @@ export class PermissionConfigurationComponent {
           this.appService.popUpMessageConfig[0]
             .PermissionDeletedSuccessSideAlertMessage
         );
-        this.alertService.successSweetAlertMessage(
-          this.appService.popUpMessageConfig[0]
-            .PermissionDeletedNotificationMessage,
-          "Deleted!",
-          4000
-        );
+
+        if(ids.length > 1){
+          this.alertService.successSweetAlertMessage(
+            this.appService.popUpMessageConfig[0]
+              .PermissionsDeletedNotificationMessage,
+            "Deleted!",
+            4000
+          );
+        }
+        else{
+          this.alertService.successSweetAlertMessage(
+            this.appService.popUpMessageConfig[0]
+              .PermissionDeletedNotificationMessage,
+            "Deleted!",
+            4000
+          );
+        }
 
         this.loadData();
       },
@@ -555,11 +571,21 @@ export class PermissionConfigurationComponent {
           this.appService.popUpMessageConfig[0]
             .PermissionActivatedSuccessSideAlertMessage
         );
-        this.alertService.successSweetAlertMessage(
-          this.appService.popUpMessageConfig[0].PermissionActivateNotificationMessage,
-          "Activated!",
-          4000
-        );
+
+        if(ids.length > 1){
+          this.alertService.successSweetAlertMessage(
+            this.appService.popUpMessageConfig[0].PermissionsActivateNotificationMessage,
+            "Activated!",
+            4000
+          );
+        }
+        else{
+          this.alertService.successSweetAlertMessage(
+            this.appService.popUpMessageConfig[0].PermissionActivateNotificationMessage,
+            "Activated!",
+            4000
+          );
+        }
 
         this.loadData();
       },
@@ -589,12 +615,23 @@ export class PermissionConfigurationComponent {
           this.appService.popUpMessageConfig[0]
             .PermissionDeactivatedSuccessSideAlertMessage
         );
-        this.alertService.successSweetAlertMessage(
-          this.appService.popUpMessageConfig[0]
-            .PermissionDeactivateNotificationMessage,
-          "Deactivated!",
-          4000
-        );
+
+        if(ids.length > 1){
+          this.alertService.successSweetAlertMessage(
+            this.appService.popUpMessageConfig[0]
+              .PermissionsDeactivateNotificationMessage,
+            "Deactivated!",
+            4000
+          );
+        }
+        else{
+          this.alertService.successSweetAlertMessage(
+            this.appService.popUpMessageConfig[0]
+              .PermissionDeactivateNotificationMessage,
+            "Deactivated!",
+            4000
+          );
+        }
 
         this.loadData();
       },

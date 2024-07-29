@@ -24,11 +24,7 @@
                     [placement]="placement"
                     [positionTarget]="buttonElFrom"
                     (dateSelect)="onFromDateClicked()"
-                    [maxDate]="{
-                      year: model_to.year,
-                      month: model_to.month,
-                      day: model_to.day - 1
-                    }"
+                   
                   />
                   <button
                     #buttonElFrom
@@ -52,11 +48,6 @@
                     [placement]="placement"
                     [positionTarget]="buttonElTo"
                     (dateSelect)="onToDateClicked()"
-                    [minDate]="{
-                      year: model_from.year,
-                      month: model_from.month,
-                      day: model_from.day + 1
-                    }"
                   />
                   <button
                     #buttonElTo
@@ -137,7 +128,6 @@
         [selectedPage]="selectedPage"
         (onPaginationChanged)="onPaginationChange($event)"
         (onPagesizeChanged)="onPagesizeChange($event)"
-        (onRowDoubleClick)="onViewButtonClicked($event)"
         (onReportGenerateClick)="downloadExcel()"
         (onExportALLClick)="downloadExcelAll()"
       >

@@ -129,7 +129,7 @@ export class PlatformUserModalComponent {
 
     } else if (this.type == "Edit") {
       this.buttonName = "Assign Roles";
-      this.buttonIcon = "bi-floppy2-fill";
+      this.buttonIcon = "bi-paperclip";
       this.getPlatformUserRoles();
       this.platformUserModelViewTableOption.displayPagination = false;
       this.platformUserModelViewTableOption.allowCheckbox = true;

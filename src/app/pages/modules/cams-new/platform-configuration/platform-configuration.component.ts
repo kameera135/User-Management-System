@@ -259,10 +259,15 @@ export class PlatformConfigurationComponent {
 
   getSearchTerm($event: KeyboardEvent) {
     this.selectedPage = 1;
-    if ($event.key === "Enter") {
+    if ($event.key === "Enter" || this.searchTerm === "") {
       this.loadData();
     }
   }
+
+  searchOnClick() {
+    this.loadData();
+  }
+  
 
   getAllPlatforms() {
     this.shared
@@ -410,12 +415,22 @@ export class PlatformConfigurationComponent {
           this.appService.popUpMessageConfig[0]
             .PlatformDeletedSuccessSideAlertMessage
         );
-        this.alertService.successSweetAlertMessage(
-          this.appService.popUpMessageConfig[0]
-            .PlatformDeletedNotificationMessage,
-          "Deleted!",
-          4000
-        );
+        if(ids.length > 1){
+          this.alertService.successSweetAlertMessage(
+            this.appService.popUpMessageConfig[0]
+              .PlatformsDeletedNotificationMessage,
+            "Deleted!",
+            4000
+          );
+        }
+        else{
+          this.alertService.successSweetAlertMessage(
+            this.appService.popUpMessageConfig[0]
+              .PlatformDeletedNotificationMessage,
+            "Deleted!",
+            4000
+          );
+        }
           
         this.loadData();
       },
