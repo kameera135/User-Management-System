@@ -12,7 +12,7 @@
 
   "NoDataNotificationMessage": "Did not find any data.",
 
-  "CouldNotRetriveDataErrorSideAlertMessage": "Could not retrive data",
+  "CouldNotRetriveDataErrorSideAlertMessage": "Could not retrieve data",
 
   "UpdateUserConfirmationMessage": "Do you want to update user details?",
   "UserUpdatedNotificationMessage": "User has been updated",
@@ -32,7 +32,7 @@
   "UserAddedErrorSideAlertMessage": "Could not add a user.",
   "BulkUsersAddedErrorSideAlertMessage": "Could not add users.",
 
-  "GetUserPlatformsAndRolesErrorSideAlertMessage": "Cannot retrive platforms & roles.",
+  "GetUserPlatformsAndRolesErrorSideAlertMessage": "Cannot retrieve platforms & roles.",
   "GetUserComboboxListErrorSideAlertMessage": "Could not retrieve the user list.",
   "GetPlatformComboboxListErrorSideAlertMessage": "Could not retrieve the platform list.",
   "GetRoleComboboxListErrorSideAlertMessage": "Could not retrieve the role list.",
