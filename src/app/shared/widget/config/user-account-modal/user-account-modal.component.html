@@ -26,7 +26,7 @@
             [disabled]="false"
           />
           <span class="eyeicon">
-            <i class="bi bi-eye-fill h5" (click)="togglePasswordVisibility()" [ngClass]="visible?'bi bi-eye-fill':'bi bi-eye-slash-fill'"></i>
+            <i class="bi bi-eye-fill h5" (click)="togglePasswordVisibility()" [ngClass]="visibleCurrent?'bi bi-eye-fill':'bi bi-eye-slash-fill'"></i>
           </span>
           <div class="input-group"></div>
         </div>
@@ -59,7 +59,7 @@
               [disabled]="false"
             />
             <span class="eyeicon">
-              <i class="bi bi-eye-fill h5" (click)="togglePasswordVisibilityReNew()" [ngClass]="visible?'bi bi-eye-fill':'bi bi-eye-slash-fill'"></i>
+              <i class="bi bi-eye-fill h5" (click)="togglePasswordVisibilityReNew()" [ngClass]="visibleNew?'bi bi-eye-fill':'bi bi-eye-slash-fill'"></i>
             </span>
             <div class="input-group"></div>
           </div>

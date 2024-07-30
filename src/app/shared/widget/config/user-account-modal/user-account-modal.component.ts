@@ -22,7 +22,9 @@ export class UserAccountModalComponent {
   hidePassword: boolean = true;
   hideOldPassword: boolean = true;
   hideConfirmPassword: boolean = true;
+  visibleCurrent: boolean = true;
   visible: boolean = true;
+  visibleNew: boolean = true;
 
 
   buttonName: string = "Change";
@@ -62,7 +64,7 @@ export class UserAccountModalComponent {
     if(this.password != this.confirmPaswword) {
       this.notifierService.warning({
         detail: "Warning",
-        summary: "Password does not mach. Confirm with correct password.",
+        summary: "Password does not match. Confirm with correct password.",
         duration: 4000,
       });
       return;
@@ -79,7 +81,7 @@ export class UserAccountModalComponent {
   //toggle for password visibility
   togglePasswordVisibility(){
     this.hideOldPassword = !this.hideOldPassword;
-    this.visible = !this.visible
+    this.visibleCurrent = !this.visibleCurrent
   }
   
   togglePasswordVisibilityNew(){
@@ -89,6 +91,6 @@ export class UserAccountModalComponent {
 
   togglePasswordVisibilityReNew(){
     this.hideConfirmPassword = !this.hideConfirmPassword;
-    this.visible = !this.visible
+    this.visibleNew = !this.visibleNew
   }
 }
