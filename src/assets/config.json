@@ -3,7 +3,7 @@
   "apiUrl": "https://localhost:8745",
   "clientURI": "http://localhost:4200/auth/reset-password",
   "allowedDomains": "localhost:4200",
-  "nameOfOrganization": "Starhub Green",
+  "nameOfOrganization": "Company Name",
   "footerMessage": "Designed & Developed by SapiX",
   "moduleName": "User Management System",
   "showTrialModeBanner": false,
