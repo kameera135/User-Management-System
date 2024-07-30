@@ -13,8 +13,7 @@ import { RolesAndPlatforms } from "src/app/shared/models/Cams-new/RolesAndPlatfo
   templateUrl: "./permission-configuration-modal.component.html",
   styleUrls: ["./permission-configuration-modal.component.scss"],
 }) //
-export class PermissionConfigurationModalComponent {
-  // roleList: any[] = this.appService.appConfig[0].roleList;
+export class PermissionConfigurationModalComponent {;
   platformList!: any[];
 
   selectedPlatformList!: number[];
@@ -58,7 +57,6 @@ export class PermissionConfigurationModalComponent {
   selectedPlatformIds: number[] = [];
 
   ngOnInit() {
-    // this.getPlatformList();
 
     this.getData();
     this.selectAllForDropdownItems(this.getData());
@@ -115,11 +113,6 @@ export class PermissionConfigurationModalComponent {
         this.loadingInProgress = false;
       },
       error: (error) => {
-        // this.alertService.sideErrorAlert(
-        //   "Error",
-        //   this.appService.popUpMessageConfig[0]
-        //     .GetPermissionListErrorSideAlertMessage
-        // );
 
         this.rolesAndPlatformList = [];
         this.updateTable();
@@ -170,9 +163,6 @@ export class PermissionConfigurationModalComponent {
       feature.permission = this.permissionName;
       feature.permissionId = this.permissionId;
     }
-
-    //feature.createdDate = this.createdDate;
-    // feature.status = this.status;
 
     this.activeModal.close(feature);
   }

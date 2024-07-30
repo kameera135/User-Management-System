@@ -154,24 +154,6 @@ export class ActivityLogsComponent {
         this.lastDate,
         this.user
     );
-
-    // this.exportAll(
-    //     platform,
-    //     role,
-    //     this.firstDate,
-    //     this.lastDate,
-    //     user
-    // );
-  }
-
-  exportAllToExcel(){
-    this.exportAll(
-      this.platform,
-      this.role,
-      this.firstDate,
-      this.lastDate,
-      this.user
-    );
   }
 
   updateTable() {
@@ -241,9 +223,8 @@ export class ActivityLogsComponent {
 
     if (this.firstDate >= this.lastDate) {
 
-      this.alertService.sideErrorAlert("Error", "Select a valid date");
+      this.alertService.sideErrorAlert("Error", "Select a valid date range");
     }
-
     this.loadData();
   }
 
@@ -251,9 +232,9 @@ export class ActivityLogsComponent {
     this.firstDate = this.convertToObjectToDate(this.model_from);
     this.lastDate = this.convertToObjectToDate(this.model_to);
     if (this.firstDate >= this.lastDate) {
+
       this.alertService.sideErrorAlert("Error", "Select a valid date range");
     }
-
     this.loadData();
   }
 
