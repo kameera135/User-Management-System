@@ -44,7 +44,7 @@ export class PermissionConfigurationComponent {
   loadingInProgress: boolean = false;
   loading: boolean = false;
   pageSize: any[] = [50];
-  selectedPageSize: number = 50;
+  selectedPageSize: number = 20;
   nameOfOrganization: string = "";
   moduleName: string = "";
   reportMonth: string = "";
