@@ -163,16 +163,7 @@ export class UserAccountComponent {
     this.tempUser = { ...this.originalUser }; // Restore the original user data
     this.isEditMode = false; // Exit edit mode
   }
-
-
-  // onPhoneNumberChanged() {
-  //   // Update validation flags based on phone number value
-  //   this.isDirty = true;
-  //   this.isPhoneNumberRequired = this.phoneNumber.trim() === '';
-  //   this.isInvalidPattern = !/^\d+$/.test(this.phoneNumber.trim());
-  //   this.isInvalidPhoneNumberType = false; // Implement validation logic for phone number type
-  // }
-
+  
   openModal(
     type: string,
     modalType: string,

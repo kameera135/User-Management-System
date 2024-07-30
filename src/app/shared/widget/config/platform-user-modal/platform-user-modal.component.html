@@ -83,43 +83,6 @@
             </div>
           </div>
 
-        <!-- <div class="col-12">
-            <div class="d-flex justify-content-md-end">
-              <button type="submit" class="btn btn-success btn-label mt-3" *ngIf="type !== 'Edit'">
-                <i class="bi {{ buttonIcon }} label-icon align-middle fs-16 me-2"></i
-                >{{ buttonName }}
-                </button>
-    
-                <div class="input-group-append" *ngIf="type == 'Edit'">
-                  <button type="button" class="btn btn-success btn-label mt-4" (click)="toggleListItems()">
-                    <i class="bi {{ buttonIcon }} label-icon align-middle fs-16 me-2"></i>{{ buttonName }}
-                  </button>
-                </div>
-                Box to display list items
-                <div class="list-items-box" *ngIf="showListItems">
-                  <ul>
-                      <li *ngFor="let item of listItems">
-                          <label>
-                              <input type="checkbox" [(ngModel)]="item.selected" [ngModelOptions]="{standalone: true}"/>
-                              {{ item.name }}
-                          </label>
-                      </li>
-                  </ul>
-                  <div>
-                    <button type="submit" class="btn btn-primary align-items-center" style="margin-right: 80px;" [disabled]="!atLeastOneItemSelected()" (click)="loadRoles()">Done</button>
-                    <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
-                  </div>
-                </div>
-                Cancel button
-                <button
-                type="button"
-                class="btn btn-danger btn-label mt-auto ms-2"
-                (click)="activeModal.dismiss()">
-                
-                <i class="bi {{ cancelButtonIcon }} label-icon align-middle fs-16 me-2"></i>{{ cancelButtonName }}
-                </button>
-            </div>
-        </div> -->
         <div class="col-12">
           <div class="d-flex justify-content-md-end">
             <button type="submit" class="btn btn-success btn-label mt-3" *ngIf="type != 'Edit'">
@@ -141,8 +104,7 @@
                   </label>
                 </div>
               </ul>
-              <!-- <button type="submit" class="btn btn-primary align-items-center" style="margin-right: 80px;"  [disabled]="!atLeastOneItemSelected()" (click)="loadRoles()">Done</button>
-              <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button> -->
+              
               <div class="button-container d-flex justify-content-around">
                 <button type="button" class="btn btn-secondary btn-sm" [disabled]="isListEmpty()"(click)="toggleSelectAll()">{{ selectAllButtonLabel }}</button>
                 <button type="submit" class="btn btn-primary btn-sm" [disabled]="!atLeastOneItemSelected()" (click)="loadRoles()">Done</button>

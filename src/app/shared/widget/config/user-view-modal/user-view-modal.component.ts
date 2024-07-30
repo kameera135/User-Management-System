@@ -48,6 +48,7 @@ export class UserViewModalComponent {
   hidePassword: boolean = true;
   hideConfirmPassword: boolean = true;
   visible: boolean = true;
+  visibleNew: boolean = true;
 
   rolesViewTableOptions: tableOptions = new tableOptions();
 
@@ -131,7 +132,7 @@ export class UserViewModalComponent {
 
   togglePasswordVisibilityNew() {
     this.hideConfirmPassword = !this.hideConfirmPassword;
-    this.visible = !this.visible
+    this.visibleNew = !this.visibleNew
   }
 
   getRolesAndPlatforms(userId: number) {
