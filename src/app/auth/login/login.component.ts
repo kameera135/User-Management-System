@@ -98,21 +98,21 @@ export class LoginComponent implements OnInit {
     if (this.credentials.username == '' && this.credentials.password == '') {
       this.alertService.sideErrorAlert(
         "Missing Info",
-        "Please enter a username and password.",
+        this.app.popUpMessageConfig[0].UsernamePasswordMissingErrorAlertMessage
       );
       this.startLoginInProcess = false;
     }
     else if (this.credentials.username == '') {
       this.alertService.sideErrorAlert(
         "Missing Info",
-        "Please enter a username.",
+        this.app.popUpMessageConfig[0].UsernameMissingErrorAlertMessage
       );
       this.startLoginInProcess = false;
     }
     else if (this.credentials.password == '') {
       this.alertService.sideErrorAlert(
         "Missing Info",
-        "Please enter a password.",
+        this.app.popUpMessageConfig[0].PasswordMissingErrorAlertMessage
       );
       this.startLoginInProcess = false;
     }
@@ -144,15 +144,16 @@ export class LoginComponent implements OnInit {
           }
           this.alertService.sideSuccessAlert(
             "Login Success",
-            "Authentication has been successful.",
+            this.app.popUpMessageConfig[0].AuthenticationSuccessAlertMessage,
           );
         },
         error: (error: any) => {
           // Handle authentication error
           this.alertService.sideErrorAlert(
             "Login Failed",
-            "Username or password does not matched.",
+            this.app.popUpMessageConfig[0].AuthenticationErrorAlertMessage,
           );
+          
           console.error('Authentication failed:', error);
           this.startLoginInProcess = false;
         }
