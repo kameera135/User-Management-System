@@ -524,7 +524,7 @@ export class RoleConfigurationComponent {
         console.log(error);
         if (error.error) {
           this.alertService.warningSweetAlertMessage(
-              error.error, 
+              error.error.errorDetails, 
               "Error!",
               4000
           );
@@ -555,7 +555,7 @@ export class RoleConfigurationComponent {
         this.alertService.successSweetAlertMessage(
           this.appService.popUpMessageConfig[0]
             .RoleAddedNotificationMessage,
-          "Updated!",
+          "Created!",
           4000
         );
 
