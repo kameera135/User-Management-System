@@ -46,7 +46,7 @@ export class ForgotPasswordComponent {
     if (this.credentials.email == '') {
       this.alertService.sideErrorAlert(
         "Missing Info",
-        "Please enter a email.",
+        this.appConfigService.popUpMessageConfig[0].EmailMissingAlertMessage
       );
     }
     else if (this.forgotPasswordForm.valid) {
@@ -55,13 +55,13 @@ export class ForgotPasswordComponent {
           console.log('Response from server: ', response);
           this.alertService.sideSuccessAlert(
             "Email Sent",
-            "The link has been sent, please check your email to reset your password.",
+            this.appConfigService.popUpMessageConfig[0].ResetLinkSentSuccessAlertMessage,
           );
         },
         error: (err: HttpErrorResponse) => {
           this.alertService.sideErrorAlert(
             "Wrong Email",
-            "Email is not in use. Please check.",
+            this.appConfigService.popUpMessageConfig[0].EmailNotInUseAlertMessage,
           );
           console.log(this.errorMessage);
         }
@@ -70,7 +70,7 @@ export class ForgotPasswordComponent {
     else {
       this.alertService.sideErrorAlert(
         "Email Sent",
-        "Email format is incorrect. Enter valid email.",
+        this.appConfigService.popUpMessageConfig[0].EmailFormatWrongErrorAlertMessage,
       );
     }
   }

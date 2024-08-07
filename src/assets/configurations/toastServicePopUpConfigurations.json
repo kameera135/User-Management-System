@@ -14,6 +14,25 @@
 
   "CouldNotRetriveDataErrorSideAlertMessage": "Could not retrieve data",
 
+  "UsernamePasswordMissingErrorAlertMessage":"Please enter a username and password.",
+  "UsernameMissingErrorAlertMessage":"Please enter a username.",
+  "PasswordMissingErrorAlertMessage":"Please enter a password.",
+  "AuthenticationSuccessAlertMessage":"Authentication has been successful.",
+  "AuthenticationErrorAlertMessage": "Username and password does not matched.",
+
+  "LogoutSuccessAlertMessage":"You are logged out from your account.",
+  "LogoutErrorAlertMessage":"You are log out with errors.",
+
+  "EmailMissingAlertMessage":"Please enter a email.",
+  "ResetLinkSentSuccessAlertMessage":"The link has been sent, please check your email to reset your password.",
+  "EmailNotInUseAlertMessage":"Email is not in use. Please check.",
+  "EmailFormatWrongErrorAlertMessage":"Email format is incorrect. Enter valid email.",
+
+  "PasswordAndConfirmPasswordMissingErrorAlertMessage":"Please enter a password and confirm the password.",
+  "PasswordConfirmationNotMatchingErrorAlertMessage":"Password confirmation not match. Enter same password.",
+  "PasswordResetSuccessAlertMessage":"Password is reset successfully. Log in using the new password.",
+  "PasswordResetErrorAlertMessage":"There is an error in password reset. Contact system administrater.",
+
   "UpdateUserConfirmationMessage": "Do you want to update user details?",
   "UserUpdatedNotificationMessage": "User has been updated",
   "UserUpdatedSuccessSideAlertMessage": "User updated successfully!",

@@ -60,6 +60,25 @@ export interface toastServicePopUpConfigurations {
   NoDataNotificationMessage: string;
   CouldNotRetriveDataErrorSideAlertMessage: string;
 
+  UsernamePasswordMissingErrorAlertMessage: string;
+  UsernameMissingErrorAlertMessage: string;
+  PasswordMissingErrorAlertMessage: string;
+  AuthenticationSuccessAlertMessage: string;
+  AuthenticationErrorAlertMessage: string;
+
+  LogoutSuccessAlertMessage: string;
+  LogoutErrorAlertMessage: string;
+
+  EmailMissingAlertMessage: string;
+  ResetLinkSentSuccessAlertMessage: string;
+  EmailNotInUseAlertMessage: string;
+  EmailFormatWrongErrorAlertMessage: string;
+
+  PasswordAndConfirmPasswordMissingErrorAlertMessage: string;
+  PasswordConfirmationNotMatchingErrorAlertMessage: string;
+  PasswordResetSuccessAlertMessage: string;
+  PasswordResetErrorAlertMessage: string;
+
   UpdatePlatformConfirmationMessage: string;
   DeletePlatformConfirmationMessage: string;
   GetPlatformListErrorSideAlertMessage: string;
