@@ -7,6 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { UserProfileService } from 'src/app/core/services/user.service';
 import Swal from 'sweetalert2';
 import { MessageService } from 'src/app/services/PopupMessages/message.service';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -21,8 +22,11 @@ export class ResetPasswordComponent {
   showSuccess!: boolean;
   showError!: boolean;
 
-  hidePassword: boolean = true;
-  visible: boolean = true
+  hidePassword1: boolean = true;
+  visible1: boolean = true
+
+  hidePassword2: boolean = true;
+  visible2: boolean = true
 
 
   credentials!: resetPassword
@@ -30,7 +34,7 @@ export class ResetPasswordComponent {
   private token!: string;
   private email!: string;
   
-  constructor(private auth: AuthService, private router: ActivatedRoute, private userInfo: UserProfileService, private alertService: MessageService) { }
+  constructor(private auth: AuthService, private router: ActivatedRoute, private userInfo: UserProfileService, private alertService: MessageService, private app: AppService) { }
   
   ngOnInit(): void {
     this.resetPasswordForm = new FormGroup({
@@ -79,7 +83,7 @@ export class ResetPasswordComponent {
     if(this.credentials.password == '' && this.credentials.confirmPassword == ''){
       this.alertService.sideErrorAlert(
         "Missing Info",
-        "Please enter a password and confirm the password",
+        this.app.popUpMessageConfig[0].PasswordAndConfirmPasswordMissingErrorAlertMessage,
       );
       return;
     }
@@ -87,7 +91,7 @@ export class ResetPasswordComponent {
     if(this.credentials.password == ''){
       this.alertService.sideErrorAlert(
         "Missing Info",
-        "Please enter a password",
+        this.app.popUpMessageConfig[0].PasswordMissingErrorAlertMessage,
       );
       return;
     }
@@ -95,7 +99,7 @@ export class ResetPasswordComponent {
     if(this.credentials.password != this.credentials.confirmPassword){
       this.alertService.sideErrorAlert(
         "Missing Info",
-        "Password confirmation not match. Enter same password",
+        this.app.popUpMessageConfig[0].PasswordConfirmationNotMatchingErrorAlertMessage,
       );
       return;
     }
@@ -106,13 +110,13 @@ export class ResetPasswordComponent {
           console.log('Response from server: ', response);
           this.alertService.sideSuccessAlert(
             "Password Reset Success",
-            "Password is reset successfully. Log in using the new password",
+            this.app.popUpMessageConfig[0].PasswordResetSuccessAlertMessage,
           );
         },
         error: (err: HttpErrorResponse) => {
           this.alertService.sideErrorAlert(
             "Password Reset Failed",
-            "There is an error in password reset. Contact system administrater",
+            this.app.popUpMessageConfig[0].PasswordResetErrorAlertMessage,
           );
           console.log(this.errorMessage);
         }
@@ -120,9 +124,15 @@ export class ResetPasswordComponent {
     }
   }
 
-  togglePasswordVisibility(): void {
-    this.hidePassword = !this.hidePassword;
-    this.visible = !this.visible;
+  togglePasswordVisibility1(): void {
+    this.hidePassword1 = !this.hidePassword1;
+    this.visible1 = !this.visible1;
   }
+
+  togglePasswordVisibility2(): void {
+    this.hidePassword2 = !this.hidePassword2;
+    this.visible2 = !this.visible2;
+  }
+
 
 }
