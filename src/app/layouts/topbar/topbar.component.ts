@@ -162,6 +162,10 @@ export class TopbarComponent implements OnInit {
           console.log(response);
         },
         error: (error) => {
+          this.alertService.sideErrorAlert(
+            "Logout with Error",
+            this.app.popUpMessageConfig[0].LogoutErrorAlertMessage,
+          );
           alert("Error while logging out!");
         }
       })
@@ -170,7 +174,7 @@ export class TopbarComponent implements OnInit {
 
       this.alertService.sideSuccessAlert(
         "Logout Success",
-        "You are logged out from your account.",
+        this.app.popUpMessageConfig[0].LogoutSuccessAlertMessage,
       );
     }
     catch (e) {
