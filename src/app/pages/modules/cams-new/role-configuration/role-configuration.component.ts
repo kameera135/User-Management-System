@@ -25,7 +25,7 @@ export class RoleConfigurationComponent {
   loading: boolean = false;
   consumptionHistoryData: any[] = [];
   pageSize: any[] = [50];
-  selectedPageSize: number = 20;
+  selectedPageSize: number = 50;
 
   searchTerm!: string;
 
@@ -555,7 +555,7 @@ export class RoleConfigurationComponent {
         this.alertService.successSweetAlertMessage(
           this.appService.popUpMessageConfig[0]
             .RoleAddedNotificationMessage,
-          "Created!",
+          "Added!",
           4000
         );
 

@@ -25,7 +25,7 @@ export class PlatformConfigurationComponent {
 
   totalDataCount!: number;
   selectedPage: number = 1;
-  selectedPageSize: number = 20;
+  selectedPageSize: number = 50;
 
   searchTerm!: string;
   platformUpdatedNotificationMessage!: string;
