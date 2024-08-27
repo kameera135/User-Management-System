@@ -37,7 +37,7 @@ export class ActivityLogsComponent {
 
   totalDataCount!: number;
   selectedPage: number = 1;
-  selectedPageSize: number = 20;
+  selectedPageSize: number = 50;
 
   searchTerm!: string;
 
@@ -98,12 +98,12 @@ export class ActivityLogsComponent {
   initialFromDate: any = {
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
-    day: new Date().getDate() - 1,
+    day: new Date().getDate(),
   };
   initialToDate: any = {
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
-    day: new Date().getDate(),
+    day: new Date().getDate() +1,
   };
 
   ngOnInit(): void {
@@ -231,6 +231,7 @@ export class ActivityLogsComponent {
   onToDateClicked() {
     this.firstDate = this.convertToObjectToDate(this.model_from);
     this.lastDate = this.convertToObjectToDate(this.model_to);
+
     if (this.firstDate >= this.lastDate) {
 
       this.alertService.sideErrorAlert("Error", "Select a valid date range");
@@ -367,6 +368,7 @@ export class ActivityLogsComponent {
           this.exportAllList = response;
           console.log(response);
           this.updateAllTable();
+          this.downloadExcelAll();
           this.loadingInProgress = false;
         },
         error: (error: any) => {
@@ -501,6 +503,18 @@ export class ActivityLogsComponent {
     );
   }
 
+  //Export all data to excel
+  exportAllExcel(){
+
+    this.exportAll(
+      this.platform,
+      this.role,
+      this.firstDate,
+      this.lastDate,
+      this.user
+    );
+  }
+
   //Handle the export all activities
   downloadExcelAll() {
 
@@ -546,14 +560,6 @@ export class ActivityLogsComponent {
         "Time",
       ],
     ];
-
-    this.exportAll(
-      this.platform,
-      this.role,
-      this.firstDate,
-      this.lastDate,
-      this.user
-    );
 
     for (var i = 0; i < this.tableAllData.length; i++) {
       var rowData: any = [
