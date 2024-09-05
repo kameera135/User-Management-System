@@ -34,8 +34,11 @@
 
   &:hover {
     transform: translateY(-5px);
-
     background-color: rgba(255, 255, 255, 0.85) !important;
+  }
+
+  &:hover .application-name {
+    color: #000000 !important; /* Change the text color on hover */
   }
 }
 
