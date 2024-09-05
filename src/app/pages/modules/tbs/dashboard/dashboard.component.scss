@@ -39,14 +39,27 @@
 .applications-grid {
   display: flex;
   justify-content: space-around;
+  // justify-content: left;
   flex-wrap: wrap; /* To allow items to wrap to the next line */
   gap: 20px;
 }
 
 .applications-grid > * {
   flex: 1 1 200px; /* Allows items to grow, shrink, and have a minimum width of 200px */
-  max-width: calc(33.33% - 40px); /* Assuming you want three items per row with a gap of 20px */
+  max-width: calc(
+    33.33% - 40px
+  ); /* Assuming you want three items per row with a gap of 20px */
   box-sizing: border-box; /* Ensures padding and border are included in the width */
+}
+
+.background-image {
+  background-image: url("../../../../../assets/images/dashboard-background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100%;
+  position: relative;
 }
 
 /* Media queries for responsiveness */
@@ -74,15 +87,33 @@
   }
 }
 
-.application-tile {
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  padding: 20px;
-  transition: transform 0.2s;
-  cursor: pointer;
+// .application-tile {
+//   border-radius: 10px;
+//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+//   text-align: center;
+//   padding: 0;
+//   transition: transform 0.2s;
+//   cursor: pointer;
 
-  &:hover {
-    transform: translateY(-5px);
-  }
-}
+//   &:hover {
+//     transform: translateY(-5px);
+//   }
+// }
+
+// .application-tile {
+//   border-radius: 10px;
+//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+//   text-align: center;
+//   flex-direction: row;
+//   padding: 0;
+//   transition: transform 0.2s;
+//   cursor: pointer;
+//   display: flex;
+//   justify-content: center; /* Center horizontally */
+//   align-items: center; /* Center vertically */
+//   height: 100%; /* Make sure the div takes full height */
+
+//   &:hover {
+//     transform: translateY(-5px);
+//   }
+// }

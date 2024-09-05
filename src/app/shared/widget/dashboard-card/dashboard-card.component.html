@@ -1,7 +1,27 @@
-<div (click)="goToPage(subMenus.path)">
+<!-- <div (click)="goToPage(subMenus.path)">
   <div class="application-icon">
-    <img [src]="subMenus.iconPath" (error)="handleError($event, subMenus.label)"
-      onerror="this.src='/assets/icons/platform.png'" alt="Icon">
+    <img
+      [src]="subMenus.iconPath"
+      (error)="handleError($event, subMenus.label)"
+      onerror="this.src='/assets/icons/platform.png'"
+      alt="Icon"
+    />
   </div>
   <div class="application-name text-secondary">{{ subMenus.label }}</div>
+</div> -->
+<div class="d-flex justify-content-center">
+  <div
+    (click)="goToPage(subMenus.path)"
+    class="d-flex flex-column align-items-center justify-content-center bg-light bg-opacity-75 application-tile border border-1 border-secondary"
+  >
+    <div class="application-icon">
+      <img
+        [src]="subMenus.iconPath"
+        (error)="handleError($event, subMenus.label)"
+        onerror="this.src='/assets/icons/platform.png'"
+        alt="Icon"
+      />
+    </div>
+    <div class="application-name text-secondary">{{ subMenus.label }}</div>
+  </div>
 </div>
